@@ -10,7 +10,8 @@ import './App.css';
 
 import Home from './components/Home/';
 import About from './components/About/';
-import Users from './components/Users/'
+import Users from './components/Users/';
+import LoginPage from './components/login.js'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -67,6 +68,11 @@ export default class BasicLayout extends Component {
                 <span>About</span>
                 <Link to="/about" />
               </Menu.Item>
+              <Menu.Item key="4">
+                <Icon type="info-circle" />
+                <span>Login Test</span>
+                <Link to="/login" />
+              </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
@@ -85,7 +91,8 @@ export default class BasicLayout extends Component {
             <Content style={{ margin: 12, padding: 12, background: '#fff', minHeight: 280 }}>
               <Route exact path="/" component={Home} />
               <Route path="/users" component={Users} />
-              <Route path="/about" component={About} />alo1234
+              <Route path="/about" component={About} />
+              <Route path="/login" component={LoginPage} />
             </Content>
             <Footer style={{ textAlign: 'center', padding: 12, paddingTop: 0 }}>
               PMS - ISD, Hoang Nguyen <Icon type='copyright' /> 2019
