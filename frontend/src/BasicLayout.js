@@ -4,7 +4,6 @@ import {
   Layout,
   Menu,
   Icon,
-
 } from 'antd';
 import './BasicLayout.css';
 import LoginPage from './Config/login.js'
