@@ -4,7 +4,6 @@ import {
   Layout,
   Menu,
   Icon,
-  Button,
 } from 'antd';
 import './App.css';
 
@@ -68,11 +67,6 @@ export default class BasicLayout extends Component {
                 <span>About</span>
                 <Link to="/about" />
               </Menu.Item>
-              <Menu.Item key="4">
-                <Icon type="info-circle" />
-                <span>Login Test</span>
-                <Link to="/login" />
-              </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
@@ -84,15 +78,14 @@ export default class BasicLayout extends Component {
                 onClick={this.toggle}
               />
               {/* login button, will be "welcome //user when logged in" */}
-              <span style={{ float: 'right', marginRight: 12 }}>
-                {}<Button type='dashed'><Icon type='login' />Login</Button>
+              <span style={{ float: 'right', marginRight: 12, marginTop: 12 }}>
+                {apiResponse}<LoginPage />
               </span>
             </Header>
             <Content style={{ margin: 12, padding: 12, background: '#fff', minHeight: 280 }}>
               <Route exact path="/" component={Home} />
               <Route path="/users" component={Users} />
               <Route path="/about" component={About} />
-              <Route path="/login" component={LoginPage} />
             </Content>
             <Footer style={{ textAlign: 'center', padding: 12, paddingTop: 0 }}>
               PMS - ISD, Hoang Nguyen <Icon type='copyright' /> 2019
