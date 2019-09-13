@@ -11,12 +11,12 @@ class LoginPage extends React.Component {
     this.props.form.validateFields();
   }
 
-  handleSubmit = e => {
-    const { helloUser } = this.props
+  handleLogin = e => {
+    const { onLoggedIn } = this.props
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        helloUser(values.username)
+        onLoggedIn(values)
         this.props.form.resetFields();
       }
     });
@@ -31,9 +31,10 @@ class LoginPage extends React.Component {
     const usernameError = isFieldTouched('username') && getFieldError('username');
     const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
-      <Form layout="vertical" onSubmit={this.handleSubmit}>
+      <Form layout="vertical" onSubmit={this.handleLogin}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
+            initialValue: 'testUser',
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
@@ -44,6 +45,7 @@ class LoginPage extends React.Component {
         </Form.Item>
         <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
+            initialValue: '1111',
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
@@ -53,12 +55,12 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
-        <div style={{ textAlign: "center" }}>
-          <Button type="secondary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn}>
+        <div style={{ textAlign: "right", }}>
+          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in
           </Button>
         </div>
-      </Form>
+      </Form >
     );
   }
 }
