@@ -12,29 +12,32 @@ class LoginPage extends React.Component {
   }
 
   handleSubmit = e => {
+    const { helloUser } = this.props
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        helloUser(values.username)
+        this.props.form.resetFields();
       }
     });
+
   };
 
   render() {
-    const { form } = this.props;
+    const { form, onLoggedIn } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('username') && getFieldError('username');
     const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
+      <Form layout="vertical" onSubmit={this.handleSubmit}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
-              prefix={<Icon type="user" />}
+              prefix={<Icon type="user" style={{ color: '#86bc26' }} />}
               placeholder="Username"
             />,
           )}
@@ -44,17 +47,17 @@ class LoginPage extends React.Component {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
-              prefix={<Icon type="lock" />}
+              prefix={<Icon type="lock" style={{ color: '#86bc26' }} />}
               type="password"
               placeholder="Password"
             />,
           )}
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Log in
+        <div style={{ textAlign: "center" }}>
+          <Button type="secondary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn}>
+            <Icon type='login' /> Log in
           </Button>
-        </Form.Item>
+        </div>
       </Form>
     );
   }

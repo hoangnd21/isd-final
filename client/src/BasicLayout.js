@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import {
   Layout,
   Menu,
   Icon,
-
+  Modal,
+  Button,
+  Tooltip,
 } from 'antd';
 import './BasicLayout.css';
-import LoginPage from './Config/login.js'
+import LoginPage from './Config/login'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -15,15 +17,18 @@ export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
-    // testAPIResponse: '',
+    apiResponse: '',
+    loginModal: false,
+    userName: ''
   };
-
-  // componentDidMount = () => {
-  //   fetch("http://localhost:9000/testAPI")
-  //     .then(res => res.text())
-  //     .then(res => this.setState({ testAPIResponse: res }));
-  // }
-
+  componentDidMount = () => {
+    fetch('http://localhost:9000/testAPI')
+      .then(res => res.text())
+      .then(res => this.setState({ apiResponse: res }));
+    this.setState({
+      loginModal: true
+    })
+  }
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -33,8 +38,31 @@ export default class BasicLayout extends Component {
     });
   }
 
+  // test functions simulate login and logout
+  onLoggedIn = () => {
+    this.setState({
+      loginModal: false
+    })
+    // redirect back to Home
+    if (!this.state.loginModal) {
+      return <Redirect exact to='/' />
+    }
+  }
+
+  helloUser = (username) => {
+    this.setState({
+      userName: username
+    })
+  }
+
+  onLoggedOut = () => {
+    this.setState({
+      loginModal: true
+    })
+  }
+
   render() {
-    const { collapsed } = this.state;
+    const { collapsed, apiResponse, loginModal, userName } = this.state;
     const { children } = this.props;
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -55,17 +83,17 @@ export default class BasicLayout extends Component {
           <Menu
             mode="inline"
           >
-            <Menu.Item>
+            <Menu.Item key="home">
               <Link to='/'>
                 <Icon type='home' /><span>Home</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="1">
+            <Menu.Item key="users">
               <Link to="/users" >
                 <Icon type="user" />
                 <span>Users</span></Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="about">
               <Link to="/about" >
                 <Icon type="info-circle" />
                 <span>About</span>
@@ -80,20 +108,35 @@ export default class BasicLayout extends Component {
               className='trigger'
               style={{ cursor: 'pointer', color: 'whitesmoke', fontSize: 18 }}
               onClick={this.toggleCollapse}
-              arrowPointAtCenter
             />
             {/* login button, will be "welcome //user when logged in" */}
-            <span style={{ float: 'right', marginRight: 12, marginTop: 12 }}>
-              <LoginPage />
-            </span>
+            <span style={{ float: 'right', marginRight: 12 }}>
+              <span style={{ color: 'white', marginRight: 5, fontSize: 16 }}>
+                {loginModal ? '' : `Hello ${userName}`}
+              </span>
+              <Tooltip title='Log out' placement='bottomRight'><Button type='secondary' icon='login' onClick={this.onLoggedOut}></Button></Tooltip></span>
           </Header>
           <Content style={{ margin: 12, padding: 12, background: '#fff', minHeight: 280 }}>
             {children}
+            {apiResponse}
           </Content>
           <Footer style={{ textAlign: 'center', padding: 12, paddingTop: 0 }}>
             PMS - ISD
           </Footer>
         </Layout>
+        <Modal
+          title='Please login to continue'
+          visible={loginModal}
+          closable={false}
+          footer={null}
+          centered
+        >
+          <LoginPage
+            onLoggedIn={this.onLoggedIn}
+            helloUser={this.helloUser}
+          />
+        </Modal>
+
       </Layout >
     );
   }

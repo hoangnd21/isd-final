@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import BasicLayout from './BasicLayout'
-import routes from './Config/route.config.js';
+import routes from './Config/router.config';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends React.Component {
