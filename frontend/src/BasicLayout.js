@@ -4,7 +4,6 @@ import {
   Layout,
   Menu,
   Icon,
-
 } from 'antd';
 import './BasicLayout.css';
 import LoginPage from './Config/login.js'
@@ -15,15 +14,13 @@ export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
-    // testAPIResponse: '',
+    apiResponse: '',
   };
-
-  // componentDidMount = () => {
-  //   fetch("http://localhost:9000/testAPI")
-  //     .then(res => res.text())
-  //     .then(res => this.setState({ testAPIResponse: res }));
-  // }
-
+  componentDidMount = () => {
+    fetch('http://localhost:9000/testAPI')
+      .then(res => res.text())
+      .then(res => this.setState({ apiResponse: res }));
+  }
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -34,7 +31,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed } = this.state;
+    const { collapsed, apiResponse } = this.state;
     const { children } = this.props;
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -89,6 +86,7 @@ export default class BasicLayout extends Component {
           </Header>
           <Content style={{ margin: 12, padding: 12, background: '#fff', minHeight: 280 }}>
             {children}
+            {apiResponse}
           </Content>
           <Footer style={{ textAlign: 'center', padding: 12, paddingTop: 0 }}>
             PMS - ISD

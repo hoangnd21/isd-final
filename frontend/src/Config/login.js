@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Log in
+            <Icon type='login' /> Log in
           </Button>
         </Form.Item>
       </Form>
