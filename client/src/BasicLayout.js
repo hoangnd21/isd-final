@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -9,7 +9,6 @@ import {
   Tooltip,
 } from 'antd';
 import './BasicLayout.less';
-import 'antd/lib/button/style';
 import LoginPage from './Config/login'
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -88,11 +87,11 @@ export default class BasicLayout extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header className='blayout-header'>
+          <Header className='bl-header'>
             <Icon
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               className='trigger'
-              style={{ cursor: 'pointer', color: 'whitesmoke', fontSize: 18 }}
+              style={{ color: 'whitesmoke', fontSize: 18 }}
               onClick={this.toggleCollapse}
             />
             {/* login button, will be "welcome //user when logged in" */}
@@ -100,13 +99,16 @@ export default class BasicLayout extends Component {
               <span style={{ color: 'white', marginRight: 5, fontSize: 16 }}>
                 {loginModal ? '' : `Hello ${userName}`}
               </span>
-              <Tooltip title='Log out' placement='bottomRight'><Button type='secondary' icon='login' onClick={this.onLoggedOut}></Button></Tooltip></span>
+              <Tooltip title='Log out' placement='bottomRight'>
+                <Button type='secondary' icon='login' ghost style={{ border: 0 }} onClick={this.onLoggedOut} />
+              </Tooltip>
+            </span>
           </Header>
-          <Content className='blayout-content'>
+          <Content className='bl-content'>
             {children}
             {apiResponse}
           </Content>
-          <Footer className='blayout-footer'>
+          <Footer className='bl-footer'>
             PMS - ISD
           </Footer>
         </Layout>
@@ -119,7 +121,6 @@ export default class BasicLayout extends Component {
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
-            helloUser={this.helloUser}
           />
         </Modal>
 
