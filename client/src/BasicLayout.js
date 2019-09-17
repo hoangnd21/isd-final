@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import {
   Layout,
@@ -19,7 +20,8 @@ export default class BasicLayout extends Component {
     collapsed: false,
     apiResponse: '',
     loginModal: false,
-    userName: ''
+    userName: '',
+    error: ''
   };
   componentDidMount = () => {
     fetch('http://localhost:9000/testAPI')
@@ -41,9 +43,24 @@ export default class BasicLayout extends Component {
   // test functions simulate login and logout
   onLoggedIn = (loginInfo) => {
     this.setState({
-      loginModal: false,
       userName: loginInfo.username
     })
+
+    // login from Backend
+    axios.post('http://localhost:9000/login', {
+      username: loginInfo.username,
+      password: loginInfo.password
+    })
+
+
+
+
+
+
+    // authen check simulator, comment this if statement when dealing with backend
+    // if (loginInfo.password === '1111') {
+    //   this.setState({ loginModal: false })
+    // }
   }
 
   onLoggedOut = () => {
@@ -53,7 +70,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, apiResponse, loginModal, userName } = this.state;
+    const { collapsed, apiResponse, loginModal, userName, error } = this.state;
     const { children } = this.props;
     return (
       <Layout className='basic-layout'>
@@ -115,7 +132,7 @@ export default class BasicLayout extends Component {
           </Content>
           <Footer className='bl-footer'>
             PMS - ISD
-          </Footer>
+          </Footer>:)00000
         </Layout>
         <Modal
           title='Please login to continue'
@@ -126,6 +143,7 @@ export default class BasicLayout extends Component {
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
+            error={error}
           />
         </Modal>
 
