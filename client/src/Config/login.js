@@ -6,6 +6,10 @@ function hasErrors(fieldsError) {
 }
 
 class LoginPage extends React.Component {
+  state = {
+    login: {},
+    errorlogin: 'wrong password'
+  }
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
@@ -14,18 +18,23 @@ class LoginPage extends React.Component {
   handleLogin = e => {
     const { onLoggedIn } = this.props
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, info) => {
       if (!err) {
-        onLoggedIn(values)
+        onLoggedIn(info)
         this.props.form.resetFields();
       }
+      this.setState({
+        login: info
+      })
+      console.log(info)
     });
 
   };
 
   render() {
-    const { form, onLoggedIn } = this.props;
+    const { form, onLoggedIn, } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
+
 
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('username') && getFieldError('username');
@@ -38,14 +47,13 @@ class LoginPage extends React.Component {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: '#86bc26' }} />}
+              prefix={<Icon type="user" name="username" style={{ color: '#86bc26' }} />}
               placeholder="Username"
             />,
           )}
         </Form.Item>
         <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
-            initialValue: '1111',
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
@@ -55,6 +63,11 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
+        <div>
+
+          {/* authen simulator */}
+          {/* {this.state.login.password === '1111' ? '' : errorlogin} */}
+        </div>
         <div style={{ textAlign: "right", }}>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in
@@ -64,6 +77,9 @@ class LoginPage extends React.Component {
     );
   }
 }
+
+
+
 
 const LoginForm = Form.create({ name: 'horizontal_login' })(LoginPage);
 export default LoginForm;
