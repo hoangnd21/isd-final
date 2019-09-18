@@ -19,11 +19,11 @@ export default class BasicLayout extends Component {
   state = {
     collapsed: false,
     apiResponse: '',
-    loginModal: false,
-    userName: '',
+    loginModal: true,
     error: ''
   };
   componentDidMount = () => {
+    //testAPI
     fetch('http://localhost:9000/testAPI')
       .then(res => res.text())
       .then(res => this.setState({ apiResponse: res }));
@@ -34,33 +34,31 @@ export default class BasicLayout extends Component {
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
+
+
+
+
   toggleCollapse = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   }
 
-  // test functions simulate login and logout
   onLoggedIn = (loginInfo) => {
-    this.setState({
-      userName: loginInfo.username
-    })
-
-    // login from Backend
+    // login
     axios.post('http://localhost:9000/login', {
       username: loginInfo.username,
       password: loginInfo.password
     })
-
-
-
-
-
-
-    // authen check simulator, comment this if statement when dealing with backend
-    // if (loginInfo.password === '1111') {
-    //   this.setState({ loginModal: false })
-    // }
+      .then((res) => {
+        if (res.data === "success") {
+          // cai setState nay k thuc hien
+          this.setState({ loginModal: false })
+        }
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   }
 
   onLoggedOut = () => {
