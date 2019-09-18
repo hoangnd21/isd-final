@@ -15,7 +15,7 @@ class LoginPage extends React.Component {
     this.props.form.validateFields();
   }
 
-  handleLogin = e => {
+  handleLogin = (e) => {
     const { onLoggedIn } = this.props
     e.preventDefault();
     this.props.form.validateFields((err, info) => {
@@ -26,7 +26,6 @@ class LoginPage extends React.Component {
       this.setState({
         login: info
       })
-      console.log(info)
     });
 
   };
@@ -57,7 +56,7 @@ class LoginPage extends React.Component {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
-              prefix={<Icon type="lock" style={{ color: '#86bc26' }} />}
+              prefix={<Icon type="lock" name="password" style={{ color: '#86bc26' }} />}
               type="password"
               placeholder="Password"
             />,

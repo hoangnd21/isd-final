@@ -5,9 +5,11 @@ const login = (req, res) => {
     const loginResult = users.findOne({ username: user, password: pass }).exec()
         .then((loginResult) => {
             if (loginResult) {
-                res.send('thành công');
+                res.send('success');
             }
-            res.send('thất bại');
+            else {
+                res.send('fail');
+            }
         });
 }
 module.exports.login = login;
