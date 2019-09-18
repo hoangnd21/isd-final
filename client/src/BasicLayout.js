@@ -45,6 +45,9 @@ export default class BasicLayout extends Component {
   }
 
   onLoggedIn = (loginInfo) => {
+    this.setState({
+      userName: loginInfo.username
+    })
     // login
     axios.post('http://localhost:9000/login', {
       username: loginInfo.username,
@@ -130,7 +133,7 @@ export default class BasicLayout extends Component {
           </Content>
           <Footer className='bl-footer'>
             PMS - ISD
-          </Footer>:)00000
+          </Footer>
         </Layout>
         <Modal
           title='Please login to continue'
