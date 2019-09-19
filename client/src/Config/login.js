@@ -12,15 +12,16 @@ class LoginPage extends React.Component {
   }
   componentDidMount() {
     // To disabled submit button at the beginning.
-    this.props.form.validateFields();
+    const { form } = this.props;
+    form.validateFields();
   }
-
-  handleLogin = (e) => {
-    const { onLoggedIn } = this.props
+  handleLogin = e => {
+    const { onLoggedIn, form } = this.props
     e.preventDefault();
-    this.props.form.validateFields((err, info) => {
+    form.validateFields((err, values) => {
       if (!err) {
-        onLoggedIn(info)
+        onLoggedIn(values)
+
         this.props.form.resetFields();
       }
       this.setState({
@@ -53,6 +54,7 @@ class LoginPage extends React.Component {
         </Form.Item>
         <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
+            initialValue: '1111',
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
@@ -62,12 +64,7 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
-        <div>
-
-          {/* authen simulator */}
-          {/* {this.state.login.password === '1111' ? '' : errorlogin} */}
-        </div>
-        <div style={{ textAlign: "right", }}>
+       <div style={{ textAlign: "right", }}>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in
           </Button>
