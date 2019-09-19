@@ -8,13 +8,15 @@ function hasErrors(fieldsError) {
 class LoginPage extends React.Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
-    this.props.form.validateFields();
+    const { form } = this.props;
+    form.validateFields();
   }
 
+
   handleLogin = e => {
-    const { onLoggedIn } = this.props
+    const { onLoggedIn, form } = this.props
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         onLoggedIn(values)
         this.props.form.resetFields();
