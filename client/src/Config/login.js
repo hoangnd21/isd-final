@@ -11,20 +11,12 @@ class LoginPage extends React.Component {
     this.props.form.validateFields();
   }
 
-<<<<<<< HEAD
-  handleSubmit = e => {
-=======
   handleLogin = e => {
->>>>>>> antd/dist/ant.css #86bc26
     const { onLoggedIn } = this.props
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-<<<<<<< HEAD
-        onLoggedIn(values.username)
-=======
         onLoggedIn(values)
->>>>>>> antd/dist/ant.css #86bc26
         this.props.form.resetFields();
       }
     });

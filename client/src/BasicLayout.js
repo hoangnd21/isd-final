@@ -44,9 +44,9 @@ export default class BasicLayout extends Component {
       loginModal: false,
       userName: username
     })
-    if (this.state.loginModal === false) {
-      return (<Redirect exact to="/" />);
-    }
+    // if (this.state.loginModal === false) {
+    //   return (<Redirect exact to="/" />);
+    // }
   }
 
   onLoggedOut = () => {

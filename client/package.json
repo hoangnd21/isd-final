@@ -5,10 +5,7 @@
   "dependencies": {
     "antd": "^3.23.2",
     "babel-plugin-import": "^1.12.1",
-<<<<<<< HEAD
-=======
     "customize-cra": "^0.6.1",
->>>>>>> adjusted login simulator + change primary color to match Deloitte
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "react": "^16.9.0",
