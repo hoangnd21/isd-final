@@ -6,28 +6,35 @@ function hasErrors(fieldsError) {
 }
 
 class LoginPage extends React.Component {
+  state = {
+    login: {},
+    errorlogin: 'wrong password'
+  }
   componentDidMount() {
     // To disabled submit button at the beginning.
     const { form } = this.props;
     form.validateFields();
   }
-
-
   handleLogin = e => {
     const { onLoggedIn, form } = this.props
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
         onLoggedIn(values)
+
         this.props.form.resetFields();
       }
+      this.setState({
+        login: info
+      })
     });
 
   };
 
   render() {
-    const { form, onLoggedIn } = this.props;
+    const { form, onLoggedIn, } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
+
 
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('username') && getFieldError('username');
@@ -40,7 +47,7 @@ class LoginPage extends React.Component {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: '#86bc26' }} />}
+              prefix={<Icon type="user" name="username" style={{ color: '#86bc26' }} />}
               placeholder="Username"
             />,
           )}
@@ -51,13 +58,13 @@ class LoginPage extends React.Component {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
-              prefix={<Icon type="lock" style={{ color: '#86bc26' }} />}
+              prefix={<Icon type="lock" name="password" style={{ color: '#86bc26' }} />}
               type="password"
               placeholder="Password"
             />,
           )}
         </Form.Item>
-        <div style={{ textAlign: "right", }}>
+       <div style={{ textAlign: "right", }}>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in
           </Button>
@@ -66,6 +73,9 @@ class LoginPage extends React.Component {
     );
   }
 }
+
+
+
 
 const LoginForm = Form.create({ name: 'horizontal_login' })(LoginPage);
 export default LoginForm;

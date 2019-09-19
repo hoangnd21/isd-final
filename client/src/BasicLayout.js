@@ -1,4 +1,7 @@
-import React from 'react';
+
+import React, { Component } from 'react';
+import axios from 'axios';
+
 import { Link } from "react-router-dom";
 import {
   Layout,
@@ -14,15 +17,16 @@ import Deloitte from './Config/constant'
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export default class BasicLayout extends React.Component {
+export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
     apiResponse: '',
-    loginModal: false,
-    userName: ''
+    loginModal: true,
+    error: ''
   };
   componentDidMount = () => {
+    //testAPI
     fetch('http://localhost:9000/testAPI')
       .then(res => res.text())
       .then(res => this.setState({ apiResponse: res }));
@@ -33,21 +37,35 @@ export default class BasicLayout extends React.Component {
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
+
+
+
+
   toggleCollapse = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   }
 
-  // test functions simulate login and logout
-  onLoggedIn = (username) => {
+
+  onLoggedIn = (loginInfo) => {
     this.setState({
-      loginModal: false,
-      userName: username
+      userName: loginInfo.username
     })
-    // if (this.state.loginModal === false) {
-    //   return (<Redirect exact to="/" />);
-    // }
+    // login
+    axios.post('http://localhost:9000/login', {
+      username: loginInfo.username,
+      password: loginInfo.password
+    })
+      .then((res) => {
+        if (res.data === "success") {
+          // cai setState nay k thuc hien
+          this.setState({ loginModal: false })
+        }
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   }
 
   onLoggedOut = () => {
@@ -58,7 +76,7 @@ export default class BasicLayout extends React.Component {
   }
 
   render() {
-    const { collapsed, apiResponse, loginModal, userName } = this.state;
+    const { collapsed, apiResponse, loginModal, userName, error } = this.state;
     const { children } = this.props;
     return (
       <Layout className='basic-layout'>
@@ -89,23 +107,23 @@ export default class BasicLayout extends React.Component {
         </Sider>
         <Layout>
           <Header className='bl-header'>
-            <div style={{ marginTop: 10 }}>
-              <Icon
-                type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                className='trigger'
-                style={{ color: '#80BC26', fontSize: 18 }}
-                onClick={this.toggleCollapse}
-              />
-              {/* login button, will be "welcome //user when logged in" */}
-              <span style={{ float: 'right', marginRight: 12 }}>
-                <span className='hello-user'>
-                  {loginModal ? '' : `Hello ${userName}`}
-                </span>
-                <Tooltip title='Log out' placement='bottomRight'>
-                  <Button type='primary' icon='login' ghost style={{ border: 0 }} onClick={this.onLoggedOut} />
-                </Tooltip>
+</div>
+
+            <Icon
+              type={collapsed ? 'menu-unfold' : 'menu-fold'}
+              className='trigger'
+              style={{ color: 'whitesmoke', fontSize: 18 }}
+              onClick={this.toggleCollapse}
+            />
+            {/* login button, will be "welcome //user when logged in" */}
+            <span style={{ float: 'right', marginRight: 12 }}>
+              <span style={{ color: 'white', marginRight: 5, fontSize: 16 }}>
+                {loginModal ? '' : `Hello ${userName}`}
               </span>
-            </div>
+              <Tooltip title='Log out' placement='bottomRight'>
+                <Button type='secondary' icon='login' ghost style={{ border: 0 }} onClick={this.onLoggedOut} />
+              </Tooltip>
+            </span>
           </Header>
           <Content className='bl-content'>
             {children}
@@ -124,6 +142,7 @@ export default class BasicLayout extends React.Component {
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
+            error={error}
           />
         </Modal>
 
