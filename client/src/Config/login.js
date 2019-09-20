@@ -20,7 +20,7 @@ class LoginPage extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, info) => {
       if (!err) {
-        onLoggedIn(info)
+        onLoggedIn(info);
         this.props.form.resetFields();
       }
       this.setState({

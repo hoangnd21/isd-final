@@ -7,3 +7,8 @@ const userShema = new Schema({
 
 const user = mongoose.model('users', userShema);
 module.exports = user;
+
+// user.create({
+//     "username": "a",
+//     "password": "1111"
+// })
