@@ -5,10 +5,22 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var testAPIRouter = require("./routes/testAPI");
 var loginRoute = require('./routes/login')
 var equipmentRoute = require('./routes/equipments')
+var groupEquipmentRoute = require('./routes/groupEquipment')
+var groupSubEquipmentRoute = require('./routes/groupSubEquipment')
+var providerRoute = require('./routes/providers')
+var provideBatchRoute = require('./routes/provideBatch')
+var accessoriesRoute = require('./routes/accessories')
+var InvolvedDocumentsRoute = require('./routes/involvedDocuments')
+var warrantyRoute = require('./routes/warranty')
+var adjustmentRoute = require('./routes/adjustment')
+var equipmentDistributionRoute = require('./routes/equipmentDistribution')
+var errorReportRoute = require('./routes/errorReport')
+var manaEquipOnUseRoute = require('./routes/manaEquipOnUse')
+var statusRoute = require('./routes/status')
+var userRoute = require('./routes/users')
 var app = express();
 
 // view engine setup
@@ -23,10 +35,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use("/testAPI", testAPIRouter);
 app.use('/login', loginRoute);
 app.use('/equipments', equipmentRoute);
+app.use('/groupEquipment', groupEquipmentRoute);
+app.use('/groupSubEquipment', groupSubEquipmentRoute);
+app.use('/providers', providerRoute);
+app.use('/provideBatch', provideBatchRoute);
+app.use('/accessories', accessoriesRoute);
+app.use('/involvedDocuments', InvolvedDocumentsRoute);
+app.use('/warranty', warrantyRoute);
+app.use('/adjustment', adjustmentRoute);
+app.use('/equipmentDistribution', equipmentDistributionRoute);
+app.use('/errorReport', errorReportRoute);
+app.use('/manaEquipOnUse', manaEquipOnUseRoute);
+app.use('/status', statusRoute);
+app.use('/user', userRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

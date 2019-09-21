@@ -18,7 +18,7 @@ class LoginPage extends React.Component {
   handleLogin = e => {
     const { onLoggedIn, form } = this.props
     e.preventDefault();
-    form.validateFields((err, values) => {
+    form.validateFields((err, info) => {
       if (!err) {
         onLoggedIn(info);
 
@@ -64,7 +64,7 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
-       <div style={{ textAlign: "right", }}>
+        <div style={{ textAlign: "right", }}>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in
           </Button>

@@ -21,7 +21,7 @@ const addEquipment = (req, res) => {
 module.exports.addEquipment = addEquipment;
 
 const getAllEquipment = (req, res) => {
-    equip = equipment.find({}).exec().then(
+    const equip = equipment.find({}).exec().then(
         (equip) => {
             if (equip) {
                 res.send(equip);
@@ -42,8 +42,9 @@ const updateOneEquipment = (req, res) => {
                 equipment.updateOne(oneEquipment, newValue, (err, res) => {
                     if (err) throw err;
                     console.log("1 document updated");
-                    res.send(oneEquipment);
+
                 })
+                res.send("1 document updated successfully");
             }
         }
 
@@ -58,8 +59,9 @@ const deleteOneEquipment = (req, res) => {
                 equipment.deleteOne(oneEquip, (err, res) => {
                     if (err) throw err;
                     console.log("1 document deleted");
-                    res.send("1 document deleted successfully");
+
                 })
+                res.send("1 document deleted successfully");
             }
         }
         )
