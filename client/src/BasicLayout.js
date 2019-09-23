@@ -107,7 +107,7 @@ export default class BasicLayout extends Component {
         </Sider>
         <Layout>
           <Header className='bl-header'>
-</div>
+
 
             <Icon
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
