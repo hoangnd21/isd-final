@@ -1,7 +1,7 @@
 import React from 'react'
 import About from "../component/About";
 import Home from "../component/Home";
-import Users from '../component/Users'
+import Equipments from '../component/Equipments';
 
 const routes = [
     {
@@ -10,8 +10,8 @@ const routes = [
         main: () => <Home />,
     },
     {
-        path: '/users',
-        main: () => <Users />,
+        path: '/equipments',
+        main: () => <Equipments />,
     },
     {
         path: '/about',

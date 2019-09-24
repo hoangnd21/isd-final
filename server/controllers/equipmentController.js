@@ -5,15 +5,15 @@ const addEquipment = (req, res) => {
         code: req.body.code,
         seriNo: req.body.seriNo,
         name: req.body.name,
+        generalType: req.body.generalType,
         subtype: req.body.subtype,
         status: req.body.status,
         datePurchase: req.body.datePurchase,
         originalPrice: req.body.originalPrice,
-        warranty: req.body.warranty,
-        department: req.body.department,
-        location: req.body.location,
+        warrantyMonths: req.body.warrantyMonths,
         batch: req.body.batch,
         startDate: req.body.startDate,
+        manufacturer: req.body.manufacturer,
         note: req.body.note
     })
     res.send("1 document created successfully");

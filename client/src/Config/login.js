@@ -8,7 +8,6 @@ function hasErrors(fieldsError) {
 class LoginPage extends React.Component {
   state = {
     login: {},
-    errorlogin: 'wrong password'
   }
   componentDidMount() {
     // To disabled submit button at the beginning.
@@ -21,7 +20,6 @@ class LoginPage extends React.Component {
     form.validateFields((err, info) => {
       if (!err) {
         onLoggedIn(info);
-
         this.props.form.resetFields();
       }
       this.setState({
@@ -43,7 +41,7 @@ class LoginPage extends React.Component {
       <Form layout="vertical" onSubmit={this.handleLogin}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
-            initialValue: 'testUser',
+            initialValue: 'omega',
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
@@ -54,7 +52,7 @@ class LoginPage extends React.Component {
         </Form.Item>
         <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
-            initialValue: '1111',
+            initialValue: '123456',
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
@@ -69,13 +67,10 @@ class LoginPage extends React.Component {
             <Icon type='login' /> Log in
           </Button>
         </div>
-      </Form >
+      </Form>
     );
   }
 }
-
-
-
 
 const LoginForm = Form.create({ name: 'horizontal_login' })(LoginPage);
 export default LoginForm;
