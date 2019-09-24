@@ -10,17 +10,74 @@ axios.get('http://localhost:9000/equipments')
         console.log(error);
     });
 
-axios.get('http://localhost:9000/equipments', {
-    params: {
-        id: equipment.id
-    }
-})
-    .then(function (res) {
-        console.log(res);
+getOneEquipment = (equipment) => {
+    axios.get('http://localhost:9000/equipments', {
+        params: {
+            id: equipment.id
+        }
     })
-    .catch(function (error) {
-        console.log(error);
-    });
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+addEquipment = (equipment) => {
+    axios.post('http://localhost:9000/equipments/addEquipment', { equipment })
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+updateEquipment = (equipment) => {
+    axios.post('http://localhost:9000/equipments/updateEquipment', { equipment })
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+deleteEquipment = (equipment) => {
+    axios.post('http://localhost:9000/equipments/deleteEquipment', { equipment })
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+getUser = (equipment) => {
+    axios.post('http://localhost:9000/user', {
+        param: {
+            id: equipment.id
+        }
+    })
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+addEquipmentDistribution = (equipment) => {
+
+    axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', { equipment })
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 
 export default class Users extends React.Component {
     render() {
