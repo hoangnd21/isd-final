@@ -22,24 +22,22 @@ export default class BasicLayout extends Component {
   state = {
     collapsed: false,
     apiResponse: '',
-    loginModal: true,
+    // loginModal: true,
     error: ''
   };
-  componentDidMount = () => {
-    //testAPI
-    fetch('http://localhost:9000/testAPI')
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }));
-    this.setState({
-      loginModal: true
-    })
-  }
+  // componentDidMount = () => {
+  //   //testAPI
+  //   fetch('http://localhost:9000/testAPI')
+  //     .then(res => res.text())
+  //     .then(res => this.setState({ apiResponse: res }));
+  //   this.setState({
+  //     loginModal: true
+  //   })
+  // }
+
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
-
-
-
 
   toggleCollapse = () => {
     this.setState({
@@ -97,8 +95,8 @@ export default class BasicLayout extends Component {
             <Menu.Item key="home">
               <Link to='/'><Icon type='home' /><span>Home</span></Link>
             </Menu.Item>
-            <Menu.Item key="users">
-              <Link to="/users" ><Icon type="user" /><span>Users</span></Link>
+            <Menu.Item key="equipments">
+              <Link to="/equipments" ><Icon type="sliders" /><span>Equipments</span></Link>
             </Menu.Item>
             <Menu.Item key="about">
               <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
@@ -107,21 +105,19 @@ export default class BasicLayout extends Component {
         </Sider>
         <Layout>
           <Header className='bl-header'>
-
-
             <Icon
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               className='trigger'
-              style={{ color: 'whitesmoke', fontSize: 18 }}
+              style={{ color: '#87BC26', fontSize: 18 }}
               onClick={this.toggleCollapse}
             />
             {/* login button, will be "welcome //user when logged in" */}
             <span style={{ float: 'right', marginRight: 12 }}>
-              <span style={{ color: 'white', marginRight: 5, fontSize: 16 }}>
+              <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
                 {loginModal ? '' : `Hello ${userName}`}
               </span>
-              <Tooltip title='Log out' placement='bottomRight'>
-                <Button type='secondary' icon='login' ghost style={{ border: 0 }} onClick={this.onLoggedOut} />
+              <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
+                <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
               </Tooltip>
             </span>
           </Header>

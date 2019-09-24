@@ -1,5 +1,4 @@
 const { override, fixBabelImports, addLessLoader } = require('customize-cra');
-
 module.exports = override(
   fixBabelImports('import', {
     libraryName: 'antd',
@@ -10,7 +9,6 @@ module.exports = override(
     javascriptEnabled: true,
     modifyVars: {
       '@primary-color': '#86BC26',
-
     },
   }),
 );
