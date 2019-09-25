@@ -6,7 +6,8 @@ import {
   Button,
   Modal,
   Divider,
-  Icon
+  Icon,
+  Popconfirm
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 
@@ -18,6 +19,7 @@ export default class Equipments extends React.Component {
     modalType: '',
     equipment: {}
   }
+
   componentDidMount() {
     axios.get('http://localhost:9000/equipments')
       .then(res => {
@@ -27,6 +29,18 @@ export default class Equipments extends React.Component {
         })
       })
   }
+
+  componentDidUpdate() {
+    console.log('update')
+    axios.get('http://localhost:9000/equipments')
+      .then(res => {
+        this.setState({
+          equipments: res.data,
+          listLoading: false
+        })
+      })
+  }
+
   addEquipmentModal = () => {
     this.setState({
       equipmentModal: true,
@@ -48,26 +62,21 @@ export default class Equipments extends React.Component {
     })
   }
   deleteEquipment = data => {
-    console.log('data', data)
     axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
-      .then(function (res) {
-        console.log(res);
-      })
+      .then(
+        console.log('deleted'))
       .catch(function (error) {
-        console.log(error);
       });
-    axios.get('http://localhost:9000/equipments')
-      .then((res) => {
-        this.setState({
-          equipments: res.data,
-          listLoading: true
-        })
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-
+    // axios.get('http://localhost:9000/equipments')
+    //   .then((response) => {
+    //     this.setState({
+    //       equipments: response.data,
+    //       listLoading: true
+    //     })
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
 
   render() {
@@ -100,7 +109,7 @@ export default class Equipments extends React.Component {
       },
       {
         title: 'Warranty (months)',
-        dataIndex: 'warranty',
+        dataIndex: 'warrantyMonths',
         key: 'warranty',
         align: 'right'
       },
@@ -113,9 +122,17 @@ export default class Equipments extends React.Component {
         title: 'Actions',
         render: data =>
           <>
-            <Tooltip title='Edit equipment' onClick={() => this.editEquipment(data)}><Icon type='edit' /></Tooltip>
+            <Tooltip title='Edit this equipment' onClick={() => this.editEquipment(data)}><Icon type='edit' /></Tooltip>
             <Divider type='vertical' />
-            <Tooltip title='Delete equipment' onClick={() => this.deleteEquipment(data)}><Icon type='delete' /></Tooltip>
+            <Tooltip title='Delete this equipment'            >
+              <Popconfirm
+                title='Are you sure to delete this equipment?'
+                onConfirm={() => this.deleteEquipment(data)}
+                placement="bottomRight"
+              >
+                <Icon type='delete' />
+              </Popconfirm>
+            </Tooltip>
           </>
       }
 
@@ -155,6 +172,8 @@ export default class Equipments extends React.Component {
         >
           <EquipmentForm
             equipment={equipment}
+            getAllEquipments={this.getAllEquipments}
+            hideEquipmentModal={this.hideEquipmentModal}
           />
         </Modal>
       </>
