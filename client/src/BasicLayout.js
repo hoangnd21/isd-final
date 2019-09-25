@@ -57,7 +57,6 @@ export default class BasicLayout extends Component {
     })
       .then((res) => {
         if (res.data === "success") {
-
           this.setState({ loginModal: false })
         }
       })
@@ -108,10 +107,9 @@ export default class BasicLayout extends Component {
             <Icon
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               className='trigger'
-              style={{ color: '#87BC26', fontSize: 18 }}
+              style={collapsed ? { fontSize: 18 } : { color: '#87BC26', fontSize: 18 }}
               onClick={this.toggleCollapse}
             />
-            {/* login button, will be "welcome //user when logged in" */}
             <span style={{ float: 'right', marginRight: 12 }}>
               <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
                 {loginModal ? '' : `Hello ${userName}`}
