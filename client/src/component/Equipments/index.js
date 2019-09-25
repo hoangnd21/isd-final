@@ -2,22 +2,23 @@ import React from 'react';
 import axios from 'axios';
 import {
   Table,
-  Tooltip,
   Button,
   Modal,
-  Divider,
+  Popconfirm,
+  notification,
   Icon
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 
-export default class Equipments extends React.Component {
+export default class Equipments extends React.PureComponent {
   state = {
     equipments: [],
     listLoading: true,
     equipmentModal: false,
     modalType: '',
-    equipment: {}
+    equipmentDetail: {}
   }
+
   componentDidMount() {
     axios.get('http://localhost:9000/equipments')
       .then(res => {
@@ -27,10 +28,29 @@ export default class Equipments extends React.Component {
         })
       })
   }
+
+  componentDidUpdate() {
+    axios.get('http://localhost:9000/equipments')
+      .then(res => {
+        this.setState({
+          equipments: res.data,
+          listLoading: false
+        })
+      })
+  }
+
   addEquipmentModal = () => {
     this.setState({
       equipmentModal: true,
       modalType: 'create'
+    })
+  }
+
+  editEquipment = data => {
+    this.setState({
+      equipmentDetail: data,
+      modalType: 'update',
+      equipmentModal: true
     })
   }
 
@@ -40,38 +60,54 @@ export default class Equipments extends React.Component {
     })
   }
 
-  editEquipment = data => {
-    this.setState({
-      equipment: data,
-      modalType: 'update',
-      equipmentModal: true
-    })
-  }
   deleteEquipment = data => {
-    console.log('data', data)
     axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
-      .then(function (res) {
-        console.log(res);
-      })
+      .then(res => {
+        if (res.status === 200) {
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          });
+        }
+      }
+        // GET again
+      )
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
       });
-    axios.get('http://localhost:9000/equipments')
-      .then((res) => {
-        this.setState({
-          equipments: res.data,
-          listLoading: true
-        })
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // axios.get('http://localhost:9000/equipments')
+    //   .then((response) => {
+    //     this.setState({
+    //       equipments: response.data,
+    //       listLoading: true
+    //     })
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
 
-
+  createEquipmentData = data => {
+    axios.post('http://localhost:9000/equipments/addEquipment', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ equipmentModal: false })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          });
+        }
+      }
+        //GET again
+      )
   }
 
   render() {
-    const { equipments, equipmentModal, modalType, equipment } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
     const columns = [
       {
         title: 'Name',
@@ -93,6 +129,23 @@ export default class Equipments extends React.Component {
           </div>
       },
       {
+        title: 'startDate',
+        dataIndex: 'startDate',
+        key: 'startDate',
+        render: startDate => `${startDate.slice(8, 10)}/${startDate.slice(5, 7)}/${startDate.slice(0, 4)}`
+      },
+      {
+        title: 'datePurchase',
+        dataIndex: 'datePurchase',
+        key: 'datePurchase',
+        render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
+      },
+      {
+        title: 'Equipment Batch',
+        dataIndex: 'batch',
+        key: 'batch',
+      },
+      {
         title: 'Original Price ($)',
         dataIndex: 'originalPrice',
         key: 'originalPrice',
@@ -100,61 +153,67 @@ export default class Equipments extends React.Component {
       },
       {
         title: 'Warranty (months)',
-        dataIndex: 'warranty',
+        dataIndex: 'warrantyMonths',
         key: 'warranty',
         align: 'right'
       },
-      {
-        title: 'Location',
-        dataIndex: 'location',
-        key: 'location'
-      },
+
       {
         title: 'Actions',
         render: data =>
           <>
-            <Tooltip title='Edit equipment' onClick={() => this.editEquipment(data)}><Icon type='edit' /></Tooltip>
-            <Divider type='vertical' />
-            <Tooltip title='Delete equipment' onClick={() => this.deleteEquipment(data)}><Icon type='delete' /></Tooltip>
+            <Button type='link' style={{ border: 0 }} icon='edit' onClick={() => this.editEquipment(data)}>&nbsp;Edit</Button>
+            <Popconfirm
+              title='Are you sure to delete this equipment?'
+              onConfirm={() => this.deleteEquipment(data)}
+              placement="bottomRight"
+            >
+              <Button type='link' style={{ border: 0 }} icon='delete'>
+                &nbsp;Delete
+            </Button>
+            </Popconfirm>
           </>
       }
 
     ]
     return (
       <>
-        <div style={{ marginBottom: 5, fontSize: 16 }}>
-          Equipments List&nbsp;
-            <Tooltip
-            title='Add a new equipment'
-            shape='circle'
-          >
+        <div style={{ marginBottom: 5, fontSize: 18 }}>
+          Equipments List
+            <div style={{ float: 'right' }}>
             <Button
               type='primary'
-              shape='circle'
               icon='plus'
               onClick={this.addEquipmentModal}
-            />
-          </Tooltip>
+            >
+              Add a new Equipment
+            </Button>
+          </div>
         </div>
         <Table
           dataSource={equipments}
           columns={columns}
-          size='small'
         />
         <Modal
-          title={modalType === 'update' ? 'Update Equipment' : 'Create Equipment'}
+          title={modalType === 'update' ? 'Update Equipment' : 'Add Equipment'}
+          destroyOnClose
           visible={equipmentModal}
           footer={null}
           onCancel={this.hideEquipmentModal}
-          hideEquipmentModal={this.hideEquipmentModal}
           status={this.status}
           modalType={this.modalType}
           width={1000}
           centered
           bodyStyle={{ padding: 14 }}
+          equipment={equipmentDetail}
+          createEquipment={() => this.createEquipmentData}
         >
           <EquipmentForm
-            equipment={equipment}
+            modalType={modalType}
+            equipment={equipmentDetail}
+            getAllEquipments={this.getAllEquipments}
+            hideEquipmentModal={this.hideEquipmentModal}
+            createEquipment={this.createEquipmentData}
           />
         </Modal>
       </>
