@@ -4,12 +4,12 @@ import {
   Table,
   Button,
   Modal,
-  Popconfirm,
   notification,
   Icon
 
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
+import EquipmentInfo from './EquipmentInfo'
 
 export default class Equipments extends React.PureComponent {
   state = {
@@ -47,7 +47,16 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  editEquipment = data => {
+  infoModal = data => {
+    this.setState({
+      equipmentModal: true,
+      modalType: 'view',
+      equipmentDetail: data
+    })
+    console.log(this.state.equipment)
+  }
+
+  updateEquipmentModal = data => {
     this.setState({
       equipmentDetail: data,
       modalType: 'update',
@@ -57,7 +66,9 @@ export default class Equipments extends React.PureComponent {
 
   hideEquipmentModal = () => {
     this.setState({
-      equipmentModal: false
+      equipmentModal: false,
+      modalType: '',
+      equipmentDetail: {}
     })
   }
 
@@ -77,7 +88,6 @@ export default class Equipments extends React.PureComponent {
       )
       .catch(function (error) {
         console.log(error)
-
       });
     // axios.get('http://localhost:9000/equipments')
     //   .then((response) => {
@@ -113,11 +123,12 @@ export default class Equipments extends React.PureComponent {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'name',
         key: 'name',
+        render: data =>
+          <Button type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
       {
-        title: 'Codename',
+        title: 'dataCodename',
         dataIndex: 'code',
         key: 'code'
       },
@@ -164,8 +175,22 @@ export default class Equipments extends React.PureComponent {
         title: 'Actions',
         render: data =>
           <>
-            <Button type='link' style={{ border: 0 }} icon='edit' onClick={() => this.editEquipment(data)}>&nbsp;Edit</Button>
-            <Popconfirm
+            <Button
+              type='link'
+              style={{ border: 0 }}
+              icon='edit'
+              onClick={() => this.updateEquipmentModal(data)}
+            >
+              &nbsp;Edit
+              </Button>
+            <Button
+              type='link'
+              style={{ border: 0 }}
+              icon={data.status === 'in use' ? 'share-alt' : 'appstore'}
+            >
+              &nbsp;{data.status === 'in use' ? 'Reclaim' : 'Handing'}
+            </Button>
+            {/* <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
@@ -173,7 +198,7 @@ export default class Equipments extends React.PureComponent {
               <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
             </Button>
-            </Popconfirm>
+            </Popconfirm> */}
           </>
       }
 
@@ -197,7 +222,7 @@ export default class Equipments extends React.PureComponent {
           columns={columns}
         />
         <Modal
-          title={modalType === 'update' ? 'Update Equipment' : 'Add Equipment'}
+          title={modalType === 'update' ? 'Update Equipment' : modalType === 'view' ? null : 'Add Equipment'}
           destroyOnClose
           visible={equipmentModal}
           footer={null}
@@ -210,14 +235,25 @@ export default class Equipments extends React.PureComponent {
           equipment={equipmentDetail}
           createEquipment={() => this.createEquipmentData}
         >
-          <EquipmentForm
-            modalType={modalType}
-            equipment={equipmentDetail}
-            getAllEquipments={this.getAllEquipments}
-            hideEquipmentModal={this.hideEquipmentModal}
-            createEquipment={this.createEquipmentData}
-
-          />
+          {modalType === 'create' ?
+            <EquipmentForm
+              modalType={modalType}
+              equipment={equipmentDetail}
+              getAllEquipments={this.getAllEquipments}
+              hideEquipmentModal={this.hideEquipmentModal}
+              createEquipment={this.createEquipmentData}
+            /> : modalType === 'view' ?
+              <EquipmentInfo
+                equipment={equipmentDetail}
+              />
+              :
+              <EquipmentForm
+                modalType={modalType}
+                equipment={equipmentDetail}
+                getAllEquipments={this.getAllEquipments}
+                hideEquipmentModal={this.hideEquipmentModal}
+                createEquipment={this.createEquipmentData}
+              />}
         </Modal>
       </>
     )
