@@ -10,7 +10,6 @@ import {
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 
-
 export default class Equipments extends React.Component {
   state = {
     equipments: [],
@@ -48,7 +47,6 @@ export default class Equipments extends React.Component {
       equipmentModal: true
     })
   }
-
   deleteEquipment = data => {
     console.log('data', data)
     axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
