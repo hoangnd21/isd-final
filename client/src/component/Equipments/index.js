@@ -7,6 +7,7 @@ import {
   Popconfirm,
   notification,
   Icon
+
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 
@@ -76,6 +77,7 @@ export default class Equipments extends React.PureComponent {
       )
       .catch(function (error) {
         console.log(error)
+
       });
     // axios.get('http://localhost:9000/equipments')
     //   .then((response) => {
@@ -214,6 +216,7 @@ export default class Equipments extends React.PureComponent {
             getAllEquipments={this.getAllEquipments}
             hideEquipmentModal={this.hideEquipmentModal}
             createEquipment={this.createEquipmentData}
+
           />
         </Modal>
       </>
