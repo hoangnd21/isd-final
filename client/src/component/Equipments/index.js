@@ -9,17 +9,6 @@ import {
   Icon
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
-// axios.get('http://localhost:9000/equipments', {
-//     params: {
-//         id: equipment.id
-//     }
-// })
-//     .then(function (res) {
-//         console.log(res);
-//     })
-//     .catch(function (error) {
-//         console.log(error);
-//     });
 
 export default class Equipments extends React.Component {
   state = {
@@ -57,6 +46,28 @@ export default class Equipments extends React.Component {
       modalType: 'update',
       equipmentModal: true
     })
+  }
+  deleteEquipment = data => {
+    console.log('data', data)
+    axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    axios.get('http://localhost:9000/equipments')
+      .then((res) => {
+        this.setState({
+          equipments: res.data,
+          listLoading: true
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
   }
 
   render() {

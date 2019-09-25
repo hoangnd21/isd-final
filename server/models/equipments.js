@@ -4,15 +4,15 @@ const equipmentSchema = new schema({
     code: String,
     seriNo: String,
     name: String,
+    generalType: String,
     subtype: String,
     status: String,
     datePurchase: Date,
     originalPrice: Number,
-    warranty: Number,
-    department: String,
-    location: String,
+    warrantyMonths: Number,
     batch: String,
     startDate: Date,
+    manufacturer: String,
     note: String
 });
 
