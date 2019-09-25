@@ -13,7 +13,7 @@ import {
 import axios from 'axios';
 
 const { TextArea } = Input;
-class EquipmentUpdateForm extends React.PureComponent {
+class EquipmentForm extends React.PureComponent {
   updateEquipment = e => {
     e.preventDefault();
     // eslint-disable-next-line
@@ -36,11 +36,9 @@ class EquipmentUpdateForm extends React.PureComponent {
       if (err) {
         return
       }
-
       axios.post('http://localhost:9000/equipments/addEquipment', { ...equipment, ...newEquipment })
         .then(res => {
           console.log(res);
-          console.log(res.data);
         })
       form.resetFields();
     });
@@ -48,17 +46,15 @@ class EquipmentUpdateForm extends React.PureComponent {
 
   addEquipment = (equipment) => {
     axios.post('http://localhost:9000/equipments/addEquipment', { equipment })
-      .then(function (res) {
-        console.log(res);
-      })
+      .then(this.props.getAllEquipments)
+      .then(this.props.hideEquipmentModel)
       .catch(function (error) {
         console.log(error);
       });
   };
 
   render() {
-    const { form, modalType, loading, equipment } = this.props;
-    console.log('equipment', equipment)
+    const { form, modalType, loading, } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -247,6 +243,6 @@ class EquipmentUpdateForm extends React.PureComponent {
     );
   }
 }
-const EquipmentForm = Form.create({})(EquipmentUpdateForm);
+const EForm = Form.create({})(EquipmentForm);
 
-export default EquipmentForm;
+export default EForm;

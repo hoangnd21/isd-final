@@ -57,7 +57,6 @@ export default class BasicLayout extends Component {
     })
       .then((res) => {
         if (res.data === "success") {
-
           this.setState({ loginModal: false })
         }
       })
