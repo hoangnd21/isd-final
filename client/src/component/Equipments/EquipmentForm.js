@@ -41,7 +41,6 @@ class EquipmentForm extends React.PureComponent {
 
   render() {
     const { form, modalType, loading, equipment } = this.props;
-
     const { getFieldDecorator } = form;
 
     return (
