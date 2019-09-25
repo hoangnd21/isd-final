@@ -10,7 +10,6 @@ import {
   Tooltip,
   DatePicker
 } from 'antd';
-import axios from 'axios';
 
 const { TextArea } = Input;
 class EquipmentForm extends React.PureComponent {
@@ -28,39 +27,27 @@ class EquipmentForm extends React.PureComponent {
     });
   };
 
-  createEquipment = e => {
+  onCreateEquipment = e => {
     e.preventDefault();
-    const { form, equipment } = this.props;
+    const { form, equipment, createEquipment } = this.props;
     form.validateFields((err, newEquipment) => {
-      console.log('newEquipment', newEquipment)
       if (err) {
         return
       }
-      axios.post('http://localhost:9000/equipments/addEquipment', { ...equipment, ...newEquipment })
-        .then(res => {
-          console.log(res);
-        })
+      createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
     });
   };
 
-  addEquipment = (equipment) => {
-    axios.post('http://localhost:9000/equipments/addEquipment', { equipment })
-      .then(this.props.getAllEquipments)
-      .then(this.props.hideEquipmentModel)
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
   render() {
-    const { form, modalType, loading, } = this.props;
+    const { form, modalType, loading, equipment } = this.props;
+
     const { getFieldDecorator } = form;
 
     return (
       <Form
         layout="vertical"
-        onSubmit={modalType === 'update' ? this.updateEquipment : this.createEquipment}
+        onSubmit={modalType === 'update' ? this.updateEquipment : this.onCreateEquipment}
       >
         <Row gutter={16}>
           <Col xl={12}>
@@ -74,7 +61,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'generalType',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.generalType,
               })(<Input placeholder="General Type" />)}
             </Form.Item>
 
@@ -86,7 +73,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'Equipment name is required.',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.name,
               })(<Input placeholder="Equipment name" />)}
             </Form.Item>
             <Col xl={8} style={{ padding: 0 }}>
@@ -99,8 +86,8 @@ class EquipmentForm extends React.PureComponent {
                       message: 'startDate',
                     },
                   ],
-                  initialValue: '',
-                })(<DatePicker placeholder="startDate" />)}
+                  // initialValue: equipment.startDate,
+                })(<DatePicker placeholder="startDate" format='DD/MM/YYYY' />)}
               </Form.Item>
             </Col>
             <Col xl={8} style={{ padding: 0 }}>
@@ -113,8 +100,8 @@ class EquipmentForm extends React.PureComponent {
                       message: 'datePurchase',
                     },
                   ],
-                  initialValue: '',
-                })(<DatePicker placeholder="datePurchase" />)}
+                  // initialValue: equipment.datePurchase,
+                })(<DatePicker placeholder="datePurchase" format='DD/MM/YYYY' />)}
               </Form.Item>
             </Col>
             <Col xl={8} style={{ padding: 0 }}>
@@ -126,7 +113,7 @@ class EquipmentForm extends React.PureComponent {
                       message: 'status',
                     },
                   ],
-                  initialValue: '',
+                  initialValue: equipment.status,
                 })(<Input placeholder="available or in use" />)}
               </Form.Item>
             </Col>
@@ -140,7 +127,7 @@ class EquipmentForm extends React.PureComponent {
                       message: 'Manufacturer is required.',
                     },
                   ],
-                  initialValue: '',
+                  initialValue: equipment.manufacturer,
                 })(<Input placeholder="Manufacturer" />)}
               </Form.Item>
 
@@ -157,8 +144,12 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  initialValue: '',
-                })(<Input placeholder="Equipment code" />)}
+                  initialValue: equipment.code,
+                })(
+                  <Input
+                    placeholder="Equipment code"
+                  // disabled 
+                  />)}
               </Form.Item>
             </Col>
           </Col>
@@ -173,7 +164,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'subtype',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.subtype,
               })(<Input placeholder="Serial no." />)}
             </Form.Item>
 
@@ -186,7 +177,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'batch'
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.batch,
               })(<Input placeholder="Equipment batch" />)}
             </Form.Item>
 
@@ -199,7 +190,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'warrantyMonths',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.warrantyMonths,
               })(<Input placeholder="Warranty (in months)" />)}
             </Form.Item>
 
@@ -212,7 +203,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'originalPrice',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.originalPrice,
               })(<Input placeholder="originalPrice" />)}
             </Form.Item>
 
@@ -224,7 +215,7 @@ class EquipmentForm extends React.PureComponent {
                     message: 'note',
                   },
                 ],
-                initialValue: '',
+                initialValue: equipment.note,
               })(<TextArea />)}
             </Form.Item>
 
