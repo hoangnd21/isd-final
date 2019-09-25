@@ -6,6 +6,7 @@ import {
   Modal,
   notification,
   Icon
+
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
@@ -51,6 +52,7 @@ export default class Equipments extends React.PureComponent {
       equipmentModal: true,
       modalType: 'view',
       equipmentDetail: data
+
     })
     console.log(this.state.equipment)
   }
@@ -87,6 +89,7 @@ export default class Equipments extends React.PureComponent {
       )
       .catch(function (error) {
         console.log(error)
+
       });
     // axios.get('http://localhost:9000/equipments')
     //   .then((response) => {
@@ -99,7 +102,6 @@ export default class Equipments extends React.PureComponent {
     //     console.log(error);
     //   });
   }
-
   createEquipmentData = data => {
     axios.post('http://localhost:9000/equipments/addEquipment', data)
       .then(res => {
@@ -190,6 +192,7 @@ export default class Equipments extends React.PureComponent {
               &nbsp;{data.status === 'in use' ? 'Reclaim' : 'Handing'}
             </Button>
             {/* <Popconfirm
+
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
