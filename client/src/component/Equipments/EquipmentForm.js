@@ -45,6 +45,7 @@ class EquipmentForm extends React.PureComponent {
   render() {
     const { form, modalType, loading, equipment } = this.props;
     const { getFieldDecorator } = form;
+    const datePurchase = new Date(equipment.datePurchase) // set data trả về thành dạng obj của Date
     return (
       <Form
         layout="vertical"
@@ -131,7 +132,7 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  initialValue: equipment.datePurchase,
+                  initialValue: datePurchase, // dùng data mới set về dạng obj
                 })(
                   <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' onChange={this.onChange} />
                 )}
