@@ -16,7 +16,7 @@ const addEquipment = (req, res) => {
         manufacturer: req.body.manufacturer,
         note: req.body.note
     })
-    res.send("1 document created successfully");
+    res.send("Equipment created successfully");
 };
 module.exports.addEquipment = addEquipment;
 

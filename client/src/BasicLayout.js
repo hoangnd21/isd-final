@@ -21,19 +21,15 @@ export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
-    apiResponse: '',
-    // loginModal: true,
-    error: ''
+    loginModal: true,
+    error: '',
+    isLoggedIn: false
   };
-  // componentDidMount = () => {
-  //   //testAPI
-  //   fetch('http://localhost:9000/testAPI')
-  //     .then(res => res.text())
-  //     .then(res => this.setState({ apiResponse: res }));
-  //   this.setState({
-  //     loginModal: true
-  //   })
-  // }
+  componentDidMount = () => {
+    this.setState({
+      loginModal: true
+    })
+  }
 
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
@@ -57,7 +53,10 @@ export default class BasicLayout extends Component {
     })
       .then((res) => {
         if (res.data === "success") {
-          this.setState({ loginModal: false })
+          this.setState({
+            loginModal: false,
+            isLoggedIn: true
+          })
         }
       })
       .catch((error) => {
@@ -73,8 +72,9 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, apiResponse, loginModal, userName, error } = this.state;
+    const { collapsed, loginModal, isLoggedIn, userName, error } = this.state;
     const { children } = this.props;
+    console.log('isLoggedIn', isLoggedIn)
     return (
       <Layout className='basic-layout'>
         <Sider
@@ -121,7 +121,6 @@ export default class BasicLayout extends Component {
           </Header>
           <Content className='bl-content'>
             {children}
-            {apiResponse}
           </Content>
           <Footer className='bl-footer'>
             PMS - ISD
