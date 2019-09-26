@@ -92,7 +92,6 @@ export default class Equipments extends React.PureComponent {
   //       console.log(error)
   //     });
   // }
-
   createEquipmentData = data => {
     axios.post('http://localhost:9000/equipments/addEquipment', data)
       .then(res => {
@@ -179,6 +178,7 @@ export default class Equipments extends React.PureComponent {
             <Button
               type='link'
               style={{ border: 0, padding: 10 }}
+
               icon={data.status === 'in use' ? 'share-alt' : 'appstore'}
             >
               &nbsp;{data.status === 'in use' ? 'Reclaim' : 'Handing'}
