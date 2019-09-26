@@ -30,23 +30,21 @@ class EquipmentForm extends React.PureComponent {
   onCreateEquipment = e => {
     e.preventDefault();
     const { form, equipment, createEquipment } = this.props;
-    form.validateFields((err, newEquipment) => {
+    form.validateFields((err, fieldsValue) => {
       if (err) {
-        return
+        return;
       }
-      createEquipment({ ...equipment, ...newEquipment })
+      console.log('fieldsValue', fieldsValue)
+      // Should format date value before submit.
+      console.log('{ ...equipment, ...newEquipment }', { ...equipment, ...fieldsValue })
+      createEquipment({ ...equipment, ...fieldsValue })
       form.resetFields();
     });
   };
 
   render() {
     const { form, modalType, loading, equipment } = this.props;
-<<<<<<< HEAD
-
-=======
->>>>>>> CRD equipments
     const { getFieldDecorator } = form;
-
     return (
       <Form
         layout="vertical"
@@ -54,6 +52,26 @@ class EquipmentForm extends React.PureComponent {
       >
         <Row gutter={16}>
           <Col xl={12}>
+            <Form.Item label={<>
+              Equipment Code&nbsp;
+                  <Tooltip title='This field will be automatically generated as you fill in the form.'>
+                <Icon type='question-circle' />
+              </Tooltip>
+            </>}
+            >
+              {getFieldDecorator('code', {
+                rules: [
+                  {
+                    required: true,
+                  },
+                ],
+                initialValue: equipment.code,
+              })(
+                <Input
+                  placeholder="Equipment code"
+                // disabled 
+                />)}
+            </Form.Item>
 
             <Form.Item label='General Type'
             >
@@ -80,31 +98,43 @@ class EquipmentForm extends React.PureComponent {
               })(<Input placeholder="Equipment name" />)}
             </Form.Item>
             <Col xl={8} style={{ padding: 0 }}>
-              <Form.Item label='startDate'
+              <Form.Item label={
+                <> Start Date&nbsp;
+              <Tooltip title='The date on which the equipment was firstly used'>
+                    <Icon type='question-circle' />
+                  </Tooltip>
+                </>}
               >
                 {getFieldDecorator('startDate', {
                   rules: [
                     {
                       required: true,
-                      message: 'startDate',
                     },
                   ],
                   // initialValue: equipment.startDate,
-                })(<DatePicker placeholder="startDate" format='DD/MM/YYYY' />)}
+                })(
+                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' onChange={this.startDateMoment} />
+                )}
               </Form.Item>
             </Col>
-            <Col xl={8} style={{ padding: 0 }}>
-              <Form.Item label='datePurchase'
+            <Col xl={8} style={{ padding: '0 5px' }}>
+              <Form.Item label={
+                <> Purchased Date&nbsp;
+              <Tooltip title='The date on which the equipment was purchased'>
+                    <Icon type='question-circle' />
+                  </Tooltip>
+                </>}
               >
                 {getFieldDecorator('datePurchase', {
                   rules: [
                     {
                       required: true,
-                      message: 'datePurchase',
                     },
                   ],
-                  // initialValue: equipment.datePurchase,
-                })(<DatePicker placeholder="datePurchase" format='DD/MM/YYYY' />)}
+                  initialValue: equipment.datePurchase,
+                })(
+                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' onChange={this.onChange} />
+                )}
               </Form.Item>
             </Col>
             <Col xl={8} style={{ padding: 0 }}>
@@ -134,26 +164,7 @@ class EquipmentForm extends React.PureComponent {
                 })(<Input placeholder="Manufacturer" />)}
               </Form.Item>
 
-              <Form.Item label={<>
-                Equipment Code&nbsp;
-                  <Tooltip title='This field will be automatically generated as you fill in the form.'>
-                  <Icon type='question-circle' />
-                </Tooltip>
-              </>}
-              >
-                {getFieldDecorator('code', {
-                  rules: [
-                    {
-                      required: true,
-                    },
-                  ],
-                  initialValue: equipment.code,
-                })(
-                  <Input
-                    placeholder="Equipment code"
-                  // disabled 
-                  />)}
-              </Form.Item>
+
             </Col>
           </Col>
           <Col xl={12}>
@@ -184,6 +195,19 @@ class EquipmentForm extends React.PureComponent {
               })(<Input placeholder="Equipment batch" />)}
             </Form.Item>
 
+            <Form.Item label='Equipment Price'
+            >
+              {getFieldDecorator('originalPrice', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'originalPrice',
+                  },
+                ],
+                initialValue: equipment.originalPrice,
+              })(<Input placeholder="originalPrice" />)}
+            </Form.Item>
+
             <Form.Item label='Warranty'
             >
               {getFieldDecorator('warrantyMonths', {
@@ -197,18 +221,7 @@ class EquipmentForm extends React.PureComponent {
               })(<Input placeholder="Warranty (in months)" />)}
             </Form.Item>
 
-            <Form.Item label='Equipment Price'
-            >
-              {getFieldDecorator('originalPrice', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'originalPrice',
-                  },
-                ],
-                initialValue: equipment.originalPrice,
-              })(<Input placeholder="originalPrice" />)}
-            </Form.Item>
+
 
             <Form.Item label='Note'
             >
