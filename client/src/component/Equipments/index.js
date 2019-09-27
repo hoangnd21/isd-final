@@ -32,7 +32,17 @@ export default class Equipments extends React.PureComponent {
       })
   }
 
-  componentDidUpdate() {
+  // componentDidUpdate() {
+  //   axios.get('http://localhost:9000/equipments')
+  //     .then(res => {
+  //       this.setState({
+  //         equipments: res.data,
+  //         listLoading: false
+  //       })
+  //     })
+  // }
+
+  getAllEquipments = () => {
     axios.get('http://localhost:9000/equipments')
       .then(res => {
         this.setState({
@@ -96,17 +106,29 @@ export default class Equipments extends React.PureComponent {
     axios.post('http://localhost:9000/equipments/addEquipment', data)
       .then(res => {
         if (res.status === 200) {
-          this.setState({ equipmentModal: false })
+          this.setState({
+            equipmentModal: false,
+            listLoading: true
+          })
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
             </span>
-          });
+
+          })
+          //GET again
+          this.getAllEquipments()
         }
       }
-        //GET again
       )
+    // axios.get('http://localhost:9000/equipments')
+    //   .then(res => {
+    //     this.setState({
+    //       equipments: res.data,
+    //       listLoading: false
+    //     })
+    //   })
   }
 
   render() {

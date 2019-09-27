@@ -34,7 +34,6 @@ class EquipmentForm extends React.PureComponent {
       if (err) {
         return;
       }
-      console.log('fieldsValue', fieldsValue)
       // Should format date value before submit.
       console.log('{ ...equipment, ...newEquipment }', { ...equipment, ...fieldsValue })
       createEquipment({ ...equipment, ...fieldsValue })
@@ -45,7 +44,6 @@ class EquipmentForm extends React.PureComponent {
   render() {
     const { form, modalType, loading, equipment } = this.props;
     const { getFieldDecorator } = form;
-    const datePurchase = new Date(equipment.datePurchase) // set data trả về thành dạng obj của Date
     return (
       <Form
         layout="vertical"
@@ -132,7 +130,6 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  // initialValue: datePurchase,
                 })(
                   <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
                 )}
