@@ -114,7 +114,7 @@ class EquipmentForm extends React.PureComponent {
                   ],
                   // initialValue: equipment.startDate,
                 })(
-                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' onChange={this.startDateMoment} />
+                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
                 )}
               </Form.Item>
             </Col>
@@ -132,9 +132,9 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  initialValue: datePurchase, // dùng data mới set về dạng obj
+                  // initialValue: datePurchase,
                 })(
-                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' onChange={this.onChange} />
+                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
                 )}
               </Form.Item>
             </Col>
