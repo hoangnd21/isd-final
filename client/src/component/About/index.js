@@ -6,13 +6,28 @@ export default class About extends React.Component {
       <>
         <h1>Content of About</h1>
         <div>
-          lLorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          It has survived not only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-          and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-                </div>
+          lLorem<br /> Ipsum is simply dummy text of the prin<br />
+          ting and typesetting industry.
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+          Lorem<br /> Ipsum is simply dummy text of the prin<br />
+
+          Lorem Ipsum<br /> has been the industry's standard <br />dummy text ever <br />since the 1500s,
+          when an unknown printer took a<br /> galley of type and scrambled<br /> it to make a type specimen book.
+          It <br />has survived no<br />t only five centuries, bu<br />t also the leap into electronic typesetting,
+          remaini<br />ng essentially unchanged. It was popularised in the 196<br />0s with the release of Letraset sheets containing Lorem Ipsum passages,
+          and more recently with <br />desktop publis<br />hing software li<br />ke Ald<br />us Page<br />Maker in<br />cluding ve<br />rsions of Lorem Ipsum
+          </div>
       </>
     )
   }
