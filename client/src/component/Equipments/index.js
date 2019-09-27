@@ -7,7 +7,8 @@ import {
   notification,
   Icon,
   Tooltip,
-  Divider
+  Divider,
+  Popconfirm
 
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
@@ -32,16 +33,6 @@ export default class Equipments extends React.PureComponent {
       })
   }
 
-  // componentDidUpdate() {
-  //   axios.get('http://localhost:9000/equipments')
-  //     .then(res => {
-  //       this.setState({
-  //         equipments: res.data,
-  //         listLoading: false
-  //       })
-  //     })
-  // }
-
   getAllEquipments = () => {
     axios.get('http://localhost:9000/equipments')
       .then(res => {
@@ -52,6 +43,7 @@ export default class Equipments extends React.PureComponent {
       })
   }
 
+  // create an equipment
   createEquipmentModal = () => {
     this.setState({
       equipmentModal: true,
@@ -59,50 +51,7 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  infoModal = data => {
-    this.setState({
-      equipmentModal: true,
-      modalType: 'view',
-      equipmentDetail: data
-    })
-    console.log(this.state.equipment)
-  }
-
-  updateEquipmentModal = data => {
-    this.setState({
-      equipmentDetail: data,
-      modalType: 'update',
-      equipmentModal: true
-    })
-  }
-
-  hideEquipmentModal = () => {
-    this.setState({
-      equipmentModal: false,
-      modalType: '',
-      equipmentDetail: {}
-    })
-  }
-
-  // deleteEquipment = data => {
-  //   axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         notification.open({
-  //           message: <span>
-  //             <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-  //             {res.data}
-  //           </span>
-  //         });
-  //       }
-  //     }
-  //       // GET again
-  //     )
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
-  // }
-  createEquipmentData = data => {
+  createEquipment = data => {
     axios.post('http://localhost:9000/equipments/addEquipment', data)
       .then(res => {
         if (res.status === 200) {
@@ -117,19 +66,79 @@ export default class Equipments extends React.PureComponent {
             </span>
 
           })
-          //GET again
           this.getAllEquipments()
         }
       }
       )
-    // axios.get('http://localhost:9000/equipments')
-    //   .then(res => {
-    //     this.setState({
-    //       equipments: res.data,
-    //       listLoading: false
-    //     })
-    //   })
   }
+
+  // view
+  infoModal = data => {
+    this.setState({
+      equipmentModal: true,
+      modalType: 'view',
+      equipmentDetail: data
+    })
+    console.log(this.state.equipment)
+  }
+
+  // update
+  updateEquipmentModal = data => {
+    this.setState({
+      equipmentDetail: data,
+      modalType: 'update',
+      equipmentModal: true
+    })
+  }
+
+  updateEquipment = data => {
+    axios.post('http://localhost:9000/equipments/addEquipment', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            equipmentModal: false,
+            listLoading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+
+          })
+          this.getAllEquipments()
+        }
+      }
+      )
+  }
+
+  hideEquipmentModal = () => {
+    this.setState({
+      equipmentModal: false,
+      modalType: '',
+      equipmentDetail: {}
+    })
+  }
+
+  deleteEquipment = data => {
+    axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+      .then(res => {
+        if (res.status === 200) {
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          });
+          this.getAllEquipments()
+        }
+      }
+      )
+      .catch(function (error) {
+        console.log(error)
+      });
+  }
+
 
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
@@ -205,8 +214,7 @@ export default class Equipments extends React.PureComponent {
             >
               &nbsp;{data.status === 'in use' ? 'Reclaim' : 'Handing'}
             </Button>
-            {/* <Popconfirm
-            <Divider type='vertical' />
+            <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
@@ -214,7 +222,7 @@ export default class Equipments extends React.PureComponent {
               <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
             </Button>
-            </Popconfirm> */}
+            </Popconfirm>
           </>
       }
 
@@ -250,7 +258,6 @@ export default class Equipments extends React.PureComponent {
           centered
           bodyStyle={{ padding: 14 }}
           equipment={equipmentDetail}
-          createEquipment={() => this.createEquipmentData}
         >
           {modalType === 'create' || modalType === 'update' ?
             <EquipmentForm
@@ -258,7 +265,8 @@ export default class Equipments extends React.PureComponent {
               equipment={equipmentDetail}
               getAllEquipments={this.getAllEquipments}
               hideEquipmentModal={this.hideEquipmentModal}
-              createEquipment={this.createEquipmentData}
+              createEquipment={this.createEquipment}
+              updateEquipment={this.updateEquipment}
             /> :
             <EquipmentInfo
               equipment={equipmentDetail}
