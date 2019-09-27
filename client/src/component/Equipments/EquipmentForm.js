@@ -8,42 +8,96 @@ import {
   Icon,
   Divider,
   Tooltip,
-  DatePicker
+  DatePicker,
+  Cascader
 } from 'antd';
 
 const { TextArea } = Input;
 class EquipmentForm extends React.PureComponent {
-  updateEquipment = e => {
-    e.preventDefault();
-    // eslint-disable-next-line
-    const { form, equipment } = this.props;
-    form.validateFields((err, updatingEquipment) => {
-      if (err) {
-        return;
-      }
-
-      // onSave({ ...equipment, ...newEquipment });
-      form.resetFields();
-    });
-  };
 
   onCreateEquipment = e => {
     e.preventDefault();
     const { form, equipment, createEquipment } = this.props;
-    form.validateFields((err, fieldsValue) => {
+    form.validateFields((err, newEquipment) => {
       if (err) {
         return;
       }
-      // Should format date value before submit.
-      console.log('{ ...equipment, ...newEquipment }', { ...equipment, ...fieldsValue })
-      createEquipment({ ...equipment, ...fieldsValue })
+      console.log('newEquipment}', { ...equipment, ...newEquipment })
+      createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
     });
   };
 
+  onUpdateEquipment = e => {
+    e.preventDefault();
+    const { form, equipment, updateEquipment } = this.props;
+    form.validateFields((err, updatingEquipment) => {
+      if (err) {
+        return;
+      }
+      console.log('updatingEquipment', { ...equipment, ...updatingEquipment })
+      updateEquipment({ ...equipment, ...updatingEquipment })
+      form.resetFields();
+    });
+  };
+
+
   render() {
     const { form, modalType, loading, equipment } = this.props;
     const { getFieldDecorator } = form;
+    const statusOptions = [
+      {
+        value: 'ready',
+        label: 'Ready',
+      },
+      {
+        value: 'inUse',
+        label: 'In Use',
+      }
+    ]
+    const generalTypeOptions = [
+      {
+        value: 'generalType1',
+        label: 'General Type 1'
+      },
+      {
+        value: 'generalType2',
+        label: 'General Type 2'
+      },
+      {
+        value: 'generalType3',
+        label: 'General Type 3'
+      },
+    ]
+    const subtypeOptions = [
+      {
+        value: 'subtype1',
+        label: 'Subtype 1'
+      },
+      {
+        value: 'subtype2',
+        label: 'Subtype 2'
+      },
+      {
+        value: 'subtype3',
+        label: 'Subtype 3'
+      },
+    ]
+    const batchOptions = [
+      {
+        value: 'batch1',
+        label: 'Batch 1'
+      },
+      {
+        value: 'batch2',
+        label: 'Batch 2'
+      },
+      {
+        value: 'batch3',
+        label: 'Batch 3'
+      },
+
+    ]
     return (
       <Form
         layout="vertical"
@@ -51,91 +105,33 @@ class EquipmentForm extends React.PureComponent {
       >
         <Row gutter={16}>
           <Col xl={12}>
-            <Form.Item label={<>
-              Equipment Code&nbsp;
-                  <Tooltip title='This field will be automatically generated as you fill in the form.'>
-                <Icon type='question-circle' />
-              </Tooltip>
-            </>}
-            >
-              {getFieldDecorator('code', {
-                rules: [
-                  {
-                    required: true,
-                  },
-                ],
-                initialValue: equipment.code,
-              })(
-                <Input
-                  placeholder="Equipment code"
-                // disabled 
-                />)}
-            </Form.Item>
-
-            <Form.Item label='General Type'
-            >
-              {getFieldDecorator('generalType', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'generalType',
-                  },
-                ],
-                initialValue: equipment.generalType,
-              })(<Input placeholder="General Type" />)}
-            </Form.Item>
-
-            <Form.Item label='Equipment Name'>
-              {getFieldDecorator('name', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Equipment name is required.',
-                  },
-                ],
-                initialValue: equipment.name,
-              })(<Input placeholder="Equipment name" />)}
-            </Form.Item>
-            <Col xl={8} style={{ padding: 0 }}>
+            <Col xl={12} style={{ padding: 0 }}>
               <Form.Item label={
-                <> Start Date&nbsp;
-              <Tooltip title='The date on which the equipment was firstly used'>
-                    <Icon type='question-circle' />
-                  </Tooltip>
+                <>
+                  Equipment Code&nbsp;
+                <span style={{ marginTop: 3 }}>
+                    <Tooltip title='This field will be automatically generated as you fill in the form.'>
+                      <Icon type='question-circle' />
+                    </Tooltip>
+                  </span>
                 </>}
               >
-                {getFieldDecorator('startDate', {
+                {getFieldDecorator('code', {
                   rules: [
                     {
                       required: true,
                     },
                   ],
-                  // initialValue: equipment.startDate,
+                  initialValue: equipment.code,
                 })(
-                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
-                )}
+                  <Input
+                    placeholder="Equipment code"
+                  // disabled
+                  // pending Code generating logic, will be disabled when done
+                  />)}
               </Form.Item>
             </Col>
-            <Col xl={8} style={{ padding: '0 5px' }}>
-              <Form.Item label={
-                <> Purchased Date&nbsp;
-              <Tooltip title='The date on which the equipment was purchased'>
-                    <Icon type='question-circle' />
-                  </Tooltip>
-                </>}
-              >
-                {getFieldDecorator('datePurchase', {
-                  rules: [
-                    {
-                      required: true,
-                    },
-                  ],
-                })(
-                  <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
-                )}
-              </Form.Item>
-            </Col>
-            <Col xl={8} style={{ padding: 0 }}>
+            <Col xl={12} style={{ padding: '0 0 0 5px' }}>
               <Form.Item label='Equipment status'>
                 {getFieldDecorator('status', {
                   rules: [
@@ -145,41 +141,97 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.status,
-                })(<Input placeholder="available or in use" />)}
+                })(<Cascader options={statusOptions} />)}
               </Form.Item>
             </Col>
             <Col xl={24} style={{ padding: 0 }}>
-              <Form.Item label='Manufacturer'
-              >
-                {getFieldDecorator('manufacturer', {
+
+              <Form.Item label='General Type'>
+                {getFieldDecorator('generalType', {
                   rules: [
                     {
                       required: true,
-                      message: 'Manufacturer is required.',
+                      message: 'generalType',
                     },
                   ],
-                  initialValue: equipment.manufacturer,
-                })(<Input placeholder="Manufacturer" />)}
+                  initialValue: equipment.generalType,
+                })(<Cascader options={generalTypeOptions} placeholder="General Type" />)}
               </Form.Item>
 
-
+              <Form.Item label='Equipment Name'>
+                {getFieldDecorator('name', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Equipment name is required.',
+                    },
+                  ],
+                  initialValue: equipment.name,
+                })(<Input placeholder="Equipment name" />)}
+              </Form.Item>
+              <Col xl={12} style={{ padding: 0 }}>
+                <Form.Item label={
+                  <>
+                    Date of Deployment&nbsp;
+                  <span style={{ marginTop: 3 }}>
+                      <Tooltip title='The date on which the equipment was firstly used'>
+                        <Icon type='question-circle' />
+                      </Tooltip>
+                    </span>
+                  </>}
+                >
+                  {getFieldDecorator('startDate', {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                    // initialValue: equipment.startDate,
+                  })(
+                    <DatePicker placeholder="dd/mm/yyyy" format='dd/mm/yyyy' style={{ width: '100%' }} />
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={12} style={{ padding: '0 0 0 5px' }}>
+                <Form.Item label={
+                  <>
+                    Date of Purchase&nbsp;
+                  <span style={{ marginTop: 3 }}>
+                      <Tooltip title='The date on which the equipment was purchased'>
+                        <Icon type='question-circle' />
+                      </Tooltip>
+                    </span>
+                  </>}
+                >
+                  {getFieldDecorator('datePurchase', {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                    // initialValue: datePurchased,
+                  })(
+                    <DatePicker placeholder="dd/mm/yyyy" format='dd/mm/yyyy' style={{ width: '100%' }} />
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={24} style={{ padding: 0 }}>
+                <Form.Item label='Manufacturer'
+                >
+                  {getFieldDecorator('manufacturer', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Manufacturer is required.',
+                      },
+                    ],
+                    initialValue: equipment.manufacturer,
+                  })(<Input placeholder="Manufacturer" />)}
+                </Form.Item>
+              </Col>
             </Col>
           </Col>
           <Col xl={12}>
-
-            <Form.Item label='Equipment Type'
-            >
-              {getFieldDecorator('subtype', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'subtype',
-                  },
-                ],
-                initialValue: equipment.subtype,
-              })(<Input placeholder="Serial no." />)}
-            </Form.Item>
-
             <Form.Item label='Equipment Batch'
             >
               {getFieldDecorator('batch', {
@@ -190,10 +242,21 @@ class EquipmentForm extends React.PureComponent {
                   },
                 ],
                 initialValue: equipment.batch,
-              })(<Input placeholder="Equipment batch" />)}
+              })(<Cascader options={batchOptions} placeholder="Equipment batch" />)}
             </Form.Item>
-
-            <Form.Item label='Equipment Price'
+            <Form.Item label='Equipment Type'
+            >
+              {getFieldDecorator('subtype', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'subtype',
+                  },
+                ],
+                initialValue: equipment.subtype,
+              })(<Cascader options={subtypeOptions} placeholder="Equipment type" />)}
+            </Form.Item>
+            <Form.Item label='Equipment Price ($)'
             >
               {getFieldDecorator('originalPrice', {
                 rules: [
@@ -206,7 +269,7 @@ class EquipmentForm extends React.PureComponent {
               })(<Input placeholder="originalPrice" />)}
             </Form.Item>
 
-            <Form.Item label='Warranty'
+            <Form.Item label='Warranty (Months)'
             >
               {getFieldDecorator('warrantyMonths', {
                 rules: [
@@ -216,7 +279,7 @@ class EquipmentForm extends React.PureComponent {
                   },
                 ],
                 initialValue: equipment.warrantyMonths,
-              })(<Input placeholder="Warranty (in months)" />)}
+              })(<Input placeholder="Warranty" />)}
             </Form.Item>
 
 
