@@ -130,7 +130,6 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  // initialValue: datePurchased,
                 })(
                   <DatePicker placeholder="DD/MM/YYYY" format='DD/MM/YYYY' />
                 )}
