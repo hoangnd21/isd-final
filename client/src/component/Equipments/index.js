@@ -256,7 +256,7 @@ export default class Equipments extends React.PureComponent {
           modalType={this.modalType}
           width={1000}
           centered
-          bodyStyle={{ padding: 14 }}
+          bodyStyle={{ padding: 20 }}
           equipment={equipmentDetail}
         >
           {modalType === 'create' || modalType === 'update' ?

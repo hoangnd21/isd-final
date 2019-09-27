@@ -103,9 +103,9 @@ class EquipmentForm extends React.PureComponent {
         layout="vertical"
         onSubmit={modalType === 'update' ? this.updateEquipment : this.onCreateEquipment}
       >
-        <Row gutter={16}>
+        <Row gutter={4}>
           <Col xl={12}>
-            <Col xl={12} style={{ padding: 0 }}>
+            <Col xl={12} style={{ padding: '0 2px 0 0' }}>
               <Form.Item label={
                 <>
                   Equipment Code&nbsp;
@@ -131,7 +131,7 @@ class EquipmentForm extends React.PureComponent {
                   />)}
               </Form.Item>
             </Col>
-            <Col xl={12} style={{ padding: '0 0 0 5px' }}>
+            <Col xl={12} style={{ padding: '0 0 0 2px' }}>
               <Form.Item label='Equipment status'>
                 {getFieldDecorator('status', {
                   rules: [
@@ -169,7 +169,7 @@ class EquipmentForm extends React.PureComponent {
                   initialValue: equipment.name,
                 })(<Input placeholder="Equipment name" />)}
               </Form.Item>
-              <Col xl={12} style={{ padding: 0 }}>
+              <Col xl={12} style={{ padding: '0 2px 0 0' }}>
                 <Form.Item label={
                   <>
                     Date of Deployment&nbsp;
@@ -188,11 +188,11 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     // initialValue: equipment.startDate,
                   })(
-                    <DatePicker placeholder="dd/mm/yyyy" format='dd/mm/yyyy' style={{ width: '100%' }} />
+                    <DatePicker placeholder="dd/mm/yyyy" format='DD/MM/YYYY' style={{ width: '100%' }} />
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={12} style={{ padding: '0 0 0 5px' }}>
+              <Col xl={12} style={{ padding: '0 0 0 2px' }}>
                 <Form.Item label={
                   <>
                     Date of Purchase&nbsp;
@@ -211,7 +211,7 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     // initialValue: datePurchased,
                   })(
-                    <DatePicker placeholder="dd/mm/yyyy" format='dd/mm/yyyy' style={{ width: '100%' }} />
+                    <DatePicker placeholder="dd/mm/yyyy" format='DD/MM/YYYY' style={{ width: '100%' }} />
                   )}
                 </Form.Item>
               </Col>
