@@ -4,7 +4,11 @@ const addUser = (req, res) => {
     user.create({
         code: req.body.code,
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        role: {
+            name: req.body.role.name,
+            level: req.body.role.level
+        }
     });
     res.send("1 document created successfully");
 };
