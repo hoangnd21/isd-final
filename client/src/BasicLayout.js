@@ -23,7 +23,7 @@ export default class BasicLayout extends Component {
     collapsed: false,
     loginModal: true,
     error: '',
-    ísAuthenticated: ''
+    isAuthenticated: ''
   };
   componentDidMount = () => {
     this.setState({
@@ -52,10 +52,10 @@ export default class BasicLayout extends Component {
       password: loginInfo.password
     })
       .then((res) => {
-        if (res.data === "success") {
+        if (res.data) {
           this.setState({
             loginModal: false,
-            ísAuthenticated: res.data
+            isAuthenticated: res.data.role.name
           })
         }
       })
@@ -72,9 +72,9 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, ísAuthenticated, userName, error } = this.state;
+    const { collapsed, loginModal, isAuthenticated, userName, error } = this.state;
     const { children } = this.props;
-    console.log('ísAuthenticated', ísAuthenticated)
+    console.log('isAuthenticated', isAuthenticated)
     return (
       <Layout className='basic-layout'>
         <Sider
