@@ -1,6 +1,7 @@
 const equipment = require('../models/equipments');
 
 const addEquipment = (req, res) => {
+    const now = Date.now();
     equipment.create({
         code: req.body.code,
         seriNo: req.body.seriNo,
@@ -14,14 +15,15 @@ const addEquipment = (req, res) => {
         batch: req.body.batch,
         startDate: req.body.startDate,
         manufacturer: req.body.manufacturer,
-        note: req.body.note
+        note: req.body.note,
+        created_at: now
     })
     res.send("Equipment created successfully");
 };
 module.exports.addEquipment = addEquipment;
 
 const getAllEquipment = (req, res) => {
-    const equip = equipment.find({}).exec().then(
+    const equip = equipment.find({}).sort({ created_at: -1 }).exec().then(
         (equip) => {
             if (equip) {
                 res.send(equip);
