@@ -1,11 +1,11 @@
 var createError = require('http-errors');
 var express = require('express');
-var session = require('express-session')
+var sessions = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var uuid = require('uuid')
 var logger = require('morgan');
 var cors = require("cors");
-var indexRouter = require('./routes/index');
 var testAPIRouter = require("./routes/testAPI");
 var loginRoute = require('./routes/login')
 var equipmentRoute = require('./routes/equipments')
@@ -27,10 +27,10 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
-app.use(session({
+app.set('trust proxy', 1)
+app.use(sessions({
   secret: 'omega',
-  resave: true,
+  resave: false,
   saveUninitialized: false
 }));
 app.use(logger('dev'));
@@ -40,9 +40,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+
 app.use("/testAPI", testAPIRouter);
-app.use('/login', loginRoute);
+app.use('/', loginRoute);
 app.use('/equipments', equipmentRoute);
 app.use('/groupEquipment', groupEquipmentRoute);
 app.use('/groupSubEquipment', groupSubEquipmentRoute);

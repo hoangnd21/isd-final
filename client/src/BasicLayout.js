@@ -21,16 +21,25 @@ export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
-    loginModal: true,
+    loginModal: false,
     error: '',
     isAuthenticated: ''
   };
   componentDidMount = () => {
-    this.setState({
-      loginModal: true
-    })
+    axios.get('http://localhost:9000')
+      .then((res) => {
+        if (res.data) {
+          this.setState({
+            loginModal: false,
+            isAuthenticated: res.data
+          })
+        } else {
+          this.setState({
+            loginModal: true
+          })
+        }
+      })
   }
-
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -42,26 +51,22 @@ export default class BasicLayout extends Component {
   }
 
 
-  onLoggedIn = (loginInfo) => {
-    this.setState({
-      userName: loginInfo.username
-    })
+  onLoggedIn = loginInfo => {
     // login
-    axios.post('http://localhost:9000/login', {
-      username: loginInfo.username,
-      password: loginInfo.password
-    })
+    axios.post('http://localhost:9000/login',
+      {
+        username: loginInfo.username,
+        password: loginInfo.password
+      }
+    )
       .then((res) => {
         if (res.data) {
           this.setState({
             loginModal: false,
-            isAuthenticated: res.data.role.name
+            isAuthenticated: res.data
           })
         }
       })
-      .catch((error) => {
-        console.log('error', error);
-      });
   }
 
   onLoggedOut = () => {
@@ -72,7 +77,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, isAuthenticated, userName, error } = this.state;
+    const { collapsed, loginModal, isAuthenticated, error } = this.state;
     const { children } = this.props;
     console.log('isAuthenticated', isAuthenticated)
     return (
@@ -112,7 +117,7 @@ export default class BasicLayout extends Component {
             />
             <span style={{ float: 'right', marginRight: 12 }}>
               <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                {loginModal ? '' : `Hello ${userName}`}
+                {loginModal ? '' : `Hello ${isAuthenticated.username}`}
               </span>
               <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
                 <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
