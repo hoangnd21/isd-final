@@ -2,7 +2,8 @@ const equipmentDistribution = require('../models/equipmentDistribution');
 
 const addEquipmentDistribution = (req, res) => {
     equipmentDistribution.create({
-        date: req.body.date,
+        handingDate: req.body.handingDate,
+        reclaimDate: req.body.reclaimDate,
         device: req.body.device,
         user: req.body.user,
         note: req.body.note

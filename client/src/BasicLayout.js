@@ -26,7 +26,15 @@ export default class BasicLayout extends Component {
     isAuthenticated: ''
   };
   componentDidMount = () => {
-    axios.get('http://localhost:9000')
+    axios({
+      baseURL: '/login',
+      method: 'get',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    })
       .then((res) => {
         if (res.data) {
           this.setState({
@@ -53,12 +61,20 @@ export default class BasicLayout extends Component {
 
   onLoggedIn = loginInfo => {
     // login
-    axios.post('http://localhost:9000/login',
-      {
+    axios({
+      url: '/login',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      data: {
         username: loginInfo.username,
         password: loginInfo.password
       }
-    )
+    })
       .then((res) => {
         if (res.data) {
           this.setState({
@@ -70,10 +86,24 @@ export default class BasicLayout extends Component {
   }
 
   onLoggedOut = () => {
-    this.setState({
-      loginModal: true,
-      userName: ''
+    axios({
+      url: '/logout',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      }
     })
+      .then((res) => {
+        if (res.data) {
+          this.setState({
+            loginModal: true,
+            isAuthenticated: null
+          })
+        }
+      })
   }
 
   render() {
