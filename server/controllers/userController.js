@@ -1,16 +1,27 @@
 const user = require('../models/user');
-
+const bcrypt = require('bcrypt')
 const addUser = (req, res) => {
-    user.create({
-        code: req.body.code,
-        username: req.body.username,
-        password: req.body.password,
-        role: {
-            name: req.body.role.name,
-            level: req.body.role.level
+    if (req.body.code && req.body.username && req.body.role.name && req.body.password && req.body.role.level && req.body.passwordConf) {
+        if (req.body.password === req.body.passwordConf) {
+            bcrypt.hash(req.body.password, 10, function (err, hash) {
+                if (err) {
+                    return next(err);
+                }
+                req.body.password = hash;
+                user.create({
+                    code: req.body.code,
+                    username: req.body.username,
+                    password: hash,
+                    role: {
+                        name: req.body.role.name,
+                        level: req.body.role.level
+                    }
+                });
+            })
         }
-    });
-    res.send("1 document created successfully");
+
+        res.send("1 document created successfully");
+    }
 };
 module.exports.addUser = addUser;
 

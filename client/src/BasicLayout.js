@@ -21,16 +21,33 @@ export default class BasicLayout extends Component {
 
   state = {
     collapsed: false,
-    loginModal: true,
+    loginModal: false,
     error: '',
-    ísAuthenticated: ''
+    isAuthenticated: ''
   };
   componentDidMount = () => {
-    this.setState({
-      loginModal: true
+    axios({
+      baseURL: '/login',
+      method: 'get',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+      },
     })
+      .then((res) => {
+        if (res.data) {
+          this.setState({
+            loginModal: false,
+            isAuthenticated: res.data
+          })
+        } else {
+          this.setState({
+            loginModal: true
+          })
+        }
+      })
   }
-
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -42,39 +59,57 @@ export default class BasicLayout extends Component {
   }
 
 
-  onLoggedIn = (loginInfo) => {
-    this.setState({
-      userName: loginInfo.username
-    })
+  onLoggedIn = loginInfo => {
     // login
-    axios.post('http://localhost:9000/login', {
-      username: loginInfo.username,
-      password: loginInfo.password
+    axios({
+      url: '/login',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      data: {
+        username: loginInfo.username,
+        password: loginInfo.password
+      }
     })
       .then((res) => {
-        if (res.data === "success") {
+        if (res.data) {
           this.setState({
             loginModal: false,
-            ísAuthenticated: res.data
+            isAuthenticated: res.data
           })
         }
       })
-      .catch((error) => {
-        console.log('error', error);
-      });
   }
 
   onLoggedOut = () => {
-    this.setState({
-      loginModal: true,
-      userName: ''
+    axios({
+      url: '/logout',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      }
     })
+      .then((res) => {
+        if (res.data) {
+          this.setState({
+            loginModal: true,
+            isAuthenticated: null
+          })
+        }
+      })
   }
 
   render() {
-    const { collapsed, loginModal, ísAuthenticated, userName, error } = this.state;
+    const { collapsed, loginModal, isAuthenticated, error } = this.state;
     const { children } = this.props;
-    console.log('ísAuthenticated', ísAuthenticated)
+    console.log('isAuthenticated', isAuthenticated)
     return (
       <Layout className='basic-layout'>
         <Sider
@@ -112,7 +147,7 @@ export default class BasicLayout extends Component {
             />
             <span style={{ float: 'right', marginRight: 12 }}>
               <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                {loginModal ? '' : `Hello ${userName}`}
+                {loginModal ? '' : `Hello ${isAuthenticated.username}`}
               </span>
               <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
                 <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
