@@ -85,3 +85,20 @@ const getOneEquipment = (req, res) => {
         )
 }
 module.exports.getOneEquipment = getOneEquipment;
+
+// const deleteManyEquipment = (req, res) => {
+//     const manyEquip = equipment.findById(req.params.id).exec()
+//         .then((manyEquip) => {
+//             if (manyEquip) {
+//                 equipment.deleteOne(manyEquip, (err, res) => {
+//                     if (err) throw err;
+//                     console.log("1 document deleted");
+
+//                 })
+//                 res.send("1 document deleted successfully");
+//             }
+//         }
+//         )
+// }
+// module.exports.deleteManyEquipment = deleteManyEquipment;
+

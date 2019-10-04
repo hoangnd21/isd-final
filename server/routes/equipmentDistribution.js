@@ -22,4 +22,7 @@ router.get('/:id', (req, res) => {
     equipmentDistributionController.getOneEquipmentDistribution(req, res);
 });
 
+router.get('/reclaim', (req, res) => {
+    equipmentDistributionController.getOneEquipmentDistributionByEquipId(req, res);
+});
 module.exports = router;

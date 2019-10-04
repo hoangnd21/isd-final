@@ -6,6 +6,7 @@ const addEquipmentDistribution = (req, res) => {
         reclaimDate: req.body.reclaimDate,
         device: req.body.device,
         user: req.body.user,
+        status: req.body.status,
         note: req.body.note
     });
     res.send("1 document created successfully");
@@ -68,4 +69,17 @@ const deleteEquipmentDistribution = (req, res) => {
             }
         })
 };
-module.exports.deleteEquipmentDistribution = deleteEquipmentDistribution; 
+module.exports.deleteEquipmentDistribution = deleteEquipmentDistribution;
+
+const getOneEquipmentDistributionByEquipId = (req, res) => {
+    const getOneEquipmentDistributionByEquipId = equipmentDistribution.findOne({ device: req.body.device, status: "handing" }).exec()
+        .then((getOneEquipmentDistributionByEquipId) => {
+            if (getOneEquipmentDistributionByEquipId) {
+                res.send(getOneEquipmentDistributionByEquipId);
+            }
+            else {
+                res.send('fail');
+            }
+        })
+};
+module.exports.getOneEquipmentDistributionByEquipId = getOneEquipmentDistributionByEquipId;
