@@ -139,6 +139,80 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
+  // //handing
+  // handingEquip = (data, dataHanding) => {
+  //   axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
+  //     .then(res => {
+  //       if (res) {
+  //         axios.get(`http://localhost:9000/user/${dataHanding.user}`) // nếu tìm thấy equip search tiếp xem user nhập vào có đúng ko (data lấy từ handingModal)
+  //           .then(response => {
+  //             if (response) {
+  //               axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', { //nếu tìm thấy user thì tạo 1 document mới bao gồm các thông tin bên dưới
+  //                 handingDate: dataHanding.handingDate,
+  //                 reclaimDate: dataHanding.reclaimDate,
+  //                 device: res.code,
+  //                 user: response.code,
+  //                 status: dataHanding.status,
+  //                 note: dataHanding.note
+  //               })
+  //             }
+  //           }
+  //           )
+  //           .catch(function (error) {
+  //             console.log(error)
+  //           });
+  //       }
+  //     }
+  //     )
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     });
+  // }
+
+  // //reclaim
+  // reclaimEquip = (data, dataHanding) => {
+  //   axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
+  //     .then(res => {
+  //       if (res) {
+  //         axios.get(`http://localhost:9000/equipmentDistribution/reclaim`) // nếu tìm thấy equip tìm document có chứ code của equip và status = handing
+  //           .then(response => {
+  //             if (response) {
+  //               axios.post(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${response._id}`, { //nếu tìm thấy thì update document vs info dưới
+  //                 handingDate: dataHanding.handingDate,
+  //                 reclaimDate: dataHanding.reclaimDate,
+  //                 device: res.code,
+  //                 user: response.code,
+  //                 status: dataHanding.status,
+  //                 note: dataHanding.note
+  //               })
+  //             }
+  //           }
+  //           )
+  //           .catch(function (error) {
+  //             console.log(error)
+  //           });
+  //       }
+  //     }
+  //     )
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     });
+  // }
+
+  // // delete many
+  // deleteManyEquipment = data => {
+  //   axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+  //     .then()
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     });
+  // }
+  // batchDeleteEquipment = data => { // data là obj hoặc array bao gồm các id của equipment cần xóa
+  //   const deleted = data.map(id => { this.deleteManyEquipment(id) })
+  //   if (deleted === null) {
+  //     this.getAllEquipments()
+  //   }
+  // }
 
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
