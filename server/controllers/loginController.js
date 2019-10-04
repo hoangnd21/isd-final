@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 const redirectLogin = (req, res, next) => {
     var a = req.session.user;
     if (a) {
-        console.log(req.session.user)
         res.send(req.session.user);
     }
     else {

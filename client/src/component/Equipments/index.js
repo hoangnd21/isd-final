@@ -51,8 +51,8 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  createEquipment = data => {
-    axios.post('http://localhost:9000/equipments/addEquipment', data)
+  createEquipment = equipment => {
+    axios.post('http://localhost:9000/equipments/addEquipment', equipment)
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -62,9 +62,8 @@ export default class Equipments extends React.PureComponent {
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
+              {res.equipment}
             </span>
-
           })
           this.getAllEquipments()
         }
@@ -92,7 +91,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   updateEquipment = data => {
-    axios.post('http://localhost:9000/equipments/addEquipment', data)
+    axios.put(`http://localhost:9000/equipments/updateEquipment/${data._id}`, data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -233,7 +232,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'status',
         key: 'status',
         render: status =>
-          <div style={status === 'available' ? { color: 'green' } : { color: 'red' }}>
+            <div style={status[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
             {status}
           </div>
       },
@@ -284,9 +283,9 @@ export default class Equipments extends React.PureComponent {
               type='link'
               style={{ border: 0, padding: 10 }}
 
-              icon={data.status === 'in use' ? 'share-alt' : 'appstore'}
+              icon={data.status[0] === 'In Use' ? 'share-alt' : 'appstore'}
             >
-              &nbsp;{data.status === 'in use' ? 'Reclaim' : 'Handing'}
+              &nbsp;{data.status[0] === 'In Use' ? 'Reclaim' : 'Handing'}
             </Button>
             <Popconfirm
               title='Are you sure to delete this equipment?'
