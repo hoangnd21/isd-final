@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment'
 import {
   Button,
   Form,
@@ -22,6 +23,7 @@ class EquipmentForm extends React.PureComponent {
       if (err) {
         return;
       }
+ 
       console.log('newEquipment}', { ...equipment, ...newEquipment })
       createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
@@ -31,6 +33,7 @@ class EquipmentForm extends React.PureComponent {
   onUpdateEquipment = e => {
     e.preventDefault();
     const { form, equipment, updateEquipment } = this.props;
+    console.log('updateEquipment')
     form.validateFields((err, updatingEquipment) => {
       if (err) {
         return;
@@ -41,17 +44,18 @@ class EquipmentForm extends React.PureComponent {
     });
   };
 
-
   render() {
     const { form, modalType, loading, equipment } = this.props;
+    let startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
+    let purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const { getFieldDecorator } = form;
     const statusOptions = [
       {
-        value: 'ready',
+        value: 'Ready',
         label: 'Ready',
       },
       {
-        value: 'inUse',
+        value: 'In Use',
         label: 'In Use',
       }
     ]
@@ -101,7 +105,7 @@ class EquipmentForm extends React.PureComponent {
     return (
       <Form
         layout="vertical"
-        onSubmit={modalType === 'update' ? this.updateEquipment : this.onCreateEquipment}
+        onSubmit={modalType === 'update' ? this.onUpdateEquipment : this.onCreateEquipment}
       >
         <Row gutter={4}>
           <Col xl={12}>
@@ -186,9 +190,9 @@ class EquipmentForm extends React.PureComponent {
                         required: true,
                       },
                     ],
-                    // initialValue: equipment.startDate,
+                    initialValue: startMoment,
                   })(
-                    <DatePicker placeholder="dd/mm/yyyy" format='DD/MM/YYYY' style={{ width: '100%' }} />
+                    <DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />
                   )}
                 </Form.Item>
               </Col>
@@ -209,9 +213,9 @@ class EquipmentForm extends React.PureComponent {
                         required: true,
                       },
                     ],
-                    // initialValue: datePurchased,
+                    initialValue: purchaseMoment,
                   })(
-                    <DatePicker placeholder="dd/mm/yyyy" format='DD/MM/YYYY' style={{ width: '100%' }} />
+                    <DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />
                   )}
                 </Form.Item>
               </Col>
