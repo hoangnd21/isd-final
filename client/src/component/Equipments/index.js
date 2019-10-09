@@ -160,6 +160,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   handingEquipment = data => {
+    console.log('data', data);
     axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
       .then(res => {
         if (res.status === 200) {
