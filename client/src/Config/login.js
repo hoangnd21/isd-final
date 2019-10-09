@@ -70,9 +70,7 @@ class LoginPage extends React.Component {
             <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
           </div>
           <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} loading={loading}>
-            {/* <Link to='/'> */}
             <span style={{ color: 'white' }}>&nbsp;Log in</span>
-            {/* </Link> */}
           </Button>
         </div>
       </Form>
