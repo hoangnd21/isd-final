@@ -11,7 +11,22 @@ const addUser = (req, res) => {
                 user.create({
                     code: req.body.code,
                     username: req.body.username,
+                    gender: req.body.gender,
+                    nationality: req.body.nationality,
+                    idCard: req.body.idCard,
+                    issuedDate: req.body.issuedDate,
+                    issuedPlace: req.body.issuedPlace,
+                    mobilePhone: req.body.mobilePhone,
+                    personalEmail: req.body.personalEmail,
+                    officePhone: req.body.officePhone,
+                    officeMail: req.body.officeMail,
+                    DOB: req.body.DOB,
+                    maritalStatus: req.body.maritalStatus,
+                    address: req.body.address,
+                    isActivate: req.body.isActivate,
                     password: hash,
+                    rank: req.body.rank,
+                    function: req.body.function,
                     role: {
                         name: req.body.role.name,
                         level: req.body.role.level

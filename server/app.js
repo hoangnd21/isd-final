@@ -33,7 +33,7 @@ app.use(cookieSession({
   keys: ['omega'],
 
   // Cookie Options
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  maxAge: 1 * 60 * 60 * 1000 // 24 hours
 }));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -57,7 +57,7 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   cookie: {
-    maxAge: 24 * 6 * 60 * 10000
+    maxAge: 1 * 6 * 60 * 10000
   }
 }))
 
