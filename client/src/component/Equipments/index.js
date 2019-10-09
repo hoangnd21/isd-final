@@ -138,35 +138,35 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
-  // //handing
-  // handingEquip = (data, dataHanding) => {
-  //   axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
-  //     .then(res => {
-  //       if (res) {
-  //         axios.get(`http://localhost:9000/user/${dataHanding.user}`) // nếu tìm thấy equip search tiếp xem user nhập vào có đúng ko (data lấy từ handingModal)
-  //           .then(response => {
-  //             if (response) {
-  //               axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', { //nếu tìm thấy user thì tạo 1 document mới bao gồm các thông tin bên dưới
-  //                 handingDate: dataHanding.handingDate,
-  //                 reclaimDate: dataHanding.reclaimDate,
-  //                 device: res.code,
-  //                 user: response.code,
-  //                 status: dataHanding.status,
-  //                 note: dataHanding.note
-  //               })
-  //             }
-  //           }
-  //           )
-  //           .catch(function (error) {
-  //             console.log(error)
-  //           });
-  //       }
-  //     }
-  //     )
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
-  // }
+  //handing
+  handingEquip = (data, dataHanding) => {
+    axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
+      .then(res => {
+        if (res) {
+          axios.get(`http://localhost:9000/user/${dataHanding.user}`) // nếu tìm thấy equip search tiếp xem user nhập vào có đúng ko (data lấy từ handingModal)
+            .then(response => {
+              if (response) {
+                axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', { //nếu tìm thấy user thì tạo 1 document mới bao gồm các thông tin bên dưới
+                  handingDate: dataHanding.handingDate,
+                  reclaimDate: dataHanding.reclaimDate,
+                  device: res.code,
+                  user: response.code,
+                  status: dataHanding.status,
+                  note: dataHanding.note
+                })
+              }
+            }
+            )
+            .catch(function (error) {
+              console.log(error)
+            });
+        }
+      }
+      )
+      .catch(function (error) {
+        console.log(error)
+      });
+  }
 
   // //reclaim
   // reclaimEquip = (data, dataHanding) => {
@@ -223,7 +223,7 @@ export default class Equipments extends React.PureComponent {
           <Button style={{ color: 'black', padding: 0 }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
       {
-        title: 'dataCodename',
+        title: 'Codename',
         dataIndex: 'code',
         key: 'code'
       },
@@ -232,7 +232,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'status',
         key: 'status',
         render: status =>
-            <div style={status[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
+          <div style={status[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
             {status}
           </div>
       },
@@ -318,6 +318,9 @@ export default class Equipments extends React.PureComponent {
           dataSource={equipments}
           columns={columns}
           footer={null}
+          pagination={{
+            pageSize: 20,
+          }}
         />
         <Modal
           title={modalType === 'update' ? 'Update Equipment' : modalType === 'view' ? null : 'Create Equipment'}

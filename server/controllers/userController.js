@@ -23,7 +23,7 @@ const addUser = (req, res) => {
                     DOB: req.body.DOB,
                     maritalStatus: req.body.maritalStatus,
                     address: req.body.address,
-                    isActivate: req.body.isActivate,
+                    isActivated: req.body.isActivate,
                     password: hash,
                     rank: req.body.rank,
                     function: req.body.function,

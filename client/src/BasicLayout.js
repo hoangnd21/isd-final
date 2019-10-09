@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import { Link } from "react-router-dom";
 import {
   Layout,
@@ -22,8 +21,8 @@ export default class BasicLayout extends Component {
   state = {
     collapsed: false,
     loginModal: false,
-    error: '',
-    isAuthenticated: ''
+    isAuthenticated: '',
+    loginError: ''
   };
   componentDidMount = () => {
     axios({
@@ -35,20 +34,24 @@ export default class BasicLayout extends Component {
         "Access-Control-Allow-Credentials": "true",
       },
     })
-      .then((res) => {
-        if (res.data) {
+      .then(res => {
+        console.log(res)
+        if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
-            isAuthenticated: res.data
+            isAuthenticated: res.data,
+            loginError: ''
           })
         } else {
           this.setState({
-            loginModal: true
+            loginModal: true,
+            isAuthenticated: null,
+            loginError: ''
           })
         }
       })
   }
-  onCollapse = (collapsed) => {
+  onCollapse = collapsed => {
     this.setState({ collapsed });
   }
 
@@ -60,7 +63,6 @@ export default class BasicLayout extends Component {
 
 
   onLoggedIn = loginInfo => {
-    // login
     axios({
       url: '/login',
       method: 'post',
@@ -76,10 +78,15 @@ export default class BasicLayout extends Component {
       }
     })
       .then((res) => {
-        if (res.data) {
+        if (res.data !== "login fail") {
           this.setState({
             loginModal: false,
             isAuthenticated: res.data
+          })
+        } else {
+          this.setState({
+            loginModal: true,
+            loginError: 'Invalid login, please try again'
           })
         }
       })
@@ -107,60 +114,62 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, isAuthenticated, error } = this.state;
+    const { collapsed, loginModal, isAuthenticated, loginError } = this.state;
     const { children } = this.props;
-    console.log('isAuthenticated', isAuthenticated)
     return (
       <Layout className='basic-layout'>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={this.onCollapse}
-          style={{ background: '#fff' }}
-          trigger={null}
-        >
-          <div className='logo'>
-            <img
-              alt=''
-              src={Deloitte.logo}
-            />
-          </div>
-          <Menu mode="inline">
-            <Menu.Item key="home">
-              <Link to='/'><Icon type='home' /><span>Home</span></Link>
-            </Menu.Item>
-            <Menu.Item key="equipments">
-              <Link to="/equipments" ><Icon type="sliders" /><span>Equipments</span></Link>
-            </Menu.Item>
-            <Menu.Item key="about">
-              <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout>
-          <Header className='bl-header'>
-            <Icon
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              className='trigger'
-              style={collapsed ? { fontSize: 18 } : { color: '#87BC26', fontSize: 18 }}
-              onClick={this.toggleCollapse}
-            />
-            <span style={{ float: 'right', marginRight: 12 }}>
-              <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                {loginModal ? '' : `Hello ${isAuthenticated.username}`}
-              </span>
-              <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
-                <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
-              </Tooltip>
-            </span>
-          </Header>
-          <Content className='bl-content'>
-            {children}
-          </Content>
-          <Footer className='bl-footer'>
-            PMS - ISD
+        {isAuthenticated !== null ?
+          <>
+            <Sider
+              collapsible
+              collapsed={collapsed}
+              onCollapse={this.onCollapse}
+              style={{ background: '#fff' }}
+              trigger={null}
+            >
+              <div className='logo'>
+                <img
+                  alt=''
+                  src={Deloitte.logo}
+                />
+              </div>
+              <Menu mode="inline">
+                <Menu.Item key="home">
+                  <Link to='/'><Icon type='home' /><span>Home</span></Link>
+                </Menu.Item>
+                <Menu.Item key="equipments">
+                  <Link to="/equipments" ><Icon type="sliders" /><span>Equipments</span></Link>
+                </Menu.Item>
+                <Menu.Item key="about">
+                  <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
+                </Menu.Item>
+              </Menu>
+            </Sider>
+            <Layout>
+              <Header className='bl-header'>
+                <Icon
+                  type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                  className='trigger'
+                  style={collapsed ? { fontSize: 18 } : { color: '#87BC26', fontSize: 18 }}
+                  onClick={this.toggleCollapse}
+                />
+                <span style={{ float: 'right', marginRight: 12 }}>
+                  <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
+                    {loginModal ? '' : `Hello ${isAuthenticated.username}`}
+                  </span>
+                  <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
+                    <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
+                  </Tooltip>
+                </span>
+              </Header>
+              <Content className='bl-content'>
+                {children}
+              </Content>
+              <Footer className='bl-footer'>
+                PMS - ISD
           </Footer>
-        </Layout>
+            </Layout>
+          </> : <div style={{ background: 'whitesmoke' }} />}
         <Modal
           title='Please login to continue'
           visible={loginModal}
@@ -170,7 +179,7 @@ export default class BasicLayout extends Component {
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
-            error={error}
+            loginError={loginError}
           />
         </Modal>
 
