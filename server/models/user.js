@@ -15,7 +15,7 @@ const userShema = new Schema({
     DOB: Date,
     maritalStatus: String,
     address: String,
-    isActivate: Boolean,
+    isActivated: Boolean,
     password: String,
     rank: String,
     function: String,
