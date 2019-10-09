@@ -170,7 +170,7 @@ export default class Equipments extends React.PureComponent {
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              Handing Request Complete.
+              {res.data}
             </span>
 
           })
@@ -279,7 +279,8 @@ export default class Equipments extends React.PureComponent {
         title: 'Original Price ($)',
         dataIndex: 'originalPrice',
         key: 'originalPrice',
-        align: 'right'
+        align: 'right',
+        render: originalPrice => originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       },
       {
         title: 'Warranty (months)',

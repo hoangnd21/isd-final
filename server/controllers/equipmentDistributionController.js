@@ -9,7 +9,7 @@ const addEquipmentDistribution = (req, res) => {
         status: req.body.status,
         note: req.body.note
     });
-    res.send("1 document created successfully");
+    res.send("Handing entry successfully added");
 };
 module.exports.addEquipmentDistribution = addEquipmentDistribution;
 

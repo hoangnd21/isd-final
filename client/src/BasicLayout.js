@@ -84,7 +84,7 @@ export default class BasicLayout extends Component {
       }
     })
       .then((res) => {
-        if (res.data !== 'Invalid login, please try again') {
+        if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
             isAuthenticated: res.data,
