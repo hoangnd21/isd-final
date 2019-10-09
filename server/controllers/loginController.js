@@ -7,7 +7,7 @@ const redirectLogin = (req, res, next) => {
         res.send(req.session.user);
     }
     else {
-        res.send('false');
+        res.send('Invalid login. Please try again');
     }
 }
 module.exports.redirectLogin = redirectLogin;
@@ -24,6 +24,9 @@ const login = (req, res) => {
                     if (result === true) {
                         req.session.user = loginResult;
                         res.send(loginResult);
+                    }
+                    else {
+                        res.send("Invalid login. Please try again")
                     }
                 })
             }

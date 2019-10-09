@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd';
 
 function hasErrors(fieldsError) {
@@ -30,7 +31,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { form, onLoggedIn, } = this.props;
+    const { form, onLoggedIn, loginError, loading } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
 
@@ -41,7 +42,6 @@ class LoginPage extends React.Component {
       <Form layout="vertical" onSubmit={this.handleLogin}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
-            initialValue: 'omega',
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
@@ -52,7 +52,6 @@ class LoginPage extends React.Component {
         </Form.Item>
         <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
-            initialValue: '123456',
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input
@@ -62,9 +61,18 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
+        <div style={{ color: 'red', marginBottom: 5 }}>
+          {loginError}
+
+        </div>
         <div style={{ textAlign: "right", }}>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
-            <Icon type='login' /> Log in
+          <div style={{ float: 'left' }}>
+            <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
+          </div>
+          <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} loading={loading}>
+            {/* <Link to='/'> */}
+            <span style={{ color: 'white' }}>&nbsp;Log in</span>
+            {/* </Link> */}
           </Button>
         </div>
       </Form>
