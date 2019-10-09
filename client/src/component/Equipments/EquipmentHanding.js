@@ -35,6 +35,7 @@ class EquipmentHanding extends React.Component {
     e.preventDefault();
     const { form, equipment, handingEquipment, updateEquipment } = this.props;
     form.validateFields((err, handingDetail) => {
+      handingDetail.user = handingDetail.user.toString()
       if (err) {
         return;
       }

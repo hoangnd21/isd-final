@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd';
 
 function hasErrors(fieldsError) {
@@ -33,7 +32,6 @@ class LoginPage extends React.Component {
   render() {
     const { form, onLoggedIn, loginError, loading } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
-
 
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('username') && getFieldError('username');
