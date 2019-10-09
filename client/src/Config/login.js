@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd';
 
 function hasErrors(fieldsError) {
@@ -60,12 +61,16 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
-        <div style={{ color: 'red' }}>
+        <div style={{ color: 'red', marginBottom: 5 }}>
           {loginError}
+
         </div>
         <div style={{ textAlign: "right", }}>
+          <div style={{ float: 'left' }}>
+            <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
+          </div>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
-            <Icon type='login' /> Log in
+            <Link to='/'><Icon type='login' /> Log in</Link>
           </Button>
         </div>
       </Form>

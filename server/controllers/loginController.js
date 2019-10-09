@@ -25,8 +25,8 @@ const login = (req, res) => {
                         req.session.user = loginResult;
                         res.send(loginResult);
                     }
-                    else{
-                        res.send("login fail")
+                    else {
+                        res.send("Invalid login. Please try again")
                     }
                 })
             }

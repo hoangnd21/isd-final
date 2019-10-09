@@ -61,7 +61,7 @@ class EquipmentHanding extends React.Component {
         >
           <Row gutter={12}>
             <Col xl={12}>
-              <Form.Item label='Employee to hand'>
+              <Form.Item label='Employee'>
                 {getFieldDecorator('user', {
                   rules: [
                     {

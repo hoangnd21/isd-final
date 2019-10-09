@@ -32,6 +32,9 @@ export default class Equipments extends React.PureComponent {
           listLoading: false,
         })
       })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   getAllEquipments = () => {
@@ -42,6 +45,9 @@ export default class Equipments extends React.PureComponent {
           listLoading: false,
         })
       })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   // create an equipment
@@ -68,8 +74,10 @@ export default class Equipments extends React.PureComponent {
           })
           this.getAllEquipments()
         }
-      }
-      )
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   // view
@@ -110,6 +118,9 @@ export default class Equipments extends React.PureComponent {
           this.getAllEquipments()
         }
       })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   hideEquipmentModal = () => {
@@ -140,7 +151,6 @@ export default class Equipments extends React.PureComponent {
   // }
 
   //handing
-
   handingModal = data => {
     this.setState({
       equipmentDetail: data,
@@ -167,6 +177,9 @@ export default class Equipments extends React.PureComponent {
           this.getAllEquipments()
         }
       })
+      .catch(error => {
+        console.log(error)
+      });
   }
   // //reclaim
 
@@ -331,6 +344,7 @@ export default class Equipments extends React.PureComponent {
           pagination={{
             pageSize: 20,
           }}
+          rowKey={record => record._id}
         />
         <Modal
           title={
