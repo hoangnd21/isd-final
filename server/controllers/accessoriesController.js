@@ -3,7 +3,6 @@ const accessories = require('../models/accessories');
 const addAccessories = (req, res) => {
     accessories.create({
         code: req.body.code,
-        seriNo: req.body.seriNo,
         name: req.body.name,
         originalDevice: req.body.originalDevice,
         tranferedDevice: req.body.tranferedDevice,

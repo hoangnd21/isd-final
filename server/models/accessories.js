@@ -3,7 +3,6 @@ const schema = mongoose.Schema;
 
 const accessoriesSchema = new schema({
     code: String,
-    seriNo: String,
     name: String,
     originalDevice: String,
     tranferedDevice: String,
