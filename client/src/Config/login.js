@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { form, onLoggedIn, loginError } = this.props;
+    const { form, onLoggedIn, loginError, loading } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
 
@@ -69,8 +69,8 @@ class LoginPage extends React.Component {
           <div style={{ float: 'left' }}>
             <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
           </div>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
-            <Link to='/'><Icon type='login' /> Log in</Link>
+          <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} loading={loading}>
+            <span style={{ color: 'white' }}>&nbsp;Log in</span>
           </Button>
         </div>
       </Form>

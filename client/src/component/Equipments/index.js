@@ -174,7 +174,6 @@ export default class Equipments extends React.PureComponent {
             </span>
 
           })
-          this.getAllEquipments()
         }
       })
       .catch(error => {

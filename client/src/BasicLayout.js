@@ -22,7 +22,8 @@ export default class BasicLayout extends Component {
     collapsed: false,
     loginModal: false,
     isAuthenticated: '',
-    loginError: ''
+    loginError: '',
+    loading: false
   };
   componentDidMount = () => {
     axios({
@@ -40,13 +41,15 @@ export default class BasicLayout extends Component {
           this.setState({
             loginModal: false,
             isAuthenticated: res.data,
-            loginError: ''
+            loginError: '',
+            loading: false
           })
         } else {
           this.setState({
             loginModal: true,
             isAuthenticated: null,
-            loginError: ''
+            loginError: '',
+            loading: false
           })
         }
       })
@@ -63,6 +66,9 @@ export default class BasicLayout extends Component {
 
 
   onLoggedIn = loginInfo => {
+    this.setState({
+      loading: true
+    })
     axios({
       url: '/login',
       method: 'post',
@@ -81,12 +87,14 @@ export default class BasicLayout extends Component {
         if (res.data !== 'Invalid login, please try again') {
           this.setState({
             loginModal: false,
-            isAuthenticated: res.data
+            isAuthenticated: res.data,
+            loading: false
           })
         } else {
           this.setState({
             loginModal: true,
-            loginError: res.data
+            loginError: res.data,
+            loading: false
           })
         }
       })
@@ -114,7 +122,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, isAuthenticated, loginError } = this.state;
+    const { collapsed, loginModal, isAuthenticated, loginError, loading } = this.state;
     const { children } = this.props;
     return (
       <Layout className='basic-layout'>
@@ -158,7 +166,10 @@ export default class BasicLayout extends Component {
                     {loginModal ? '' : `Hello ${isAuthenticated.username}`}
                   </span>
                   <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
-                    <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
+                    <Link to='/'>
+                      <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
+
+                    </Link>
                   </Tooltip>
                 </span>
               </Header>
@@ -181,6 +192,7 @@ export default class BasicLayout extends Component {
           <LoginPage
             onLoggedIn={this.onLoggedIn}
             loginError={loginError}
+            loading={loading}
           />
         </Modal>
 
