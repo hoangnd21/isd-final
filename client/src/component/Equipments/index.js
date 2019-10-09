@@ -8,11 +8,12 @@ import {
   Icon,
   Tooltip,
   Divider,
-  Popconfirm
 
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
+import EquipmentHanding from './EquipmentHanding';
+import EquipmentReclaim from './EquipmentReclaim'
 
 export default class Equipments extends React.PureComponent {
   state = {
@@ -28,7 +29,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         this.setState({
           equipments: res.data,
-          listLoading: false
+          listLoading: false,
         })
       })
   }
@@ -38,7 +39,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         this.setState({
           equipments: res.data,
-          listLoading: false
+          listLoading: false,
         })
       })
   }
@@ -78,7 +79,6 @@ export default class Equipments extends React.PureComponent {
       modalType: 'view',
       equipmentDetail: data
     })
-    console.log(this.state.equipment)
   }
 
   // update
@@ -98,17 +98,18 @@ export default class Equipments extends React.PureComponent {
             equipmentModal: false,
             listLoading: true
           })
-          notification.open({
+
+          this.state.modalType !== 'handing' ? notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
             </span>
 
-          })
+          }) : console.log('handed')
+
           this.getAllEquipments()
         }
-      }
-      )
+      })
   }
 
   hideEquipmentModal = () => {
@@ -119,56 +120,63 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  deleteEquipment = data => {
-    axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+  // deleteEquipment = data => {
+  //   axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         notification.open({
+  //           message: <span>
+  //             <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+  //             {res.data}
+  //           </span>
+  //         });
+  //         this.getAllEquipments()
+  //       }
+  //     }
+  //     )
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     });
+  // }
+
+  //handing
+
+  handingModal = data => {
+    this.setState({
+      equipmentDetail: data,
+      modalType: 'handing',
+      equipmentModal: true
+    })
+  }
+
+  handingEquipment = data => {
+    axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
       .then(res => {
         if (res.status === 200) {
+          this.setState({
+            equipmentModal: false,
+            listLoading: true
+          })
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
+              Handing Request Complete.
             </span>
-          });
+
+          })
           this.getAllEquipments()
         }
-      }
-      )
-      .catch(function (error) {
-        console.log(error)
-      });
+      })
   }
-
-  //handing
-  handingEquip = (data, dataHanding) => {
-    axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
-      .then(res => {
-        if (res) {
-          axios.get(`http://localhost:9000/user/${dataHanding.user}`) // nếu tìm thấy equip search tiếp xem user nhập vào có đúng ko (data lấy từ handingModal)
-            .then(response => {
-              if (response) {
-                axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', { //nếu tìm thấy user thì tạo 1 document mới bao gồm các thông tin bên dưới
-                  handingDate: dataHanding.handingDate,
-                  reclaimDate: dataHanding.reclaimDate,
-                  device: res.code,
-                  user: response.code,
-                  status: dataHanding.status,
-                  note: dataHanding.note
-                })
-              }
-            }
-            )
-            .catch(function (error) {
-              console.log(error)
-            });
-        }
-      }
-      )
-      .catch(function (error) {
-        console.log(error)
-      });
-  }
-
   // //reclaim
+
+  reclaimModal = data => {
+    this.setState({
+      equipmentDetail: data,
+      modalType: 'reclaim',
+      equipmentModal: true
+    })
+  }
   // reclaimEquip = (data, dataHanding) => {
   //   axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
   //     .then(res => {
@@ -197,6 +205,8 @@ export default class Equipments extends React.PureComponent {
   //       console.log(error)
   //     });
   // }
+
+
 
   // // delete many
   // deleteManyEquipment = data => {
@@ -282,12 +292,12 @@ export default class Equipments extends React.PureComponent {
             <Button
               type='link'
               style={{ border: 0, padding: 10 }}
-
               icon={data.status[0] === 'In Use' ? 'share-alt' : 'appstore'}
+              onClick={data.status[0] === 'In Use' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
             >
               &nbsp;{data.status[0] === 'In Use' ? 'Reclaim' : 'Handing'}
             </Button>
-            <Popconfirm
+            {/* <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
@@ -295,7 +305,7 @@ export default class Equipments extends React.PureComponent {
               <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
             </Button>
-            </Popconfirm>
+            </Popconfirm> */}
           </>
       }
 
@@ -323,7 +333,13 @@ export default class Equipments extends React.PureComponent {
           }}
         />
         <Modal
-          title={modalType === 'update' ? 'Update Equipment' : modalType === 'view' ? null : 'Create Equipment'}
+          title={
+            modalType === 'update' ? 'Update Equipment' :
+              modalType === 'create' ? 'Create Equipment' :
+                modalType === 'reclaim' ? 'Reclaim Equipment' :
+                  modalType === 'handing' ? 'Handing Equipment' :
+                    null
+          }
           destroyOnClose
           visible={equipmentModal}
           footer={null}
@@ -335,18 +351,36 @@ export default class Equipments extends React.PureComponent {
           bodyStyle={{ padding: 20 }}
           equipment={equipmentDetail}
         >
-          {modalType === 'create' || modalType === 'update' ?
-            <EquipmentForm
-              modalType={modalType}
-              equipment={equipmentDetail}
-              getAllEquipments={this.getAllEquipments}
-              hideEquipmentModal={this.hideEquipmentModal}
-              createEquipment={this.createEquipment}
-              updateEquipment={this.updateEquipment}
-            /> :
-            <EquipmentInfo
-              equipment={equipmentDetail}
-            />}
+          {
+            modalType === 'create' || modalType === 'update' ?
+              <EquipmentForm
+                modalType={modalType}
+                equipment={equipmentDetail}
+                getAllEquipments={this.getAllEquipments}
+                hideEquipmentModal={this.hideEquipmentModal}
+                createEquipment={this.createEquipment}
+                updateEquipment={this.updateEquipment}
+              />
+              :
+              modalType === 'handing' ?
+                <EquipmentHanding
+                  equipment={equipmentDetail}
+                  handingEquipment={this.handingEquipment}
+                  updateEquipment={this.updateEquipment}
+                />
+                :
+                modalType === 'view' ?
+                  <EquipmentInfo
+                    equipment={equipmentDetail}
+                  />
+                  :
+                  modalType === 'reclaim' ?
+                    <EquipmentReclaim
+                      equipment={equipmentDetail}
+                    />
+                    :
+                    null
+          }
         </Modal>
       </>
     )

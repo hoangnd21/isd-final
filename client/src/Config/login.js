@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { form, onLoggedIn, loginError} = this.props;
+    const { form, onLoggedIn, loginError } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
 
@@ -60,9 +60,9 @@ class LoginPage extends React.Component {
             />,
           )}
         </Form.Item>
-        <div style={{color:'red'}}>
+        <div style={{ color: 'red' }}>
           {loginError}
-          </div> 
+        </div>
         <div style={{ textAlign: "right", }}>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} >
             <Icon type='login' /> Log in

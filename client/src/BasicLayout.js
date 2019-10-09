@@ -35,7 +35,6 @@ export default class BasicLayout extends Component {
       },
     })
       .then(res => {
-        console.log(res)
         if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
@@ -78,7 +77,7 @@ export default class BasicLayout extends Component {
       }
     })
       .then((res) => {
-        if (res.data !== "login fail") {
+        if (res.data !== 'Invalid login, please try again') {
           this.setState({
             loginModal: false,
             isAuthenticated: res.data
@@ -86,7 +85,7 @@ export default class BasicLayout extends Component {
         } else {
           this.setState({
             loginModal: true,
-            loginError: 'Invalid login, please try again'
+            loginError: res.data
           })
         }
       })
@@ -169,13 +168,14 @@ export default class BasicLayout extends Component {
                 PMS - ISD
           </Footer>
             </Layout>
-          </> : <div style={{ background: 'whitesmoke' }} />}
+          </> : <> </>}
         <Modal
           title='Please login to continue'
           visible={loginModal}
           closable={false}
           footer={null}
           centered
+          mask={false}
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
