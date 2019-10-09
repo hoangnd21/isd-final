@@ -5,7 +5,7 @@ const addEquipmentDistribution = (req, res) => {
         handingDate: req.body.handingDate,
         reclaimDate: req.body.reclaimDate,
         device: req.body.device,
-        user: req.body.user,
+        user: req.body.user[0],
         status: req.body.status,
         note: req.body.note
     });
