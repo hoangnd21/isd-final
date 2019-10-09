@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment'
+import moment from 'moment';
 import {
   Button,
   Form,
@@ -23,8 +23,8 @@ class EquipmentForm extends React.PureComponent {
       if (err) {
         return;
       }
- 
-      console.log('newEquipment}', { ...equipment, ...newEquipment })
+
+      console.log('newEquipment', { ...equipment, ...newEquipment })
       createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
     });
