@@ -3,16 +3,18 @@ var nodemailer = require('nodemailer');
 const transport = (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'Gmail',
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
-            user: "omegaprime2008@gmail.com",
-            pass: "20081998"
+            user: req.body.email,
+            pass: req.body.password
         }
     })
     const mailOptions = {
-        from: "omegaprime2008@gmail.com",
-        to: "natsu1504@gmail.com",
-        subject: "test send email",
-        text: "đm cx khoai đấy"
+        from: req.body.email,
+        to: req.body.userEmail,
+        subject: req.body.subject,
+        text: req.body.text
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
