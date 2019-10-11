@@ -3,10 +3,12 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var nodemailer = require('nodemailer');
 var uuid = require('uuid')
 var logger = require('morgan');
 var cors = require("cors");
 var testAPIRouter = require("./routes/testAPI");
+var passwordRoute = require('./routes/password')
 var loginRoute = require('./routes/login')
 var equipmentRoute = require('./routes/equipments')
 var groupEquipmentRoute = require('./routes/groupEquipment')
@@ -81,6 +83,7 @@ app.use('/errorReport', errorReportRoute);
 app.use('/manaEquipOnUse', manaEquipOnUseRoute);
 app.use('/status', statusRoute);
 app.use('/user', userRoute);
+app.use('/password', passwordRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
