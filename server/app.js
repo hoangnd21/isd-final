@@ -24,6 +24,7 @@ var errorReportRoute = require('./routes/errorReport')
 var manaEquipOnUseRoute = require('./routes/manaEquipOnUse')
 var statusRoute = require('./routes/status')
 var userRoute = require('./routes/users')
+var excelRoute = require('./routes/excel')
 var cookieSession = require('cookie-session')
 var app = express();
 
@@ -84,6 +85,7 @@ app.use('/manaEquipOnUse', manaEquipOnUseRoute);
 app.use('/status', statusRoute);
 app.use('/user', userRoute);
 app.use('/password', passwordRoute);
+app.use('/excel', excelRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

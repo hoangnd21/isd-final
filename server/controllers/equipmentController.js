@@ -1,4 +1,5 @@
 const equipment = require('../models/equipments');
+// const mongoXlsx = require('mongo-xlsx');
 
 const addEquipment = (req, res) => {
     const now = Date.now();
@@ -86,19 +87,24 @@ const getOneEquipment = (req, res) => {
 }
 module.exports.getOneEquipment = getOneEquipment;
 
-// const deleteManyEquipment = (req, res) => {
-//     const manyEquip = equipment.findById(req.params.id).exec()
-//         .then((manyEquip) => {
-//             if (manyEquip) {
-//                 equipment.deleteOne(manyEquip, (err, res) => {
-//                     if (err) throw err;
-//                     console.log("1 document deleted");
 
-//                 })
-//                 res.send("1 document deleted successfully");
+// const xlsxEquipment = (req, res) => {
+//     equipment.find({}).sort({ created_at: -1 }).exec()
+//         .then(
+//             (data) => {
+//                 if (data) {
+//                     var model = mongoXlsx.buildDynamicModel(data);
+//                     mongoXlsx.mongoData2Xlsx(data, model, function (err, data) {
+//                         console.log('File saved at:', data.fullPath);
+//                     });
+//                     res.send(data);
+//                 }
+//                 else {
+//                     res.send('fail');
+//                 }
 //             }
-//         }
 //         )
-// }
-// module.exports.deleteManyEquipment = deleteManyEquipment;
+// };
+// module.exports.xlsxEquipment = xlsxEquipment;
+
 
