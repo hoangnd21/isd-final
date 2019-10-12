@@ -2,7 +2,7 @@ const equipment = require('../models/equipments');
 const mongoXlsx = require('mongo-xlsx');
 
 const xlsxAllEquipment = (req, res) => {
-    equipment.find({}).sort({ created_at: -1 }).exec()
+    equipment.find({}).sort({ created_at: -1 }).lean().exec()
         .then(
             (data) => {
                 if (data) {
@@ -26,11 +26,11 @@ const xlsxAllEquipment = (req, res) => {
 module.exports.xlsxAllEquipment = xlsxAllEquipment;
 
 const xlsxOneEquipment = (req, res) => {
-    equipment.findById(req.params.id).exec()
+    equipment.findById(req.params.id).lean().exec()
         .then(
             (data) => {
                 if (data) {
-                    // console.log(data)
+                    console.log(data)
                     /* Generate automatic model for processing (A static model should be used) */
                     var model = mongoXlsx.buildDynamicModel([data]);
 
