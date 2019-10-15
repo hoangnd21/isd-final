@@ -190,36 +190,28 @@ export default class Equipments extends React.PureComponent {
       equipmentModal: true
     })
   }
-  // reclaimEquip = (data, dataHanding) => {
-  //   axios.get(`http://localhost:9000/equipments/${data._id}`) // search equip theo id trong bảng id (dữ liệu là data)
-  //     .then(res => {
-  //       if (res) {
-  //         axios.get(`http://localhost:9000/equipmentDistribution/reclaim`) // nếu tìm thấy equip tìm document có chứ code của equip và status = handing
-  //           .then(response => {
-  //             if (response) {
-  //               axios.post(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${response._id}`, { //nếu tìm thấy thì update document vs info dưới
-  //                 handingDate: dataHanding.handingDate,
-  //                 reclaimDate: dataHanding.reclaimDate,
-  //                 device: res.code,
-  //                 user: response.code,
-  //                 status: dataHanding.status,
-  //                 note: dataHanding.note
-  //               })
-  //             }
-  //           }
-  //           )
-  //           .catch(function (error) {
-  //             console.log(error)
-  //           });
-  //       }
-  //     }
-  //     )
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
-  // }
+  reclaimEquipment = data => {
+    console.log('data', data);
+    axios.put('http://localhost:9000/equipmentDistribution/updateEquipmentDistribution', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            equipmentModal: false,
+            listLoading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
 
-
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
 
   // // delete many
   // deleteManyEquipment = data => {
@@ -392,6 +384,8 @@ export default class Equipments extends React.PureComponent {
                   modalType === 'reclaim' ?
                     <EquipmentReclaim
                       equipment={equipmentDetail}
+                      reclaimEquipment={this.reclaimEquipment}
+                      updateEquipment={this.updateEquipment}
                     />
                     :
                     null
