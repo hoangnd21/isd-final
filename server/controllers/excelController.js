@@ -46,6 +46,7 @@ const xlsxOneEquipment = (req, res) => {
             }
         )
 };
+
 module.exports.xlsxOneEquipment = xlsxOneEquipment;
 
 const importExxcel = (req, res) => {
@@ -57,3 +58,5 @@ const importExxcel = (req, res) => {
     });
 }
 module.exports.importExxcel = importExxcel
+
+
