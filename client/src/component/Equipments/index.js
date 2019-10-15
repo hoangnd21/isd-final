@@ -192,22 +192,27 @@ export default class Equipments extends React.PureComponent {
   }
   reclaimEquipment = data => {
     console.log('data', data);
-    axios.put('http://localhost:9000/equipmentDistribution/updateEquipmentDistribution', data)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            equipmentModal: false,
-            listLoading: true
-          })
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
+    console.log('device', data.device)
 
-          })
-        }
-      })
+    axios.get(`http://localhost:9000/reclaim/${data.device}`).then(res => {
+
+      axios.put(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
+        .then(res => {
+          if (res.status === 200) {
+            this.setState({
+              equipmentModal: false,
+              listLoading: true
+            })
+            notification.open({
+              message: <span>
+                <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+              </span>
+
+            })
+          }
+        })
+    })
       .catch(error => {
         console.log(error)
       });

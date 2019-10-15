@@ -72,7 +72,7 @@ const deleteEquipmentDistribution = (req, res) => {
 module.exports.deleteEquipmentDistribution = deleteEquipmentDistribution;
 
 const getOneEquipmentDistributionByEquipId = (req, res) => {
-    const getOneEquipmentDistributionByEquipId = equipmentDistribution.findOne({ device: req.body.device, status: "handing" }).exec()
+    const getOneEquipmentDistributionByEquipId = equipmentDistribution.findOne({ device: req.body.device, status: "In Use" }).exec()
         .then((getOneEquipmentDistributionByEquipId) => {
             if (getOneEquipmentDistributionByEquipId) {
                 res.send(getOneEquipmentDistributionByEquipId);
