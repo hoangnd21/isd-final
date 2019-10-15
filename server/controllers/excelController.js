@@ -47,3 +47,13 @@ const xlsxOneEquipment = (req, res) => {
         )
 };
 module.exports.xlsxOneEquipment = xlsxOneEquipment;
+
+const importExxcel = (req, res) => {
+    var model = null;
+    mongoXlsx.xlsx2MongoData("./mongo-xlsx-1570847728167.xlsx", model, function (err, mongoData) {
+        console.log('Mongo data:', mongoData);
+        equipment.create(mongoData)
+        res.send("Equipment created successfully");
+    });
+}
+module.exports.importExxcel = importExxcel

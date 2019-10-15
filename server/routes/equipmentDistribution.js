@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.put('/updateEquipmentDistribution/:id', (req, res) => {
-    equipmentDistributionController.updateOneEquipmentDistribution(req, res);
+    equipmentDistributionController.updateEquipmentDistribution(req, res);
 });
 
 router.post('/deleteEquipmentDistribution/:id', (req, res) => {

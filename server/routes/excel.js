@@ -10,4 +10,8 @@ router.get('/:id', (req, res) => {
     excelController.xlsxOneEquipment(req, res);
 });
 
+router.post('/import', (req, res) => {
+    excelController.importExxcel(req, res);
+});
+
 module.exports = router

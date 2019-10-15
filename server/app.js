@@ -26,6 +26,7 @@ var statusRoute = require('./routes/status')
 var userRoute = require('./routes/users')
 var excelRoute = require('./routes/excel')
 var cookieSession = require('cookie-session')
+var reclaimRoute = require('./routes/reclaim')
 var app = express();
 
 
@@ -86,6 +87,7 @@ app.use('/status', statusRoute);
 app.use('/user', userRoute);
 app.use('/password', passwordRoute);
 app.use('/excel', excelRoute);
+app.use('/reclaim', reclaimRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
