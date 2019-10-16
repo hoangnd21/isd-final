@@ -12,7 +12,6 @@ import {
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
-import Deloitte from './Config/constant'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -36,7 +35,6 @@ export default class BasicLayout extends Component {
       },
     })
       .then(res => {
-        console.log('data', res.data)
         if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
@@ -138,7 +136,7 @@ export default class BasicLayout extends Component {
               <div className='logo'>
                 <img
                   alt=''
-                  src={Deloitte.logo}
+                  src='https://upload.wikimedia.org/wikipedia/en/2/2b/DeloitteNewSmall.png'
                 />
               </div>
               <Menu mode="inline">
