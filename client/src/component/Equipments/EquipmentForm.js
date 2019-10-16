@@ -12,9 +12,64 @@ import {
   DatePicker,
   Cascader
 } from 'antd';
+import axios from 'axios';
 
 const { TextArea } = Input;
 class EquipmentForm extends React.PureComponent {
+  state = {
+    generalTypes: [],
+    equipmentTypes: [],
+    currentValue: {},
+    eqCode: ['VN']
+  }
+
+  componentDidMount() {
+    axios.get(`http://localhost:9000/generalTypes`)
+      .then(res => {
+        this.setState({
+          generalTypes: res.data
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+  choseGenType = genTypeID => {
+    axios.get(`http://localhost:9000/subTypes/genTypeId/${genTypeID}`)
+      .then(res => {
+        this.setState({
+          equipmentTypes: res.data,
+          eqCode: this.state.eqCode.length <= 1 ? this.state.eqCode.concat(genTypeID) : this.state.eqCode.splice(0, 1).concat(genTypeID)
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+  choseEquipmentType = eqTypeID => {
+    this.setState({
+      eqCode: this.state.eqCode.length <= 2 ? this.state.eqCode.concat(eqTypeID) : this.state.eqCode.splice(0, 2).concat(eqTypeID)
+    })
+  }
+
+  onChange = e => {
+    this.setState({
+      currentValue: e
+    })
+  }
+
+  randomString = length => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
 
   onCreateEquipment = e => {
     e.preventDefault();
@@ -24,7 +79,6 @@ class EquipmentForm extends React.PureComponent {
         return;
       }
 
-      console.log('newEquipment', { ...equipment, ...newEquipment })
       createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
     });
@@ -33,21 +87,22 @@ class EquipmentForm extends React.PureComponent {
   onUpdateEquipment = e => {
     e.preventDefault();
     const { form, equipment, updateEquipment } = this.props;
-    console.log('updateEquipment')
     form.validateFields((err, updatingEquipment) => {
       if (err) {
         return;
       }
-      console.log('updatingEquipment', { ...equipment, ...updatingEquipment })
       updateEquipment({ ...equipment, ...updatingEquipment })
       form.resetFields();
     });
   };
 
   render() {
+    const { generalTypes, equipmentTypes, eqCode } = this.state;
     const { form, modalType, loading, equipment } = this.props;
-    let startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
-    let purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
+    const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
+    const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
+    const eqCodeF = eqCode.length <= 2 ? null : eqCode.concat(this.randomString(4)).join('')
+    console.log('code final', eqCodeF)
     const { getFieldDecorator } = form;
     const statusOptions = [
       {
@@ -58,34 +113,6 @@ class EquipmentForm extends React.PureComponent {
         value: 'In Use',
         label: 'In Use',
       }
-    ]
-    const generalTypeOptions = [
-      {
-        value: 'generalType1',
-        label: 'General Type 1'
-      },
-      {
-        value: 'generalType2',
-        label: 'General Type 2'
-      },
-      {
-        value: 'generalType3',
-        label: 'General Type 3'
-      },
-    ]
-    const subtypeOptions = [
-      {
-        value: 'subtype1',
-        label: 'Subtype 1'
-      },
-      {
-        value: 'subtype2',
-        label: 'Subtype 2'
-      },
-      {
-        value: 'subtype3',
-        label: 'Subtype 3'
-      },
     ]
     const batchOptions = [
       {
@@ -126,12 +153,11 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  initialValue: equipment.code,
+                  initialValue: modalType === 'update' ? equipment.code : eqCode.length === 3 ? eqCodeF : eqCode.join(''),
                 })(
                   <Input
                     placeholder="Equipment code"
-                  // disabled
-                  // pending Code generating logic, will be disabled when done
+                    disabled
                   />)}
               </Form.Item>
             </Col>
@@ -159,7 +185,9 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.generalType,
-                })(<Cascader options={generalTypeOptions} placeholder="General Type" />)}
+                })(
+                  <Cascader options={generalTypes} placeholder="General Type" onChange={this.choseGenType} />
+                )}
               </Form.Item>
 
               <Form.Item label='Equipment Name'>
@@ -258,7 +286,9 @@ class EquipmentForm extends React.PureComponent {
                   },
                 ],
                 initialValue: equipment.subtype,
-              })(<Cascader options={subtypeOptions} placeholder="Equipment type" />)}
+              })(
+                <Cascader onChange={this.choseEquipmentType} options={equipmentTypes} placeholder="Please select General Type first" />
+              )}
             </Form.Item>
             <Form.Item label='Equipment Price ($)'
             >

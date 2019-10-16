@@ -69,7 +69,7 @@ export default class Equipments extends React.PureComponent {
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.equipment}
+              {res.data}
             </span>
           })
           this.getAllEquipments()
@@ -233,46 +233,6 @@ export default class Equipments extends React.PureComponent {
   //   }
   // }
 
-  // gentype
-  getGenType = () => {
-    axios.get(`http://localhost:9000/generalTypes`)
-      // .then(res => {
-      //   this.setState({
-      //     equipments: res.data,
-      //     listLoading: false,
-      //   })
-      // })
-      .catch(error => {
-        console.log(error)
-      });
-  }
-
-  getSubType = () => {
-    axios.get(`http://localhost:9000/subTypes`)
-      // .then(res => {
-      //   this.setState({
-      //     equipments: res.data,
-      //     listLoading: false,
-      //   })
-      // })
-      .catch(error => {
-        console.log(error)
-      });
-  }
-
-  getSubTypeByGenTypeId = () => {
-    axios.get(`http://localhost:9000/subTypes/genTypeId/${data._id}`)
-      // .then(res => {
-      //   this.setState({
-      //     equipments: res.data,
-      //     listLoading: false,
-      //   })
-      // })
-      .catch(error => {
-        console.log(error)
-      });
-  }
-
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
     const columns = [
@@ -365,7 +325,7 @@ export default class Equipments extends React.PureComponent {
       <>
         <div style={{ marginBottom: 5, fontSize: 18 }}>
           Equipments List
-            <div style={{ float: 'right' }}>
+            <div style={{ float: 'right', marginBottom: 5 }}>
             <Button
               type='primary'
               icon='plus'
@@ -412,6 +372,7 @@ export default class Equipments extends React.PureComponent {
                 hideEquipmentModal={this.hideEquipmentModal}
                 createEquipment={this.createEquipment}
                 updateEquipment={this.updateEquipment}
+                allEq={equipments}
               />
               :
               modalType === 'handing' ?
