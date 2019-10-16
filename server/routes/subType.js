@@ -22,4 +22,7 @@ router.post('/deleteSubType/:id', (req, res) => {
     subTypeController.deleteSubType(req, res);
 });
 
+router.get('/genTypeId/:id', (req, res) => {
+    subTypeController.getSubTypeByGenTypeId(req, res);
+});
 module.exports = router;

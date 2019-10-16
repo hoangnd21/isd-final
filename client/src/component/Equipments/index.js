@@ -260,6 +260,19 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
+  getSubTypeByGenTypeId = () => {
+    axios.get(`http://localhost:9000/subTypes/genTypeId/${data._id}`)
+      // .then(res => {
+      //   this.setState({
+      //     equipments: res.data,
+      //     listLoading: false,
+      //   })
+      // })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
     const columns = [
