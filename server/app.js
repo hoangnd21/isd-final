@@ -11,8 +11,8 @@ var testAPIRouter = require("./routes/testAPI");
 var passwordRoute = require('./routes/password')
 var loginRoute = require('./routes/login')
 var equipmentRoute = require('./routes/equipments')
-var groupEquipmentRoute = require('./routes/groupEquipment')
-var groupSubEquipmentRoute = require('./routes/groupSubEquipment')
+var generalTypesRoute = require('./routes/generalType')
+var subTypesRoute = require('./routes/subType')
 var providerRoute = require('./routes/providers')
 var provideBatchRoute = require('./routes/provideBatch')
 var accessoriesRoute = require('./routes/accessories')
@@ -72,8 +72,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/testAPI", testAPIRouter);
 app.use('/', loginRoute);
 app.use('/equipments', equipmentRoute);
-app.use('/groupEquipment', groupEquipmentRoute);
-app.use('/groupSubEquipment', groupSubEquipmentRoute);
+app.use('/generalTypes', generalTypesRoute);
+app.use('/subTypes', subTypesRoute);
 app.use('/providers', providerRoute);
 app.use('/provideBatch', provideBatchRoute);
 app.use('/accessories', accessoriesRoute);
