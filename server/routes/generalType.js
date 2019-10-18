@@ -22,4 +22,7 @@ router.post('/deleteGeneralType/:id', (req, res) => {
     generalTypeController.deleteGeneralType(req, res);
 });
 
+router.get('/code/:id', (req, res) => {
+    generalTypeController.getOneTypeByCode(req, res);
+});
 module.exports = router;

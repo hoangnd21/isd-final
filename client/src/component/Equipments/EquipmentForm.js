@@ -30,9 +30,7 @@ class EquipmentForm extends React.PureComponent {
           generalTypes: res.data
         })
       })
-      .catch(error => {
-        console.log(error)
-      });
+
   }
 
   choseGenType = genTypeID => {
@@ -156,7 +154,6 @@ class EquipmentForm extends React.PureComponent {
                   initialValue: modalType === 'update' ? equipment.code : eqCode.length === 3 ? eqCodeF : eqCode.join(''),
                 })(
                   <Input
-                    placeholder="Equipment code"
                     disabled
                   />)}
               </Form.Item>
@@ -287,7 +284,10 @@ class EquipmentForm extends React.PureComponent {
                 ],
                 initialValue: equipment.subtype,
               })(
-                <Cascader onChange={this.choseEquipmentType} options={equipmentTypes} placeholder="Please select General Type first" />
+                <Cascader
+                  onChange={this.choseEquipmentType}
+                  options={equipmentTypes}
+                  placeholder="Please select General Type first" />
               )}
             </Form.Item>
             <Form.Item label='Equipment Price ($)'

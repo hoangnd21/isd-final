@@ -8,7 +8,7 @@ import {
   Icon,
   Tooltip,
   Divider,
-
+  Popconfirm
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
@@ -131,24 +131,24 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  // deleteEquipment = data => {
-  //   axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         notification.open({
-  //           message: <span>
-  //             <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-  //             {res.data}
-  //           </span>
-  //         });
-  //         this.getAllEquipments()
-  //       }
-  //     }
-  //     )
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
-  // }
+  deleteEquipment = data => {
+    axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
+      .then(res => {
+        if (res.status === 200) {
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          });
+          this.getAllEquipments()
+        }
+      }
+      )
+      .catch(function (error) {
+        console.log(error)
+      });
+  }
 
   //handing
   handingModal = data => {
@@ -240,12 +240,13 @@ export default class Equipments extends React.PureComponent {
         title: <div>Name&nbsp; <Tooltip title='Click for equipment details'><Icon type='question-circle' /></Tooltip></div>,
         key: 'name',
         render: data =>
-          <Button style={{ color: 'black', padding: 0 }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
       {
         title: 'Codename',
         dataIndex: 'code',
-        key: 'code'
+        key: 'code',
+        render: code => <span style={{ textAlign: 'justify' }}>{code}</span>
       },
       {
         title: 'Status',
@@ -274,11 +275,11 @@ export default class Equipments extends React.PureComponent {
         key: 'batch',
       },
       {
-        title: 'Original Price ($)',
+        title: 'Original Price',
         dataIndex: 'originalPrice',
         key: 'originalPrice',
         align: 'right',
-        render: originalPrice => originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
       {
         title: 'Warranty (months)',
@@ -308,7 +309,7 @@ export default class Equipments extends React.PureComponent {
             >
               &nbsp;{data.status[0] === 'In Use' ? 'Reclaim' : 'Handing'}
             </Button>
-            {/* <Popconfirm
+            <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
@@ -316,7 +317,7 @@ export default class Equipments extends React.PureComponent {
               <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
             </Button>
-            </Popconfirm> */}
+            </Popconfirm>
           </>
       }
 
@@ -350,7 +351,7 @@ export default class Equipments extends React.PureComponent {
               modalType === 'create' ? 'Create Equipment' :
                 modalType === 'reclaim' ? 'Reclaim Equipment' :
                   modalType === 'handing' ? 'Handing Equipment' :
-                    null
+                    'Equipment Information'
           }
           destroyOnClose
           visible={equipmentModal}
