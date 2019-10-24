@@ -8,14 +8,15 @@ import {
   Icon,
   Tooltip,
   Divider,
-  Popconfirm
+  // Popconfirm
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
-import EquipmentReclaim from './EquipmentReclaim'
+import EquipmentReclaim from './EquipmentReclaim';
 
 export default class Equipments extends React.PureComponent {
+
   state = {
     equipments: [],
     listLoading: true,
@@ -160,7 +161,6 @@ export default class Equipments extends React.PureComponent {
   }
 
   handingEquipment = data => {
-    console.log('data', data);
     axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
       .then(res => {
         if (res.status === 200) {
@@ -191,11 +191,7 @@ export default class Equipments extends React.PureComponent {
     })
   }
   reclaimEquipment = data => {
-    console.log('data', data);
-    console.log('device', data.device)
-
     axios.get(`http://localhost:9000/reclaim/${data.device}`).then(res => {
-
       axios.put(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
         .then(res => {
           if (res.status === 200) {
@@ -208,7 +204,6 @@ export default class Equipments extends React.PureComponent {
                 <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
               </span>
-
             })
           }
         })
@@ -234,7 +229,9 @@ export default class Equipments extends React.PureComponent {
   // }
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading } = this.state;
+    // const { currentUser } = this.props
+    console.log(this.props.currentUser)
     const columns = [
       {
         title: <div>Name&nbsp; <Tooltip title='Click for equipment details'><Icon type='question-circle' /></Tooltip></div>,
@@ -249,20 +246,20 @@ export default class Equipments extends React.PureComponent {
         render: code => <span style={{ textAlign: 'justify' }}>{code}</span>
       },
       {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        render: status =>
-          <div style={status[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
-            {status}
+        title: 'Lock status',
+        dataIndex: 'lockStatus',
+        key: 'lockStatus',
+        render: lockStatus =>
+          <div style={lockStatus[0] === "Ready" ? { color: 'green' } : lockStatus[0] === 'Preparing' ? { color: '#f0cb65' } : { color: 'red' }}>
+            {lockStatus}
           </div>
       },
-      {
-        title: 'Start Date',
-        dataIndex: 'startDate',
-        key: 'startDate',
-        render: startDate => `${startDate.slice(8, 10)}/${startDate.slice(5, 7)}/${startDate.slice(0, 4)}`
-      },
+      // {
+      //   title: 'Start Date',
+      //   dataIndex: 'startDate',
+      //   key: 'startDate',
+      //   render: startDate => `${startDate.slice(8, 10)}/${startDate.slice(5, 7)}/${startDate.slice(0, 4)}`
+      // },
       {
         title: 'Purchased Date',
         dataIndex: 'datePurchase',
@@ -290,6 +287,7 @@ export default class Equipments extends React.PureComponent {
 
       {
         title: 'Actions',
+        align: 'center',
         render: data =>
           <>
             <Button
@@ -304,12 +302,12 @@ export default class Equipments extends React.PureComponent {
             <Button
               type='link'
               style={{ border: 0, padding: 10 }}
-              icon={data.status[0] === 'In Use' ? 'share-alt' : 'appstore'}
-              onClick={data.status[0] === 'In Use' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
+              icon={data.lockStatus[0] === 'Preparing' ? 'share-alt' : 'appstore'}
+              onClick={data.lockStatus[0] !== 'Ready' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
             >
-              &nbsp;{data.status[0] === 'In Use' ? 'Reclaim' : 'Handing'}
+              &nbsp;{data.lockStatus[0] !== 'Ready' ? 'Reclaim' : 'Handing'}
             </Button>
-            <Popconfirm
+            {/* <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
@@ -317,7 +315,7 @@ export default class Equipments extends React.PureComponent {
               <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
             </Button>
-            </Popconfirm>
+            </Popconfirm> */}
           </>
       }
 
@@ -326,7 +324,7 @@ export default class Equipments extends React.PureComponent {
       <>
         <div style={{ marginBottom: 5, fontSize: 18 }}>
           Equipments List
-            <div style={{ float: 'right', marginBottom: 5 }}>
+          <div style={{ float: 'right', marginBottom: 5 }}>
             <Button
               type='primary'
               icon='plus'
@@ -338,6 +336,7 @@ export default class Equipments extends React.PureComponent {
         </div>
         <Table
           dataSource={equipments}
+          loading={listLoading}
           columns={columns}
           footer={null}
           pagination={{
@@ -357,7 +356,7 @@ export default class Equipments extends React.PureComponent {
           visible={equipmentModal}
           footer={null}
           onCancel={this.hideEquipmentModal}
-          status={this.status}
+          lockStatus={this.lockStatus}
           modalType={this.modalType}
           width={1000}
           centered

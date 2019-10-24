@@ -2,27 +2,6 @@ const equipment = require('../models/equipments');
 // const mongoXlsx = require('mongo-xlsx');
 
 const addEquipment = (req, res) => {
-<<<<<<< HEAD
-    const now = Date.now();
-    equipment.create({
-        code: req.body.code,
-        seriNo: req.body.seriNo,
-        name: req.body.name,
-        generalType: req.body.generalType,
-        subtype: req.body.subtype,
-        lockStatus: req.body.lockStatus,
-        eqStatus: req.body.eqStatus,
-        datePurchase: req.body.datePurchase,
-        originalPrice: req.body.originalPrice,
-        warrantyMonths: req.body.warrantyMonths,
-        batch: req.body.batch,
-        startDate: req.body.startDate,
-        manufacturer: req.body.manufacturer,
-        note: req.body.note,
-        created_at: now
-    })
-    res.send("Equipment created successfully");
-=======
   const now = Date.now();
   equipment.create({
     code: req.body.code,
@@ -30,7 +9,8 @@ const addEquipment = (req, res) => {
     name: req.body.name,
     generalType: req.body.generalType,
     subtype: req.body.subtype,
-    status: req.body.status,
+    lockStatus: req.body.lockStatus,
+    eqStatus: req.body.eqStatus,
     datePurchase: req.body.datePurchase,
     originalPrice: req.body.originalPrice,
     warrantyMonths: req.body.warrantyMonths,
@@ -41,7 +21,6 @@ const addEquipment = (req, res) => {
     created_at: now
   })
   res.send("Equipment created successfully");
->>>>>>> WIP equipment view
 };
 module.exports.addEquipment = addEquipment;
 

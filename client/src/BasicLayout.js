@@ -16,14 +16,18 @@ import LoginPage from './Config/login'
 const { Header, Content, Footer, Sider } = Layout;
 
 export default class BasicLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: false,
+      loginModal: false,
+      isAuthenticated: {},
+      loginError: '',
+      loading: false,
+    };
+  }
 
-  state = {
-    collapsed: false,
-    loginModal: false,
-    isAuthenticated: '',
-    loginError: '',
-    loading: false
-  };
+
   componentDidMount = () => {
     axios({
       baseURL: '/login',
@@ -42,6 +46,7 @@ export default class BasicLayout extends Component {
             loginError: '',
             loading: false
           })
+          this.props.bringAuthenUp(res.data)
         } else {
           this.setState({
             loginModal: true,
@@ -51,7 +56,9 @@ export default class BasicLayout extends Component {
           })
         }
       })
+    // this.props.bringAuthenUp(res.data)
   }
+
   onCollapse = collapsed => {
     this.setState({ collapsed });
   }
@@ -121,7 +128,6 @@ export default class BasicLayout extends Component {
 
   render() {
     const { collapsed, loginModal, isAuthenticated, loginError, loading } = this.state;
-    const { children } = this.props;
     return (
       <Layout className='basic-layout'>
         {isAuthenticated !== null ?
@@ -172,7 +178,11 @@ export default class BasicLayout extends Component {
                 </span>
               </Header>
               <Content className='bl-content'>
-                {children}
+
+
+                {this.props.children}
+
+
               </Content>
               <Footer className='bl-footer'>
                 PMS - ISD
