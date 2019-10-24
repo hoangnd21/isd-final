@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const equipmentSchema = new schema({
-    code: String,
+    code: {
+        type: String,
+        required: true,
+        unique: true
+    },
     seriNo: String,
     name: String,
     generalType: Array,

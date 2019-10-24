@@ -12,18 +12,9 @@ const xlsxAllEquipment = (req, res) => {
                     let worksheet = workbook.addWorksheet('Equipments'); //creating worksheet
 
                     /* Generate Excel */
-                    // const a = [{ _id: 1, name: 'Jack Smith', address: 'Massachusetts', age: { a: 23, b: 23 } },
-                    // { _id: 2, name: 'Adam Johnson', address: 'New York', age: [27, 23] },
-                    // { _id: 3, name: 'Katherin Carter', address: 'Washington DC', age: [26, 23] },
-                    // { _id: 4, name: 'Jack London', address: 'Nevada', age: [33, 23] },
-                    // { _id: 5, name: 'Jason Bourne', address: 'California', age: [36, 23] }]
 
                     //  WorkSheet Header
                     worksheet.columns = [
-                        // { header: 'Id', key: '_id', width: 10 },
-                        // { header: 'Name', key: 'name', width: 30 },
-                        // { header: 'Address', key: 'address', width: 30 },
-                        // { header: 'Age', key: 'age[0]', width: 10 }
                         { header: 'Id', key: '_id', width: 30 },
                         { header: 'Name', key: 'name', width: 30 },
                         { header: 'Code', key: 'code', width: 10 },
