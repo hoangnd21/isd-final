@@ -19,11 +19,7 @@ const userShema = new Schema({
     password: String,
     rank: String,
     function: String,
-    role:
-    {
-        name: String,
-        level: Number
-    }
+    level: Number
 });
 
 const user = mongoose.model('users', userShema);

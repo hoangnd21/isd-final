@@ -25,6 +25,8 @@ var manaEquipOnUseRoute = require('./routes/manaEquipOnUse')
 var statusRoute = require('./routes/status')
 var userRoute = require('./routes/users')
 var excelRoute = require('./routes/excel')
+var notification = require('./routes/notification')
+var liquidationRoute = require('./routes/liquidation')
 var cookieSession = require('cookie-session')
 var reclaimRoute = require('./routes/reclaim')
 var app = express();
@@ -88,6 +90,8 @@ app.use('/user', userRoute);
 app.use('/password', passwordRoute);
 app.use('/excel', excelRoute);
 app.use('/reclaim', reclaimRoute);
+app.use('/noti', notification);
+app.use('/liquidation', liquidationRoute)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
