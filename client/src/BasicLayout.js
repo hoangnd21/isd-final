@@ -156,9 +156,9 @@ export default class BasicLayout extends Component {
                 <Menu.Item key="about">
                   <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
                 </Menu.Item>
-                {currentUser.role.level >= 3 ? <Menu.Item key="eqtype">
+                <Menu.Item key="eqtype">
                   <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Equipment Types</span></Link>
-                </Menu.Item> : null}
+                </Menu.Item>
               </Menu>
             </Sider>
             <Layout>
