@@ -22,10 +22,25 @@ export default class Equipments extends React.PureComponent {
     listLoading: true,
     equipmentModal: false,
     modalType: '',
-    equipmentDetail: {}
+    equipmentDetail: {},
+    currentUser: null
   }
 
   componentDidMount() {
+    axios({
+      baseURL: '/login',
+      method: 'get',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    })
+      .then(res => {
+        this.setState({
+          currentUser: res.data
+        })
+      })
     axios.get('http://localhost:9000/equipments')
       .then(res => {
         this.setState({
@@ -231,7 +246,6 @@ export default class Equipments extends React.PureComponent {
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail, listLoading } = this.state;
     // const { currentUser } = this.props
-    console.log(this.props.currentUser)
     const columns = [
       {
         title: <div>Name&nbsp; <Tooltip title='Click for equipment details'><Icon type='question-circle' /></Tooltip></div>,
