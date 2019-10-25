@@ -23,8 +23,8 @@ const getAllSubType = (req, res) => {
 };
 module.exports.getAllSubType = getAllSubType;
 
-const getOnesubType = (req, res) => {
-    const getOneGSEquip = subType.findById(req.params.id).exec()
+const getOneSubType = (req, res) => {
+    const getOneGSEquip = subType.findOne({ value: req.params.id }).exec()
         .then((getOneGSEquip) => {
             if (getOneGSEquip) {
                 res.send(getOneGSEquip);
@@ -34,7 +34,7 @@ const getOnesubType = (req, res) => {
             }
         })
 };
-module.exports.getOnesubType = getOnesubType;
+module.exports.getOneSubType = getOneSubType;
 
 const updateSubType = (req, res) => {
     const updateGSEquipment = subType.findById(req.params.id).exec()

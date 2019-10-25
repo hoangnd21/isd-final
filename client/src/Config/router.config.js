@@ -1,13 +1,14 @@
-import React from 'react'
+import React from 'react';
 import About from "../component/About";
 import Home from "../component/Home";
 import Equipments from '../component/Equipments';
+import EquipmentTypes from '../component/EquipmentTypes'
 
 const routes = [
     {
         path: '/',
         exact: true,
-        main: () => <Home />,
+        main: () => <Home />
     },
     {
         path: '/equipments',
@@ -15,7 +16,11 @@ const routes = [
     },
     {
         path: '/about',
-        main: () => <About />,
+        main: () => <About />
+    },
+    {
+        path: '/equipment-types',
+        main: () => <EquipmentTypes />
     }
 ]
 export default routes;
