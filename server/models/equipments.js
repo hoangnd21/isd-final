@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const schema = mongoose.Schema;
 const equipmentSchema = new schema({
     code: {
