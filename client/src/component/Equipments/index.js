@@ -240,7 +240,7 @@ export default class Equipments extends React.PureComponent {
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
       {
-        title: 'Codename',
+        title: 'Equipment Code',
         dataIndex: 'code',
         key: 'code',
         render: code => <span style={{ textAlign: 'justify' }}>{code}</span>
@@ -393,8 +393,7 @@ export default class Equipments extends React.PureComponent {
                       reclaimEquipment={this.reclaimEquipment}
                       updateEquipment={this.updateEquipment}
                     />
-                    :
-                    null
+                    : null
           }
         </Modal>
       </>

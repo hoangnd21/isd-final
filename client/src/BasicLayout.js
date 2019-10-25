@@ -21,7 +21,7 @@ export default class BasicLayout extends Component {
     this.state = {
       collapsed: false,
       loginModal: false,
-      isAuthenticated: {},
+      currentUser: {},
       loginError: '',
       loading: false,
     };
@@ -42,21 +42,19 @@ export default class BasicLayout extends Component {
         if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
-            isAuthenticated: res.data,
+            currentUser: res.data,
             loginError: '',
             loading: false
           })
-          this.props.bringAuthenUp(res.data)
         } else {
           this.setState({
             loginModal: true,
-            isAuthenticated: null,
+            currentUser: null,
             loginError: '',
             loading: false
           })
         }
       })
-    // this.props.bringAuthenUp(res.data)
   }
 
   onCollapse = collapsed => {
@@ -92,7 +90,7 @@ export default class BasicLayout extends Component {
         if (res.data !== 'Invalid login. Please try again') {
           this.setState({
             loginModal: false,
-            isAuthenticated: res.data,
+            currentUser: res.data,
             loading: false
           })
         } else {
@@ -120,17 +118,17 @@ export default class BasicLayout extends Component {
         if (res.data) {
           this.setState({
             loginModal: true,
-            isAuthenticated: null
+            currentUser: null
           })
         }
       })
   }
 
   render() {
-    const { collapsed, loginModal, isAuthenticated, loginError, loading } = this.state;
+    const { collapsed, loginModal, currentUser, loginError, loading } = this.state;
     return (
       <Layout className='basic-layout'>
-        {isAuthenticated !== null ?
+        {currentUser !== null ?
           <>
             <Sider
               collapsible
@@ -155,6 +153,9 @@ export default class BasicLayout extends Component {
                 <Menu.Item key="about">
                   <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
                 </Menu.Item>
+                {currentUser.role.level >= 3 ? <Menu.Item key="eqtype">
+                  <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Equipment Types</span></Link>
+                </Menu.Item> : null}
               </Menu>
             </Sider>
             <Layout>
@@ -167,7 +168,7 @@ export default class BasicLayout extends Component {
                 />
                 <span style={{ float: 'right', marginRight: 12 }}>
                   <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                    {loginModal ? '' : `Hello ${isAuthenticated.username}`}
+                    {loginModal ? '' : `Hello ${currentUser.username}`}
                   </span>
                   <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
                     <Link to='/'>
