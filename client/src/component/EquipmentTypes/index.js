@@ -11,7 +11,6 @@ export default class EquipmentTypes extends Component {
   state = {
     generalTypes: [],
     currentUser: null,
-    equipmentTypesByID: null,
     loading: true
   }
 
@@ -39,21 +38,9 @@ export default class EquipmentTypes extends Component {
       })
   }
 
-  getEqTypes = item => {
-    axios.get(`http://localhost:9000/subTypes/genTypeId/${item.id}`)
-      .then(res => {
-        this.setState({
-          equipmentTypesByID: res.data,
-        })
-      })
-      .catch(error => {
-        console.log(error)
-      });
-  }
-
 
   render() {
-    const { generalTypes, equipmentTypesByID } = this.state;
+    const { generalTypes } = this.state;
     const listData = generalTypes.map(g => {
       return (
         {
@@ -67,7 +54,7 @@ export default class EquipmentTypes extends Component {
         <List
           itemLayout='horizontal'
           dataSource={listData}
-          header='List of general types'
+          header={<h2>List of general types</h2>}
           size='large'
           pagination={{
             pageSize: 10,
@@ -78,9 +65,9 @@ export default class EquipmentTypes extends Component {
                 title={
                   <Popover
                     trigger='click'
-                    content={<EqTypesPopover generalType={item} equipmentTypes={equipmentTypesByID} />}
+                    content={<EqTypesPopover generalType={item} />}
                     placement='bottomLeft'
-                  ><Button style={{ padding: 0 }} type='link' onClick={() => this.getEqTypes(item)}><h3>{item.title}</h3></Button>
+                  ><Button style={{ padding: 0 }} type='link'><h3>{item.title}</h3></Button>
                   </Popover>
                 }
                 description={`ID: ${item.id}`}
