@@ -41,7 +41,7 @@ export default class EquipmentInfo extends React.Component {
       <>
         <Row gutter={16}>
           <Col xl={12}>
-            <h3>{generalType.label}&nbsp;{equipment.name}</h3>
+            <h3>{generalType.label}:&nbsp;{equipment.name}</h3>
             <div style={{ fontSize: '1.1em', lineHeight: '2em' }}>
               Equipment Type: {subType.label}<br />
               Equipment Code: {equipment.code}<br />

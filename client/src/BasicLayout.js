@@ -21,7 +21,7 @@ export default class BasicLayout extends Component {
     this.state = {
       collapsed: false,
       loginModal: false,
-      currentUser: {},
+      currentUser: null,
       loginError: '',
       loading: false,
     };
@@ -155,9 +155,6 @@ export default class BasicLayout extends Component {
                 </Menu.Item>
                 <Menu.Item key="about">
                   <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
-                </Menu.Item>
-                <Menu.Item key="eqtype">
-                  <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Equipment Types</span></Link>
                 </Menu.Item>
               </Menu>
             </Sider>
