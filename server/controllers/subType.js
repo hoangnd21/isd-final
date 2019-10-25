@@ -24,7 +24,8 @@ const getAllSubType = (req, res) => {
 module.exports.getAllSubType = getAllSubType;
 
 const getOneSubType = (req, res) => {
-    const getOneGSEquip = subType.findById(req.params.id).exec()
+
+    const getOneGSEquip = subType.findOne({ value: req.params.id }).exec()
         .then((getOneGSEquip) => {
             if (getOneGSEquip) {
                 res.send(getOneGSEquip);

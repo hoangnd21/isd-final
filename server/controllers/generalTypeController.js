@@ -67,4 +67,19 @@ const deleteGeneralType = (req, res) => {
             }
         })
 };
-module.exports.deleteGeneralType = deleteGeneralType; 
+module.exports.deleteGeneralType = deleteGeneralType;
+
+const getOneTypeByCode = (req, res) => {
+    const getEquip = generalType.findOne({ value: req.params.id }).exec()
+        .then((getEquip) => {
+            if (getEquip) {
+                res.send(getEquip);
+            }
+            else {
+                res.send('fail');
+
+            }
+        }
+        )
+}
+module.exports.getOneTypeByCode = getOneTypeByCode;

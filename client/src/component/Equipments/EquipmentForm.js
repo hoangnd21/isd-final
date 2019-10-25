@@ -13,6 +13,9 @@ import {
   Cascader
 } from 'antd';
 import axios from 'axios';
+import { lockStatusOptions, batchOptions, eqStatusOptions } from './options'
+
+
 
 const { TextArea } = Input;
 class EquipmentForm extends React.PureComponent {
@@ -20,7 +23,6 @@ class EquipmentForm extends React.PureComponent {
     generalTypes: [],
     equipmentTypes: [],
     currentValue: {},
-    eqCode: ['VN']
   }
 
   componentDidMount() {
@@ -30,17 +32,15 @@ class EquipmentForm extends React.PureComponent {
           generalTypes: res.data
         })
       })
-      .catch(error => {
-        console.log(error)
-      });
+
   }
+
 
   choseGenType = genTypeID => {
     axios.get(`http://localhost:9000/subTypes/genTypeId/${genTypeID}`)
       .then(res => {
         this.setState({
           equipmentTypes: res.data,
-          eqCode: this.state.eqCode.length <= 1 ? this.state.eqCode.concat(genTypeID) : this.state.eqCode.splice(0, 1).concat(genTypeID)
         })
       })
       .catch(error => {
@@ -48,19 +48,8 @@ class EquipmentForm extends React.PureComponent {
       });
   }
 
-  choseEquipmentType = eqTypeID => {
-    this.setState({
-      eqCode: this.state.eqCode.length <= 2 ? this.state.eqCode.concat(eqTypeID) : this.state.eqCode.splice(0, 2).concat(eqTypeID)
-    })
-  }
-
-  onChange = e => {
-    this.setState({
-      currentValue: e
-    })
-  }
-
-  randomString = length => {
+  //codegen logic
+  codegen = length => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const charactersLength = characters.length;
@@ -69,8 +58,9 @@ class EquipmentForm extends React.PureComponent {
     }
     return result;
   }
+  //end codegen logic
 
-
+  //create
   onCreateEquipment = e => {
     e.preventDefault();
     const { form, equipment, createEquipment } = this.props;
@@ -84,6 +74,7 @@ class EquipmentForm extends React.PureComponent {
     });
   };
 
+  //update
   onUpdateEquipment = e => {
     e.preventDefault();
     const { form, equipment, updateEquipment } = this.props;
@@ -97,44 +88,20 @@ class EquipmentForm extends React.PureComponent {
   };
 
   render() {
-    const { generalTypes, equipmentTypes, eqCode } = this.state;
+    const { generalTypes, equipmentTypes } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
-    const eqCodeF = eqCode.length <= 2 ? null : eqCode.concat(this.randomString(4)).join('')
-    console.log('code final', eqCodeF)
+    const eqCodeF = ['VN'].concat(this.codegen(12)).join('')
     const { getFieldDecorator } = form;
-    const statusOptions = [
-      {
-        value: 'Ready',
-        label: 'Ready',
-      },
-      {
-        value: 'In Use',
-        label: 'In Use',
-      }
-    ]
-    const batchOptions = [
-      {
-        value: 'batch1',
-        label: 'Batch 1'
-      },
-      {
-        value: 'batch2',
-        label: 'Batch 2'
-      },
-      {
-        value: 'batch3',
-        label: 'Batch 3'
-      },
+    console.log(equipment)
 
-    ]
     return (
       <Form
         layout="vertical"
         onSubmit={modalType === 'update' ? this.onUpdateEquipment : this.onCreateEquipment}
       >
-        <Row gutter={4}>
+        <Row gutter={2}>
           <Col xl={12}>
             <Col xl={12} style={{ padding: '0 2px 0 0' }}>
               <Form.Item label={
@@ -153,25 +120,24 @@ class EquipmentForm extends React.PureComponent {
                       required: true,
                     },
                   ],
-                  initialValue: modalType === 'update' ? equipment.code : eqCode.length === 3 ? eqCodeF : eqCode.join(''),
+                  initialValue: modalType === 'update' ? equipment.code : eqCodeF,
                 })(
                   <Input
-                    placeholder="Equipment code"
                     disabled
                   />)}
               </Form.Item>
             </Col>
             <Col xl={12} style={{ padding: '0 0 0 2px' }}>
-              <Form.Item label='Equipment status'>
-                {getFieldDecorator('status', {
+              <Form.Item label='Lock status'>
+                {getFieldDecorator('lockStatus', {
                   rules: [
                     {
                       required: true,
                       message: 'status',
                     },
                   ],
-                  initialValue: equipment.status,
-                })(<Cascader options={statusOptions} />)}
+                  initialValue: equipment.lockStatus,
+                })(<Cascader options={lockStatusOptions} />)}
               </Form.Item>
             </Col>
             <Col xl={24} style={{ padding: 0 }}>
@@ -184,7 +150,7 @@ class EquipmentForm extends React.PureComponent {
                       message: 'generalType',
                     },
                   ],
-                  initialValue: equipment.generalType,
+                  initialValue: modalType === 'update' ? equipment.generalType : null,
                 })(
                   <Cascader options={generalTypes} placeholder="General Type" onChange={this.choseGenType} />
                 )}
@@ -264,72 +230,94 @@ class EquipmentForm extends React.PureComponent {
             </Col>
           </Col>
           <Col xl={12}>
-            <Form.Item label='Equipment Batch'
-            >
-              {getFieldDecorator('batch', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'batch'
-                  },
-                ],
-                initialValue: equipment.batch,
-              })(<Cascader options={batchOptions} placeholder="Equipment batch" />)}
-            </Form.Item>
-            <Form.Item label='Equipment Type'
-            >
-              {getFieldDecorator('subtype', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'subtype',
-                  },
-                ],
-                initialValue: equipment.subtype,
-              })(
-                <Cascader onChange={this.choseEquipmentType} options={equipmentTypes} placeholder="Please select General Type first" />
-              )}
-            </Form.Item>
-            <Form.Item label='Equipment Price ($)'
-            >
-              {getFieldDecorator('originalPrice', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'originalPrice',
-                  },
-                ],
-                initialValue: equipment.originalPrice,
-              })(<Input placeholder="originalPrice" />)}
-            </Form.Item>
+            <Row gutter={4}>
+              <Col xl={12} style={{ padding: '0 0 0 2px' }}>
+                <Form.Item label='Equipment status'>
+                  {getFieldDecorator('eqStatus', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'eqStatus',
+                      },
+                    ],
+                    initialValue: equipment.eqStatus,
+                  })(<Cascader options={eqStatusOptions} />)}
+                </Form.Item>
+              </Col>
+              <Col xl={12}>
+                <Form.Item label='Equipment Batch'
+                >
+                  {getFieldDecorator('batch', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'batch'
+                      },
+                    ],
+                    initialValue: equipment.batch,
+                  })(<Cascader options={batchOptions} placeholder="Equipment batch" />)}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Col xl={24}>
+              <Form.Item label='Equipment Type'
+              >
+                {getFieldDecorator('subtype', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'subtype',
+                    },
+                  ],
+                  initialValue: modalType === 'update' ? equipment.subtype : null,
+                })(
+                  <Cascader
+                    onChange={this.choseEquipmentType}
+                    options={equipmentTypes}
+                    placeholder={modalType === 'update' ? equipment.subtype[0] : "Please select General Type first"}
+                  />
+                )}
+              </Form.Item>
+              <Form.Item label='Equipment Price ($)'
+              >
+                {getFieldDecorator('originalPrice', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'originalPrice',
+                    },
+                  ],
+                  initialValue: equipment.originalPrice,
+                })(<Input placeholder="Original Price of the equipment" />)}
+              </Form.Item>
 
-            <Form.Item label='Warranty (Months)'
-            >
-              {getFieldDecorator('warrantyMonths', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'warrantyMonths',
-                  },
-                ],
-                initialValue: equipment.warrantyMonths,
-              })(<Input placeholder="Warranty" />)}
-            </Form.Item>
+              <Form.Item label='Warranty (Months)'
+              >
+                {getFieldDecorator('warrantyMonths', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'warrantyMonths',
+                    },
+                  ],
+                  initialValue: equipment.warrantyMonths,
+                })(<Input placeholder="Warranty" />)}
+              </Form.Item>
 
 
 
-            <Form.Item label='Note'
-            >
-              {getFieldDecorator('note', {
-                rules: [
-                  {
-                    message: 'note',
-                  },
-                ],
-                initialValue: equipment.note,
-              })(<TextArea />)}
-            </Form.Item>
-
+              <Form.Item label='Note'
+              >
+                {getFieldDecorator('note', {
+                  rules: [
+                    {
+                      message: 'note',
+                    },
+                  ],
+                  initialValue: equipment.note,
+                })(<TextArea />)}
+              </Form.Item>
+            </Col>
           </Col>
         </Row>
         <Divider type="horizontal" />
