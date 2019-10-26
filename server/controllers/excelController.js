@@ -1,13 +1,20 @@
 const equipment = require('../models/equipments');
 const excel = require('exceljs');
 const mongoXlsx = require('mongo-xlsx')
-
+var xlsx = require('node-xlsx').default;
 const xlsxAllEquipment = (req, res) => {
-    equipment.find({}).sort({ created_at: -1 }).lean().exec()
+    equipment.find({
+        name: req.query.name,
+        generalType: req.query.generalType,
+
+    }).sort({ created_at: -1 }).lean().exec()
         .then(
-            data => {
-                if (data) {
-                    // console.log(data)
+            (data) => {
+                if (data.length == 0) {
+                    res.send('fail');
+                }
+                else {
+                    console.log(data)
                     /* Generate automatic model for processing (A static model should be used) */
                     // let workbook = new excel.Workbook(); //creating workbook
                     // let worksheet = workbook.addWorksheet('Equipments'); //creating worksheet
@@ -76,11 +83,8 @@ const xlsxAllEquipment = (req, res) => {
                         res.send("1 excel file exported");
                     });
 
+                }
 
-                }
-                else {
-                    res.send('fail');
-                }
             }
         )
 };
