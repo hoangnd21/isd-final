@@ -11,7 +11,8 @@ const providerSchema = new schema({
     warrantyPerson: String,
     emailWP: String,
     phoneWP: String,
-    note: String
+    note: String,
+    create_at: Date
 });
 
 const providers = mongoose.model('providers', providerSchema);

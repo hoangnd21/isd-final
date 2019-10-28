@@ -1,6 +1,7 @@
 const accessories = require('../models/accessories');
 
 const addAccessories = (req, res) => {
+    const now = Date.now()
     accessories.create({
         code: req.body.code,
         name: req.body.name,
@@ -11,7 +12,8 @@ const addAccessories = (req, res) => {
         warranty: req.body.warranty,
         warrantyStartDate: req.body.warrantyStartDate,
         belongedDevice: req.body.belongedDevice,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

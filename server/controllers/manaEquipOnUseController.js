@@ -1,11 +1,13 @@
 const manaEquipOnUse = require('../models/manaEquipOnUse');
 
 const addManaEquipOnUse = (req, res) => {
+    const now = Date.now()
     manaEquipOnUse.create({
         device: req.body.device,
         accessories: rq.body.accessories,
         startDate: req.body.startDate,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

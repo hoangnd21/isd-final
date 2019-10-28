@@ -19,7 +19,9 @@ const userShema = new Schema({
     password: String,
     rank: String,
     function: String,
-    level: Number
+    level: Number,
+    image: String,
+    create_at: Date
 });
 
 const user = mongoose.model('users', userShema);

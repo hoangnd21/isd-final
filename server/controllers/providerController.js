@@ -1,6 +1,7 @@
 const providers = require('../models/providers');
 
 const addProvider = (req, res) => {
+    const now = Date.now()
     providers.create({
         name: req.body.name,
         address: req.body.address,
@@ -11,7 +12,8 @@ const addProvider = (req, res) => {
         warrantyPerson: req.body.warrantyPerson,
         emailWP: req.body.emailWP,
         phoneWP: req.body.phoneWP,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

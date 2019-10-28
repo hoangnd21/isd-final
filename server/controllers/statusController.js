@@ -1,8 +1,10 @@
 const status = require('../models/status');
 
 const addStatus = (req, res) => {
+    const now = Date.now()
     status.create({
         status: req.body.status,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

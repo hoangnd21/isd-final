@@ -1,6 +1,7 @@
 const user = require('../models/user');
 const bcrypt = require('bcrypt')
 const addUser = (req, res) => {
+    const now = Date.now();
     if (req.body.code && req.body.username && req.body.password && req.body.level && req.body.passwordConf) {
         if (req.body.password === req.body.passwordConf) {
             bcrypt.hash(req.body.password, 10, function (err, hash) {
@@ -27,8 +28,8 @@ const addUser = (req, res) => {
                     password: hash,
                     rank: req.body.rank,
                     function: req.body.function,
-                    level: req.body.level
-
+                    level: req.body.level,
+                    creat_at: now
                 });
             })
         }

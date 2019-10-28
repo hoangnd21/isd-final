@@ -6,7 +6,8 @@ const adjustmentSchema = new schema({
     device: String,
     type: String,
     completionEstimation: Date,
-    note: String
+    note: String,
+    create_at: Date
 })
 
 const adjustment = mongoose.model('adjustment', adjustmentSchema);

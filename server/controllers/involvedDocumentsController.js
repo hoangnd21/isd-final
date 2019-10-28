@@ -1,12 +1,14 @@
 const involvedDocuments = require('../models/involvedDocuments');
 
 const addInvolvedDocuments = (req, res) => {
+    const now = Date.now()
     involvedDocuments.create({
         code: req.body.code,
         name: req.body.name,
         attachedFile: req.body.attachedFile,
         belongedDevice: req.body.belongedDevice,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

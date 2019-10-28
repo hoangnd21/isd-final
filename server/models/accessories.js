@@ -11,7 +11,8 @@ const accessoriesSchema = new schema({
     warranty: Number,
     warrantyStartDate: Date,
     belongedDevice: String,
-    note: String
+    note: String,
+    create_at: Date
 })
 
 const accessories = mongoose.model('accessories', accessoriesSchema);

@@ -1,12 +1,14 @@
 const adjustment = require('../models/adjustment');
 
 const addAdjustment = (req, res) => {
+    const now = Date.now()
     adjustment.create({
         startDate: req.body.startDate,
         device: req.body.device,
         type: req.body.type,
         completionEstimation: req.body.completionEstimation,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };
