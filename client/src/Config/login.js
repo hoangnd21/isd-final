@@ -61,7 +61,6 @@ class LoginPage extends React.Component {
         </Form.Item>
         <div style={{ color: 'red', marginBottom: 5 }}>
           {loginError}
-
         </div>
         <div style={{ textAlign: "right", }}>
           <div style={{ float: 'left' }}>

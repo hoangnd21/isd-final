@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  // List
-} from 'antd'
+import { List } from 'antd'
 import axios from 'axios'
 
 export default class EqTypesDrawer extends Component {
@@ -26,7 +24,23 @@ export default class EqTypesDrawer extends Component {
     console.log(`${generalType.label}`, equipmentTypesByID)
     return (
       <>
-        {generalType.label} has {equipmentTypesByID.length} subtypes.
+        The general type {generalType.label} has {equipmentTypesByID.length} subtype(s).
+        <List
+          itemLayout='horizontal'
+          dataSource={equipmentTypesByID}
+          size='small'
+          renderItem={item => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  item.label
+                }
+                description={`ID: ${item.value}`}
+              />
+            </List.Item>
+          )}
+        >
+        </List>
       </>
     )
   }

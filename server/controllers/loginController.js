@@ -30,8 +30,10 @@ const login = (req, res) => {
                     }
                 })
             }
-            else
-                res.send("Invalid login. Please try again");
+            else {
+                res.send("Invalid username. Please try again");
+            }
+
         });
 
 }
