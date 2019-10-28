@@ -157,6 +157,9 @@ export default class BasicLayout extends Component {
                 {currentUser.level > 2 ? <Menu.Item key="accessories">
                   <Link to="/accessories" ><Icon type="chrome" /><span>Accessories</span></Link>
                 </Menu.Item> : null}
+                {currentUser.level > 3 ? <Menu.Item key="users">
+                  <Link to="/users" ><Icon type="user" /><span>Users</span></Link>
+                </Menu.Item> : null}
               </Menu>
             </Sider>
             <Layout>
