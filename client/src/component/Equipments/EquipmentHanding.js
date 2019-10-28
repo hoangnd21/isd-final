@@ -39,7 +39,6 @@ class EquipmentHanding extends React.Component {
       if (err) {
         return;
       }
-      console.log('handingDetail', { ...handingDetail, status: 'In Use', device: equipment.code })
       handingEquipment({ ...handingDetail, status: 'In Use', device: equipment.code })
       updateEquipment({ ...equipment, status: 'In Use' })
       form.resetFields();

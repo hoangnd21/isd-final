@@ -23,7 +23,7 @@ export default class Home extends React.Component {
   }
   render() {
     return (
-      <h1>Content of Home</h1>
+      <h2>Content of Home</h2>
     )
   }
 }
