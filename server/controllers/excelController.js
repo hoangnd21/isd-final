@@ -3,11 +3,8 @@ const excel = require('exceljs');
 const mongoXlsx = require('mongo-xlsx')
 var xlsx = require('node-xlsx').default;
 const xlsxAllEquipment = (req, res) => {
-    equipment.find({
-        name: req.query.name,
-        generalType: req.query.generalType,
-
-    }).sort({ created_at: -1 }).lean().exec()
+    // console.log(Object.keys(req.query).length)
+    equipment.find(req.query).sort({ created_at: -1 }).lean().exec()
         .then(
             (data) => {
                 if (data.length == 0) {
