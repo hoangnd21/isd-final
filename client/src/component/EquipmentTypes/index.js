@@ -132,17 +132,18 @@ export default class EquipmentTypes extends Component {
                   />
                 </List.Item>
               )}
-            ><Drawer
-              title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
-              placement="right"
-              closable={false}
-              onClose={this.closeDrawer}
-              visible={drawerVisible}
-              destroyOnClose
-              style={{ position: 'absolute', }}
-              maskStyle={{ backgroundColor: 'transparent' }}
-              width={900}
             >
+              <Drawer
+                title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
+                placement="right"
+                closable={false}
+                onClose={this.closeDrawer}
+                visible={drawerVisible}
+                destroyOnClose
+                style={{ position: 'absolute', }}
+                maskStyle={{ backgroundColor: 'transparent' }}
+                width='auto'
+              >
                 <EqTypesDrawer generalType={generalTypebyID} />
               </Drawer>
             </List>

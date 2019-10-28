@@ -4,11 +4,16 @@ import {
   Button,
   Modal,
   notification,
-  Icon
+  Icon,
+  Input,
+  Row,
+  Col,
+  Divider
 } from 'antd'
 import axios from 'axios'
 import EquipmentTypeForm from './EquipmentTypeForm'
 
+const { Search } = Input
 export default class EqTypesDrawer extends Component {
   state = {
     equipmentTypesByID: [],
@@ -82,10 +87,21 @@ export default class EqTypesDrawer extends Component {
     const { generalType } = this.props
     return (
       <>
-        <div style={{ textAlign: 'right' }}>
-          <span style={{ float: 'left' }}>{equipmentTypesByID.length} {equipmentTypesByID.length > 1 ? 'entries' : 'entry'}.</span>
-          <Button type='primary' icon='plus' onClick={this.addEqTypeModal}>Add a new Equipment type into {generalType.label}</Button>
-        </div>
+        <Row gutter={10} style={{ width: 900 }}>
+          <Col xl={12}>
+            <Search
+              placeholder={`Search ${equipmentTypesByID.length} ${equipmentTypesByID.length > 1 ? 'entries' : 'entry'}....`}
+              onSearch={value => console.log(value)}
+              enterButton
+            />
+          </Col>
+          <Col xl={12}>
+            <div style={{ textAlign: 'right' }}>
+              <Button type='primary' icon='plus' onClick={this.addEqTypeModal}>Add a new Equipment type into {generalType.label}</Button>
+            </div>
+          </Col>
+        </Row>
+        <Divider type='horizontal' />
         <List
           itemLayout='horizontal'
           dataSource={equipmentTypesByID}
@@ -95,7 +111,7 @@ export default class EqTypesDrawer extends Component {
             <List.Item>
               <List.Item.Meta
                 title={item.label}
-                description={`ID: ${item.value}`}
+                description={`Equipment type ID: ${item.value}`}
               />
             </List.Item>
           )}
