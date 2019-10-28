@@ -3,6 +3,7 @@ import About from "../component/About";
 import Home from "../component/Home";
 import Equipments from '../component/Equipments';
 import EquipmentTypes from '../component/EquipmentTypes'
+import Accessories from '../component/Accessories'
 
 const routes = [
   {
@@ -21,6 +22,10 @@ const routes = [
   {
     path: '/equipment-types',
     main: () => <EquipmentTypes />
+  },
+  {
+    path: '/accessories',
+    main: () => <Accessories />
   }
 ]
 export default routes;

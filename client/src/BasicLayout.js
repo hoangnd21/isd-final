@@ -87,8 +87,8 @@ export default class BasicLayout extends Component {
       }
     })
       .then((res) => {
-        console.log("res", res)
-        if (res.data !== 'Invalid login. Please try again' && res.data !== 'Invalid user. Please try again') {
+        console.log('res server', res)
+        if (res.data !== 'Invalid login. Please try again' && res.data !== 'Invalid username. Please try again') {
           this.setState({
             loginModal: false,
             currentUser: res.data,
@@ -151,12 +151,12 @@ export default class BasicLayout extends Component {
                 <Menu.Item key="equipments">
                   <Link to="/equipments" ><Icon type="sliders" /><span>Equipments</span></Link>
                 </Menu.Item>
-                <Menu.Item key="eqtype">
-                  <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Equipment Types</span></Link>
-                </Menu.Item>
-                <Menu.Item key="about">
-                  <Link to="/about" ><Icon type="info-circle" /><span>About</span></Link>
-                </Menu.Item>
+                {currentUser.level > 2 ? <Menu.Item key="eqtype">
+                  <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Manage Types</span></Link>
+                </Menu.Item> : null}
+                {currentUser.level > 2 ? <Menu.Item key="accessories">
+                  <Link to="/accessories" ><Icon type="chrome" /><span>Accessories</span></Link>
+                </Menu.Item> : null}
               </Menu>
             </Sider>
             <Layout>
@@ -169,7 +169,7 @@ export default class BasicLayout extends Component {
                 />
                 <span style={{ float: 'right', marginRight: 12 }}>
                   <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                    {loginModal ? '' : `Hello ${currentUser.username}`}
+                    {loginModal ? '' : <Link to='/about'>Hello {currentUser.username}</Link>}
                   </span>
                   <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
                     <Link to='/'>
@@ -197,6 +197,7 @@ export default class BasicLayout extends Component {
           closable={false}
           footer={null}
           centered
+          destroyOnClose
           mask={false}
         >
           <LoginPage
@@ -206,7 +207,7 @@ export default class BasicLayout extends Component {
           />
         </Modal>
 
-      </Layout >
+      </Layout>
     );
   }
 }

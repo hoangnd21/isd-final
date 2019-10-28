@@ -336,9 +336,8 @@ export default class Equipments extends React.PureComponent {
     ]
     return (
       <>
-        <div style={{ marginBottom: 5, fontSize: 18 }}>
-          Equipments List
-          <div style={{ float: 'right', marginBottom: 5 }}>
+        <h2>Equipments List
+          <span style={{ float: 'right' }}>
             <Button
               type='primary'
               icon='plus'
@@ -346,15 +345,15 @@ export default class Equipments extends React.PureComponent {
             >
               Create a new Equipment
             </Button>
-          </div>
-        </div>
+          </span>
+        </h2>
         <Table
           dataSource={equipments}
           loading={listLoading}
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 20,
+            pageSize: 20
           }}
           rowKey={record => record._id}
         />

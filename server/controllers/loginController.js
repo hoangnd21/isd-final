@@ -31,8 +31,9 @@ const login = (req, res) => {
                     }
                 })
             }
-            else
-                res.send("Invalid user. Please try again");
+            else {
+                res.send("Invalid username. Please try again");
+            }
         });
 
 }
