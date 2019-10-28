@@ -4,6 +4,7 @@ import Home from "../component/Home";
 import Equipments from '../component/Equipments';
 import EquipmentTypes from '../component/EquipmentTypes'
 import Accessories from '../component/Accessories'
+import Users from '../component/Users'
 
 const routes = [
   {
@@ -26,6 +27,10 @@ const routes = [
   {
     path: '/accessories',
     main: () => <Accessories />
+  },
+  {
+    path: '/users',
+    main: () => <Users />
   }
 ]
 export default routes;

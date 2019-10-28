@@ -37,7 +37,7 @@ class LoginPage extends React.Component {
     const usernameError = isFieldTouched('username') && getFieldError('username');
     const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
-      <Form layout="vertical" onSubmit={this.handleLogin}>
+      <Form layout="vertical" onSubmit={this.handleLogin} loading={loading}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
