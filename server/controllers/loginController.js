@@ -30,6 +30,8 @@ const login = (req, res) => {
                     }
                 })
             }
+            else
+                res.send("Invalid login. Please try again");
         });
 
 }

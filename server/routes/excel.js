@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const excelController = require('../controllers/excelController')
 
-router.get('/', (req, res) => {
+router.get('/equipments', (req, res) => {
     excelController.xlsxAllEquipment(req, res);
 });
 
