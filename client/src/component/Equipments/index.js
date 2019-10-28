@@ -336,7 +336,7 @@ export default class Equipments extends React.PureComponent {
     ]
     return (
       <>
-        <div style={{ marginBottom: 5, fontSize: 18 }}>
+        <div style={{ marginBottom: 5, fontSize: 18, width: "100%" }}>
           Equipments List
           <div style={{ float: 'right', marginBottom: 5 }}>
             <Button
