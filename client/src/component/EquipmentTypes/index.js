@@ -19,7 +19,7 @@ export default class EquipmentTypes extends Component {
     currentUser: null,
     loading: true,
     drawerVisible: false,
-    generalTypebyID: []
+    generalTypebyID: [],
   }
 
   componentDidMount() {
@@ -54,6 +54,7 @@ export default class EquipmentTypes extends Component {
         })
       })
   }
+
   eqTypesDrawer = item => {
     this.setState({
       drawerVisible: true,
@@ -85,8 +86,9 @@ export default class EquipmentTypes extends Component {
       });
   }
 
+
   render() {
-    const { generalTypes, drawerVisible, generalTypebyID, currentUser } = this.state;
+    const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading } = this.state;
     return (
       <>
         {currentUser && currentUser.level < 2 ?
@@ -116,6 +118,7 @@ export default class EquipmentTypes extends Component {
               itemLayout='horizontal'
               dataSource={generalTypes}
               size='large'
+              loading={loading}
               pagination={{
                 pageSize: 8
               }}
@@ -130,11 +133,12 @@ export default class EquipmentTypes extends Component {
                 </List.Item>
               )}
             ><Drawer
-              title={generalTypebyID.label}
+              title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
               placement="right"
               closable={false}
               onClose={this.closeDrawer}
               visible={drawerVisible}
+              destroyOnClose
               style={{ position: 'absolute', }}
               maskStyle={{ backgroundColor: 'transparent' }}
               width={900}
