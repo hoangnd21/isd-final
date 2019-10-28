@@ -19,6 +19,7 @@ const login = (req, res) => {
     //const sess = req.session;
     const loginResult = users.findOne({ username: user }).exec()
         .then((loginResult) => {
+            console.log(loginResult)
             if (loginResult) {
                 bcrypt.compare(pass, loginResult.password, function (err, result) {
                     if (result === true) {
@@ -33,7 +34,6 @@ const login = (req, res) => {
             else {
                 res.send("Invalid username. Please try again");
             }
-
         });
 
 }

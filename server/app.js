@@ -29,6 +29,7 @@ var notification = require('./routes/notification')
 var liquidationRoute = require('./routes/liquidation')
 var cookieSession = require('cookie-session')
 var reclaimRoute = require('./routes/reclaim')
+var searchRoute = require('./routes/search')
 var app = express();
 
 
@@ -91,7 +92,8 @@ app.use('/password', passwordRoute);
 app.use('/excel', excelRoute);
 app.use('/reclaim', reclaimRoute);
 app.use('/noti', notification);
-app.use('/liquidation', liquidationRoute)
+app.use('/liquidation', liquidationRoute);
+app.use(('/search', searchRoute));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
