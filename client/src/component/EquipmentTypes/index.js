@@ -2,16 +2,19 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import {
   List,
-  Popover,
-  Button
+  Button,
+  Drawer
 } from 'antd';
-import EqTypesPopover from './EqTypesPopover'
+import EqTypesDrawer from './EqTypesDrawer'
+import Forbidden from '../../Config/Forbidden';
 
 export default class EquipmentTypes extends Component {
   state = {
     generalTypes: [],
     currentUser: null,
-    loading: true
+    loading: true,
+    drawerVisible: false,
+    generalTypebyID: []
   }
 
   componentDidMount() {
@@ -38,44 +41,60 @@ export default class EquipmentTypes extends Component {
       })
   }
 
+  eqTypesDrawer = item => {
+    console.log(item)
+    this.setState({
+      drawerVisible: true,
+      generalTypebyID: item
+    })
+  }
+  closeDrawer = () => {
+    this.setState({
+      drawerVisible: false
+    })
+  }
 
   render() {
-    const { generalTypes } = this.state;
-    const listData = generalTypes.map(g => {
-      return (
-        {
-          title: g.label,
-          id: g.value
-        }
-      )
-    })
+    const { generalTypes, drawerVisible, generalTypebyID, currentUser } = this.state;
     return (
       <>
-        <List
-          itemLayout='horizontal'
-          dataSource={listData}
-          header={<h2>List of general types</h2>}
-          size='large'
-          pagination={{
-            pageSize: 10,
-          }}
-          renderItem={item => (
-            <List.Item>
-              <List.Item.Meta
-                title={
-                  <Popover
-                    trigger='click'
-                    content={<EqTypesPopover generalType={item} />}
-                    placement='bottomLeft'
-                  ><Button style={{ padding: 0 }} type='link'><h3>{item.title}</h3></Button>
-                  </Popover>
-                }
-                description={`ID: ${item.id}`}
-              />
-            </List.Item>
-          )}
-        />
-
+        {currentUser && currentUser.level > 3 ? <div style={{ overflowX: "hidden", width: '100%' }}>
+          <List
+            itemLayout='horizontal'
+            dataSource={generalTypes}
+            header={<h2>List of general types</h2>}
+            size='large'
+            pagination={{
+              pageSize: 10,
+            }}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  title={
+                    <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
+                  }
+                  description={`ID: ${item.value}`}
+                />
+              </List.Item>
+            )}
+          >
+          </List>
+          <Drawer
+            title={generalTypebyID.label}
+            placement="right"
+            closable={false}
+            onClose={this.closeDrawer}
+            visible={drawerVisible}
+            style={{ position: 'absolute' }}
+            destroyOnClose
+            maskStyle={{ backgroundColor: 'transparent' }}
+          >
+            <EqTypesDrawer generalType={generalTypebyID} />
+          </Drawer>
+        </div>
+          :
+          <Forbidden />
+        }
       </>
     )
   }
