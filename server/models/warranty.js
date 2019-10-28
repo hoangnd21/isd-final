@@ -6,7 +6,8 @@ const warrantySchema = new schema({
     device: String,
     type: String,
     completionEstimation: Date,
-    note: String
+    note: String,
+    create_at: Date
 })
 
 const warranty = mongoose.model('warranty', warrantySchema);

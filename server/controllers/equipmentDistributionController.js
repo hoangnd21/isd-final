@@ -1,13 +1,15 @@
 const equipmentDistribution = require('../models/equipmentDistribution');
 
 const addEquipmentDistribution = (req, res) => {
+    const now = Date.now()
     equipmentDistribution.create({
         handingDate: req.body.handingDate,
         reclaimDate: req.body.reclaimDate,
         device: req.body.device,
         user: req.body.user,
         status: req.body.status,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("Handing entry successfully added");
 };

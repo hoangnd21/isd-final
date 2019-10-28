@@ -6,7 +6,8 @@ const errorReportSchema = new schema({
     device: String,
     option: String,
     reportDate: Date,
-    note: String
+    note: String,
+    create_at: Date
 })
 
 const errorReport = mongoose.model('errorReport', errorReportSchema);

@@ -1,12 +1,14 @@
 const provideBatch = require('../models/provideBatch');
 
 const addProvideBatch = (req, res) => {
+    const now = Date.now()
     provideBatch.create({
         code: req.body.code,
         date: req.body.date,
         provider: req.body.provider,
         contactPerson: req.body.contactPerson,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

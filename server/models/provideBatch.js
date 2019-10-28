@@ -6,7 +6,8 @@ const provideBatchSchema = new schema({
     date: Date,
     provider: String,
     contactPerson: String,
-    note: String
+    note: String,
+    create_at: Date
 });
 
 const providerBatch = mongoose.model('provideBatches', provideBatchSchema);

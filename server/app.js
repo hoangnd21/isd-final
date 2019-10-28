@@ -3,12 +3,10 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var nodemailer = require('nodemailer');
-var uuid = require('uuid')
 var logger = require('morgan');
 var cors = require("cors");
 var testAPIRouter = require("./routes/testAPI");
-var passwordRoute = require('./routes/password')
+var gmailRoute = require('./routes/gmail')
 var loginRoute = require('./routes/login')
 var equipmentRoute = require('./routes/equipments')
 var generalTypesRoute = require('./routes/generalType')
@@ -30,6 +28,8 @@ var liquidationRoute = require('./routes/liquidation')
 var cookieSession = require('cookie-session')
 var reclaimRoute = require('./routes/reclaim')
 var searchRoute = require('./routes/search')
+var uploadRoute = require('./routes/upload')
+var upload = require('express-fileupload')
 var app = express();
 
 
@@ -71,7 +71,7 @@ app.use(session({
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(upload());
 app.use("/testAPI", testAPIRouter);
 app.use('/', loginRoute);
 app.use('/equipments', equipmentRoute);
@@ -88,12 +88,13 @@ app.use('/errorReport', errorReportRoute);
 app.use('/manaEquipOnUse', manaEquipOnUseRoute);
 app.use('/status', statusRoute);
 app.use('/user', userRoute);
-app.use('/password', passwordRoute);
+app.use('/gmail', gmailRoute);
 app.use('/excel', excelRoute);
 app.use('/reclaim', reclaimRoute);
 app.use('/noti', notification);
 app.use('/liquidation', liquidationRoute);
 app.use(('/search', searchRoute));
+app.use('/upload', uploadRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

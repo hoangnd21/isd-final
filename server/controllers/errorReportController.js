@@ -1,12 +1,14 @@
 const errorReport = require('../models/errorReport');
 
 const addErrorReport = (req, res) => {
+    const now = Date.now()
     errorReport.create({
         user: req.body.user,
         device: req.body.device,
         option: rq.body.option,
         reportDate: req.body.reportDate,
-        note: req.body.note
+        note: req.body.note,
+        create_at: now
     });
     res.send("1 document created successfully");
 };

@@ -3,6 +3,7 @@ const schema = mongoose.Schema;
 
 const statusSchema = new schema({
     status: String,
+    create_at: Date
 
 })
 

@@ -1,10 +1,12 @@
 const subType = require('../models/subType');
 
 const addSubType = (req, res) => {
+    const now = Date.now();
     subType.create({
         value: req.body.value,
         label: req.body.label,
-        genTypeId: req.body.genTypeId
+        genTypeId: req.body.genTypeId,
+        create_at: now
     })
     res.send("1 document created successfully");
 };

@@ -6,7 +6,8 @@ const involvedDocumentsSchema = new schema({
     name: String,
     attachedFile: String,
     belongedDevice: String,
-    note: String
+    note: String,
+    create_at: Date
 })
 
 const involvedDocuments = mongoose.model('involvedDocuments', involvedDocumentsSchema);
