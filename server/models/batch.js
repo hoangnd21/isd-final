@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
-const provideBatchSchema = new schema({
+const batchSchema = new schema({
     code: String,
     date: Date,
     provider: String,
@@ -10,5 +10,5 @@ const provideBatchSchema = new schema({
     create_at: Date
 });
 
-const providerBatch = mongoose.model('provideBatches', provideBatchSchema);
-module.exports = providerBatch;
+const batch = mongoose.model('batches', batchSchema);
+module.exports = batch;

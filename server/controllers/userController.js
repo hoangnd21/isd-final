@@ -35,13 +35,13 @@ const addUser = (req, res) => {
             })
         }
 
-        res.send("1 document created successfully");
+        res.send("User is successfully added");
     }
 };
 module.exports.addUser = addUser;
 
 const getAllUser = (req, res) => {
-    const getAllUser = user.find({}).exec()
+    const getAllUser = user.find({}).sort({ created_at: -1 }).exec()
         .then((getAllUser) => {
             if (getAllUser) {
                 res.send(getAllUser);
@@ -77,7 +77,7 @@ const updateUser = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("User is successfully updated");
             }
         })
 };
@@ -92,7 +92,7 @@ const deleteUser = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("User is successfully deleted");
             }
         })
 };

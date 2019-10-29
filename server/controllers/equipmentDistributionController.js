@@ -16,7 +16,7 @@ const addEquipmentDistribution = (req, res) => {
 module.exports.addEquipmentDistribution = addEquipmentDistribution;
 
 const getAllEquipmentDistribution = (req, res) => {
-    const getAllEquipmentDistribution = equipmentDistribution.find({}).exec()
+    const getAllEquipmentDistribution = equipmentDistribution.find({}).sort({ created_at: -1 }).exec()
         .then((getAllEquipmentDistribution) => {
             if (getAllEquipmentDistribution) {
                 res.send(getAllEquipmentDistribution);
@@ -52,7 +52,7 @@ const updateEquipmentDistribution = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Handing entry successfully updated");
             }
         })
 };
@@ -67,7 +67,7 @@ const deleteEquipmentDistribution = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Handing entry successfully deleted");
             }
         })
 };

@@ -22,7 +22,7 @@ const transport = (req, res) => {
             console.log(error);
         } else {
             console.log('Email sent: ' + info.response);
-            res.send("email sent successfully");
+            res.send("email sent successfully!");
         }
     });
 };

@@ -15,12 +15,12 @@ const addProvider = (req, res) => {
         note: req.body.note,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Provider is successfully added");
 };
 module.exports.addProvider = addProvider;
 
 const getAllProviders = (req, res) => {
-    const getAllprovider = providers.find({}).exec()
+    const getAllprovider = providers.find({}).sort({ created_at: -1 }).exec()
         .then((getAllprovider) => {
             if (getAllprovider) {
                 res.send(getAllprovider);
@@ -56,7 +56,7 @@ const updateProviders = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Provider is successfully updated");
             }
         })
 };
@@ -71,7 +71,7 @@ const deleteProviders = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Provider is successfully deleted");
             }
         })
 };

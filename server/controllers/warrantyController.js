@@ -15,7 +15,7 @@ const addWarranty = (req, res) => {
 module.exports.addWarranty = addWarranty;
 
 const getAllWarranty = (req, res) => {
-    const getAllWarranty = warranty.find({}).exec()
+    const getAllWarranty = warranty.find({}).sort({ created_at: -1 }).exec()
         .then((getAllWarranty) => {
             if (getAllWarranty) {
                 res.send(getAllWarranty);

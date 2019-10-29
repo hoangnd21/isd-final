@@ -10,12 +10,12 @@ const addErrorReport = (req, res) => {
         note: req.body.note,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Report is successfully created");
 };
 module.exports.addErrorReport = addErrorReport;
 
 const getAllErrorReport = (req, res) => {
-    const getAllErrorReport = errorReport.find({}).exec()
+    const getAllErrorReport = errorReport.find({}).sort({ created_at: -1 }).exec()
         .then((getAllErrorReport) => {
             if (getAllErrorReport) {
                 res.send(getAllErrorReport);
@@ -51,7 +51,7 @@ const updateErrorReport = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Report is successfully updated");
             }
         })
 };
@@ -66,7 +66,7 @@ const deleteErrorReport = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Report is successfully deleted");
             }
         })
 };

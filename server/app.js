@@ -12,7 +12,7 @@ var equipmentRoute = require('./routes/equipments')
 var generalTypesRoute = require('./routes/generalType')
 var subTypesRoute = require('./routes/subType')
 var providerRoute = require('./routes/providers')
-var provideBatchRoute = require('./routes/provideBatch')
+var batchRoute = require('./routes/batch')
 var accessoriesRoute = require('./routes/accessories')
 var InvolvedDocumentsRoute = require('./routes/involvedDocuments')
 var warrantyRoute = require('./routes/warranty')
@@ -78,7 +78,7 @@ app.use('/equipments', equipmentRoute);
 app.use('/generalTypes', generalTypesRoute);
 app.use('/subTypes', subTypesRoute);
 app.use('/providers', providerRoute);
-app.use('/provideBatch', provideBatchRoute);
+app.use('/batch', batchRoute);
 app.use('/accessories', accessoriesRoute);
 app.use('/involvedDocuments', InvolvedDocumentsRoute);
 app.use('/warranty', warrantyRoute);

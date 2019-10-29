@@ -8,12 +8,12 @@ const addNotification = (req, res) => {
         read: req.body.read,
         created_at: date
     });
-    res.send("1 document created successfully");
+    res.send("Notification is successfully created");
 };
 module.exports.addNotification = addNotification;
 
 const getAllNotification = (req, res) => {
-    const getAllNotification = notification.find({}).exec()
+    const getAllNotification = notification.find({}).sort({ created_at: -1 }).exec()
         .then((getAllNotification) => {
             if (getAllNotification) {
                 res.send(getAllNotification);
@@ -49,7 +49,7 @@ const updateNotification = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Notification is successfully updated");
             }
         })
 };
@@ -64,7 +64,7 @@ const deleteNotification = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Notification is successfully deleted");
             }
         })
 };

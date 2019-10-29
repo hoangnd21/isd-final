@@ -9,12 +9,12 @@ const addManaEquipOnUse = (req, res) => {
         note: req.body.note,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Entry is successfully created");
 };
 module.exports.addManaEquipOnUse = addManaEquipOnUse;
 
 const getAllManaEquipOnUse = (req, res) => {
-    const getAllManaEquipOnUse = manaEquipOnUse.find({}).exec()
+    const getAllManaEquipOnUse = manaEquipOnUse.find({}).sort({ created_at: -1 }).exec()
         .then((getAllManaEquipOnUse) => {
             if (getAllManaEquipOnUse) {
                 res.send(getAllManaEquipOnUse);
@@ -50,7 +50,7 @@ const updateManaEquipOnUse = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Entry is successfully updated");
             }
         })
 };
@@ -65,7 +65,7 @@ const deleteManaEquipOnUse = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Entry is successfully created deleted");
             }
         })
 };
