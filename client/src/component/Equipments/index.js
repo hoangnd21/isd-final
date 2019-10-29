@@ -309,7 +309,7 @@ export default class Equipments extends React.PureComponent {
       },
 
       {
-        title: 'Actions',
+        title: <div style={{ textAlign: 'center' }}>'Actions'</div>,
         render: data =>
           <>
             <Button
