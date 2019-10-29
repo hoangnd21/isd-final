@@ -18,7 +18,8 @@ const addEquipment = (req, res) => {
     startDate: req.body.startDate,
     manufacturer: req.body.manufacturer,
     note: req.body.note,
-    created_at: now
+    created_at: now,
+    owner: "none"
   })
   res.send("Equipment created successfully");
 };
