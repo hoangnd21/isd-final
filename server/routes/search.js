@@ -6,4 +6,7 @@ router.get('/', (req, res) => {
     search.searchEquipments(req, res);
 });
 
+router.get('/', (req, res) => {
+    search.searchAccessories(req, res);
+});
 module.exports = router;
