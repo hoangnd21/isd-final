@@ -69,7 +69,7 @@ export default class Users extends Component {
             </Col>)}
         </Row>
         <Modal
-          title={userDetail.username}
+          title={userDetail.fullname}
           centered
           visible={visible}
           footer={null}
