@@ -4,10 +4,6 @@ export const lockStatusOptions = [
         label: 'Ready',
     },
     {
-        value: 'Preparing',
-        label: 'Preparing',
-    },
-    {
         value: 'Locked',
         label: 'Locked',
     },
@@ -51,5 +47,9 @@ export const eqStatusOptions = [
     {
         value: 'Waiting for liquidate/disposal',
         label: 'Waiting for liquidate/disposal'
+    },
+    {
+        value: 'Storage',
+        label: 'Storage'
     },
 ]

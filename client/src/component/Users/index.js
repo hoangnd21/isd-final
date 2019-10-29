@@ -50,18 +50,20 @@ export default class Users extends Component {
               <Card
                 onClick={() => this.userInfoModal(u)}
                 loading={loading}
-                style={{ width: 'auto' }}
                 hoverable
                 cover={
-                  <img
-                    alt="exampl"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" // user image
-                  />
+                  <span style={{ textAlign: 'center', background: 'auto' }}>
+                    <img
+                      style={{ width: 'auto', maxHeight: 225 }}
+                      alt={u.image}
+                      src={u.image}// user image
+                    />
+                  </span>
                 }
               >
                 <Meta
-                  title={u.username}
-                  description={u.code}
+                  title={u.fullname}
+                  description={u.username}
                 />
               </Card>
             </Col>)}

@@ -8,7 +8,7 @@ import {
   Icon,
   Tooltip,
   Divider,
-  // Popconfirm
+  Popconfirm
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
@@ -268,6 +268,15 @@ export default class Equipments extends React.PureComponent {
             {lockStatus}
           </div>
       },
+      {
+        title: 'Equipment status',
+        dataIndex: 'eqStatus',
+        key: 'eqStatus',
+        // render: eqStatus =>
+        //   <div style={lockStatus[0] === "Ready" ? { color: 'green' } : lockStatus[0] === 'Preparing' ? { color: '#f0cb65' } : { color: 'red' }}>
+        //     {lockStatus}
+        //   </div>
+      },
       // {
       //   title: 'Start Date',
       //   dataIndex: 'startDate',
@@ -301,7 +310,6 @@ export default class Equipments extends React.PureComponent {
 
       {
         title: 'Actions',
-        align: 'center',
         render: data =>
           <>
             <Button
@@ -312,24 +320,28 @@ export default class Equipments extends React.PureComponent {
             >
               &nbsp;Edit
               </Button>
-            <Divider type='vertical' />
-            <Button
-              type='link'
-              style={{ border: 0, padding: 10 }}
-              icon={data.lockStatus[0] === 'Preparing' ? 'share-alt' : 'appstore'}
-              onClick={data.lockStatus[0] !== 'Ready' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
-            >
-              &nbsp;{data.lockStatus[0] !== 'Ready' ? 'Reclaim' : 'Handing'}
-            </Button>
-            {/* <Popconfirm
+
+            {data.lockStatus[0] !== 'Locked' ?
+              <>
+                <Divider type='vertical' />
+                <Button
+                  type='link'
+                  style={{ border: 0, padding: 10 }}
+                  icon={data.lockStatus[0] === 'Preparing' ? 'share-alt' : 'appstore'}
+                  onClick={data.lockStatus[0] !== 'Ready' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
+                >
+                  &nbsp;{data.lockStatus[0] !== 'Ready' ? 'Reclaim' : 'Handing'}
+                </Button>
+              </> : null}
+            <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}
               placement="bottomRight"
             >
-              <Button type='link' style={{ border: 0 }} icon='delete'>
+              {/* <Button type='link' style={{ border: 0 }} icon='delete'>
                 &nbsp;Delete
-            </Button>
-            </Popconfirm> */}
+            </Button> */}
+            </Popconfirm>
           </>
       }
 
