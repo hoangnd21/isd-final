@@ -22,7 +22,6 @@ export default class EqTypesDrawer extends Component {
   }
   componentDidMount() {
     const { generalType } = this.props
-    console.log(generalType)
     axios.get(`http://localhost:9000/subTypes/${generalType.value}`)
       .then(res => {
         this.setState({

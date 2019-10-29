@@ -40,13 +40,12 @@ export default class Users extends Component {
   }
   render() {
     const { allUsers, loading, visible, userDetail } = this.state
-    console.log('allUsers', allUsers)
     return (
       <>
         <h2>Users List</h2>
         <Row gutter={10}>
           {allUsers && allUsers.map(u =>
-            <Col xl={4} style={{ marginBottom: 10 }}>
+            <Col xl={4} style={{ marginBottom: 10 }} key={u.username}>
               <Card
                 onClick={() => this.userInfoModal(u)}
                 loading={loading}
@@ -54,7 +53,7 @@ export default class Users extends Component {
                 cover={
                   <span style={{ textAlign: 'center', background: 'auto' }}>
                     <img
-                      style={{ width: 'auto', maxHeight: 225 }}
+                      style={{ width: '100%', height: 197.39 }}
                       alt={u.image}
                       src={u.image}// user image
                     />

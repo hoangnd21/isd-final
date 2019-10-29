@@ -5,6 +5,7 @@ import Equipments from '../component/Equipments';
 import EquipmentTypes from '../component/EquipmentTypes'
 import Accessories from '../component/Accessories'
 import Users from '../component/Users'
+import Batch from '../component/Batch'
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
   {
     path: '/users',
     main: () => <Users />
+  },
+  {
+    path: '/batch',
+    main: () => <Batch />
   }
 ]
 export default routes;

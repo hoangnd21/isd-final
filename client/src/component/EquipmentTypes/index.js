@@ -7,11 +7,14 @@ import {
   Dropdown,
   Menu,
   notification,
-  Icon
+  Icon,
+  Input
 } from 'antd';
 import EqTypesDrawer from './EqTypesDrawer'
 import Forbidden from '../../Config/Forbidden';
 import GeneralTypeForm from './GeneralTypeForm'
+
+const { Search } = Input
 
 export default class EquipmentTypes extends Component {
   state = {
@@ -94,8 +97,14 @@ export default class EquipmentTypes extends Component {
         {currentUser && currentUser.level < 2 ?
           <Forbidden />
           : <div>
-            <h2>List of General types
-            {currentUser && currentUser.level > 3 ? <div style={{ float: 'right' }}>
+            <h2>General types:
+              {currentUser && currentUser.level > 3 ? <div>
+                <Search
+                  style={{ padding: 0, margin: '2px 5px 0 0', width: 400 }}
+                  placeholder={`Search ${generalTypes.length} entries`}
+                  onSearch={value => console.log(value)}
+                  enterButton
+                />
                 <Dropdown
                   overlay={
                     <Menu style={{ padding: 5 }}>
@@ -112,7 +121,8 @@ export default class EquipmentTypes extends Component {
                     Add a new General Type
                 </Button>
                 </Dropdown>
-              </div> : null}
+              </div>
+                : null}
             </h2>
             <List
               itemLayout='horizontal'
@@ -141,7 +151,6 @@ export default class EquipmentTypes extends Component {
                 visible={drawerVisible}
                 destroyOnClose
                 style={{ position: 'absolute', }}
-                maskStyle={{ backgroundColor: 'transparent' }}
                 width='auto'
               >
                 <EqTypesDrawer generalType={generalTypebyID} />

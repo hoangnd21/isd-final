@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios'
 
-export default class Home extends React.Component {
+export default class Batch extends React.Component {
   state = {
-    currentUser: null
+    currentUser: null,
+    allBatch: []
   }
   componentDidMount() {
     axios({
@@ -20,10 +21,18 @@ export default class Home extends React.Component {
           currentUser: res.data
         })
       })
+    axios.get('http://localhost:9000/batch')
+      .then(res => {
+        this.setState({
+          allBatch: res.data
+        })
+      })
   }
   render() {
+    const { allBatch } = this.state
+    console.log(allBatch)
     return (
-      <h2>Home</h2>
+      <h2>Batch</h2>
     )
   }
 }

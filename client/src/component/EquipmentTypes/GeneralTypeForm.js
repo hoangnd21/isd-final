@@ -48,7 +48,7 @@ class GeneralTypeForm extends Component {
               ],
             })(<Input placeholder="ALLCAPS" />)}
           </Form.Item>
-          <Button type='primary' htmlType='submit' icon='save'>Add</Button>
+          <Button type='primary' htmlType='submit' icon='save' style={{ marginTop: 4 }}>Add</Button>
         </Form>
       </>
     )
