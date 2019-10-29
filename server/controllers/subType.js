@@ -71,7 +71,7 @@ const deleteSubType = (req, res) => {
 };
 module.exports.deleteSubType = deleteSubType;
 
-const getSubTypeByGenTypeId = (req, res) => {
+const getSubTypesByGenTypeId = (req, res) => {
     const getAllGSEquip = subType.find({ genTypeId: req.params.id }).exec()
         .then((getAllGSEquip) => {
             if (getAllGSEquip) {
@@ -82,4 +82,17 @@ const getSubTypeByGenTypeId = (req, res) => {
             }
         })
 };
-module.exports.getSubTypeByGenTypeId = getSubTypeByGenTypeId;
+module.exports.getSubTypesByGenTypeId = getSubTypesByGenTypeId;
+
+const getOneSubTypeByGenTypeId = (req, res) => {
+    const getAllGSEquip = subType.findOne(req.query).exec()
+        .then((getAllGSEquip) => {
+            if (getAllGSEquip) {
+                res.send(getAllGSEquip);
+            }
+            else {
+                res.send('fail');
+            }
+        })
+};
+module.exports.getOneSubTypeByGenTypeId = getOneSubTypeByGenTypeId;

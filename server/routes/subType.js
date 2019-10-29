@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
     subTypeController.getAllSubType(req, res);
 });
 
-router.get('/:id', (req, res) => {
-    subTypeController.getOneSubType(req, res);
+router.get('/subType', (req, res) => {
+    subTypeController.getOneSubTypeByGenTypeId(req, res);
 });
 
 router.put('/updateSubType/:id', (req, res) => {
@@ -22,7 +22,7 @@ router.post('/deleteSubType/:id', (req, res) => {
     subTypeController.deleteSubType(req, res);
 });
 
-router.get('/genTypeId/:id', (req, res) => {
-    subTypeController.getSubTypeByGenTypeId(req, res);
+router.get('/:id', (req, res) => {
+    subTypeController.getSubTypesByGenTypeId(req, res);
 });
 module.exports = router;

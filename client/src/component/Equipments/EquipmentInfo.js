@@ -12,6 +12,7 @@ export default class EquipmentInfo extends React.Component {
   }
   componentDidMount() {
     const { equipment } = this.props
+    console.log(equipment)
     axios.get(`http://localhost:9000/generalTypes/code/${equipment.generalType[0]}`)
       .then(res => {
         this.setState({

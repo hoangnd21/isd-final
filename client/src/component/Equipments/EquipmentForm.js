@@ -23,6 +23,9 @@ class EquipmentForm extends React.PureComponent {
     generalTypes: [],
     equipmentTypes: [],
     currentValue: {},
+    eqNamebyType: '',
+    genTypeId: '',
+    updateCaseSubtype: {}
   }
 
   componentDidMount() {
@@ -32,15 +35,26 @@ class EquipmentForm extends React.PureComponent {
           generalTypes: res.data
         })
       })
-
+    const { equipment, modalType } = this.props
+    axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${equipment.generalType}&value=${equipment.subtype}`)
+      .then(res => {
+        modalType === 'update' ?
+          console.log('update', [{ ...res.data }])
+          // this.setState({
+          //   updateCaseSubtype: [res.data.label, res.data.value, res.data.genTypeID]
+          // })
+          : console.log(res)
+      })
+    console.log('updateCaseSubtype', this.state.updateCaseSubtype)
   }
 
 
   choseGenType = genTypeID => {
-    axios.get(`http://localhost:9000/subTypes/genTypeId/${genTypeID}`)
+    axios.get(`http://localhost:9000/subTypes/${genTypeID}`)
       .then(res => {
         this.setState({
           equipmentTypes: res.data,
+          genTypeId: genTypeID
         })
       })
       .catch(error => {
@@ -87,8 +101,18 @@ class EquipmentForm extends React.PureComponent {
     });
   };
 
+  choseEquipmentType = eqType => {
+    const { genTypeId } = this.state
+    axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${genTypeId}&value=${eqType}`)
+      .then(res => {
+        this.setState({
+          eqNamebyType: res.data.label
+        })
+      })
+  }
+
   render() {
-    const { generalTypes, equipmentTypes } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -164,7 +188,7 @@ class EquipmentForm extends React.PureComponent {
                       message: 'Equipment name is required.',
                     },
                   ],
-                  initialValue: equipment.name,
+                  initialValue: eqNamebyType,
                 })(<Input placeholder="Equipment name" />)}
               </Form.Item>
               <Col xl={12} style={{ padding: '0 2px 0 0' }}>
@@ -269,12 +293,13 @@ class EquipmentForm extends React.PureComponent {
                       message: 'subtype',
                     },
                   ],
-                  initialValue: modalType === 'update' ? equipment.subtype : null,
+                  // initialValue: updateCaseSubtype && updateCaseSubtype,
                 })(
                   <Cascader
                     onChange={this.choseEquipmentType}
                     options={equipmentTypes}
-                    placeholder={modalType === 'update' ? equipment.subtype[0] : "Please select General Type first"}
+                    placeholder='???'
+                    defaultValue={updateCaseSubtype && updateCaseSubtype}
                   />
                 )}
               </Form.Item>
