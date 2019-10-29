@@ -15,12 +15,12 @@ const addAccessories = (req, res) => {
         note: req.body.note,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Accessory is successfully created");
 };
 module.exports.addAccessories = addAccessories;
 
 const getAllAccessories = (req, res) => {
-    const getAllAccessories = accessories.find({}).exec()
+    const getAllAccessories = accessories.find({}).sort({ created_at: -1 }).exec()
         .then((getAllAccessories) => {
             if (getAllAccessories) {
                 res.send(getAllAccessories);
@@ -56,7 +56,7 @@ const updateAccessories = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Accessory is successfully updated");
             }
         })
 };
@@ -71,7 +71,7 @@ const deleteAccessories = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Accessory is successfully deleted");
             }
         })
 };

@@ -21,7 +21,7 @@ const addEquipment = (req, res) => {
     created_at: now,
     owner: "none"
   })
-  res.send("Equipment created successfully");
+  res.send("Equipment is successfully created");
 };
 module.exports.addEquipment = addEquipment;
 
@@ -47,7 +47,7 @@ const updateOneEquipment = (req, res) => {
         equipment.updateOne(oneEquipment, newValue, (err, res) => {
           if (err) throw err;
         })
-        res.send("Equipment updated successfully");
+        res.send("Equipment is successfully updated");
       }
     }
 
@@ -63,7 +63,7 @@ const deleteOneEquipment = (req, res) => {
           if (err) throw err;
 
         })
-        res.send("Deleted 1 Equipment.");
+        res.send("Equipment is successfully deleted");
       }
     }
     )

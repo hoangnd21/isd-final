@@ -8,12 +8,12 @@ const addGeneralType = (req, res) => {
         value: req.body.value
     })
 
-    res.send("1 document created successfully");
+    res.send("General type is successfully created");
 };
 module.exports.addGeneralType = addGeneralType;
 
 const getAllGeneralType = (req, res) => {
-    const getAllGEquip = generalType.find({}).exec()
+    const getAllGEquip = generalType.find({}).sort({ created_at: -1 }).exec()
         .then((getAllGEquip) => {
             if (getAllGEquip) {
                 res.send(getAllGEquip);
@@ -49,7 +49,7 @@ const updateGeneralType = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("General type is successfully updated");
             }
         })
 };
@@ -64,7 +64,7 @@ const deleteGeneralType = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("General type is successfully deleted");
             }
         })
 };

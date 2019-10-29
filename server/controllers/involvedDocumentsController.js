@@ -10,12 +10,12 @@ const addInvolvedDocuments = (req, res) => {
         note: req.body.note,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Document is successfully created");
 };
 module.exports.addInvolvedDocuments = addInvolvedDocuments;
 
 const getAllInvolvedDocuments = (req, res) => {
-    const getAllInvolvedDocuments = involvedDocuments.find({}).exec()
+    const getAllInvolvedDocuments = involvedDocuments.find({}).sort({ created_at: -1 }).exec()
         .then((getAllInvolvedDocuments) => {
             if (getAllInvolvedDocuments) {
                 res.send(getAllInvolvedDocuments);
@@ -51,7 +51,7 @@ const updateInvolvedDocuments = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Document is successfully updated");
             }
         })
 };
@@ -66,7 +66,7 @@ const deleteInvolvedDocuments = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Document is successfully deleted");
             }
         })
 };

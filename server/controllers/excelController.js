@@ -77,7 +77,7 @@ const xlsxAllEquipment = (req, res) => {
                     // /* Generate Excel */
                     mongoXlsx.mongoData2Xlsx(data, model, function (err, data) {
                         console.log('File saved at:', data.fullPath);
-                        res.send("1 excel file exported");
+                        res.send("1 excel file exported successfully");
                     });
 
                 }

@@ -8,12 +8,12 @@ const addSubType = (req, res) => {
         genTypeId: req.body.genTypeId,
         create_at: now
     })
-    res.send("1 document created successfully");
+    res.send("Subtype is successfully added");
 };
 module.exports.addSubType = addSubType;
 
 const getAllSubType = (req, res) => {
-    const getAllGSEquip = subType.find({}).exec()
+    const getAllGSEquip = subType.find({}).sort({ created_at: -1 }).exec()
         .then((getAllGSEquip) => {
             if (getAllGSEquip) {
                 res.send(getAllGSEquip);
@@ -50,7 +50,7 @@ const updateSubType = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Subtype is successfully updated");
             }
         })
 };
@@ -65,7 +65,7 @@ const deleteSubType = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Subtype is successfully deleted");
             }
         })
 };

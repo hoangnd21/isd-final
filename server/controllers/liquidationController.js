@@ -9,12 +9,12 @@ const addLiquidation = (req, res) => {
         accessories: req.body.accessories,
         create_at: now,
     });
-    res.send("1 document created successfully");
+    res.send("Request is successfully created");
 };
 module.exports.addLiquidation = addLiquidation;
 
 const getAllLiquidation = (req, res) => {
-    const getAllLiquidation = liquidation.find({}).exec()
+    const getAllLiquidation = liquidation.find({}).sort({ created_at: -1 }).exec()
         .then((getAllLiquidation) => {
             if (getAllLiquidation) {
                 res.send(getAllLiquidation);
@@ -50,7 +50,7 @@ const updateLiquidation = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Request is successfully updated");
             }
         })
 };
@@ -65,7 +65,7 @@ const deleteLiquidation = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Request is successfully deleted");
             }
         })
 };

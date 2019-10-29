@@ -6,12 +6,12 @@ const addStatus = (req, res) => {
         status: req.body.status,
         create_at: now
     });
-    res.send("1 document created successfully");
+    res.send("Status is successfully added");
 };
 module.exports.addStatus = addStatus;
 
 const getAllStatus = (req, res) => {
-    const getAllStatus = status.find({}).exec()
+    const getAllStatus = status.find({}).sort({ created_at: -1 }).exec()
         .then((getAllStatus) => {
             if (getAllStatus) {
                 res.send(getAllStatus);
@@ -47,7 +47,7 @@ const updateStatus = (req, res) => {
                         console.log("1 document updated");
 
                 })
-                res.send("1 document updated");
+                res.send("Status is successfully updated");
             }
         })
 };
@@ -62,7 +62,7 @@ const deleteStatus = (req, res) => {
                     console.log("1 document deleted");
 
                 })
-                res.send("1 document deleted successfully");
+                res.send("Status is successfully deleted");
             }
         })
 };
