@@ -21,7 +21,8 @@ const userShema = new Schema({
     function: String,
     level: Number,
     image: String,
-    create_at: Date
+    create_at: Date,
+    fullname: String
 });
 
 const user = mongoose.model('users', userShema);
