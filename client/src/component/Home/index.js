@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import { Divider } from 'antd';
 
 export default class Home extends React.Component {
   state = {
@@ -23,7 +24,9 @@ export default class Home extends React.Component {
   }
   render() {
     return (
-      <h2>Home</h2>
+      <h2>Home
+        <Divider type='horizontal' />
+      </h2>
     )
   }
 }

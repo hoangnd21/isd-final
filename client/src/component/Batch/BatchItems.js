@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 
 export default class BatchItems extends Component {
   render() {
-    const { allItems } = this.props
-    console.log(allItems)
+    const { allItems, currentBatch } = this.props
+    console.log('allItems', allItems)
     return (
       <div>
-        BatchItems
+        {currentBatch}
       </div>
     )
   }

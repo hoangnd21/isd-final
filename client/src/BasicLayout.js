@@ -87,7 +87,6 @@ export default class BasicLayout extends Component {
       }
     })
       .then((res) => {
-        console.log('res server', res)
         if (res.data !== 'Invalid login. Please try again!' && res.data !== 'Invalid username. Please try again!') {
           this.setState({
             loginModal: false,
@@ -155,7 +154,7 @@ export default class BasicLayout extends Component {
                   <Link to="/equipments" >
                     <Icon type="sliders" />
                     <span>
-                      {currentUser.level > 1 ? 'Manage Equipments' : 'Equipments'}
+                      {currentUser.level > 2 ? 'Manage Equipments' : 'Equipments'}
                     </span>
                   </Link>
                 </Menu.Item>
@@ -178,11 +177,11 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
-                {currentUser.level > 3 ? <Menu.Item key="users">
-                  <Link to="/users" ><Icon type="user" /><span>Manage Users</span></Link>
-                </Menu.Item> : null}
                 {currentUser.level > 3 ? <Menu.Item key="batch">
                   <Link to="/batch" ><Icon type="shopping-cart" /><span>Manage Batch</span></Link>
+                </Menu.Item> : null}
+                {currentUser.level > 3 ? <Menu.Item key="users">
+                  <Link to="/users" ><Icon type="user" /><span>Manage Users</span></Link>
                 </Menu.Item> : null}
               </Menu>
             </Sider>

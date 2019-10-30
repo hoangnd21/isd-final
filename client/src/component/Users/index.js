@@ -4,7 +4,8 @@ import {
   Card,
   Row,
   Col,
-  Modal
+  Modal,
+  Divider
 } from 'antd'
 
 const { Meta } = Card
@@ -42,7 +43,9 @@ export default class Users extends Component {
     const { allUsers, loading, visible, userDetail } = this.state
     return (
       <>
-        <h2>Users List</h2>
+        <h2>Users List
+          <Divider type='horizontal' />
+        </h2>
         <Row gutter={10}>
           {allUsers && allUsers.map(u =>
             <Col xl={4} style={{ marginBottom: 10 }} key={u.username}>

@@ -8,7 +8,8 @@ import {
   Menu,
   notification,
   Icon,
-  Input
+  Input,
+  Divider
 } from 'antd';
 import EqTypesDrawer from './EqTypesDrawer'
 import Forbidden from '../../Config/Forbidden';
@@ -93,72 +94,73 @@ export default class EquipmentTypes extends Component {
   render() {
     const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading } = this.state;
     return (
-      <>
-        {currentUser && currentUser.level < 2 ?
-          <Forbidden />
-          : <div>
-            <h2>General types:
-              {currentUser && currentUser.level > 3 ? <div>
+      currentUser && currentUser.level < 2 ?
+        <Forbidden />
+        : <>
+          <h2>General types:
+            <Divider type='horizontal' />
+            {currentUser && currentUser.level > 3 ?
+              <div>
                 <Search
                   style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
                   placeholder={`Search ${generalTypes.length} entries`}
                   onSearch={value => console.log(value)}
                   enterButton
                 />
-                <Dropdown
-                  overlay={
-                    <Menu style={{ padding: 5 }}>
-                      <GeneralTypeForm addGenTypeRequest={this.addGenType} />
-                    </Menu>
-                  }
-                  trigger={['click']}
-                  placement='bottomRight'
-                >
-                  <Button
-                    type='primary'
-                    icon='down'
-                  >
-                    Add a new General Type
-                </Button>
-                </Dropdown>
-              </div>
-                : null}
-            </h2>
-            <List
-              itemLayout='horizontal'
-              dataSource={generalTypes}
-              size='large'
-              loading={loading}
-              pagination={{
-                pageSize: 7
-              }}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={
-                      <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
+                <span style={{ float: 'right' }}>
+                  <Dropdown
+                    overlay={
+                      <Menu style={{ padding: 5 }}>
+                        <GeneralTypeForm addGenTypeRequest={this.addGenType} />
+                      </Menu>
                     }
-                    description={`ID: ${item.value}`}
-                  />
-                </List.Item>
-              )}
+                    trigger={['click']}
+                    placement='bottomRight'
+                  >
+                    <Button
+                      type='primary'
+                      icon='down'
+                    >
+                      Add a new General Type
+                </Button>
+                  </Dropdown>
+                </span>
+              </div>
+              : null}
+          </h2>
+          <List
+            itemLayout='horizontal'
+            dataSource={generalTypes}
+            size='large'
+            loading={loading}
+            pagination={{
+              pageSize: 7
+            }}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  title={
+                    <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
+                  }
+                  description={`ID: ${item.value}`}
+                />
+              </List.Item>
+            )}
+          >
+            <Drawer
+              title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
+              placement="right"
+              closable={false}
+              onClose={this.closeDrawer}
+              visible={drawerVisible}
+              destroyOnClose
+              style={{ position: 'absolute', }}
+              width='auto'
             >
-              <Drawer
-                title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
-                placement="right"
-                closable={false}
-                onClose={this.closeDrawer}
-                visible={drawerVisible}
-                destroyOnClose
-                style={{ position: 'absolute', }}
-                width='auto'
-              >
-                <EqTypesDrawer generalType={generalTypebyID} />
-              </Drawer>
-            </List>
-          </div>
-        }
-      </>
+              <EqTypesDrawer generalType={generalTypebyID} />
+            </Drawer>
+          </List>
+        </>
     )
   }
 }
