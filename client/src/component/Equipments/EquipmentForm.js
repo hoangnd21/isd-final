@@ -13,7 +13,7 @@ import {
   Cascader
 } from 'antd';
 import axios from 'axios';
-import { lockStatusOptions, batchOptions, eqStatusOptions } from './options'
+import { lockStatusOptions, eqStatusOptions } from './options'
 
 
 
@@ -25,7 +25,7 @@ class EquipmentForm extends React.PureComponent {
     currentValue: {},
     eqNamebyType: '',
     genTypeId: '',
-    updateCaseSubtype: {}
+    updateCaseSubtype: []
   }
 
   componentDidMount() {
@@ -39,13 +39,18 @@ class EquipmentForm extends React.PureComponent {
     axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${equipment.generalType}&value=${equipment.subtype}`)
       .then(res => {
         modalType === 'update' ?
-          console.log('update', [{ ...res.data }])
-          // this.setState({
-          //   updateCaseSubtype: [res.data.label, res.data.value, res.data.genTypeID]
-          // })
+          // console.log('update', [{ ...res.data }])
+          this.setState({
+            updateCaseSubtype: [{ ...res.data }]
+          })
           : console.log(res)
       })
-    console.log('updateCaseSubtype', this.state.updateCaseSubtype)
+    axios.get(`http://localhost:9000/batch`)
+      .then(res => {
+        this.setState({
+          batches: res.data
+        })
+      })
   }
 
 
@@ -112,14 +117,19 @@ class EquipmentForm extends React.PureComponent {
   }
 
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const eqCodeF = ['VN'].concat(this.codegen(12)).join('')
+    const batchOptions = batches && batches.map(batch => {
+      return ({
+        value: batch.code,
+        label: batch.code
+      })
+    })
     const { getFieldDecorator } = form;
-    console.log(equipment)
-
+    console.log('updateCaseSubtype', updateCaseSubtype)
     return (
       <Form
         layout="vertical"
@@ -293,13 +303,12 @@ class EquipmentForm extends React.PureComponent {
                       message: 'subtype',
                     },
                   ],
-                  // initialValue: updateCaseSubtype && updateCaseSubtype,
+                  initialValue: updateCaseSubtype
                 })(
                   <Cascader
                     onChange={this.choseEquipmentType}
                     options={equipmentTypes}
-                    placeholder='???'
-                    defaultValue={updateCaseSubtype && updateCaseSubtype}
+                    placeholder={modalType === 'create' ? 'select General Type first' : null}
                   />
                 )}
               </Form.Item>

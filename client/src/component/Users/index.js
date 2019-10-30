@@ -51,18 +51,18 @@ export default class Users extends Component {
                 loading={loading}
                 hoverable
                 cover={
-                  <span style={{ textAlign: 'center', background: 'auto' }}>
+                  <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 273, width: 273 }}>
                     <img
-                      style={{ width: '100%', height: 197.39 }}
+                      style={{ width: '100%' }}
                       alt={u.image}
                       src={u.image}// user image
                     />
-                  </span>
+                  </div>
                 }
               >
                 <Meta
                   title={u.fullname}
-                  description={u.username}
+                  description={u.idCard}
                 />
               </Card>
             </Col>)}

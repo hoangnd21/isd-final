@@ -26,12 +26,12 @@ const login = (req, res) => {
                         res.send(loginResult);
                     }
                     else {
-                        res.send("Invalid login. Please try again")
+                        res.send("Invalid login. Please try again!")
                     }
                 })
             }
             else {
-                res.send("Invalid username. Please try again");
+                res.send("Invalid username. Please try again!");
             }
         });
 

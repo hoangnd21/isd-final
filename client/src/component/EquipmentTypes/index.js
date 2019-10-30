@@ -100,7 +100,7 @@ export default class EquipmentTypes extends Component {
             <h2>General types:
               {currentUser && currentUser.level > 3 ? <div>
                 <Search
-                  style={{ padding: 0, margin: '2px 5px 0 0', width: 400 }}
+                  style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
                   placeholder={`Search ${generalTypes.length} entries`}
                   onSearch={value => console.log(value)}
                   enterButton
@@ -130,7 +130,7 @@ export default class EquipmentTypes extends Component {
               size='large'
               loading={loading}
               pagination={{
-                pageSize: 8
+                pageSize: 7
               }}
               renderItem={item => (
                 <List.Item>

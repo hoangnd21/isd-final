@@ -9,20 +9,6 @@ export const lockStatusOptions = [
     },
 
 ]
-export const batchOptions = [
-    {
-        value: 'batch1',
-        label: 'Batch 1'
-    },
-    {
-        value: 'batch2',
-        label: 'Batch 2'
-    },
-    {
-        value: 'batch3',
-        label: 'Batch 3'
-    },
-]
 export const eqStatusOptions = [
     {
         value: 'Use',
