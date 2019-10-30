@@ -146,19 +146,43 @@ export default class BasicLayout extends Component {
               </div>
               <Menu mode="inline">
                 <Menu.Item key="home">
-                  <Link to='/'><Icon type='home' /><span>Home</span></Link>
+                  <Link to='/'>
+                    <Icon type='home' />
+                    <span>Home</span>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item key="equipments">
-                  <Link to="/equipments" ><Icon type="sliders" /><span>Equipments</span></Link>
+                  <Link to="/equipments" >
+                    <Icon type="sliders" />
+                    <span>
+                      {currentUser.level > 1 ? 'Manage Equipments' : 'Equipments'}
+                    </span>
+                  </Link>
                 </Menu.Item>
-                {currentUser.level > 2 ? <Menu.Item key="eqtype">
-                  <Link to="/equipment-types" ><Icon type="ordered-list" /><span>Manage Types</span></Link>
-                </Menu.Item> : null}
-                {currentUser.level > 2 ? <Menu.Item key="accessories">
-                  <Link to="/accessories" ><Icon type="chrome" /><span>Accessories</span></Link>
-                </Menu.Item> : null}
+                {currentUser.level > 2 ?
+                  <Menu.Item key="eqtype">
+                    <Link to="/equipment-types" >
+                      <Icon type="ordered-list" />
+                      <span>
+                        Manage Types
+                      </span>
+                    </Link>
+                  </Menu.Item>
+                  : null}
+                {currentUser.level > 2 ?
+                  <Menu.Item key="accessories">
+                    <Link to="/accessories" >
+                      <Icon type="chrome" />
+                      <span>
+                        Accessories
+                      </span>
+                    </Link>
+                  </Menu.Item> : null}
                 {currentUser.level > 3 ? <Menu.Item key="users">
-                  <Link to="/users" ><Icon type="user" /><span>Users</span></Link>
+                  <Link to="/users" ><Icon type="user" /><span>Manage Users</span></Link>
+                </Menu.Item> : null}
+                {currentUser.level > 3 ? <Menu.Item key="batch">
+                  <Link to="/batch" ><Icon type="shopping-cart" /><span>Manage Batch</span></Link>
                 </Menu.Item> : null}
               </Menu>
             </Sider>

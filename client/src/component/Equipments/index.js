@@ -327,10 +327,10 @@ export default class Equipments extends React.PureComponent {
                 <Button
                   type='link'
                   style={{ border: 0, padding: 10 }}
-                  icon={data.lockStatus[0] === 'Preparing' ? 'share-alt' : 'appstore'}
-                  onClick={data.lockStatus[0] !== 'Ready' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
+                  icon={data.eqStatus[0] !== 'Storage' ? 'share-alt' : 'appstore'}
+                  onClick={data.eqStatus[0] !== 'Storage' ? () => this.reclaimModal(data) : () => this.handingModal(data)}
                 >
-                  &nbsp;{data.lockStatus[0] !== 'Ready' ? 'Reclaim' : 'Handing'}
+                  &nbsp;{data.eqStatus[0] !== 'Storage' ? 'Reclaim' : 'Handing'}
                 </Button>
               </> : null}
             <Popconfirm
