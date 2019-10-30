@@ -6,14 +6,16 @@ import {
   Modal,
   notification,
   Icon,
-  Tooltip,
   Divider,
-  Popconfirm
+  Popconfirm,
+  Input
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
+
+const { Search } = Input
 
 export default class Equipments extends React.PureComponent {
 
@@ -244,11 +246,11 @@ export default class Equipments extends React.PureComponent {
   // }
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser } = this.state;
     // const { currentUser } = this.props
     const columns = [
       {
-        title: <div>Name&nbsp; <Tooltip title='Click for equipment details'><Icon type='question-circle' /></Tooltip></div>,
+        title: 'Equipment Name',
         key: 'name',
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
@@ -262,8 +264,9 @@ export default class Equipments extends React.PureComponent {
         title: 'Lock status',
         dataIndex: 'lockStatus',
         key: 'lockStatus',
+        sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
         render: lockStatus =>
-          <div style={lockStatus[0] === "Ready" ? { color: 'green' } : lockStatus[0] === 'Preparing' ? { color: '#f0cb65' } : { color: 'red' }}>
+          <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
             {lockStatus}
           </div>
       },
@@ -271,40 +274,40 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment status',
         dataIndex: 'eqStatus',
         key: 'eqStatus',
-        // render: eqStatus =>
-        //   <div style={lockStatus[0] === "Ready" ? { color: 'green' } : lockStatus[0] === 'Preparing' ? { color: '#f0cb65' } : { color: 'red' }}>
-        //     {lockStatus}
-        //   </div>
+        width: 180,
+        sorter: (a, b) => a.eqStatus[0].length - b.eqStatus[0].length,
       },
-      // {
-      //   title: 'Start Date',
-      //   dataIndex: 'startDate',
-      //   key: 'startDate',
-      //   render: startDate => `${startDate.slice(8, 10)}/${startDate.slice(5, 7)}/${startDate.slice(0, 4)}`
-      // },
       {
         title: 'Purchased Date',
         dataIndex: 'datePurchase',
         key: 'datePurchase',
+        width: 180,
         render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
       },
       {
         title: 'Equipment Batch',
         dataIndex: 'batch',
+        width: 180,
         key: 'batch',
+
+        sorter: (a, b) => a.batch[0].length - b.batch[0].length,
       },
       {
         title: 'Original Price',
         dataIndex: 'originalPrice',
         key: 'originalPrice',
         align: 'right',
+        width: 130,
+        sorter: (a, b) => a.originalPrice - b.originalPrice,
         render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
       {
         title: 'Warranty (months)',
         dataIndex: 'warrantyMonths',
         key: 'warranty',
-        align: 'right'
+        align: 'right',
+        width: 130,
+        sorter: (a, b) => a.warrantyMonths - b.warrantyMonths,
       },
 
       {
@@ -347,16 +350,25 @@ export default class Equipments extends React.PureComponent {
     ]
     return (
       <>
-        <h2>Equipments List
-          <span style={{ float: 'right' }}>
-            <Button
-              type='primary'
-              icon='plus'
-              onClick={this.createEquipmentModal}
-            >
-              Create a new Equipment
+        <h2>{currentUser && currentUser.level > 2 ? 'Equipments List' : 'Your Equipments'}
+          <Divider type='horizontal' />
+          <div>
+            <Search
+              style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
+              placeholder={`Search ${equipments.length} entries`}
+              onSearch={value => console.log(value)}
+              enterButton
+            />
+            <span style={{ float: 'right' }}>
+              <Button
+                type='primary'
+                icon='plus'
+                onClick={this.createEquipmentModal}
+              >
+                Create a new Equipment
             </Button>
-          </span>
+            </span>
+          </div>
         </h2>
         <Table
           dataSource={equipments}
