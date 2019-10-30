@@ -3,15 +3,18 @@ const accessories = require('../models/accessories');
 const addAccessories = (req, res) => {
     const now = Date.now()
     accessories.create({
-        code: req.body.code,
-        name: req.body.name,
-        originalDevice: req.body.originalDevice,
-        tranferedDevice: req.body.tranferedDevice,
+        accCode: req.body.accCode,
+        accName: req.body.accName,
+        subTypeAttached: req.body.subTypeAttached,
+        batch: req.body.batch,
         purchaseDate: req.body.purchaseDate,
         price: req.body.price,
         warranty: req.body.warranty,
         warrantyStartDate: req.body.warrantyStartDate,
-        belongedDevice: req.body.belongedDevice,
+        warrantyEndDate: req.body.warrantyEndDate,
+        provider: req.body.provider,
+        lockStatus: req.body.lockStatus,
+        accStatus: req.body.accStatus,
         note: req.body.note,
         create_at: now
     });
