@@ -9,6 +9,8 @@ import {
   Modal,
   Button,
   Tooltip,
+  Divider,
+  Avatar,
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
@@ -150,24 +152,24 @@ export default class BasicLayout extends Component {
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="equipments">
-                  <Link to="/equipments" >
-                    <Icon type="sliders" />
-                    <span>
-                      {currentUser.level > 2 ? 'Manage Equipments' : 'Equipments'}
-                    </span>
-                  </Link>
-                </Menu.Item>
                 {currentUser.level > 2 ?
                   <Menu.Item key="eqtype">
                     <Link to="/equipment-types" >
                       <Icon type="ordered-list" />
                       <span>
-                        Manage Types
+                        Types
                       </span>
                     </Link>
                   </Menu.Item>
                   : null}
+                <Menu.Item key="equipments">
+                  <Link to="/equipments" >
+                    <Icon type="sliders" />
+                    <span>
+                      Equipments
+                    </span>
+                  </Link>
+                </Menu.Item>
                 {currentUser.level > 2 ?
                   <Menu.Item key="accessories">
                     <Link to="/accessories" >
@@ -177,12 +179,24 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
-                {currentUser.level > 3 ? <Menu.Item key="batch">
-                  <Link to="/batch" ><Icon type="shopping-cart" /><span>Manage Batch</span></Link>
-                </Menu.Item> : null}
-                {currentUser.level > 3 ? <Menu.Item key="users">
-                  <Link to="/users" ><Icon type="user" /><span>Manage Users</span></Link>
-                </Menu.Item> : null}
+                {currentUser.level > 3 ?
+                  <Menu.Item key="batch">
+                    <Link to="/batch" >
+                      <Icon type="shopping-cart" />
+                      <span>
+                        Batch
+                      </span>
+                    </Link>
+                  </Menu.Item> : null}
+                {currentUser.level > 3 ?
+                  <Menu.Item key="users">
+                    <Link to="/users" >
+                      <Icon type="team" />
+                      <span>
+                        Users
+                      </span>
+                    </Link>
+                  </Menu.Item> : null}
               </Menu>
             </Sider>
             <Layout>
@@ -195,9 +209,14 @@ export default class BasicLayout extends Component {
                 />
                 <span style={{ float: 'right', marginRight: 12 }}>
                   <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
-                    {loginModal ? '' : <Link to='/about'>Hello {currentUser.username}</Link>}
+                    {loginModal ? '' :
+                      <Link to='/about'>
+                        {currentUser.fullname}&nbsp;
+                        <Avatar alt='' src={currentUser.image} shape='circle' />
+                      </Link>}
                   </span>
-                  <Tooltip title='Log out' placement='bottomRight' onClick={this.onLoggedOut}>
+                  <Divider type='vertical' />
+                  <Tooltip title='Logout' placement='bottomRight' onClick={this.onLoggedOut}>
                     <Link to='/'>
                       <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
 
