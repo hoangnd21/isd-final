@@ -4,6 +4,7 @@ const schema = mongoose.Schema;
 const accessoriesSchema = new schema({
     accCode: String,
     accName: String,
+    genTypeAttached: String,
     subTypeAttached: String,
     batch: String,
     purchaseDate: Date,

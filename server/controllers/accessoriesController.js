@@ -5,6 +5,7 @@ const addAccessories = (req, res) => {
     accessories.create({
         accCode: req.body.accCode,
         accName: req.body.accName,
+        genTypeAttached: req.body.genTypeAttached,
         subTypeAttached: req.body.subTypeAttached,
         batch: req.body.batch,
         purchaseDate: req.body.purchaseDate,
