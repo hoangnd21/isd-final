@@ -257,7 +257,6 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment Code',
         dataIndex: 'code',
         key: 'code',
-        render: code => <span style={{ textAlign: 'justify' }}>{code}</span>
       },
       {
         title: 'Lock status',
