@@ -93,7 +93,7 @@ app.use('/excel', excelRoute);
 app.use('/reclaim', reclaimRoute);
 app.use('/noti', notification);
 app.use('/liquidation', liquidationRoute);
-app.use(('/search', searchRoute));
+app.use('/search', searchRoute);
 app.use('/upload', uploadRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

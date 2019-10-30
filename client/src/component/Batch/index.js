@@ -82,7 +82,7 @@ export default class Batch extends React.Component {
       },
     ]
     return (
-      currentUser && currentUser.level > 3 ?
+      currentUser && currentUser.level > 2 ?
         <>
           <h2>Batch:
           <Divider type='horizontal' />
