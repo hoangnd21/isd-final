@@ -2,15 +2,18 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const accessoriesSchema = new schema({
-    code: String,
-    name: String,
-    originalDevice: String,
-    tranferedDevice: String,
+    accCode: String,
+    accName: String,
+    subTypeAttached: String,
+    batch: String,
     purchaseDate: Date,
     price: Number,
     warranty: Number,
     warrantyStartDate: Date,
-    belongedDevice: String,
+    warrantyEndDate: Date,
+    provider: String,
+    lockStatus: Array,
+    accStatus: Array,
     note: String,
     create_at: Date
 })
