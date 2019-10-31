@@ -10,7 +10,9 @@ import {
   Divider,
   Tooltip,
   DatePicker,
-  Cascader
+  Cascader,
+  Checkbox,
+  InputNumber
 } from 'antd';
 import axios from 'axios';
 import { lockStatusOptions, eqStatusOptions } from './options'
@@ -25,7 +27,8 @@ class EquipmentForm extends React.PureComponent {
     currentValue: {},
     eqNamebyType: '',
     genTypeId: '',
-    updateCaseSubtype: []
+    updateCaseSubtype: [],
+    cloneCheckbox: false
   }
 
   componentDidMount() {
@@ -43,7 +46,7 @@ class EquipmentForm extends React.PureComponent {
           this.setState({
             updateCaseSubtype: [{ ...res.data }]
           })
-          : console.log(res)
+          : console.log('nooo')
       })
     axios.get(`http://localhost:9000/batch`)
       .then(res => {
@@ -52,7 +55,6 @@ class EquipmentForm extends React.PureComponent {
         })
       })
   }
-
 
   choseGenType = genTypeID => {
     axios.get(`http://localhost:9000/subTypes/${genTypeID}`)
@@ -116,8 +118,19 @@ class EquipmentForm extends React.PureComponent {
       })
   }
 
+  cloneToggle = e => {
+    console.log(`checked = ${e.target.checked}`)
+    this.setState({
+      cloneCheckbox: e.target.checked
+    })
+  }
+
+  cloneNumber = value => {
+    console.log('clone', value)
+  }
+
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, cloneCheckbox } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -129,7 +142,6 @@ class EquipmentForm extends React.PureComponent {
       })
     })
     const { getFieldDecorator } = form;
-    console.log('updateCaseSubtype', updateCaseSubtype)
     return (
       <Form
         layout="vertical"
@@ -260,6 +272,23 @@ class EquipmentForm extends React.PureComponent {
                     initialValue: equipment.manufacturer,
                   })(<Input placeholder="Manufacturer" />)}
                 </Form.Item>
+
+                <Form.Item>
+                  {modalType === 'create' ?
+                    <Checkbox
+                      onChange={this.cloneToggle}
+                      style={{ marginBottom: 5 }}
+                    >
+                      Clone this equipment
+                      </Checkbox>
+                    : null}<br />
+                  {cloneCheckbox ? <InputNumber min={1} defaultValue={1} onChange={this.cloneNumber}></InputNumber> : null}&nbsp;
+                  {cloneCheckbox ? 'variations' : null}
+
+
+                </Form.Item>
+
+
               </Col>
             </Col>
           </Col>
@@ -360,7 +389,7 @@ class EquipmentForm extends React.PureComponent {
         >
           <Button type="primary" htmlType="submit" loading={loading}>
             <Icon type="save" />
-            {modalType === 'update' ? 'Update' : 'Create'}
+            {modalType === 'update' ? 'Update' : cloneCheckbox ? 'Create and clone' : 'Create'}
           </Button>
         </div>
       </Form>

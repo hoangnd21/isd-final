@@ -8,14 +8,14 @@ import {
   Icon,
   Divider,
   Popconfirm,
-  Input
+  Input,
+  Tooltip
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
-
-const { Search } = Input
+import Highlighter from 'react-highlight-words';
 
 export default class Equipments extends React.PureComponent {
 
@@ -25,7 +25,8 @@ export default class Equipments extends React.PureComponent {
     equipmentModal: false,
     modalType: '',
     equipmentDetail: {},
-    currentUser: null
+    currentUser: null,
+    searchText: '',
   }
 
   componentDidMount() {
@@ -245,6 +246,67 @@ export default class Equipments extends React.PureComponent {
   //   }
   // }
 
+
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  });
+
+  handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ searchText: selectedKeys[0] });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
+
+
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser } = this.state;
     // const { currentUser } = this.props
@@ -252,6 +314,7 @@ export default class Equipments extends React.PureComponent {
       {
         title: 'Equipment Name',
         key: 'name',
+        ...this.getColumnSearchProps('name'),
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
@@ -259,6 +322,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment Code',
         dataIndex: 'code',
         key: 'code',
+        ...this.getColumnSearchProps('code'),
       },
       {
         title: 'Lock status',
@@ -275,7 +339,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'eqStatus',
         key: 'eqStatus',
         width: 180,
-        sorter: (a, b) => a.eqStatus[0].length - b.eqStatus[0].length,
+        ...this.getColumnSearchProps('code'),
       },
       {
         title: 'Purchased Date',
@@ -289,11 +353,10 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'batch',
         width: 180,
         key: 'batch',
-
-        sorter: (a, b) => a.batch[0].length - b.batch[0].length,
+        ...this.getColumnSearchProps('code'),
       },
       {
-        title: 'Original Price',
+        title: <span>Price <Tooltip title='The original price of the equipment.'><Icon type='question-circle' /></Tooltip></span>,
         dataIndex: 'originalPrice',
         key: 'originalPrice',
         align: 'right',
@@ -302,7 +365,7 @@ export default class Equipments extends React.PureComponent {
         render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
       {
-        title: 'Warranty (months)',
+        title: <span>Warranty <Tooltip title='In months'><Icon type='question-circle' /></Tooltip></span>,
         dataIndex: 'warrantyMonths',
         key: 'warranty',
         align: 'right',
@@ -351,24 +414,16 @@ export default class Equipments extends React.PureComponent {
     return (
       <>
         <h2>{currentUser && currentUser.level > 2 ? 'Equipments List' : 'Your Equipments'}
-          <Divider type='horizontal' />
-          <div>
-            <Search
-              style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
-              placeholder={`Search ${equipments.length} entries`}
-              onSearch={value => console.log(value)}
-              enterButton
-            />
-            <span style={{ float: 'right' }}>
-              <Button
-                type='primary'
-                icon='plus'
-                onClick={this.createEquipmentModal}
-              >
-                Create a new Equipment
+          <span style={{ float: 'right' }}>
+            <Button
+              type='primary'
+              icon='plus'
+              onClick={this.createEquipmentModal}
+            >
+              Create a new Equipment
             </Button>
-            </span>
-          </div>
+          </span>
+          <Divider type='horizontal' />
         </h2>
         <Table
           dataSource={equipments}
