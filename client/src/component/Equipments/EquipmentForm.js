@@ -11,8 +11,6 @@ import {
   Tooltip,
   DatePicker,
   Cascader,
-  Checkbox,
-  InputNumber
 } from 'antd';
 import axios from 'axios';
 import { lockStatusOptions, eqStatusOptions } from './options'
@@ -282,23 +280,6 @@ class EquipmentForm extends React.PureComponent {
                     initialValue: equipment.manufacturer,
                   })(<Input placeholder="Manufacturer" />)}
                 </Form.Item>
-
-                <Form.Item>
-                  {modalType === 'create' ?
-                    <Checkbox
-                      onChange={this.cloneToggle}
-                      style={{ marginBottom: 5 }}
-                    >
-                      Clone this equipment
-                      </Checkbox>
-                    : null}<br />
-                  {cloneCheckbox ? <InputNumber min={1} defaultValue={1} onChange={this.cloneNumber}></InputNumber> : null}&nbsp;
-                  {cloneCheckbox ? 'variations' : null}
-
-
-                </Form.Item>
-
-
               </Col>
             </Col>
           </Col>

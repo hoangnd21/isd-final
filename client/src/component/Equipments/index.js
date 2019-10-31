@@ -16,6 +16,7 @@ import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
 import Highlighter from 'react-highlight-words';
+import EquipmentClone from './EquipmentClone';
 
 export default class Equipments extends React.PureComponent {
 
@@ -306,10 +307,15 @@ export default class Equipments extends React.PureComponent {
     this.setState({ searchText: '' });
   };
 
+  cloneEquipment = () => {
+    this.setState({
+      equipmentModal: true,
+      modalType: 'clone'
+    })
+  }
 
   render() {
     const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser } = this.state;
-    // const { currentUser } = this.props
     const columns = [
       {
         title: 'Equipment Name',
@@ -374,7 +380,7 @@ export default class Equipments extends React.PureComponent {
       },
 
       {
-        title: <div style={{ textAlign: 'center' }}>'Actions'</div>,
+        title: 'Actions',
         render: data =>
           <>
             <Button
@@ -413,16 +419,27 @@ export default class Equipments extends React.PureComponent {
     ]
     return (
       <>
-        <h2>{currentUser && currentUser.level > 2 ? 'Equipments List' : 'Your Equipments'}
+        <h2>{currentUser && currentUser.level > 2 ?
+          <> Equipments List
           <span style={{ float: 'right' }}>
-            <Button
-              type='primary'
-              icon='plus'
-              onClick={this.createEquipmentModal}
-            >
-              Create a new Equipment
+              <Button
+                style={{ marginRight: 5 }}
+                type='primary'
+                icon='plus'
+                onClick={this.cloneEquipment}
+              >
+                Import a file to clone equipment
             </Button>
-          </span>
+              <Button
+                type='primary'
+                icon='plus'
+                onClick={this.createEquipmentModal}
+              >
+                Create a new Equipment
+            </Button>
+            </span>
+          </>
+          : 'Your Equipments'}
           <Divider type='horizontal' />
         </h2>
         <Table
@@ -441,7 +458,8 @@ export default class Equipments extends React.PureComponent {
               modalType === 'create' ? 'Create Equipment' :
                 modalType === 'reclaim' ? 'Reclaim Equipment' :
                   modalType === 'handing' ? 'Handing Equipment' :
-                    'Equipment Information'
+                    modalType === 'clone' ? 'Clone Equipment' :
+                      'Equipment Information'
           }
           destroyOnClose
           visible={equipmentModal}
@@ -483,8 +501,10 @@ export default class Equipments extends React.PureComponent {
                       equipment={equipmentDetail}
                       reclaimEquipment={this.reclaimEquipment}
                       updateEquipment={this.updateEquipment}
-                    />
-                    : null
+                    /> :
+                    modalType === 'clone' ?
+                      <EquipmentClone />
+                      : null
           }
         </Modal>
       </>
