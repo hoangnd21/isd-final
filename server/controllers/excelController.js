@@ -111,81 +111,13 @@ const xlsxOneEquipment = (req, res) => {
 
 module.exports.xlsxOneEquipment = xlsxOneEquipment;
 
-const importExxcel = (req, res) => {
-    // var model = null;
-    var model = mongoXlsx.buildDynamicModel([
-        {
-            "displayName": "ID",
-            "access": "_id",
-            "type": "string"
-        },
-        {
-            "displayName": "Code",
-            "access": "code",
-            "type": "string"
-        },
-        {
-            "displayName": "Name",
-            "access": "name",
-            "type": "string"
-        },
-        {
-            "displayName": "General Type",
-            "access": "generalType[0]",
-            "type": "string"
-        },
-        {
-            "displayName": "Sub Type",
-            "access": "subtype[0]",
-            "type": "string"
-        },
-        {
-            "displayName": "Status",
-            "access": "status[0]",
-            "type": "string"
-        },
-        {
-            "displayName": "Date Purchase",
-            "access": "datePurchase",
-            "type": "date"
-        },
-        {
-            "displayName": "Price",
-            "access": "originalPrice",
-            "type": "number"
-        },
-        {
-            "displayName": "Warranty(Months)",
-            "access": "warrantyMonths",
-            "type": "number"
-        },
-        {
-            "displayName": "Batch",
-            "access": "batch[0]",
-            "type": "string"
-        },
-        {
-            "displayName": "Start Date",
-            "access": "startDate",
-            "type": "date"
-        },
-        {
-            "displayName": "Manufacturer",
-            "access": "manufacturer",
-            "type": "string"
-        },
-        {
-            "displayName": "Created_at",
-            "access": "created_at",
-            "type": "date"
-        }
-    ]);
-    mongoXlsx.xlsx2MongoData("./mongo-xlsx-1570847728167.xlsx", model, function (err, mongoData) {
+const importExcel = (req, res) => {
+    var model = null;
+    mongoXlsx.xlsx2MongoData(`./upload.${req.body}`, model, function (err, mongoData) {
         console.log('Mongo data:', mongoData);
-        equipment.create(mongoData)
-        res.send("Equipment created successfully");
+        res.send(mongoData);
     });
 }
-module.exports.importExxcel = importExxcel
+module.exports.importExcel = importExcel
 
 

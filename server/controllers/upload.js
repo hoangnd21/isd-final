@@ -1,13 +1,41 @@
-const upload = (req, res) => {
+const mongoXlsx = require('mongo-xlsx');
+
+const uploading = (req, res) => {
     if (req.files) {
-        const file = req.files.filename,
-            filename = file.name;
-        file.mv("./upload/" + filename, err => {
+        let uploadFile = req.files.file
+        const fileName = uploadFile.name
+        uploadFile.mv("./upload/" + fileName, err => {
             if (err)
                 res.send("error");
             else
-                res.send("done");
+                res.send("1 file is uploaded")
         })
     }
+    else
+        res.send("no file to upload")
 }
-module.exports.upload = upload;
+module.exports.uploading = uploading;
+
+const importExcel = (req, res) => {
+    console.log(req.files)
+    if (req.files) {
+        let uploadFile = req.files.file
+        const fileName = uploadFile.name
+        uploadFile.mv("./upload/" + fileName, err => {
+            if (err)
+                console.log("error");
+            else
+                var model = null;
+            mongoXlsx.xlsx2MongoData(`./upload/${fileName}`, model, function (err, mongoData) {
+                console.log('Mongo data:', mongoData);
+                res.send(mongoData);
+
+            });
+        })
+
+    }
+    else
+        res.send("no file to upload")
+
+}
+module.exports.importExcel = importExcel
