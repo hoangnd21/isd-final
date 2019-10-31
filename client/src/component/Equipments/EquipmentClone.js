@@ -17,7 +17,12 @@ export default class EquipmentClone extends React.Component {
     const { step } = this.state
     const props = {
       name: 'file',
+<<<<<<< HEAD
       action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+=======
+      multiple: true,
+      action: 'http://localhost:9000/upload/importExcel',
+>>>>>>> import và upload
       onChange(info) {
         const { status } = info.file;
         if (status !== 'uploading') {

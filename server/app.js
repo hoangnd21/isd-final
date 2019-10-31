@@ -30,6 +30,7 @@ var reclaimRoute = require('./routes/reclaim')
 var searchRoute = require('./routes/search')
 var uploadRoute = require('./routes/upload')
 var upload = require('express-fileupload')
+// var bodyParser = require('body-parser');
 var app = express();
 
 
@@ -47,7 +48,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('trust proxy', 1)
 app.use(logger('dev'));
-app.use(express.json());
+// app.use(bodyParser.json({ limit: "50mb" }));
+// app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use(cors({
   //credentials: true
   //origin: 'http://localhost:9000'
