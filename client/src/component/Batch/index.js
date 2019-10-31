@@ -5,13 +5,12 @@ import {
   Modal,
   Button,
   Divider,
-  Input
+  Input,
+  Icon
 } from 'antd';
 import BatchItems from './BatchItems'
 import Forbidden from '../../Config/Forbidden';
-
-const { Search } = Input
-
+import Highlighter from 'react-highlight-words';
 export default class Batch extends React.Component {
   state = {
     currentUser: null,
@@ -60,6 +59,67 @@ export default class Batch extends React.Component {
       visible: false
     })
   }
+
+
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  });
+
+  handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ searchText: selectedKeys[0] });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
+
   render() {
     const { allBatch, visible, relatedDataByCode, currentBatch, currentUser } = this.state
     const columns = [
@@ -67,43 +127,44 @@ export default class Batch extends React.Component {
         title: 'Batch Code',
         key: 'code',
         width: 300,
+        ...this.getColumnSearchProps('code'),
         render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.getAllRelatedToModal(data)}>{data.code}</Button>
       },
       {
         title: 'Contact Person',
         dataIndex: 'contactPerson',
         key: 'contactPerson',
-        width: 400
+        width: 400,
+        ...this.getColumnSearchProps('contactPerson'),
       },
       {
         title: 'Provider',
         dataIndex: 'provider',
-        key: 'provider'
+        key: 'provider',
+        width: 300,
+        ...this.getColumnSearchProps('provider'),
+      },
+      {
+        title: 'Note',
+        dataIndex: 'note',
+        key: 'note',
       },
     ]
     return (
-      currentUser && currentUser.level > 2 ?
+      currentUser && currentUser.level < 2 ? <Forbidden /> :
         <>
           <h2>Batch:
-          <Divider type='horizontal' />
             {currentUser && currentUser.level > 3 ?
-              <div>
-                <Search
-                  style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
-                  placeholder={`Search ${allBatch.length} entries`}
-                  onSearch={value => console.log(value)}
-                  enterButton
-                />
-                <span style={{ float: 'right' }}>
-                  <Button
-                    type='primary'
-                    icon='plus'
-                  >
-                    Add a new Batch
+              <span style={{ float: 'right' }}>
+                <Button
+                  type='primary'
+                  icon='plus'
+                >
+                  Add a new Batch
                 </Button>
-                </span>
-              </div>
+              </span>
               : null}
+            <Divider type='horizontal' />
           </h2>
           <Table
             dataSource={allBatch}
@@ -111,17 +172,17 @@ export default class Batch extends React.Component {
             rowKey={record => record._id}
           />
           <Modal
-            title={`Batch ${currentBatch}`}
+            title={`Batch: ${currentBatch}`}
             visible={visible}
             destroyOnClose
             footer={null}
             centered
             onCancel={this.closeModal}
+            width={1000}
           >
             <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />
           </Modal>
         </>
-        : <Forbidden />
     )
   }
 }

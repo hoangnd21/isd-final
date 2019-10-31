@@ -189,6 +189,15 @@ export default class BasicLayout extends Component {
                     </Link>
                   </Menu.Item> : null}
                 {currentUser.level > 3 ?
+                  <Menu.Item key="providers">
+                    <Link to="/providers" >
+                      <Icon type="bank" />
+                      <span>
+                        Providers
+                      </span>
+                    </Link>
+                  </Menu.Item> : null}
+                {currentUser.level > 3 ?
                   <Menu.Item key="users">
                     <Link to="/users" >
                       <Icon type="team" />

@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { form, onLoggedIn, loginError, loading } = this.props;
+    const { form, loginError, loading } = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
     // Only show error after a field is touched.
@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
           <div style={{ float: 'left' }}>
             <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
           </div>
-          <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={onLoggedIn} loading={loading}>
+          <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} loading={loading}>
             <span style={{ color: 'white' }}>&nbsp;Log in</span>
           </Button>
         </div>

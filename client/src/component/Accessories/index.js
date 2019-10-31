@@ -3,16 +3,17 @@ import {
   Button,
   Input,
   Table,
-  Divider
+  Divider,
+  Icon
 } from 'antd'
-import axios from 'axios'
+import axios from 'axios';
+import Highlighter from 'react-highlight-words';
 
-const { Search } = Input
 
 export default class Accessories extends Component {
   state = {
     currentUser: {},
-    allAccessories: []
+    allAccessories: [],
   }
   componentDidMount() {
     axios({
@@ -36,6 +37,66 @@ export default class Accessories extends Component {
         })
       })
   }
+
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  });
+
+  handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ searchText: selectedKeys[0] });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
+
   render() {
     const { currentUser, allAccessories } = this.state
     const columns = [
@@ -43,24 +104,27 @@ export default class Accessories extends Component {
         title: 'Accessory Name',
         dataIndex: 'accName',
         key: 'accName',
-        width: 150
+        ...this.getColumnSearchProps('accName'),
       },
       {
         title: 'Batch',
         dataIndex: 'batch',
         key: 'batch',
         width: 250,
+        ...this.getColumnSearchProps('batch'),
       },
       {
         title: 'Provider',
         dataIndex: 'provider',
         key: 'provider',
+        ...this.getColumnSearchProps('provider'),
       },
       {
         title: 'Accessory Status',
         dataIndex: 'accStatus',
         key: 'accStatus',
         width: 250,
+        ...this.getColumnSearchProps('accStatus'),
       },
       {
         title: 'Purchased Date',
@@ -100,25 +164,17 @@ export default class Accessories extends Component {
     return (
       <>
         <h2>Accessories:
-          <Divider type='horizontal' />
           {currentUser && currentUser.level > 3 ?
-            <div>
-              <Search
-                style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
-                placeholder={`Search ${allAccessories.length} entries`}
-                onSearch={value => console.log(value)}
-                enterButton
-              />
-              <span style={{ float: 'right' }}>
-                <Button
-                  type='primary'
-                  icon='plus'
-                >
-                  Add a new Accessory
+            <span style={{ float: 'right' }}>
+              <Button
+                type='primary'
+                icon='plus'
+              >
+                Add a new Accessory
                 </Button>
-              </span>
-            </div>
+            </span>
             : null}
+          <Divider type='horizontal' />
         </h2>
         <Table
           dataSource={allAccessories}

@@ -8,14 +8,12 @@ import {
   Menu,
   notification,
   Icon,
-  Input,
   Divider
 } from 'antd';
 import EqTypesDrawer from './EqTypesDrawer'
 import Forbidden from '../../Config/Forbidden';
 import GeneralTypeForm from './GeneralTypeForm'
 
-const { Search } = Input
 
 export default class EquipmentTypes extends Component {
   state = {
@@ -98,35 +96,27 @@ export default class EquipmentTypes extends Component {
         <Forbidden />
         : <>
           <h2>General types:
-            <Divider type='horizontal' />
             {currentUser && currentUser.level > 3 ?
-              <div>
-                <Search
-                  style={{ padding: 0, margin: '3px 5px 0 0', width: 400 }}
-                  placeholder={`Search ${generalTypes.length} entries`}
-                  onSearch={value => console.log(value)}
-                  enterButton
-                />
-                <span style={{ float: 'right' }}>
-                  <Dropdown
-                    overlay={
-                      <Menu style={{ padding: 5 }}>
-                        <GeneralTypeForm addGenTypeRequest={this.addGenType} />
-                      </Menu>
-                    }
-                    trigger={['click']}
-                    placement='bottomRight'
+              <span style={{ float: 'right' }}>
+                <Dropdown
+                  overlay={
+                    <Menu style={{ padding: 5 }}>
+                      <GeneralTypeForm addGenTypeRequest={this.addGenType} />
+                    </Menu>
+                  }
+                  trigger={['click']}
+                  placement='bottomRight'
+                >
+                  <Button
+                    type='primary'
+                    icon='down'
                   >
-                    <Button
-                      type='primary'
-                      icon='down'
-                    >
-                      Add a new General Type
+                    Add a new General Type
                 </Button>
-                  </Dropdown>
-                </span>
-              </div>
+                </Dropdown>
+              </span>
               : null}
+            <Divider type='horizontal' />
           </h2>
           <List
             itemLayout='horizontal'
