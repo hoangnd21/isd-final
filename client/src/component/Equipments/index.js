@@ -339,7 +339,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'eqStatus',
         key: 'eqStatus',
         width: 180,
-        ...this.getColumnSearchProps('code'),
+        ...this.getColumnSearchProps('eqStatus'),
       },
       {
         title: 'Purchased Date',
@@ -353,7 +353,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'batch',
         width: 180,
         key: 'batch',
-        ...this.getColumnSearchProps('code'),
+        ...this.getColumnSearchProps('batch'),
       },
       {
         title: <span>Price <Tooltip title='The original price of the equipment.'><Icon type='question-circle' /></Tooltip></span>,
