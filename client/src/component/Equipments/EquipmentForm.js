@@ -85,12 +85,22 @@ class EquipmentForm extends React.PureComponent {
   onCreateEquipment = e => {
     e.preventDefault();
     const { form, equipment, createEquipment } = this.props;
+    const { cloneNumber, cloneCheckbox } = this.state
     form.validateFields((err, newEquipment) => {
       if (err) {
         return;
       }
 
-      createEquipment({ ...equipment, ...newEquipment })
+      if (cloneCheckbox) {
+        for (var i = 1; i <= cloneNumber; ++i) {
+          createEquipment({ ...equipment, ...newEquipment })
+        }
+      } else {
+        createEquipment({ ...equipment, ...newEquipment })
+      }
+      this.setState({
+        updateCaseSubtype: ''
+      })
       form.resetFields();
     });
   };
