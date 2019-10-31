@@ -1,5 +1,10 @@
 import React from 'react';
-import { Upload, Icon, message } from 'antd';
+import {
+  Upload,
+  Icon,
+  message,
+  Button
+} from 'antd';
 import EquipmentForm from './EquipmentForm'
 
 const { Dragger } = Upload;
@@ -12,7 +17,6 @@ export default class EquipmentClone extends React.Component {
     const { step } = this.state
     const props = {
       name: 'file',
-      multiple: true,
       action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
       onChange(info) {
         const { status } = info.file;
@@ -30,12 +34,17 @@ export default class EquipmentClone extends React.Component {
       },
     }
     return (
-      step === 1 ? <Dragger {...props}>
+      step === 1 ? <> <Dragger {...props}>
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-      </Dragger> :
+        <p className="ant-upload-text">Click or drag your code file to this area to upload.</p>
+      </Dragger>
+        <Icon type='up' /> Is this the right file?
+        <div style={{ textAlign: 'right' }}>
+          <Button type='primary'>Confim</Button>
+        </div>
+      </> :
         <EquipmentForm />
     )
 
