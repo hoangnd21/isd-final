@@ -6,12 +6,16 @@ const addProvider = (req, res) => {
         name: req.body.name,
         address: req.body.address,
         hotline: req.body.hotline,
-        CPName: req.body.contactPerson.CPName,
-        emailCP: req.body.contactPerson.emailCP,
-        phoneCP: req.body.contactPerson.phoneCP,
-        WPName: req.body.warrantyPerson.WPName,
-        emailWP: req.body.warrantyPerson.emailWP,
-        phoneWP: req.body.warrantyPerson.phoneWP,
+        contactPerson: {
+            CPName: req.body.contactPerson.CPName,
+            emailCP: req.body.contactPerson.emailCP,
+            phoneCP: req.body.contactPerson.phoneCP
+        },
+        warrantyPerson: {
+            WPName: req.body.warrantyPerson.WPName,
+            emailWP: req.body.warrantyPerson.emailWP,
+            phoneWP: req.body.warrantyPerson.phoneWP
+        },
         note: req.body.note,
         create_at: now
     });
