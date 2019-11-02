@@ -9,14 +9,15 @@ import {
   Divider,
   Popconfirm,
   Input,
-  Tooltip
+  Tooltip,
+  message,
+  Upload
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
 import Highlighter from 'react-highlight-words';
-import EquipmentClone from './EquipmentClone';
 
 export default class Equipments extends React.PureComponent {
 
@@ -28,6 +29,7 @@ export default class Equipments extends React.PureComponent {
     equipmentDetail: {},
     currentUser: null,
     searchText: '',
+    cloneStep: false
   }
 
   componentDidMount() {
@@ -247,6 +249,12 @@ export default class Equipments extends React.PureComponent {
   //   }
   // }
 
+  uploadSuccess = () => {
+    this.setState({
+      equipmentModal: true,
+      cloneStep: true
+    })
+  }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -307,15 +315,26 @@ export default class Equipments extends React.PureComponent {
     this.setState({ searchText: '' });
   };
 
-  cloneEquipment = () => {
-    this.setState({
-      equipmentModal: true,
-      modalType: 'clone'
-    })
-  }
-
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, cloneStep } = this.state;
+    const props = {
+      name: 'file',
+      action: 'http://localhost:9000/upload/importExcel',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          console.log(this)
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
     const columns = [
       {
         title: 'Equipment Name',
@@ -423,20 +442,22 @@ export default class Equipments extends React.PureComponent {
           <> Equipments List
           <span style={{ float: 'right' }}>
               <Button
+                type='primary'
+                icon='plus'
                 style={{ marginRight: 5 }}
-                type='primary'
-                icon='plus'
-                onClick={this.cloneEquipment}
-              >
-                Import a file to clone equipment
-            </Button>
-              <Button
-                type='primary'
-                icon='plus'
                 onClick={this.createEquipmentModal}
               >
                 Create a new Equipment
             </Button>
+              <Upload {...props} uploadSuccess={this.uploadSuccess}>
+                <Button
+                  type='secondary'
+                  icon='plus'
+                >
+                  Use a file to clone Equipment
+                </Button>
+              </Upload>
+
             </span>
           </>
           : 'Your Equipments'}
@@ -458,7 +479,7 @@ export default class Equipments extends React.PureComponent {
               modalType === 'create' ? 'Create Equipment' :
                 modalType === 'reclaim' ? 'Reclaim Equipment' :
                   modalType === 'handing' ? 'Handing Equipment' :
-                    modalType === 'clone' ? 'Clone Equipment' :
+                    cloneStep ? 'Clone Equipment' :
                       'Equipment Information'
           }
           destroyOnClose
@@ -502,9 +523,7 @@ export default class Equipments extends React.PureComponent {
                       reclaimEquipment={this.reclaimEquipment}
                       updateEquipment={this.updateEquipment}
                     /> :
-                    modalType === 'clone' ?
-                      <EquipmentClone />
-                      : null
+                    null
           }
         </Modal>
       </>

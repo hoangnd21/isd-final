@@ -4,7 +4,7 @@ import {
   Input,
   Table,
   Divider,
-  Icon
+  Icon,
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
@@ -101,7 +101,7 @@ export default class Accessories extends Component {
     const { currentUser, allAccessories } = this.state
     const columns = [
       {
-        title: 'Accessory Name',
+        title: 'Accessory',
         dataIndex: 'accName',
         key: 'accName',
         ...this.getColumnSearchProps('accName'),
@@ -120,16 +120,17 @@ export default class Accessories extends Component {
         ...this.getColumnSearchProps('provider'),
       },
       {
-        title: 'Accessory Status',
+        title: 'Status',
         dataIndex: 'accStatus',
         key: 'accStatus',
-        width: 250,
+        width: 150,
         ...this.getColumnSearchProps('accStatus'),
       },
       {
         title: 'Purchased Date',
         dataIndex: 'purchaseDate',
         key: 'purchaseDate',
+        width: 130,
         render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
       },
       {
@@ -144,20 +145,22 @@ export default class Accessories extends Component {
         title: 'Warranty starts on',
         dataIndex: 'warrantyStartDate',
         key: 'warrantyStartDate',
+        width: 120,
         render: warrantyStartDate => `${warrantyStartDate.slice(8, 10)}/${warrantyStartDate.slice(5, 7)}/${warrantyStartDate.slice(0, 4)}`
       },
       {
-        title: 'Warranty (months)',
+        title: 'Warranty',
         dataIndex: 'warranty',
         key: 'warranty',
         align: 'right',
-        width: 180,
+        render: warranty => <span>{warranty} months</span>,
         sorter: (a, b) => a.warranty - b.warranty,
       },
       {
         title: 'Warranty ends on',
         dataIndex: 'warrantyEndDate',
         key: 'warrantyEndDate',
+        width: 120,
         render: warrantyEndDate => `${warrantyEndDate.slice(8, 10)}/${warrantyEndDate.slice(5, 7)}/${warrantyEndDate.slice(0, 4)}`
       },
     ]
