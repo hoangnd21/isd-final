@@ -5,12 +5,16 @@ const providerSchema = new schema({
     name: String,
     address: String,
     hotline: String,
-    contactPerson: String,
-    emailCP: String,
-    phoneCP: String,
-    warrantyPerson: String,
-    emailWP: String,
-    phoneWP: String,
+    contactPerson: {
+        CPName: String,
+        emailCP: String,
+        phoneCP: String
+    },
+    warrantyPerson: {
+        WPName: String,
+        emailWP: String,
+        phoneWP: String
+    },
     note: String,
     create_at: Date
 });
