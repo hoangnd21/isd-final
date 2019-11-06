@@ -11,6 +11,7 @@ import {
   Tooltip,
   DatePicker,
   Cascader,
+  InputNumber,
 } from 'antd';
 import axios from 'axios';
 import { lockStatusOptions, eqStatusOptions } from './options'
@@ -315,7 +316,7 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.originalPrice,
-                })(<Input placeholder="Original Price of the equipment" />)}
+                })(<InputNumber style={{ width: '100%' }} placeholder="Original Price of the equipment" />)}
               </Form.Item>
 
               <Form.Item label='Warranty (Months)'
@@ -328,11 +329,8 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.warrantyMonths,
-                })(<Input placeholder="Warranty" />)}
+                })(<InputNumber style={{ width: '100%' }} placeholder="Warranty" />)}
               </Form.Item>
-
-
-
               <Form.Item label='Note'
               >
                 {getFieldDecorator('note', {

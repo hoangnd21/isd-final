@@ -16,6 +16,7 @@ import ProviderCreateForm from './ProviderCreateForm'
 export default class Providers extends Component {
   state = {
     currentUser: {},
+    loading: true
   }
 
   componentDidMount() {
@@ -30,7 +31,8 @@ export default class Providers extends Component {
     })
       .then(res => {
         this.setState({
-          currentUser: res.data
+          currentUser: res.data,
+          loading: false
         })
       })
     axios.get('http://localhost:9000/providers')
@@ -130,7 +132,7 @@ export default class Providers extends Component {
   };
 
   render() {
-    const { allProviders, currentUser, visible, modalType, contactPerson, warrantyPerson } = this.state;
+    const { allProviders, currentUser, visible, modalType, contactPerson, warrantyPerson, loading } = this.state;
     const columns = [
       {
         title: 'Provider',
@@ -185,6 +187,7 @@ export default class Providers extends Component {
             <Divider type='horizontal' />
           </h2>
           <Table
+            loading={loading}
             columns={columns}
             dataSource={allProviders}
             rowKey={record => record._id}
