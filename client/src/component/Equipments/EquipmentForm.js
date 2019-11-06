@@ -26,25 +26,15 @@ class EquipmentForm extends React.PureComponent {
     eqNamebyType: '',
     genTypeId: '',
     updateCaseSubtype: [],
-    cloneCheckbox: false
   }
 
   componentDidMount() {
+    const { equipment, modalType } = this.props
     axios.get(`http://localhost:9000/generalTypes`)
       .then(res => {
         this.setState({
           generalTypes: res.data
         })
-      })
-    const { equipment, modalType } = this.props
-    axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${equipment.generalType}&value=${equipment.subtype}`)
-      .then(res => {
-        modalType === 'update' ?
-          // console.log('update', [{ ...res.data }])
-          this.setState({
-            updateCaseSubtype: [{ ...res.data }]
-          })
-          : console.log('nooo')
       })
     axios.get(`http://localhost:9000/batch`)
       .then(res => {
@@ -52,6 +42,14 @@ class EquipmentForm extends React.PureComponent {
           batches: res.data
         })
       })
+
+    if (modalType === 'update') {
+      this.choseGenType(equipment.generalType)
+      this.setState({
+        updateCaseSubtype: equipment.subtype,
+        eqNamebyType: equipment.name
+      })
+    }
   }
 
   choseGenType = genTypeID => {
@@ -62,9 +60,6 @@ class EquipmentForm extends React.PureComponent {
           genTypeId: genTypeID
         })
       })
-      .catch(error => {
-        console.log(error)
-      });
   }
 
   //codegen logic
@@ -83,22 +78,11 @@ class EquipmentForm extends React.PureComponent {
   onCreateEquipment = e => {
     e.preventDefault();
     const { form, equipment, createEquipment } = this.props;
-    const { cloneNumber, cloneCheckbox } = this.state
     form.validateFields((err, newEquipment) => {
       if (err) {
         return;
       }
-
-      if (cloneCheckbox) {
-        for (var i = 1; i <= cloneNumber; ++i) {
-          createEquipment({ ...equipment, ...newEquipment })
-        }
-      } else {
-        createEquipment({ ...equipment, ...newEquipment })
-      }
-      this.setState({
-        updateCaseSubtype: ''
-      })
+      createEquipment({ ...equipment, ...newEquipment })
       form.resetFields();
     });
   };
@@ -126,19 +110,8 @@ class EquipmentForm extends React.PureComponent {
       })
   }
 
-  cloneToggle = e => {
-    console.log(`checked = ${e.target.checked}`)
-    this.setState({
-      cloneCheckbox: e.target.checked
-    })
-  }
-
-  cloneNumber = value => {
-    console.log('clone', value)
-  }
-
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, cloneCheckbox } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -380,7 +353,7 @@ class EquipmentForm extends React.PureComponent {
         >
           <Button type="primary" htmlType="submit" loading={loading}>
             <Icon type="save" />
-            {modalType === 'update' ? 'Update' : cloneCheckbox ? 'Create and clone' : 'Create'}
+            {modalType === 'update' ? 'Update' : 'Create'}
           </Button>
         </div>
       </Form>

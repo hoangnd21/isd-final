@@ -5,8 +5,12 @@ import {
   Row,
   Col,
   Modal,
-  Divider
+  Divider,
+  Button,
+  Tooltip,
 } from 'antd'
+import CreateUser from './CreateUser'
+import UserInfo from './UserInfo'
 
 const { Meta } = Card
 
@@ -30,7 +34,8 @@ export default class Users extends Component {
   userInfoModal = user => {
     this.setState({
       visible: true,
-      userDetail: user
+      userDetail: user,
+      modalType: 'view'
     })
   }
 
@@ -39,8 +44,15 @@ export default class Users extends Component {
       visible: false
     })
   }
+
+  createNewUser = () => {
+    this.setState({
+      visible: true,
+      modalType: 'create'
+    })
+  }
   render() {
-    const { allUsers, loading, visible, userDetail } = this.state
+    const { allUsers, loading, visible, userDetail, modalType } = this.state
     return (
       <>
         <h2>Users List
@@ -48,20 +60,19 @@ export default class Users extends Component {
         </h2>
         <Row gutter={10}>
           {allUsers && allUsers.map(u =>
-            <Col xl={4} style={{ marginBottom: 10 }} key={u.username}>
+            <Col xl={4} style={{ marginBottom: 10, borderRadius: 5 }} key={u.username}>
               <Card
                 onClick={() => this.userInfoModal(u)}
                 loading={loading}
                 hoverable
                 cover={
-                  <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 273, width: 273 }}>
+                  <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}>
                     <img
                       style={{ width: '100%' }}
                       alt={u.image}
                       src={u.image}// user image
                     />
-                  </div>
-                }
+                  </div>}
               >
                 <Meta
                   title={u.fullname}
@@ -69,15 +80,33 @@ export default class Users extends Component {
                 />
               </Card>
             </Col>)}
+          <Col xl={4} style={{ marginBottom: 10, borderRadius: 5 }}>
+            <Tooltip title='Add a new User' placement='bottom'>
+              <Button
+                type='dashed'
+                onClick={this.createNewUser}
+                loading={loading}
+                icon='plus'
+                style={{
+                  width: '100%',
+                  height: 356,
+                  background: 'whitesmoke',
+                  fontSize: 40
+                }}
+              />
+            </Tooltip>
+          </Col>
         </Row>
         <Modal
-          title={userDetail.fullname}
+          title={modalType === 'create' ? 'Create User' : userDetail.fullname}
           centered
           visible={visible}
           footer={null}
           onCancel={this.hideModal}
         >
-          {userDetail.username}
+          {modalType === 'create' ?
+            <CreateUser /> :
+            <UserInfo userDetail={userDetail} />}
         </Modal>
       </>
     )
