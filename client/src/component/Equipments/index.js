@@ -329,7 +329,6 @@ export default class Equipments extends React.PureComponent {
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
-          console.log(this)
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
         }
@@ -457,7 +456,6 @@ export default class Equipments extends React.PureComponent {
                   Use a file to clone Equipment
                 </Button>
               </Upload>
-
             </span>
           </>
           : 'Your Equipments'}

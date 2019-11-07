@@ -5,15 +5,18 @@ import {
   Table,
   Divider,
   Icon,
+  Modal,
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
+import CreateAccessory from './CreateAccessory';
 
 
 export default class Accessories extends Component {
   state = {
     currentUser: {},
     allAccessories: [],
+    loading: true
   }
   componentDidMount() {
     axios({
@@ -27,7 +30,8 @@ export default class Accessories extends Component {
     })
       .then(res => {
         this.setState({
-          currentUser: res.data
+          currentUser: res.data,
+          loading: false
         })
       })
     axios.get('http://localhost:9000/accessories')
@@ -36,6 +40,18 @@ export default class Accessories extends Component {
           allAccessories: res.data
         })
       })
+  }
+
+  createAccessory = () => {
+    this.setState({
+      modalType: 'create',
+      visible: true
+    })
+  }
+  hideModal = () => {
+    this.setState({
+      visible: false
+    })
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -98,7 +114,7 @@ export default class Accessories extends Component {
   };
 
   render() {
-    const { currentUser, allAccessories } = this.state
+    const { currentUser, allAccessories, loading, visible } = this.state
     const columns = [
       {
         title: 'Accessory',
@@ -117,6 +133,7 @@ export default class Accessories extends Component {
         title: 'Provider',
         dataIndex: 'provider',
         key: 'provider',
+        width: 130,
         ...this.getColumnSearchProps('provider'),
       },
       {
@@ -130,7 +147,7 @@ export default class Accessories extends Component {
         title: 'Purchased Date',
         dataIndex: 'purchaseDate',
         key: 'purchaseDate',
-        width: 130,
+        width: 120,
         render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
       },
       {
@@ -153,6 +170,7 @@ export default class Accessories extends Component {
         dataIndex: 'warranty',
         key: 'warranty',
         align: 'right',
+        width: 120,
         render: warranty => <span>{warranty} months</span>,
         sorter: (a, b) => a.warranty - b.warranty,
       },
@@ -172,6 +190,7 @@ export default class Accessories extends Component {
               <Button
                 type='primary'
                 icon='plus'
+                onClick={this.createAccessory}
               >
                 Add a new Accessory
                 </Button>
@@ -183,7 +202,19 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
+          loading={loading}
         />
+        <Modal
+          title={'Create Accessory'}
+          centered
+          footer={null}
+          visible={visible}
+          onCancel={this.hideModal}
+          width={1000}
+          destroyOnClose
+        >
+          <CreateAccessory />
+        </Modal>
       </>
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import { Divider } from 'antd';
 
 export default class About extends React.Component {
   state = {
@@ -26,9 +27,10 @@ export default class About extends React.Component {
     const { currentUser } = this.state;
     return (
       <>
-        <h1>
-          {currentUser && currentUser.rank} {currentUser && currentUser.username}
-        </h1>
+        <h2>
+          {currentUser && currentUser.username}
+          <Divider type='horizontal' />
+        </h2>
       </>
     )
   }

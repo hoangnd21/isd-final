@@ -16,7 +16,8 @@ export default class Batch extends React.Component {
     currentUser: null,
     allBatch: [],
     visible: false,
-    currentBatch: ''
+    currentBatch: '',
+    loading: true,
   }
   componentDidMount() {
     axios({
@@ -30,7 +31,8 @@ export default class Batch extends React.Component {
     })
       .then(res => {
         this.setState({
-          currentUser: res.data
+          currentUser: res.data,
+          loading: false
         })
       })
     axios.get('http://localhost:9000/batch')
@@ -121,7 +123,7 @@ export default class Batch extends React.Component {
   };
 
   render() {
-    const { allBatch, visible, relatedDataByCode, currentBatch, currentUser } = this.state
+    const { allBatch, visible, relatedDataByCode, currentBatch, currentUser, loading } = this.state
     const columns = [
       {
         title: 'Batch Code',
@@ -153,7 +155,7 @@ export default class Batch extends React.Component {
     return (
       currentUser && currentUser.level < 2 ? <Forbidden /> :
         <>
-          <h2>Batch:
+          <h2>Batch
             {currentUser && currentUser.level > 3 ?
               <span style={{ float: 'right' }}>
                 <Button
@@ -167,6 +169,7 @@ export default class Batch extends React.Component {
             <Divider type='horizontal' />
           </h2>
           <Table
+            loading={loading}
             dataSource={allBatch}
             columns={columns}
             rowKey={record => record._id}
