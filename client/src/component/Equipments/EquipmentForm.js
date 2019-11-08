@@ -37,6 +37,10 @@ class EquipmentForm extends React.PureComponent {
           generalTypes: res.data
         })
       })
+    this.setState({
+      eqCodeF: ['VN'].concat(this.codegen(12)).join('')
+
+    })
     axios.get(`http://localhost:9000/batch`)
       .then(res => {
         this.setState({
@@ -112,11 +116,10 @@ class EquipmentForm extends React.PureComponent {
   }
 
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
-    const eqCodeF = ['VN'].concat(this.codegen(12)).join('')
     const batchOptions = batches && batches.map(batch => {
       return ({
         value: batch.code,
@@ -316,10 +319,15 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.originalPrice,
-                })(<InputNumber style={{ width: '100%' }} placeholder="Original Price of the equipment" />)}
+                })(
+                  <InputNumber
+                    formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                    style={{ width: '100%' }}
+                    placeholder="Original Price of the equipment" />)}
               </Form.Item>
 
-              <Form.Item label='Warranty (Months)'
+              <Form.Item label='Warranty'
               >
                 {getFieldDecorator('warrantyMonths', {
                   rules: [
@@ -329,7 +337,9 @@ class EquipmentForm extends React.PureComponent {
                     },
                   ],
                   initialValue: equipment.warrantyMonths,
-                })(<InputNumber style={{ width: '100%' }} placeholder="Warranty" />)}
+                })(<InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="Warranty" />)}
               </Form.Item>
               <Form.Item label='Note'
               >

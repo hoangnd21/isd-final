@@ -439,7 +439,15 @@ export default class Equipments extends React.PureComponent {
       <>
         <h2>{currentUser && currentUser.level > 2 ?
           <> Equipments List
-          <span style={{ float: 'right' }}>
+          <div style={{ textAlign: 'right' }}>
+              <Upload {...props} uploadSuccess={this.uploadSuccess} style={{ width: 'auto' }}>
+                <Button
+                  type='secondary'
+                  icon='plus'
+                >
+                  Use a file to clone Equipment
+                </Button>
+              </Upload>
               <Button
                 type='primary'
                 icon='plus'
@@ -448,15 +456,7 @@ export default class Equipments extends React.PureComponent {
               >
                 Create a new Equipment
             </Button>
-              <Upload {...props} uploadSuccess={this.uploadSuccess}>
-                <Button
-                  type='secondary'
-                  icon='plus'
-                >
-                  Use a file to clone Equipment
-                </Button>
-              </Upload>
-            </span>
+            </div>
           </>
           : 'Your Equipments'}
           <Divider type='horizontal' />
