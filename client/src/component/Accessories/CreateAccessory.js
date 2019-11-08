@@ -55,6 +55,9 @@ class CreateAccessory extends Component {
           })
         })
       })
+    this.setState({
+      accCode: ['VN'].concat(this.codegen(12)).join('')
+    })
   }
 
   onCreateAccessory = e => {
@@ -105,8 +108,7 @@ class CreateAccessory extends Component {
   }
 
   render() {
-    const { generalTypes, batches, equipmentTypes, providers, warrantyMonths } = this.state
-    const accCode = ['VN'].concat(this.codegen(12)).join('')
+    const { generalTypes, batches, equipmentTypes, providers, warrantyMonths, accCode } = this.state
     const { form, loading } = this.props
     const { getFieldDecorator } = form
     return (
@@ -192,7 +194,15 @@ class CreateAccessory extends Component {
                           message: 'price',
                         },
                       ],
-                    })(<InputNumber style={{ width: '100%' }} placeholder="price" />)}
+                      initialValue: 0
+                    })(
+                      <InputNumber
+                        formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                        style={{ width: '100%' }}
+                        placeholder="price"
+                        step={10}
+                      />)}
                   </Form.Item>
                 </Col>
               </Col>
@@ -226,18 +236,6 @@ class CreateAccessory extends Component {
                   </Form.Item>
                 </Col>
                 <Col xl={12} style={{ paddingLeft: 0 }}>
-                  <Form.Item label='Accessory status'>
-                    {getFieldDecorator('accStatus', {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'accStatus',
-                        },
-                      ],
-                    })(<Cascader options={eqStatusOptions} />)}
-                  </Form.Item>
-                </Col>
-                <Col xl={12} style={{ paddingRight: 0 }}>
                   <Form.Item label='Lock status'>
                     {getFieldDecorator('lockStatus', {
                       rules: [
@@ -249,6 +247,19 @@ class CreateAccessory extends Component {
                     })(<Cascader options={lockStatusOptions} />)}
                   </Form.Item>
                 </Col>
+                <Col xl={12} style={{ paddingRight: 0 }}>
+                  <Form.Item label='Accessory status'>
+                    {getFieldDecorator('accStatus', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'accStatus',
+                        },
+                      ],
+                    })(<Cascader options={eqStatusOptions} />)}
+                  </Form.Item>
+
+                </Col>
                 <Col xl={16} style={{ padding: 0 }}>
                   <Form.Item label='Warranty range'
                   >
@@ -259,11 +270,11 @@ class CreateAccessory extends Component {
                           message: 'warrantyRange',
                         },
                       ],
-                    })(<RangePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} onChange={this.monthCal} />)}
+                    })(<RangePicker format="YYYY-MM-DD" style={{ width: '100%' }} onChange={this.monthCal} />)}
                   </Form.Item>
                 </Col>
                 <Col xl={8} style={{ paddingRight: 0 }}>
-                  <Form.Item label='Warranty duration'
+                  <Form.Item label={<>Warranty duration <Tooltip title='Auto calculate'><Icon type='question-circle' /></Tooltip></>}
                   >
                     {getFieldDecorator('warranty', {
                       rules: [
@@ -273,7 +284,14 @@ class CreateAccessory extends Component {
                         },
                       ],
                       initialValue: warrantyMonths
-                    })(<InputNumber style={{ width: '100%' }} placeholde='warranty' />)}
+                    })(
+                      <InputNumber
+                        formatter={value => `${value} months`}
+                        parser={value => value.replace('months', '')}
+                        style={{ width: '100%' }}
+                        placeholde='warranty'
+                        disabled
+                      />)}
                   </Form.Item>
                 </Col>
               </Col>
@@ -281,7 +299,7 @@ class CreateAccessory extends Component {
           </Row>
           <Divider type='horizontal' />
           <div style={{ textAlign: 'right' }}>
-            <Button type='primary' htmlType='submit' loading={loading}>
+            <Button type='primary' htmlType='submit' icon='save' loading={loading}>
               Create Accessory
               </Button>
           </div>
