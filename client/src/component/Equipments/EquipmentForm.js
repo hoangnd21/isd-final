@@ -14,7 +14,7 @@ import {
   InputNumber,
 } from 'antd';
 import axios from 'axios';
-import { lockStatusOptions, eqStatusOptions } from './options'
+import { lockStatusOptions, eqStatusOptions } from '../../Config/options'
 
 
 

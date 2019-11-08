@@ -6,6 +6,7 @@ import {
   Divider,
   Icon,
   Modal,
+  notification
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
@@ -42,11 +43,43 @@ export default class Accessories extends Component {
       })
   }
 
-  createAccessory = () => {
+  getAllAccessories = () => {
+    axios.get('http://localhost:9000/accessories')
+      .then(res => {
+        this.setState({
+          allAccessories: res.data,
+          loading: false
+        })
+      })
+  }
+
+  createAccessoryModal = () => {
     this.setState({
       modalType: 'create',
       visible: true
     })
+  }
+
+  createAccessoryRequest = data => {
+    axios.get('http://localhost:9000/accessories/addAccessories', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+            loading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          })
+          this.getAllAccessories()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
   hideModal = () => {
     this.setState({
@@ -123,6 +156,24 @@ export default class Accessories extends Component {
         ...this.getColumnSearchProps('accName'),
       },
       {
+        title: 'Lock status',
+        dataIndex: 'lockStatus',
+        key: 'lockStatus',
+        width: 170,
+        sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
+        render: lockStatus =>
+          <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
+            {lockStatus}
+          </div>
+      },
+      {
+        title: 'Accessory status',
+        dataIndex: 'accStatus',
+        key: 'accStatus',
+        width: 170,
+        ...this.getColumnSearchProps('eqStatus'),
+      },
+      {
         title: 'Batch',
         dataIndex: 'batch',
         key: 'batch',
@@ -135,13 +186,6 @@ export default class Accessories extends Component {
         key: 'provider',
         width: 130,
         ...this.getColumnSearchProps('provider'),
-      },
-      {
-        title: 'Status',
-        dataIndex: 'accStatus',
-        key: 'accStatus',
-        width: 150,
-        ...this.getColumnSearchProps('accStatus'),
       },
       {
         title: 'Purchased Date',
@@ -190,7 +234,7 @@ export default class Accessories extends Component {
               <Button
                 type='primary'
                 icon='plus'
-                onClick={this.createAccessory}
+                onClick={this.createAccessoryModal}
               >
                 Add a new Accessory
                 </Button>
@@ -213,7 +257,7 @@ export default class Accessories extends Component {
           width={1000}
           destroyOnClose
         >
-          <CreateAccessory />
+          <CreateAccessory createAccessoryRequest={this.createAccessoryRequest} />
         </Modal>
       </>
     )
