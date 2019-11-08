@@ -16,7 +16,7 @@ const providerSchema = new schema({
         phoneWP: String
     },
     note: String,
-    create_at: Date
+    created_at: Date
 });
 
 const providers = mongoose.model('providers', providerSchema);

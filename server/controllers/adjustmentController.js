@@ -8,7 +8,7 @@ const addAdjustment = (req, res) => {
         type: req.body.type,
         completionEstimation: req.body.completionEstimation,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Adjustment is successfully created");
 };

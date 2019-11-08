@@ -3,7 +3,7 @@ const generalType = require('../models/generalType');
 const addGeneralType = (req, res) => {
     const now = Date.now();
     generalType.create({
-        create_at: now,
+        created_at: now,
         label: req.body.label,
         value: req.body.value
     })

@@ -7,7 +7,7 @@ const addManaEquipOnUse = (req, res) => {
         accessories: rq.body.accessories,
         startDate: req.body.startDate,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Entry is successfully created");
 };

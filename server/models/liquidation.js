@@ -6,7 +6,7 @@ const liquidationSchema = new schema({
     status: String,
     equipId: String,
     accessories: String,
-    create_at: Date,
+    created_at: Date,
 
 })
 

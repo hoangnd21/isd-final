@@ -29,7 +29,7 @@ const addUser = (req, res) => {
                     rank: req.body.rank,
                     function: req.body.function,
                     level: req.body.level,
-                    create_at: now,
+                    created_at: now,
                     fullname: req.body.fullname
                 });
             })

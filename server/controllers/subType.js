@@ -6,7 +6,7 @@ const addSubType = (req, res) => {
         value: req.body.value,
         label: req.body.label,
         genTypeId: req.body.genTypeId,
-        create_at: now
+        created_at: now
     })
     res.send("Subtype is successfully added");
 };

@@ -8,7 +8,7 @@ const addInvolvedDocuments = (req, res) => {
         attachedFile: req.body.attachedFile,
         belongedDevice: req.body.belongedDevice,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Document is successfully created");
 };

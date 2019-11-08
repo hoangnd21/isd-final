@@ -8,7 +8,7 @@ const addErrorReport = (req, res) => {
         option: rq.body.option,
         reportDate: req.body.reportDate,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Report is successfully created");
 };

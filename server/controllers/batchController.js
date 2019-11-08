@@ -8,7 +8,7 @@ const addBatch = (req, res) => {
         provider: req.body.provider,
         contactPerson: req.body.contactPerson,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Batch is successfully created");
 };

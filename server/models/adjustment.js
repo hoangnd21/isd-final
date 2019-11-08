@@ -7,7 +7,7 @@ const adjustmentSchema = new schema({
     type: String,
     completionEstimation: Date,
     note: String,
-    create_at: Date
+    created_at: Date
 })
 
 const adjustment = mongoose.model('adjustment', adjustmentSchema);

@@ -8,7 +8,7 @@ const addWarranty = (req, res) => {
         type: req.body.type,
         completionEstimation: req.body.completionEstimation,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("1 document created successfully");
 };
