@@ -8,16 +8,22 @@ import {
   Tooltip,
   Icon,
   InputNumber,
-  DatePicker
+  DatePicker,
+  Divider,
+  Button
 } from 'antd'
 import axios from 'axios'
 import { lockStatusOptions, eqStatusOptions } from '../../Config/options'
+
+const { RangePicker } = DatePicker
 
 class CreateAccessory extends Component {
   state = {
     generalTypes: [],
     batches: [],
-    equipmentTypes: []
+    equipmentTypes: [],
+    warrantyMonths: 0,
+
   }
 
   componentDidMount() {
@@ -57,8 +63,17 @@ class CreateAccessory extends Component {
     form.validateFields((err, newAccessory) => {
       if (err) {
         return;
+
       }
-      createAccessoryRequest(newAccessory)
+      const newAcc =
+      {
+        ...newAccessory,
+        warrantyStartDate: newAccessory.warrantyRange[0],
+        warrantyEndDate: newAccessory.warrantyRange[1],
+      }
+      delete newAcc.warrantyRange
+      console.log('newacc', newAcc)
+      createAccessoryRequest(newAcc)
       form.resetFields();
     });
   };
@@ -73,6 +88,12 @@ class CreateAccessory extends Component {
       })
   }
 
+  monthCal = data => {
+    this.setState({
+      warrantyMonths: data[1].diff(data[0], 'months')
+    })
+  }
+
   codegen = length => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -84,13 +105,13 @@ class CreateAccessory extends Component {
   }
 
   render() {
-    const { generalTypes, batches, equipmentTypes, providers } = this.state
+    const { generalTypes, batches, equipmentTypes, providers, warrantyMonths } = this.state
     const accCode = ['VN'].concat(this.codegen(12)).join('')
-    const { form } = this.props
+    const { form, loading } = this.props
     const { getFieldDecorator } = form
     return (
       <>
-        <Form layout='vertical' onSubmit={this.createAccessory}>
+        <Form layout='vertical' onSubmit={this.onCreateAccessory}>
           <Row gutter={10}>
             <Col xl={12}>
               <Col xl={12} style={{ padding: '0 5px 0 0' }}>
@@ -185,7 +206,7 @@ class CreateAccessory extends Component {
                       rules: [
                         {
                           required: true,
-                          message: 'accName',
+                          message: 'genTypeAttached',
                         },
                       ],
                     })(<Cascader options={generalTypes && generalTypes} onChange={this.choseGenType} />)}
@@ -228,20 +249,20 @@ class CreateAccessory extends Component {
                     })(<Cascader options={lockStatusOptions} />)}
                   </Form.Item>
                 </Col>
-                <Col xl={8} style={{ padding: 0 }}>
-                  <Form.Item label='Warranty starts on'
+                <Col xl={16} style={{ padding: 0 }}>
+                  <Form.Item label='Warranty range'
                   >
-                    {getFieldDecorator('warrantyStartDate', {
+                    {getFieldDecorator('warrantyRange', {
                       rules: [
                         {
                           required: true,
-                          message: 'warrantyStartDate',
+                          message: 'warrantyRange',
                         },
                       ],
-                    })(<DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />)}
+                    })(<RangePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} onChange={this.monthCal} />)}
                   </Form.Item>
                 </Col>
-                <Col xl={8} style={{ padding: '0 5px 0 5px' }}>
+                <Col xl={8} style={{ paddingRight: 0 }}>
                   <Form.Item label='Warranty duration'
                   >
                     {getFieldDecorator('warranty', {
@@ -251,25 +272,19 @@ class CreateAccessory extends Component {
                           message: 'warranty',
                         },
                       ],
+                      initialValue: warrantyMonths
                     })(<InputNumber style={{ width: '100%' }} placeholde='warranty' />)}
-                  </Form.Item>
-                </Col>
-                <Col xl={8} style={{ padding: 0 }}>
-                  <Form.Item label='Warranty ends on'
-                  >
-                    {getFieldDecorator('warrantyEndDate', {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'warrantyEndDate',
-                        },
-                      ],
-                    })(<DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />)}
                   </Form.Item>
                 </Col>
               </Col>
             </Col>
           </Row>
+          <Divider type='horizontal' />
+          <div style={{ textAlign: 'right' }}>
+            <Button type='primary' htmlType='submit' loading={loading}>
+              Create Accessory
+              </Button>
+          </div>
         </Form>
       </>
     )

@@ -61,12 +61,14 @@ export default class Accessories extends Component {
   }
 
   createAccessoryRequest = data => {
+    this.setState({
+      loading: true
+    })
     axios.get('http://localhost:9000/accessories/addAccessories', data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
             visible: false,
-            loading: true
           })
           notification.open({
             message: <span>
@@ -257,7 +259,10 @@ export default class Accessories extends Component {
           width={1000}
           destroyOnClose
         >
-          <CreateAccessory createAccessoryRequest={this.createAccessoryRequest} />
+          <CreateAccessory
+            createAccessoryRequest={this.createAccessoryRequest}
+            loading={loading}
+          />
         </Modal>
       </>
     )
