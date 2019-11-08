@@ -9,7 +9,7 @@ const addEquipmentDistribution = (req, res) => {
         user: req.body.user,
         status: req.body.status,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Handing entry successfully added");
 };

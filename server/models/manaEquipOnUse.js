@@ -6,7 +6,7 @@ const manaEquipOnUseSchema = new schema({
     accessories: String,
     startDate: Date,
     note: String,
-    create_at: Date
+    created_at: Date
 })
 
 const manaEquipOnUse = mongoose.model('manaEquipOnUse', manaEquipOnUseSchema);

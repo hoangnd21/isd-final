@@ -17,7 +17,7 @@ const addAccessories = (req, res) => {
         lockStatus: req.body.lockStatus,
         accStatus: req.body.accStatus,
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Accessory is successfully created");
 };

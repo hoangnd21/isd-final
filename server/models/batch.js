@@ -7,7 +7,7 @@ const batchSchema = new schema({
     provider: String,
     contactPerson: String,
     note: String,
-    create_at: Date
+    created_at: Date
 });
 
 const batch = mongoose.model('batches', batchSchema);

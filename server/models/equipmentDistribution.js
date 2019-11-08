@@ -8,7 +8,7 @@ const equipmentDistributionSchema = new schema({
     user: [],
     status: String,
     note: String,
-    create_at: Date
+    created_at: Date
 })
 
 const equipmentDistribution = mongoose.model('equipmentDistribution', equipmentDistributionSchema);

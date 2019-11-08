@@ -17,7 +17,7 @@ const addProvider = (req, res) => {
             phoneWP: req.body.warrantyPerson.phoneWP
         },
         note: req.body.note,
-        create_at: now
+        created_at: now
     });
     res.send("Provider is successfully added");
 };

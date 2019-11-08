@@ -16,7 +16,7 @@ const accessoriesSchema = new schema({
     lockStatus: Array,
     accStatus: Array,
     note: String,
-    create_at: Date
+    created_at: Date
 })
 
 const accessories = mongoose.model('accessories', accessoriesSchema);

@@ -7,7 +7,7 @@ const addLiquidation = (req, res) => {
         status: req.body.status,
         equipId: req.body.equipId,
         accessories: req.body.accessories,
-        create_at: now,
+        created_at: now,
     });
     res.send("Request is successfully created");
 };

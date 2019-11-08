@@ -4,7 +4,7 @@ const addStatus = (req, res) => {
     const now = Date.now()
     status.create({
         status: req.body.status,
-        create_at: now
+        created_at: now
     });
     res.send("Status is successfully added");
 };
