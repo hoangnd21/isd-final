@@ -64,7 +64,7 @@ export default class Accessories extends Component {
     this.setState({
       loading: true
     })
-    axios.get('http://localhost:9000/accessories/addAccessories', data)
+    axios.post('http://localhost:9000/accessories/addAccessories', data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
