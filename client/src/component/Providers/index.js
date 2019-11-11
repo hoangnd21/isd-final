@@ -6,7 +6,8 @@ import {
   Button,
   Input,
   Icon,
-  Modal
+  Modal,
+  notification
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import Forbidden from '../../Config/Forbidden';
@@ -43,11 +44,40 @@ export default class Providers extends Component {
       })
   }
 
-  createProvider = () => {
+  getAllProviders = () => {
+    axios.get('http://localhost:9000/providers')
+      .then(res => {
+        this.setState({
+          allProviders: res.data,
+          loading: false
+        })
+      })
+  }
+
+  createProviderModal = () => {
     this.setState({
       visible: true,
       modalType: 'create',
     })
+  }
+
+  createProviderRequest = data => {
+    axios.post('', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+            listLoading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          })
+          this.getAllProviders()
+        }
+      })
   }
 
   contactPersonInfo = data => {
@@ -179,7 +209,7 @@ export default class Providers extends Component {
                 type='primary'
                 icon='plus'
                 style={{ marginRight: 5 }}
-                onClick={this.createProvider}
+                onClick={this.createProviderModal}
               >
                 Create a new Provider
             </Button>
@@ -199,9 +229,10 @@ export default class Providers extends Component {
             destroyOnClose
             centered
             footer={null}
+            width={1000}
           >
             {modalType === 'create' ?
-              <ProviderCreateForm />
+              <ProviderCreateForm createProvider={this.createProviderRequest} />
               :
               <PersonInfo personInfo={modalType === 'warrantyPerson' ? warrantyPerson : contactPerson} />}
           </Modal>
