@@ -389,7 +389,7 @@ export default class Equipments extends React.PureComponent {
         render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
       {
-        title: <span>Warranty <Tooltip title='In months'><Icon type='question-circle' /></Tooltip></span>,
+        title: 'Warranty',
         dataIndex: 'warrantyMonths',
         key: 'warranty',
         align: 'right',
@@ -439,7 +439,7 @@ export default class Equipments extends React.PureComponent {
       <>
         <h2>{currentUser && currentUser.level > 2 ?
           <> Equipments List
-          <div style={{ textAlign: 'right' }}>
+          <span style={{ float: 'right' }}>
               <Button
                 type='primary'
                 icon='plus'
@@ -456,7 +456,7 @@ export default class Equipments extends React.PureComponent {
                   Use a file to clone Equipment
                 </Button>
               </Upload>
-            </div>
+            </span>
           </>
           : 'Your Equipments'}
           <Divider type='horizontal' />
