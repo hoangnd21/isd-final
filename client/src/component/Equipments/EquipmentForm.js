@@ -46,7 +46,7 @@ class EquipmentForm extends React.PureComponent {
         this.setState({
           batches: res.data.map(batch => {
             return ({
-              value: { code: batch.code, _id: batch._id },
+              value: batch.code,
               label: batch.code
             })
           })
