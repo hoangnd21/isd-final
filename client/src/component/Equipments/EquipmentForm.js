@@ -133,6 +133,7 @@ class EquipmentForm extends React.PureComponent {
 
   render() {
     const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
+    console.log(batches)
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")

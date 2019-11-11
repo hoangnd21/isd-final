@@ -21,7 +21,7 @@ const equipmentSchema = new schema({
     manufacturer: String,
     note: String,
     created_at: Date,
-    owner: String
+    owner: Array
 });
 
 
