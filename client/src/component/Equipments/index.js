@@ -343,7 +343,7 @@ export default class Equipments extends React.PureComponent {
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
       },
       {
-        title: 'Equipment Code',
+        title: 'Code',
         dataIndex: 'code',
         key: 'code',
         ...this.getColumnSearchProps('code'),
@@ -369,7 +369,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Owner',
         width: 180,
         key: 'owner',
-
+        render: owner => owner['none'] === [] ? 'None' : owner,
         ...this.getColumnSearchProps('owner'),
       },
       {
@@ -384,7 +384,6 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'batch',
         width: 180,
         key: 'batch',
-        render: batch => batch.code,
         ...this.getColumnSearchProps('batch'),
       },
       {
@@ -407,6 +406,7 @@ export default class Equipments extends React.PureComponent {
 
       {
         title: 'Actions',
+        width: 250,
         render: data =>
           <>
             <Button

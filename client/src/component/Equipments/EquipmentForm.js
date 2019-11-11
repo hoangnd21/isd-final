@@ -46,7 +46,7 @@ class EquipmentForm extends React.PureComponent {
         this.setState({
           batches: res.data.map(batch => {
             return ({
-              value: batch,
+              value: { code: batch.code, _id: batch._id },
               label: batch.code
             })
           })
@@ -58,7 +58,7 @@ class EquipmentForm extends React.PureComponent {
           users: res.data.map(data => {
             return ({
               label: data.username,
-              value: data
+              value: data.username
             })
           })
         })
@@ -138,6 +138,7 @@ class EquipmentForm extends React.PureComponent {
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const { getFieldDecorator } = form;
+    console.log(equipment)
     return (
       <Form
         layout="vertical"
@@ -326,7 +327,7 @@ class EquipmentForm extends React.PureComponent {
               </Col>
             </Row>
             <Col xl={24}>
-              <Form.Item label='Owner'
+              {modalType === 'create' ? null : <Form.Item label={<span>Owner <Tooltip title='Change this at Handing/Reclaim'><Icon type='question-circle' /></Tooltip></span>}
               >
                 {getFieldDecorator('owner', {
                   rules: [
@@ -337,8 +338,8 @@ class EquipmentForm extends React.PureComponent {
                   ],
                   initialValue: equipment.owner,
                 })(
-                  <Cascader options={users} />)}
-              </Form.Item>
+                  <Cascader options={users} disabled />)}
+              </Form.Item>}
               <Form.Item label='Equipment Price ($)'
               >
                 {getFieldDecorator('originalPrice', {
