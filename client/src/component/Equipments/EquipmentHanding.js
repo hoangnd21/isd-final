@@ -12,6 +12,7 @@ import {
 } from 'antd'
 
 const { TextArea } = Input;
+const { RangePicker } = DatePicker
 
 class EquipmentHanding extends React.Component {
   state = {
@@ -39,7 +40,9 @@ class EquipmentHanding extends React.Component {
       if (err) {
         return;
       }
-      handingEquipment({ ...handingDetail, eqStatus: 'Use', device: equipment.code })
+      const handing = { ...handingDetail, eqStatus: 'Use', device: equipment.code, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
+      delete handing.range
+      handingEquipment({ ...handing })
       updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
       form.resetFields();
     });
@@ -74,19 +77,18 @@ class EquipmentHanding extends React.Component {
                 )}
               </Form.Item>
 
-              <Form.Item label='From Date'>
-                {getFieldDecorator('handingDate', {
+              <Form.Item label='Duration'>
+                {getFieldDecorator('range', {
                   rules: [
                     {
                       required: true,
-                      message: 'handingDate',
+                      message: 'range',
                     },
                   ],
                 })(
-                  <DatePicker style={{ width: '100%' }} />
+                  <RangePicker style={{ width: '100%' }} />
                 )}
               </Form.Item>
-
             </Col>
             <Col xl={12}>
 
@@ -104,18 +106,7 @@ class EquipmentHanding extends React.Component {
                 )}
               </Form.Item>
 
-              <Form.Item label='To Date'>
-                {getFieldDecorator('reclaimDate', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'reclaimDate',
-                    },
-                  ],
-                })(
-                  <DatePicker style={{ width: '100%' }} />
-                )}
-              </Form.Item>
+
 
 
               <Form.Item label='Note'>
