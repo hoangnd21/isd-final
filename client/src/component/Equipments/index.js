@@ -366,6 +366,13 @@ export default class Equipments extends React.PureComponent {
         ...this.getColumnSearchProps('eqStatus'),
       },
       {
+        title: 'Owner',
+        dataIndex: 'owner',
+        width: 180,
+        key: 'owner',
+        ...this.getColumnSearchProps('owner'),
+      },
+      {
         title: 'Purchased Date',
         dataIndex: 'datePurchase',
         key: 'datePurchase',
@@ -374,9 +381,9 @@ export default class Equipments extends React.PureComponent {
       },
       {
         title: 'Equipment Batch',
-        dataIndex: 'batch',
         width: 180,
         key: 'batch',
+        render: batch => batch.code,
         ...this.getColumnSearchProps('batch'),
       },
       {
