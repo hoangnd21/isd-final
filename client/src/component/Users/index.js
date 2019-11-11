@@ -8,6 +8,8 @@ import {
   Divider,
   Button,
   Tooltip,
+  notification,
+  Icon
 } from 'antd'
 import CreateUserForm from './CreateUserForm'
 import UserInfo from './UserInfo'
@@ -47,6 +49,16 @@ export default class Users extends Component {
       })
   }
 
+  getAllProviders = () => {
+    axios.get('http://localhost:9000/users')
+      .then(res => {
+        this.setState({
+          allUsers: res.data,
+          loading: false
+        })
+      })
+  }
+
   userInfoModal = user => {
     this.setState({
       visible: true,
@@ -70,8 +82,26 @@ export default class Users extends Component {
 
   //nem vào đây cho a vs cơ a càn cái gì ms đc
   // add user chứ cái gì :v
-  addUserRequest = data => {
+  createUserRequest = data => {
     axios.post('http://localhost:9000/users/addUser', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+            loading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          })
+          this.getAllProviders()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   render() {
@@ -134,7 +164,7 @@ export default class Users extends Component {
           width={1000}
         >
           {modalType === 'create' ?
-            <CreateUserForm /> :
+            <CreateUserForm createUser={this.createUserRequest} /> :
             <UserInfo userDetail={userDetail} />}
         </Modal>
       </>

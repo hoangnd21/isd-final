@@ -61,7 +61,7 @@ export default class EquipmentInfo extends React.Component {
                     equipment.lockStatus[0] === "Locked" ?
                       { color: 'red' } :
                       { color: '#f0cb65' }}>
-                {equipment.lockStatus}
+                {equipment.lockStatus} {equipment.eqStatus === 'Use' ? `Equipment is being used by ${equipment.owner}` : null}
               </span>
             </h3>
             <div style={{ fontSize: '1.1em' }}>

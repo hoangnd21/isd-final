@@ -21,8 +21,7 @@ class CreateUserForm extends Component {
       if (err) {
         return;
       }
-      console.log(newUser)
-      // createUser(newBatch)
+      createUser(newUser)
       form.resetFields();
     });
   };

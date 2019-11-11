@@ -20,7 +20,7 @@ class EquipmentReclaim extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:9000/user')
+    axios.get('http://localhost:9000/users')
       .then(res => {
         this.setState({
           users: res.data,
