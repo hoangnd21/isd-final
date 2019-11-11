@@ -62,7 +62,7 @@ export default class Providers extends Component {
   }
 
   createProviderRequest = data => {
-    axios.post('', data)
+    axios.post('http://localhost:9000/providers/addProvider', data)
       .then(res => {
         if (res.status === 200) {
           this.setState({

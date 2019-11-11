@@ -18,7 +18,7 @@ class ProviderCreateForm extends Component {
     usersWP: []
   }
   componentDidMount() {
-    axios.get(`http://localhost:9000/user`)
+    axios.get(`http://localhost:9000/users`)
       .then(res => {
         this.setState({
           usersCP: res.data.map(data => {
@@ -47,13 +47,12 @@ class ProviderCreateForm extends Component {
 
   onCreateProvider = e => {
     e.preventDefault();
-    const { form } = this.props;
+    const { form, createProvider } = this.props;
     form.validateFields((err, newProvider) => {
       if (err) {
         return;
       }
-      console.log({ ...newProvider, contactPerson: newProvider.contactPerson[0], warrantyPerson: newProvider.warrantyPerson[0] })
-      // createProvider({ ...newProvider, contactPerson: newProvider.contactPerson[0], warrantyPerson: newProvider.warrantyPerson[0] })
+      createProvider({ ...newProvider, contactPerson: newProvider.contactPerson[0], warrantyPerson: newProvider.warrantyPerson[0] })
       form.resetFields();
     });
   };
