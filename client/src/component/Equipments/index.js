@@ -367,9 +367,9 @@ export default class Equipments extends React.PureComponent {
       },
       {
         title: 'Owner',
-        dataIndex: 'owner',
         width: 180,
         key: 'owner',
+
         ...this.getColumnSearchProps('owner'),
       },
       {
@@ -381,6 +381,7 @@ export default class Equipments extends React.PureComponent {
       },
       {
         title: 'Equipment Batch',
+        dataIndex: 'batch',
         width: 180,
         key: 'batch',
         render: batch => batch.code,

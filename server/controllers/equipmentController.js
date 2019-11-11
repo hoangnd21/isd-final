@@ -19,7 +19,7 @@ const addEquipment = (req, res) => {
     manufacturer: req.body.manufacturer,
     note: req.body.note,
     created_at: now,
-    owner: "none"
+    owner: []
   })
   res.send("Equipment is successfully created");
 };
