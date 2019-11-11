@@ -367,10 +367,10 @@ export default class Equipments extends React.PureComponent {
       },
       {
         title: 'Owner',
+        dataIndex: 'owner',
         width: 180,
         key: 'owner',
-        render: owner => owner['none'] === [] ? 'None' : owner,
-        ...this.getColumnSearchProps('owner'),
+        // ...this.getColumnSearchProps('owner'),
       },
       {
         title: 'Purchased Date',
@@ -380,7 +380,7 @@ export default class Equipments extends React.PureComponent {
         render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
       },
       {
-        title: 'Equipment Batch',
+        title: 'Batch',
         dataIndex: 'batch',
         width: 180,
         key: 'batch',
@@ -391,7 +391,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'originalPrice',
         key: 'originalPrice',
         align: 'right',
-        width: 130,
+        width: 120,
         sorter: (a, b) => a.originalPrice - b.originalPrice,
         render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
