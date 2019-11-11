@@ -103,7 +103,7 @@ class EquipmentForm extends React.PureComponent {
       if (err) {
         return;
       }
-      createEquipment({ ...equipment, ...newEquipment })
+      createEquipment({ ...equipment, ...newEquipment, owner: ["None"] })
       form.resetFields();
     });
   };
@@ -133,12 +133,10 @@ class EquipmentForm extends React.PureComponent {
 
   render() {
     const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
-    console.log(batches)
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const { getFieldDecorator } = form;
-    console.log(equipment)
     return (
       <Form
         layout="vertical"

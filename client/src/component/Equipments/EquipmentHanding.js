@@ -39,8 +39,8 @@ class EquipmentHanding extends React.Component {
       if (err) {
         return;
       }
-      handingEquipment({ ...handingDetail, status: 'In Use', device: equipment.code })
-      updateEquipment({ ...equipment, status: 'In Use' })
+      handingEquipment({ ...handingDetail, eqStatus: 'Use', device: equipment.code })
+      updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
       form.resetFields();
     });
   }
@@ -50,7 +50,7 @@ class EquipmentHanding extends React.Component {
     const { getFieldDecorator } = form;
     const userOptions = this.state.users.map(user =>
       ({
-        value: user._id,
+        value: user.username,
         label: user.username
       }))
     return (

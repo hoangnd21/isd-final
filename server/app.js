@@ -90,7 +90,7 @@ app.use('/equipmentDistribution', equipmentDistributionRoute);
 app.use('/errorReport', errorReportRoute);
 app.use('/manaEquipOnUse', manaEquipOnUseRoute);
 app.use('/status', statusRoute);
-app.use('/user', userRoute);
+app.use('/users', userRoute);
 app.use('/gmail', gmailRoute);
 app.use('/excel', excelRoute);
 app.use('/reclaim', reclaimRoute);

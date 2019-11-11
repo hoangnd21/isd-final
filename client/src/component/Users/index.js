@@ -39,7 +39,7 @@ export default class Users extends Component {
           loading: false
         })
       })
-    axios.get('http://localhost:9000/user')
+    axios.get('http://localhost:9000/users')
       .then(res => {
         this.setState({
           allUsers: res.data,
@@ -66,6 +66,12 @@ export default class Users extends Component {
       visible: true,
       modalType: 'create'
     })
+  }
+
+  //nem vào đây cho a vs cơ a càn cái gì ms đc
+  // add user chứ cái gì :v
+  addUserRequest = data => {
+    axios.post('http://localhost:9000/users/addUser', data)
   }
 
   render() {

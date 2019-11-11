@@ -81,6 +81,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   createEquipment = equipment => {
+    console.log('equipment', equipment)
     axios.post('http://localhost:9000/equipments/addEquipment', equipment)
       .then(res => {
         if (res.status === 200) {
@@ -129,13 +130,13 @@ export default class Equipments extends React.PureComponent {
             listLoading: true
           })
 
-          this.state.modalType !== 'handing' ? notification.open({
+          notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
             </span>
 
-          }) : console.log('handed')
+          })
 
           this.getAllEquipments()
         }
@@ -367,7 +368,8 @@ export default class Equipments extends React.PureComponent {
       },
       {
         title: 'Owner',
-        width: 180,
+        dataIndex: 'owner',
+        width: 130,
         key: 'owner',
         ...this.getColumnSearchProps('owner'),
       },
@@ -381,7 +383,6 @@ export default class Equipments extends React.PureComponent {
       {
         title: 'Equipment Batch',
         dataIndex: 'batch',
-        width: 180,
         key: 'batch',
         ...this.getColumnSearchProps('batch'),
       },
@@ -419,7 +420,6 @@ export default class Equipments extends React.PureComponent {
 
             {data.lockStatus[0] !== 'Locked' ?
               <>
-                <Divider type='vertical' />
                 <Button
                   type='link'
                   style={{ border: 0, padding: 10 }}
