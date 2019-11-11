@@ -47,6 +47,17 @@ class EquipmentForm extends React.PureComponent {
           batches: res.data
         })
       })
+    axios.get(`http://localhost:9000/user`)
+      .then(res => {
+        this.setState({
+          users: res.data.map(data => {
+            return ({
+              label: data.username,
+              value: data
+            })
+          })
+        })
+      })
 
     if (modalType === 'update') {
       this.choseGenType(equipment.generalType)
@@ -116,7 +127,7 @@ class EquipmentForm extends React.PureComponent {
   }
 
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -172,32 +183,56 @@ class EquipmentForm extends React.PureComponent {
               </Form.Item>
             </Col>
             <Col xl={24} style={{ padding: 0 }}>
+              <Col xl={12} style={{ padding: '0 5px 0 0' }}>
+                <Form.Item label='General Type'>
+                  {getFieldDecorator('generalType', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'generalType',
+                      },
+                    ],
+                    initialValue: modalType === 'update' ? equipment.generalType : null,
+                  })(
+                    <Cascader options={generalTypes} placeholder="General Type" onChange={this.choseGenType} />
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={12} style={{ padding: 0 }}>
+                <Form.Item label='Equipment Type'
+                >
+                  {getFieldDecorator('subtype', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'subtype',
+                      },
+                    ],
+                    initialValue: updateCaseSubtype
+                  })(
+                    <Cascader
+                      onChange={this.choseEquipmentType}
+                      options={equipmentTypes}
+                      placeholder={modalType === 'create' ? 'select General Type first' : null}
+                    />
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={24} style={{ padding: 0 }}>
+                <Form.Item label='Equipment Name'>
+                  {getFieldDecorator('name', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Equipment name is required.',
+                      },
+                    ],
+                    initialValue: eqNamebyType,
+                  })(<Input placeholder="Equipment name" />)}
+                </Form.Item>
+              </Col>
 
-              <Form.Item label='General Type'>
-                {getFieldDecorator('generalType', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'generalType',
-                    },
-                  ],
-                  initialValue: modalType === 'update' ? equipment.generalType : null,
-                })(
-                  <Cascader options={generalTypes} placeholder="General Type" onChange={this.choseGenType} />
-                )}
-              </Form.Item>
 
-              <Form.Item label='Equipment Name'>
-                {getFieldDecorator('name', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Equipment name is required.',
-                    },
-                  ],
-                  initialValue: eqNamebyType,
-                })(<Input placeholder="Equipment name" />)}
-              </Form.Item>
               <Col xl={12} style={{ padding: '0 2px 0 0' }}>
                 <Form.Item label={
                   <>
@@ -291,23 +326,18 @@ class EquipmentForm extends React.PureComponent {
               </Col>
             </Row>
             <Col xl={24}>
-              <Form.Item label='Equipment Type'
+              <Form.Item label='Owner'
               >
-                {getFieldDecorator('subtype', {
+                {getFieldDecorator('owner', {
                   rules: [
                     {
                       required: true,
-                      message: 'subtype',
+                      message: 'owner',
                     },
                   ],
-                  initialValue: updateCaseSubtype
+                  initialValue: equipment.owner,
                 })(
-                  <Cascader
-                    onChange={this.choseEquipmentType}
-                    options={equipmentTypes}
-                    placeholder={modalType === 'create' ? 'select General Type first' : null}
-                  />
-                )}
+                  <Cascader options={users} />)}
               </Form.Item>
               <Form.Item label='Equipment Price ($)'
               >
@@ -318,7 +348,7 @@ class EquipmentForm extends React.PureComponent {
                       message: 'originalPrice',
                     },
                   ],
-                  initialValue: equipment.originalPrice,
+                  initialValue: modalType === 'update' ? equipment.originalPrice : 0,
                 })(
                   <InputNumber
                     formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

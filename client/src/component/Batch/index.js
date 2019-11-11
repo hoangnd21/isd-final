@@ -173,6 +173,9 @@ export default class Batch extends React.Component {
             dataSource={allBatch}
             columns={columns}
             rowKey={record => record._id}
+            pagination={{
+              pageSize: 8
+            }}
           />
           <Modal
             title={`Batch: ${currentBatch}`}
