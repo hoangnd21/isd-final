@@ -52,7 +52,7 @@ class EquipmentForm extends React.PureComponent {
           })
         })
       })
-    axios.get(`http://localhost:9000/user`)
+    axios.get(`http://localhost:9000/users`)
       .then(res => {
         this.setState({
           users: res.data.map(data => {

@@ -381,7 +381,7 @@ export default class Equipments extends React.PureComponent {
         render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
       },
       {
-        title: 'Equipment Batch',
+        title: 'Batch',
         dataIndex: 'batch',
         key: 'batch',
         ...this.getColumnSearchProps('batch'),
