@@ -10,7 +10,7 @@ import {
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
-import CreateAccessory from './CreateAccessory';
+import CreateAccessoryForm from './CreateAccessoryForm';
 
 
 export default class Accessories extends Component {
@@ -259,7 +259,7 @@ export default class Accessories extends Component {
           width={1000}
           destroyOnClose
         >
-          <CreateAccessory
+          <CreateAccessoryForm
             createAccessoryRequest={this.createAccessoryRequest}
             loading={loading}
           />

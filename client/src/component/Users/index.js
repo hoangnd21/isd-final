@@ -9,7 +9,7 @@ import {
   Button,
   Tooltip,
 } from 'antd'
-import CreateUser from './CreateUser'
+import CreateUserForm from './CreateUserForm'
 import UserInfo from './UserInfo'
 import Forbidden from '../../Config/Forbidden'
 
@@ -125,9 +125,10 @@ export default class Users extends Component {
           visible={visible}
           footer={null}
           onCancel={this.hideModal}
+          width={1000}
         >
           {modalType === 'create' ?
-            <CreateUser /> :
+            <CreateUserForm /> :
             <UserInfo userDetail={userDetail} />}
         </Modal>
       </>
