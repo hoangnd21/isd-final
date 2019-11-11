@@ -44,7 +44,12 @@ class EquipmentForm extends React.PureComponent {
     axios.get(`http://localhost:9000/batch`)
       .then(res => {
         this.setState({
-          batches: res.data
+          batches: res.data.map(batch => {
+            return ({
+              value: batch._id,
+              label: batch.code
+            })
+          })
         })
       })
     axios.get(`http://localhost:9000/user`)
@@ -131,12 +136,6 @@ class EquipmentForm extends React.PureComponent {
     const { form, modalType, loading, equipment } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
-    const batchOptions = batches && batches.map(batch => {
-      return ({
-        value: batch.code,
-        label: batch.code
-      })
-    })
     const { getFieldDecorator } = form;
     return (
       <Form
@@ -321,7 +320,7 @@ class EquipmentForm extends React.PureComponent {
                       },
                     ],
                     initialValue: equipment.batch,
-                  })(<Cascader options={batchOptions} placeholder="Equipment batch" />)}
+                  })(<Cascader options={batches} placeholder="Equipment batch" />)}
                 </Form.Item>
               </Col>
             </Row>

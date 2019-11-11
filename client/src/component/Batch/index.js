@@ -11,6 +11,7 @@ import {
 import BatchItems from './BatchItems'
 import Forbidden from '../../Config/Forbidden';
 import Highlighter from 'react-highlight-words';
+import AddBatchForm from './AddBatchForm'
 export default class Batch extends React.Component {
   state = {
     currentUser: null,
@@ -59,6 +60,13 @@ export default class Batch extends React.Component {
   closeModal = () => {
     this.setState({
       visible: false
+    })
+  }
+
+  addBatchModal = () => {
+    this.setState({
+      visible: true,
+      modalType: 'create'
     })
   }
 
@@ -123,7 +131,7 @@ export default class Batch extends React.Component {
   };
 
   render() {
-    const { allBatch, visible, relatedDataByCode, currentBatch, currentUser, loading } = this.state
+    const { allBatch, visible, relatedDataByCode, currentBatch, currentUser, loading, modalType } = this.state
     const columns = [
       {
         title: 'Batch Code',
@@ -161,6 +169,7 @@ export default class Batch extends React.Component {
                 <Button
                   type='primary'
                   icon='plus'
+                  onClick={this.addBatchModal}
                 >
                   Add a new Batch
                 </Button>
@@ -178,7 +187,7 @@ export default class Batch extends React.Component {
             }}
           />
           <Modal
-            title={`Batch: ${currentBatch}`}
+            title={modalType === 'create' ? 'Create a new Batch' : `Batch: ${currentBatch}`}
             visible={visible}
             destroyOnClose
             footer={null}
@@ -186,7 +195,7 @@ export default class Batch extends React.Component {
             onCancel={this.closeModal}
             width={1000}
           >
-            <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />
+            {modalType === 'create' ? <AddBatchForm /> : <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />}
           </Modal>
         </>
     )
