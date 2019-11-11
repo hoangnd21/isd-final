@@ -6,7 +6,8 @@ import {
   Button,
   Divider,
   Input,
-  Icon
+  Icon,
+  notification
 } from 'antd';
 import BatchItems from './BatchItems'
 import Forbidden from '../../Config/Forbidden';
@@ -63,11 +64,44 @@ export default class Batch extends React.Component {
     })
   }
 
+  getAllBatch = () => {
+    axios.get('http://localhost:9000/batch')
+      .then(res => {
+        this.setState({
+          allBatch: res.data,
+          loading: false
+        })
+      })
+  }
+
   addBatchModal = () => {
     this.setState({
       visible: true,
       modalType: 'create'
     })
+  }
+
+  addBatchRequest = data => {
+    axios.post('http://localhost:9000/batch/addBatch', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+            listLoading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+              {res.data}
+            </span>
+          })
+          this.getAllBatch()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
+
   }
 
 
@@ -195,7 +229,7 @@ export default class Batch extends React.Component {
             onCancel={this.closeModal}
             width={1000}
           >
-            {modalType === 'create' ? <AddBatchForm /> : <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />}
+            {modalType === 'create' ? <AddBatchForm addBatch={this.addBatchRequest} /> : <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />}
           </Modal>
         </>
     )
