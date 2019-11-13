@@ -17,7 +17,6 @@ const uploading = (req, res) => {
 module.exports.uploading = uploading;
 
 const importExcel = (req, res) => {
-    console.log(req.files)
     if (req.files) {
         let uploadFile = req.files.file
         const fileName = uploadFile.name
@@ -27,7 +26,6 @@ const importExcel = (req, res) => {
             else
                 var model = null;
             mongoXlsx.xlsx2MongoData(`./upload/${fileName}`, model, function (err, mongoData) {
-                console.log('Mongo data:', mongoData);
                 res.send(mongoData);
 
             });

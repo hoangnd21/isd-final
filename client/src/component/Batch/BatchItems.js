@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import {
   Row,
   Col,
@@ -6,9 +7,13 @@ import {
 } from 'antd'
 
 export default class BatchItems extends Component {
+  componentDidMount() {
+    const { currentBatch } = this.props
+    console.log(currentBatch)
+    axios.get('')
+  }
   render() {
-    const { allItems, currentBatch } = this.props
-    console.log('allItems', allItems)
+    const { currentBatch } = this.props
     return (
       <>
         <Row guttter={8}>
@@ -16,14 +21,14 @@ export default class BatchItems extends Component {
             <Card
               title='Equipments'
             >
-              {currentBatch} equipments:
+              {currentBatch.code} equipments:
             </Card>
           </Col>
           <Col xl={12} style={{ paddingLeft: 3 }}>
             <Card
               title='Accessories'
             >
-              {currentBatch} accessories:
+              {currentBatch.code} accessories:
             </Card>
           </Col>
         </Row>

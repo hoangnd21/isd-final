@@ -10,8 +10,8 @@ import {
   Popconfirm,
   Input,
   Tooltip,
-  message,
-  Upload
+  Upload,
+  message
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
@@ -29,7 +29,8 @@ export default class Equipments extends React.PureComponent {
     equipmentDetail: {},
     currentUser: null,
     searchText: '',
-    cloneStep: false
+    cloneStep: false,
+    codeList: [],
   }
 
   componentDidMount() {
@@ -89,7 +90,7 @@ export default class Equipments extends React.PureComponent {
             equipmentModal: false,
             listLoading: true
           })
-          notification.open({
+          this.state.cloneStep ? console.log('clone') : notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
@@ -150,7 +151,8 @@ export default class Equipments extends React.PureComponent {
     this.setState({
       equipmentModal: false,
       modalType: '',
-      equipmentDetail: {}
+      equipmentDetail: {},
+      cloneStep: false
     })
   }
 
@@ -250,11 +252,30 @@ export default class Equipments extends React.PureComponent {
   //   }
   // }
 
-  uploadSuccess = () => {
-    this.setState({
-      equipmentModal: true,
-      cloneStep: true
-    })
+  upload = info => {
+    if (info.file.status !== 'uploading') {
+      if (info.file.status === 'done') {
+        message.success(`Code file uploaded successfully.`);
+        this.setState({
+          codeList: info.file.response.map(code => {
+            return code.code
+          }),
+          cloneStep: true,
+          equipmentModal: true,
+          modalType: 'create'
+        })
+      } else if (info.file.status === 'error') {
+        message.error(`Upload failed.`);
+      }
+    }
+    // if (info.file.status !== 'uploading') {
+    //   console.log('info', info);
+    //   if (info.file.status === 'done') {
+
+    //     message.success(`${info.file.name} file uploaded successfully`);
+    //   } else if (info.file.status === 'error') {
+    //   }
+    // }
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -317,23 +338,14 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, cloneStep } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, cloneStep, codeList } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
       headers: {
         authorization: 'authorization-text',
       },
-      onChange(info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
+
     };
     const columns = [
       {
@@ -363,13 +375,13 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment status',
         dataIndex: 'eqStatus',
         key: 'eqStatus',
-        width: 180,
+        width: '7%',
         ...this.getColumnSearchProps('eqStatus'),
       },
       {
         title: 'Owner',
         dataIndex: 'owner',
-        width: 130,
+        width: '7%',
         key: 'owner',
         ...this.getColumnSearchProps('owner'),
       },
@@ -377,7 +389,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Purchased Date',
         dataIndex: 'datePurchase',
         key: 'datePurchase',
-        width: 180,
+        width: '10%',
         render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
       },
       {
@@ -391,7 +403,7 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'originalPrice',
         key: 'originalPrice',
         align: 'right',
-        width: 130,
+        width: '7%',
         sorter: (a, b) => a.originalPrice - b.originalPrice,
         render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       },
@@ -400,13 +412,13 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'warrantyMonths',
         key: 'warranty',
         align: 'right',
-        width: 130,
+        width: '7%',
         sorter: (a, b) => a.warrantyMonths - b.warrantyMonths,
       },
 
       {
         title: 'Actions',
-        width: 250,
+        width: '20%',
         render: data =>
           <>
             <Button
@@ -455,7 +467,7 @@ export default class Equipments extends React.PureComponent {
               >
                 Create a new Equipment
             </Button>
-              <Upload {...props} uploadSuccess={this.uploadSuccess} style={{ width: 'auto' }}>
+              <Upload {...props} onChange={this.upload} style={{ width: 'auto' }}>
                 <Button
                   type='secondary'
                   icon='plus'
@@ -481,12 +493,13 @@ export default class Equipments extends React.PureComponent {
         <Modal
           title={
             modalType === 'update' ? 'Update Equipment' :
-              modalType === 'create' ? 'Create Equipment' :
+              modalType === 'create' ? cloneStep ? 'Clone Equipment' : 'Create Equipment' :
                 modalType === 'reclaim' ? 'Reclaim Equipment' :
                   modalType === 'handing' ? 'Handing Equipment' :
                     cloneStep ? 'Clone Equipment' :
                       'Equipment Information'
           }
+          maskClosable={cloneStep ? false : true}
           destroyOnClose
           visible={equipmentModal}
           footer={null}
@@ -508,6 +521,8 @@ export default class Equipments extends React.PureComponent {
                 createEquipment={this.createEquipment}
                 updateEquipment={this.updateEquipment}
                 allEq={equipments}
+                cloneStep={cloneStep}
+                codeList={codeList}
               />
               :
               modalType === 'handing' ?

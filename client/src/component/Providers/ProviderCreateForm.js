@@ -77,7 +77,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue: ,
               })(<Input />)}
             </Form.Item>
             <Form.Item label='Contact Person'
@@ -89,7 +89,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue:,
               })(<Cascader options={usersCP} style={{ width: '100%' }} />)}
             </Form.Item>
             <Form.Item label='Hotline'
@@ -101,7 +101,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue:,
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -115,7 +115,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue:,
               })(<Input />)}
             </Form.Item>
             <Form.Item label='Warranty Person'
@@ -127,7 +127,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue:,
               })(<Cascader options={usersWP} style={{ width: '100%' }} />)}
             </Form.Item>
             <Form.Item label='Note'
@@ -138,7 +138,7 @@ class ProviderCreateForm extends Component {
                     message: 'note',
                   },
                 ],
-                // initialValue: equipment.note,
+                // initialValue:,
               })(<TextArea />)}
             </Form.Item>
           </Col>

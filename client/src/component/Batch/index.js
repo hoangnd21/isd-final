@@ -48,7 +48,8 @@ export default class Batch extends React.Component {
   getAllRelatedToModal = data => {
     this.setState({
       visible: true,
-      currentBatch: data.code
+      modalType: 'view',
+      currentBatch: data
     })
     // axios.get(`http://localhost:9000/search/equipments?batch=${data.code}`)
     //   .then(res => {
@@ -193,6 +194,15 @@ export default class Batch extends React.Component {
         dataIndex: 'note',
         key: 'note',
       },
+      {
+        title: 'Actions',
+        key: 'actions',
+        render: data =>
+          <>
+            <Button type='link' icon='edit'>Edit</Button>
+            <Button type='link' icon='delete'>Delete</Button>
+          </>
+      },
     ]
     return (
       currentUser && currentUser.level < 2 ? <Forbidden /> :
@@ -221,7 +231,7 @@ export default class Batch extends React.Component {
             }}
           />
           <Modal
-            title={modalType === 'create' ? 'Create a new Batch' : `Batch: ${currentBatch}`}
+            title={modalType === 'create' ? 'Create a new Batch' : `Batch: ${currentBatch.code}`}
             visible={visible}
             destroyOnClose
             footer={null}
@@ -229,7 +239,10 @@ export default class Batch extends React.Component {
             onCancel={this.closeModal}
             width={1000}
           >
-            {modalType === 'create' ? <AddBatchForm addBatch={this.addBatchRequest} /> : <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />}
+            {modalType === 'create' ?
+              <AddBatchForm addBatch={this.addBatchRequest} /> :
+              <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />
+            }
           </Modal>
         </>
     )

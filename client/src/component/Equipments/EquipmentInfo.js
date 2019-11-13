@@ -24,7 +24,7 @@ export default class EquipmentInfo extends React.Component {
       });
 
     // axios
-    axios.get(`http://localhost:9000/subTypes/${equipment.subtype[0]}`)
+    axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${equipment.generalType}&value=${equipment.subtype[0]}`)
       .then(res => {
         this.setState({
           subType: res.data,
@@ -37,6 +37,7 @@ export default class EquipmentInfo extends React.Component {
   }
   render() {
     const { generalType, subType } = this.state
+    console.log(subType)
     const { equipment } = this.props;
     return (
       <>
