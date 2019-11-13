@@ -98,12 +98,16 @@ class EquipmentForm extends React.PureComponent {
   //create
   onCreateEquipment = e => {
     e.preventDefault();
-    const { form, equipment, createEquipment } = this.props;
+    const { form, equipment, createEquipment, codeList, cloneStep } = this.props;
     form.validateFields((err, newEquipment) => {
       if (err) {
         return;
       }
-      createEquipment({ ...equipment, ...newEquipment, owner: ["None"] })
+      cloneStep ?
+        codeList.map(code => {
+          createEquipment({ ...equipment, ...newEquipment, owner: ["None"], code: code })
+        }) :
+        createEquipment({ ...equipment, ...newEquipment, owner: ["None"] })
       form.resetFields();
     });
   };
@@ -133,7 +137,7 @@ class EquipmentForm extends React.PureComponent {
 
   render() {
     const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
-    const { form, modalType, loading, equipment } = this.props;
+    const { form, modalType, loading, equipment, cloneStep } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const { getFieldDecorator } = form;
@@ -145,28 +149,42 @@ class EquipmentForm extends React.PureComponent {
         <Row gutter={2}>
           <Col xl={12}>
             <Col xl={12} style={{ padding: '0 2px 0 0' }}>
-              <Form.Item label={
-                <>
-                  Equipment Code&nbsp;
+              {cloneStep ?
+                <Form.Item label={
+                  <>
+                    Equipment Code&nbsp;
                 <span style={{ marginTop: 3 }}>
-                    <Tooltip title='This field will be automatically generated as you fill in the form.'>
-                      <Icon type='question-circle' />
-                    </Tooltip>
-                  </span>
-                </>}
-              >
-                {getFieldDecorator('code', {
-                  rules: [
-                    {
-                      required: true,
-                    },
-                  ],
-                  initialValue: modalType === 'update' ? equipment.code : eqCodeF,
-                })(
-                  <Input
-                    disabled
-                  />)}
-              </Form.Item>
+                      <Tooltip title='The codes will be applied to each equipment with provided information.'>
+                        <Icon type='question-circle' />
+                      </Tooltip>
+                    </span>
+                  </>}
+                >
+
+                  <Input placeholder='You do not need to input code.' disabled />
+                </Form.Item> :
+                <Form.Item label={
+                  <>
+                    Equipment Code&nbsp;
+                <span style={{ marginTop: 3 }}>
+                      <Tooltip title='This field will be automatically generated as you fill in the form.'>
+                        <Icon type='question-circle' />
+                      </Tooltip>
+                    </span>
+                  </>}
+                >
+                  {getFieldDecorator('code', {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                    initialValue: modalType === 'update' ? equipment.code : eqCodeF,
+                  })(
+                    <Input
+                      disabled
+                    />)}
+                </Form.Item>}
             </Col>
             <Col xl={12} style={{ padding: '0 0 0 2px' }}>
               <Form.Item label='Lock status'>
@@ -390,7 +408,7 @@ class EquipmentForm extends React.PureComponent {
         >
           <Button type="primary" htmlType="submit" loading={loading}>
             <Icon type="save" />
-            {modalType === 'update' ? 'Update' : 'Create'}
+            {modalType === 'update' ? 'Update' : cloneStep ? 'Create and clone' : 'Create'}
           </Button>
         </div>
       </Form>
