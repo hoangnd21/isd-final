@@ -44,7 +44,7 @@ export default class EquipmentInfo extends React.Component {
         <Row gutter={16}>
           <Col xl={12}>
             <h3>{generalType.label}:&nbsp;{equipment.name}</h3>
-            <div style={{ fontSize: '1.1em', lineHeight: '2em' }}>
+            <div style={{ lineHeight: '2em' }}>
               Equipment Type: {subType.label}<br />
               Equipment Code: {equipment.code}<br />
               Purchased date: {equipment.datePurchase.slice(8, 10)}-{equipment.datePurchase.slice(5, 7)}-{equipment.datePurchase.slice(0, 4)}<br />
@@ -65,7 +65,7 @@ export default class EquipmentInfo extends React.Component {
                 {equipment.lockStatus} {equipment.eqStatus === 'Use' ? `Equipment is being used by ${equipment.owner}` : null}
               </span>
             </h3>
-            <div style={{ fontSize: '1.1em' }}>
+            <div>
               Batch: {equipment.batch} <br />
               Price: ${equipment.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}<br />
             </div>
