@@ -12,6 +12,6 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/import', (req, res) => {
-    excelController.importExxcel(req, res);
+    excelController.importExcel(req, res);
 });
 module.exports = router
