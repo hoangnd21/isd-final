@@ -10,4 +10,8 @@ router.post('/importExcel', (req, res) => {
     upload.importExcel(req, res);
 });
 
+router.post('/importExcelModel', (req, res) => {
+    upload.importExcelModel(req, res);
+});
+
 module.exports = router;
