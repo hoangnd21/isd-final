@@ -90,12 +90,13 @@ export default class Equipments extends React.PureComponent {
             equipmentModal: false,
             listLoading: true
           })
-          this.state.cloneStep ? console.log('clone') : notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+          this.state.cloneStep ? console.log('clone') :
+            notification.success({
+              message: <span>
+                <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
-            </span>
-          })
+              </span>
+            })
           this.getAllEquipments()
         }
       })
@@ -122,6 +123,7 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
+
   updateEquipment = data => {
     axios.put(`http://localhost:9000/equipments/updateEquipment/${data._id}`, data)
       .then(res => {
@@ -131,13 +133,15 @@ export default class Equipments extends React.PureComponent {
             listLoading: true
           })
 
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
-
-          })
+          this.state.modalType === 'handing' || this.state.modalType === 'reclaim' ?
+            console.log('handing')
+            :
+            notification.success({
+              message: <span>
+                {res.data}
+              </span>,
+              placement: 'bottomRight'
+            })
 
           this.getAllEquipments()
         }
@@ -160,11 +164,11 @@ export default class Equipments extends React.PureComponent {
     axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
       .then(res => {
         if (res.status === 200) {
-          notification.open({
+          notification.success({
             message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
-            </span>
+            </span>,
+            placement: 'bottomRight'
           });
           this.getAllEquipments()
         }
@@ -192,11 +196,11 @@ export default class Equipments extends React.PureComponent {
             equipmentModal: false,
             listLoading: true
           })
-          notification.open({
+          notification.success({
             message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
-            </span>
+            </span>,
+            placement: 'bottomRight'
 
           })
         }
@@ -223,11 +227,11 @@ export default class Equipments extends React.PureComponent {
               equipmentModal: false,
               listLoading: true
             })
-            notification.open({
+            notification.success({
               message: <span>
-                <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-              </span>
+                {res.data}
+              </span>,
+              placement: 'bottomRight'
             })
           }
         })
