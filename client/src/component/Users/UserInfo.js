@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 
 export default class UserInfo extends Component {
   render() {
+    const { user } = this.props
     return (
       <>
-        UserInfo
+        {user.fullname}<br />
+        {user.username}
       </>
     )
   }

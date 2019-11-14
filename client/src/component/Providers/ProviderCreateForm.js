@@ -143,7 +143,7 @@ class ProviderCreateForm extends Component {
             </Form.Item>
           </Col>
         </Row>
-        <Divider type='horizontal' />
+        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' htmlType='submit' icon='save'>Create</Button>
         </div>

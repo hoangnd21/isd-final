@@ -77,8 +77,11 @@ class CreateAccessoryForm extends Component {
       delete newAcc.warrantyRange
       isCloning ?
         // eslint-disable-next-line
-        accCodeList.map(code => {
+        accCodeList.map((code, index) => {
           createAccessoryRequest({ ...newAcc, owner: ["None"], accCode: code })
+          if (index === accCodeList.length - 1) {
+            cloningDone()
+          }
         })
         :
         createAccessoryRequest({ ...newAcc, owner: ["None"] })
@@ -191,7 +194,7 @@ class CreateAccessoryForm extends Component {
                         message: 'purchaseDate',
                       },
                     ],
-                  })(<DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />)}
+                  })(<DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
               <Col xl={12} style={{ paddingRight: 0 }}>
@@ -307,7 +310,7 @@ class CreateAccessoryForm extends Component {
             </Col>
           </Col>
         </Row>
-        <Divider type='horizontal' />
+        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' htmlType='submit' icon='save' loading={loading}>
             {isCloning ? 'Create and clone' : 'Create Accessory'}
