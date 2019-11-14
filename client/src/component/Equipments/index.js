@@ -349,7 +349,6 @@ export default class Equipments extends React.PureComponent {
       headers: {
         authorization: 'authorization-text',
       },
-
     };
     const columns = [
       {

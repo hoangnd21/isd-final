@@ -104,11 +104,13 @@ class EquipmentForm extends React.PureComponent {
         return;
       }
       cloneStep ?
+        // eslint-disable-next-line
         codeList.map(code => {
           createEquipment({ ...equipment, ...newEquipment, owner: ["None"], code: code })
         }) :
         createEquipment({ ...equipment, ...newEquipment, owner: ["None"] })
       form.resetFields();
+      return;
     });
   };
 
@@ -248,32 +250,7 @@ class EquipmentForm extends React.PureComponent {
                   })(<Input placeholder="Equipment name" />)}
                 </Form.Item>
               </Col>
-
-
               <Col xl={12} style={{ padding: '0 2px 0 0' }}>
-                <Form.Item label={
-                  <>
-                    Date of Deployment&nbsp;
-                  <span style={{ marginTop: 3 }}>
-                      <Tooltip title='The date on which the equipment was firstly used'>
-                        <Icon type='question-circle' />
-                      </Tooltip>
-                    </span>
-                  </>}
-                >
-                  {getFieldDecorator('startDate', {
-                    rules: [
-                      {
-                        required: true,
-                      },
-                    ],
-                    initialValue: startMoment,
-                  })(
-                    <DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col xl={12} style={{ padding: '0 0 0 2px' }}>
                 <Form.Item label={
                   <>
                     Date of Purchase&nbsp;
@@ -292,9 +269,33 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     initialValue: purchaseMoment,
                   })(
-                    <DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />
+                    <DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />
                   )}
                 </Form.Item>
+              </Col>
+              <Col xl={12} style={{ padding: '0 0 0 2px' }}>
+                <Form.Item label={
+                  <>
+                    Date of Deployment&nbsp;
+                  <span style={{ marginTop: 3 }}>
+                      <Tooltip title='The date on which the equipment was firstly used'>
+                        <Icon type='question-circle' />
+                      </Tooltip>
+                    </span>
+                  </>}
+                >
+                  {getFieldDecorator('startDate', {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                    initialValue: startMoment,
+                  })(
+                    <DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />
+                  )}
+                </Form.Item>
+
               </Col>
               <Col xl={24} style={{ padding: 0 }}>
                 <Form.Item label='Manufacturer'
