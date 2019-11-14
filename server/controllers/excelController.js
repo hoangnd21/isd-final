@@ -140,4 +140,33 @@ const importExcel = (req, res) => {
 }
 module.exports.importExcel = importExcel
 
+const codegen = () => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    for (let j = 0; j < 12; j++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result
+}
 
+const gencode = (req, res) => {
+    const arrayCode = [];
+    for (i = 0; i < req.query.value; i++) {
+        let eqCode = { code: ['VN'].concat(codegen()).join('') };
+        arrayCode.push(eqCode);
+    }
+
+    console.log(arrayCode)
+    var model = mongoXlsx.buildDynamicModel([{
+        "code": "code"
+    }
+
+    ]);
+    mongoXlsx.mongoData2Xlsx(arrayCode, model, function (err, data) {
+        console.log('File saved at:', data.fullPath);
+        res.send("1 excel file exported successfully");
+    });
+
+}
+module.exports.gencode = gencode
