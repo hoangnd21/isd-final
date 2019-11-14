@@ -6,7 +6,9 @@ import {
   Divider,
   Icon,
   Modal,
-  notification
+  notification,
+  Upload,
+  message
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
@@ -17,7 +19,9 @@ export default class Accessories extends Component {
   state = {
     currentUser: {},
     allAccessories: [],
-    loading: true
+    loading: true,
+    isCloning: false,
+    accCodeList: []
   }
   componentDidMount() {
     axios({
@@ -61,6 +65,7 @@ export default class Accessories extends Component {
   }
 
   createAccessoryRequest = data => {
+    const { isCloning } = this.state
     this.setState({
       loading: true
     })
@@ -70,11 +75,12 @@ export default class Accessories extends Component {
           this.setState({
             visible: false,
           })
-          notification.open({
+          isCloning ? console.log('clone') : notification.success({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
-            </span>
+            </span>,
+            placement: 'bottomRight'
           })
           this.getAllAccessories()
         }
@@ -83,6 +89,13 @@ export default class Accessories extends Component {
         console.log(error)
       });
   }
+
+  cloningDone = () => {
+    notification.success({
+      message: 'Cloning Complete. You may now delete the file.'
+    })
+  }
+
   hideModal = () => {
     this.setState({
       visible: false
@@ -148,14 +161,44 @@ export default class Accessories extends Component {
     this.setState({ searchText: '' });
   };
 
+  upload = info => {
+    if (info.file.status !== 'uploading') {
+      if (info.file.status === 'done') {
+        message.success(`Code file uploaded successfully.`);
+        this.setState({
+          accCodeList: info.file.response.map(code => {
+            return code.code
+          }),
+          isCloning: true,
+          visible: true
+        })
+      } else if (info.file.status === 'error') {
+        message.error(`Upload failed.`);
+      }
+    }
+  }
+
   render() {
-    const { currentUser, allAccessories, loading, visible } = this.state
+    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList } = this.state
+    const props = {
+      name: 'file',
+      action: 'http://localhost:9000/upload/importExcel',
+      headers: {
+        authorization: 'authorization-text',
+      },
+    };
     const columns = [
       {
         title: 'Accessory',
         dataIndex: 'accName',
         key: 'accName',
         ...this.getColumnSearchProps('accName'),
+      },
+      {
+        title: 'Code',
+        dataIndex: 'accCode',
+        key: 'accCode',
+        ...this.getColumnSearchProps('accCode'),
       },
       {
         title: 'Lock status',
@@ -236,10 +279,19 @@ export default class Accessories extends Component {
               <Button
                 type='primary'
                 icon='plus'
+                style={{ marginRight: 5 }}
                 onClick={this.createAccessoryModal}
               >
                 Add a new Accessory
                 </Button>
+              <Upload {...props} onChange={this.upload} style={{ width: 'auto' }}>
+                <Button
+                  type='secondary'
+                  icon='plus'
+                >
+                  Use a file to clone Accessory
+                </Button>
+              </Upload>
             </span>
             : null}
           <Divider type='horizontal' />
@@ -251,7 +303,7 @@ export default class Accessories extends Component {
           loading={loading}
         />
         <Modal
-          title={'Create Accessory'}
+          title={isCloning ? 'Clone Accessory' : 'Create Accessory'}
           centered
           footer={null}
           visible={visible}
@@ -261,7 +313,10 @@ export default class Accessories extends Component {
         >
           <CreateAccessoryForm
             createAccessoryRequest={this.createAccessoryRequest}
+            cloningDone={this.cloningDone}
             loading={loading}
+            isCloning={isCloning}
+            accCodeList={accCodeList}
           />
         </Modal>
       </>

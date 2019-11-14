@@ -62,7 +62,7 @@ class CreateAccessoryForm extends Component {
 
   onCreateAccessory = e => {
     e.preventDefault();
-    const { form, createAccessoryRequest } = this.props;
+    const { form, createAccessoryRequest, accCodeList, isCloning, cloningDone } = this.props;
     form.validateFields((err, newAccessory) => {
       if (err) {
         return;
@@ -75,8 +75,13 @@ class CreateAccessoryForm extends Component {
         warrantyEndDate: newAccessory.warrantyRange[1],
       }
       delete newAcc.warrantyRange
-      console.log('newacc', newAcc)
-      createAccessoryRequest(newAcc)
+      isCloning ?
+        // eslint-disable-next-line
+        accCodeList.map(code => {
+          createAccessoryRequest({ ...newAcc, owner: ["None"], accCode: code })
+        })
+        :
+        createAccessoryRequest({ ...newAcc, owner: ["None"] })
       form.resetFields();
     });
   };
@@ -109,22 +114,28 @@ class CreateAccessoryForm extends Component {
 
   render() {
     const { generalTypes, batches, equipmentTypes, providers, warrantyMonths, accCode } = this.state
-    const { form, loading } = this.props
+    const { form, loading, isCloning } = this.props
+
     const { getFieldDecorator } = form
     return (
       <Form layout='vertical' onSubmit={this.onCreateAccessory}>
         <Row gutter={10}>
           <Col xl={12}>
             <Col xl={12} style={{ padding: '0 5px 0 0' }}>
-              <Form.Item label={<span>Accessory code <Tooltip title='Auto generate'><Icon type='question-circle' /></Tooltip></span>}>
+              <Form.Item label={
+                <span>Accessory code&nbsp;
+                <Tooltip title={isCloning ? 'Auto populate' : 'Auto generate'}>
+                    <Icon type='question-circle' />
+                  </Tooltip>
+                </span>}>
                 {getFieldDecorator('accCode', {
                   rules: [
                     {
-                      required: true,
+                      required: isCloning ? false : true,
                       message: 'accCode',
                     },
                   ],
-                  initialValue: accCode,
+                  initialValue: isCloning ? '' : accCode,
                 })(<Input disabled />)}
               </Form.Item>
             </Col>
@@ -299,8 +310,8 @@ class CreateAccessoryForm extends Component {
         <Divider type='horizontal' />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' htmlType='submit' icon='save' loading={loading}>
-            Create Accessory
-              </Button>
+            {isCloning ? 'Create and clone' : 'Create Accessory'}
+          </Button>
         </div>
       </Form>
     )

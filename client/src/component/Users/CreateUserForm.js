@@ -10,7 +10,6 @@ import {
   Divider,
   Button
 } from 'antd'
-import moment from 'moment'
 
 class CreateUserForm extends Component {
 
@@ -29,7 +28,6 @@ class CreateUserForm extends Component {
   render() {
     const { form } = this.props
     const { getFieldDecorator } = form
-    const issuedDate = moment()
     return (
       <Form
         layout='vertical'
@@ -47,13 +45,24 @@ class CreateUserForm extends Component {
                 ],
               })(<Input />)}
             </Form.Item>
+            <Form.Item label='Full Name'>
+              {getFieldDecorator('fullname', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'fullname',
+                  },
+                ],
+              })(<Input />)}
+            </Form.Item>
+
             <Col xl={12} style={{ padding: '0 5px 0 0' }}>
-              <Form.Item label='Full Name'>
-                {getFieldDecorator('fullname', {
+              <Form.Item label='Nationality'>
+                {getFieldDecorator('nationality', {
                   rules: [
                     {
                       required: true,
-                      message: 'fullname',
+                      message: 'nationality',
                     },
                   ],
                 })(<Input />)}
@@ -70,40 +79,33 @@ class CreateUserForm extends Component {
               </Form.Item>
             </Col>
             <Col xl={12} style={{ paddingRight: 0 }}>
-              <Form.Item label='ID Card'>
-                {getFieldDecorator('idCard', {
+              <Form.Item label='Gender'>
+                {getFieldDecorator('gender', {
                   rules: [
                     {
                       required: true,
-                      message: 'idCard',
+                      message: 'gender',
+                    },
+                  ],
+                })(<Cascader options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} />)}
+              </Form.Item>
+              <Form.Item label='Function'>
+                {getFieldDecorator('function', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'function',
                     },
                   ],
                 })(<Input />)}
               </Form.Item>
-              <Form.Item label='Level'>
-                {getFieldDecorator('level', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'level',
-                    },
-                  ],
-                })(<InputNumber min={1} max={4} style={{ width: '100%' }} />)}
-              </Form.Item>
+            </Col>
+            <Col xl={12} style={{ paddingRight: 0 }}>
+
+
             </Col>
             <Col xl={24} style={{ padding: 0 }}>
 
-
-              <Form.Item label='Nationality'>
-                {getFieldDecorator('nationality', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'nationality',
-                    },
-                  ],
-                })(<Input />)}
-              </Form.Item>
               <Col xl={12} style={{ padding: '0 5px 0 0' }}>
                 <Form.Item label='Mobile Phone'>
                   {getFieldDecorator('mobilePhone', {
@@ -129,17 +131,7 @@ class CreateUserForm extends Component {
                 </Form.Item>
               </Col>
               <Col xl={24} style={{ padding: 0 }}>
-                <Form.Item label='Issued Date'>
-                  {getFieldDecorator('issuedDate', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'issuedDate',
-                      },
-                    ],
-                    initialValue: issuedDate
-                  })(<DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />)}
-                </Form.Item>
+
               </Col>
             </Col>
           </Col>
@@ -154,82 +146,31 @@ class CreateUserForm extends Component {
                 ],
               })(<Input type='password' />)}
             </Form.Item>
-            <Form.Item label='Marital status'>
-              {getFieldDecorator('maritalStatus', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'maritalStatus',
-                  },
-                ],
-              })(<Input />)}
-            </Form.Item>
-
-            <Col xl={12} style={{ padding: '0 5px  0 0' }}>
-              <Form.Item label='Function'>
-                {getFieldDecorator('function', {
+            <Col xl={8} style={{ padding: '0 5px 0 0' }}>
+              <Form.Item label='ID Card'>
+                {getFieldDecorator('idCard', {
                   rules: [
                     {
                       required: true,
-                      message: 'function',
-                    },
-                  ],
-                })(<Input />)}
-              </Form.Item>
-              <Form.Item label='Gender'>
-                {getFieldDecorator('gender', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'gender',
-                    },
-                  ],
-                })(<Cascader options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} />)}
-              </Form.Item>
-              <Form.Item label='Personal Email'>
-                {getFieldDecorator('personalEmail', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'personalEmail',
+                      message: 'idCard',
                     },
                   ],
                 })(<Input />)}
               </Form.Item>
             </Col>
-            <Col xl={12} style={{ paddingRight: 0 }}>
-              <Form.Item label='Rank'>
-                {getFieldDecorator('rank', {
+            <Col xl={8} style={{ padding: '0 5px 0 0' }}>
+              <Form.Item label='Issued Date'>
+                {getFieldDecorator('issuedDate', {
                   rules: [
                     {
                       required: true,
-                      message: 'rank',
+                      message: 'issuedDate',
                     },
                   ],
-                })(<Input />)}
-              </Form.Item>
-              <Form.Item label='Date of Birth'>
-                {getFieldDecorator('DOB', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'DOB',
-                    },
-                  ],
-                })(<DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />)}
-              </Form.Item>
-              <Form.Item label='Office Email'>
-                {getFieldDecorator('officeEmail', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'officeEmail',
-                    },
-                  ],
-                })(<Input />)}
+                })(<DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>
-            <Col xl={24} style={{ padding: 0 }}>
+            <Col xl={8} style={{ padding: 0 }}>
               <Form.Item label='Issued at'>
                 {getFieldDecorator('issuedPlace', {
                   rules: [
@@ -241,13 +182,93 @@ class CreateUserForm extends Component {
                 })(<Input />)}
               </Form.Item>
             </Col>
+            <Col xl={24} style={{ padding: 0 }}>
+              <Col xl={12} style={{ padding: '0 5px 0 0' }}>
+                <Form.Item label='Date of Birth'>
+                  {getFieldDecorator('DOB', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'DOB',
+                      },
+                    ],
+                  })(<DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />)}
+                </Form.Item>
+
+                <Form.Item label='Level'>
+                  {getFieldDecorator('level', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'level',
+                      },
+                    ],
+                  })(<InputNumber min={1} max={4} style={{ width: '100%' }} />)}
+                </Form.Item>
+                <Form.Item label='Personal Email'>
+                  {getFieldDecorator('personalEmail', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'personalEmail',
+                      },
+                    ],
+                  })(<Input />)}
+                </Form.Item>
+              </Col>
+              <Col xl={12} style={{ paddingRight: 0 }}>
+                <Form.Item label='Marital status'>
+                  {getFieldDecorator('maritalStatus', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'maritalStatus',
+                      },
+                    ],
+                  })(<Input />)}
+                </Form.Item>
+                <Form.Item label='Rank'>
+                  {getFieldDecorator('rank', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'rank',
+                      },
+                    ],
+                  })(<Input />)}
+                </Form.Item>
+                <Form.Item label='Office Email'>
+                  {getFieldDecorator('officeEmail', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'officeEmail',
+                      },
+                    ],
+                  })(<Input />)}
+                </Form.Item>
+              </Col>
+            </Col>
           </Col>
-        </Row>
+          <Col xl={12} style={{ padding: '0 5px 0 0' }}>
+            <Col xl={24} style={{ padding: 0 }}>
+              <Col xl={12} style={{ paddingRight: 0 }}>
+
+
+
+
+              </Col>
+              <Col xl={24} style={{ padding: 0 }}>
+
+              </Col>
+            </Col>
+          </Col>
+        </Row >
         <Divider type='horizontal' />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' icon='save' htmlType='submit'>Create</Button>
         </div>
-      </Form>
+      </Form >
     )
   }
 }
