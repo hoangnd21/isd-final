@@ -98,15 +98,18 @@ class EquipmentForm extends React.PureComponent {
   //create
   onCreateEquipment = e => {
     e.preventDefault();
-    const { form, equipment, createEquipment, codeList, cloneStep } = this.props;
+    const { form, equipment, createEquipment, codeList, isCloning, cloningDone } = this.props;
     form.validateFields((err, newEquipment) => {
       if (err) {
         return;
       }
-      cloneStep ?
+      isCloning ?
         // eslint-disable-next-line
-        codeList.map(code => {
+        codeList.map((code, index) => {
           createEquipment({ ...equipment, ...newEquipment, owner: ["None"], code: code })
+          if (index === codeList.length - 1) {
+            cloningDone()
+          }
         }) :
         createEquipment({ ...equipment, ...newEquipment, owner: ["None"] })
       form.resetFields();
@@ -139,7 +142,7 @@ class EquipmentForm extends React.PureComponent {
 
   render() {
     const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
-    const { form, modalType, loading, equipment, cloneStep } = this.props;
+    const { form, modalType, loading, equipment, isCloning } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
     const { getFieldDecorator } = form;
@@ -151,7 +154,7 @@ class EquipmentForm extends React.PureComponent {
         <Row gutter={2}>
           <Col xl={12}>
             <Col xl={12} style={{ padding: '0 2px 0 0' }}>
-              {cloneStep ?
+              {isCloning ?
                 <Form.Item label={
                   <>
                     Equipment Code&nbsp;
@@ -297,20 +300,6 @@ class EquipmentForm extends React.PureComponent {
                 </Form.Item>
 
               </Col>
-              <Col xl={24} style={{ padding: 0 }}>
-                <Form.Item label='Manufacturer'
-                >
-                  {getFieldDecorator('manufacturer', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Manufacturer is required.',
-                      },
-                    ],
-                    initialValue: equipment.manufacturer,
-                  })(<Input placeholder="Manufacturer" />)}
-                </Form.Item>
-              </Col>
             </Col>
           </Col>
           <Col xl={12}>
@@ -389,27 +378,41 @@ class EquipmentForm extends React.PureComponent {
                   style={{ width: '100%' }}
                   placeholder="Warranty" />)}
               </Form.Item>
-              <Form.Item label='Note'
+              <Form.Item label='Manufacturer'
               >
-                {getFieldDecorator('note', {
+                {getFieldDecorator('manufacturer', {
                   rules: [
                     {
-                      message: 'note',
+                      required: true,
+                      message: 'Manufacturer is required.',
                     },
                   ],
-                  initialValue: equipment.note,
-                })(<TextArea />)}
+                  initialValue: equipment.manufacturer,
+                })(<Input placeholder="Manufacturer" />)}
               </Form.Item>
+
             </Col>
           </Col>
+          <Col xl={24}>
+            <Form.Item label='Note'>
+              {getFieldDecorator('note', {
+                rules: [
+                  {
+                    message: 'note',
+                  },
+                ],
+                initialValue: equipment.note,
+              })(<TextArea />)}
+            </Form.Item>
+          </Col>
         </Row>
-        <Divider type="horizontal" />
+        <Divider type="horizontal" style={{ margin: '10px 0 10px 0' }} />
         <div
           style={{ textAlign: 'right' }}
         >
           <Button type="primary" htmlType="submit" loading={loading}>
             <Icon type="save" />
-            {modalType === 'update' ? 'Update' : cloneStep ? 'Create and clone' : 'Create'}
+            {modalType === 'update' ? 'Update' : isCloning ? 'Create and clone' : 'Create'}
           </Button>
         </div>
       </Form>

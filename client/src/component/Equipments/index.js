@@ -29,7 +29,7 @@ export default class Equipments extends React.PureComponent {
     equipmentDetail: {},
     currentUser: null,
     searchText: '',
-    cloneStep: false,
+    isCloning: false,
     codeList: [],
   }
 
@@ -90,7 +90,7 @@ export default class Equipments extends React.PureComponent {
             equipmentModal: false,
             listLoading: true
           })
-          this.state.cloneStep ? console.log('clone') :
+          this.state.isCloning ? console.log('clone') :
             notification.success({
               message: <span>
                 <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
@@ -156,7 +156,7 @@ export default class Equipments extends React.PureComponent {
       equipmentModal: false,
       modalType: '',
       equipmentDetail: {},
-      cloneStep: false
+      isCloning: false
     })
   }
 
@@ -255,6 +255,12 @@ export default class Equipments extends React.PureComponent {
   //     this.getAllEquipments()
   //   }
   // }
+  cloningDone = () => {
+    notification.success({
+      message: 'Cloning Complete. You may now delete the file.',
+      placement: 'bottomRight'
+    })
+  }
 
   upload = info => {
     if (info.file.status !== 'uploading') {
@@ -264,7 +270,7 @@ export default class Equipments extends React.PureComponent {
           codeList: info.file.response.map(code => {
             return code.code
           }),
-          cloneStep: true,
+          isCloning: true,
           equipmentModal: true,
           modalType: 'create'
         })
@@ -342,7 +348,7 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, cloneStep, codeList } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, isCloning, codeList } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -496,13 +502,13 @@ export default class Equipments extends React.PureComponent {
         <Modal
           title={
             modalType === 'update' ? 'Update Equipment' :
-              modalType === 'create' ? cloneStep ? 'Clone Equipment' : 'Create Equipment' :
+              modalType === 'create' ? isCloning ? 'Clone Equipment' : 'Create Equipment' :
                 modalType === 'reclaim' ? 'Reclaim Equipment' :
                   modalType === 'handing' ? 'Handing Equipment' :
-                    cloneStep ? 'Clone Equipment' :
+                    isCloning ? 'Clone Equipment' :
                       'Equipment Information'
           }
-          maskClosable={cloneStep ? false : true}
+          maskClosable={isCloning ? false : true}
           destroyOnClose
           visible={equipmentModal}
           footer={null}
@@ -524,8 +530,9 @@ export default class Equipments extends React.PureComponent {
                 createEquipment={this.createEquipment}
                 updateEquipment={this.updateEquipment}
                 allEq={equipments}
-                cloneStep={cloneStep}
+                isCloning={isCloning}
                 codeList={codeList}
+                cloningDone={this.cloningDone}
               />
               :
               modalType === 'handing' ?

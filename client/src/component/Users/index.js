@@ -154,7 +154,6 @@ export default class Users extends Component {
             </Row>
           </>
         }
-
         <Modal
           title={modalType === 'create' ? 'Create User' : userDetail.fullname}
           centered
@@ -165,7 +164,7 @@ export default class Users extends Component {
         >
           {modalType === 'create' ?
             <CreateUserForm createUser={this.createUserRequest} /> :
-            <UserInfo userDetail={userDetail} />}
+            <UserInfo user={userDetail} />}
         </Modal>
       </>
     )

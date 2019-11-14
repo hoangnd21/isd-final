@@ -67,7 +67,6 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
               })(<Input />)}
             </Form.Item>
 
@@ -80,7 +79,6 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
               })(<Cascader options={providers} style={{ width: '100%' }} />)}
             </Form.Item>
           </Col>
@@ -106,9 +104,10 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue: equipment.note,
               })(<Input />)}
             </Form.Item>
+          </Col>
+          <Col xl={24}>
             <Form.Item label='Note'
             >
               {getFieldDecorator('note', {
@@ -117,13 +116,12 @@ class AddBatchForm extends Component {
                     message: 'note',
                   },
                 ],
-                // initialValue: equipment.note,
               })(<TextArea />)}
             </Form.Item>
           </Col>
         </Row>
 
-        <Divider type='horizontal' />
+        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' icon='save' htmlType='submit'>
             Create

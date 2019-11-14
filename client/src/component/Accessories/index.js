@@ -92,7 +92,8 @@ export default class Accessories extends Component {
 
   cloningDone = () => {
     notification.success({
-      message: 'Cloning Complete. You may now delete the file.'
+      message: 'Cloning Complete. You may now delete the file.',
+      placement: 'bottomRight'
     })
   }
 
@@ -186,7 +187,7 @@ export default class Accessories extends Component {
       headers: {
         authorization: 'authorization-text',
       },
-    };
+    }
     const columns = [
       {
         title: 'Accessory',

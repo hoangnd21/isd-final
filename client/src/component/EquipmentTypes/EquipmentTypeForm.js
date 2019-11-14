@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   Form,
   Input,
-  Button
+  Button,
 } from 'antd'
 
 class EquipmentTypeForm extends Component {
