@@ -479,9 +479,9 @@ export default class Equipments extends React.PureComponent {
               <Upload {...props} onChange={this.upload} style={{ width: 'auto' }}>
                 <Button
                   type='secondary'
-                  icon='plus'
+                  icon='upload'
                 >
-                  Use a file to clone Equipment
+                  Upload a code file to clone Equipment
                 </Button>
               </Upload>
             </span>

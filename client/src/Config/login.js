@@ -45,6 +45,7 @@ class LoginPage extends React.Component {
             <Input
               prefix={<Icon type="user" name="username" style={{ color: '#86bc26' }} />}
               placeholder="Username"
+              size='large'
             />,
           )}
         </Form.Item>
@@ -56,6 +57,7 @@ class LoginPage extends React.Component {
               prefix={<Icon type="lock" name="password" style={{ color: '#86bc26' }} />}
               type="password"
               placeholder="Password"
+              size='large'
             />,
           )}
         </Form.Item>
@@ -66,7 +68,7 @@ class LoginPage extends React.Component {
           <div style={{ float: 'left' }}>
             <Button type='link' style={{ padding: 0 }}>Forgot your password?</Button>
           </div>
-          <Button type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} loading={loading}>
+          <Button size='large' type="primary" icon='login' htmlType="submit" disabled={hasErrors(getFieldsError())} loading={loading}>
             <span style={{ color: 'white' }}>&nbsp;Log in</span>
           </Button>
         </div>

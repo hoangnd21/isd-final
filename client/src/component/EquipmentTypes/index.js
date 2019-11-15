@@ -95,7 +95,7 @@ export default class EquipmentTypes extends Component {
       currentUser && currentUser.level < 2 ?
         <Forbidden />
         : <>
-          <h2>General types:
+          <h2>General types
             {currentUser && currentUser.level > 3 ?
               <span style={{ float: 'right' }}>
                 <Dropdown
