@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
 import CreateAccessoryForm from './CreateAccessoryForm';
+import AccessoryView from './AccessoryView'
 
 
 export default class Accessories extends Component {
@@ -21,7 +22,8 @@ export default class Accessories extends Component {
     allAccessories: [],
     loading: true,
     isCloning: false,
-    accCodeList: []
+    accCodeList: [],
+    modalType: ''
   }
   componentDidMount() {
     axios({
@@ -55,6 +57,14 @@ export default class Accessories extends Component {
           loading: false
         })
       })
+  }
+
+  infoModal = accessory => {
+    this.setState({
+      currentAccessory: accessory,
+      visible: true,
+      modalType: 'view'
+    })
   }
 
   createAccessoryModal = () => {
@@ -180,7 +190,7 @@ export default class Accessories extends Component {
   }
 
   render() {
-    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList } = this.state
+    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList, modalType, currentAccessory } = this.state
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -191,9 +201,10 @@ export default class Accessories extends Component {
     const columns = [
       {
         title: 'Accessory',
-        dataIndex: 'accName',
         key: 'accName',
         ...this.getColumnSearchProps('accName'),
+        render: data =>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.accName}</Button>
       },
       {
         title: 'Code',
@@ -274,7 +285,7 @@ export default class Accessories extends Component {
     ]
     return (
       <>
-        <h2>Accessories:
+        <h2>Accessories
           {currentUser && currentUser.level > 3 ?
             <span style={{ float: 'right' }}>
               <Button
@@ -288,9 +299,9 @@ export default class Accessories extends Component {
               <Upload {...props} onChange={this.upload} style={{ width: 'auto' }}>
                 <Button
                   type='secondary'
-                  icon='plus'
+                  icon='upload'
                 >
-                  Use a file to clone Accessory
+                  Upload a code file to clone Equipment
                 </Button>
               </Upload>
             </span>
@@ -304,7 +315,7 @@ export default class Accessories extends Component {
           loading={loading}
         />
         <Modal
-          title={isCloning ? 'Clone Accessory' : 'Create Accessory'}
+          title={modalType === 'view' ? 'Accessory Information' : isCloning ? 'Clone Accessory' : 'Create Accessory'}
           centered
           footer={null}
           visible={visible}
@@ -312,13 +323,17 @@ export default class Accessories extends Component {
           width={1000}
           destroyOnClose
         >
-          <CreateAccessoryForm
-            createAccessoryRequest={this.createAccessoryRequest}
-            cloningDone={this.cloningDone}
-            loading={loading}
-            isCloning={isCloning}
-            accCodeList={accCodeList}
-          />
+          {modalType === 'view' ?
+            <AccessoryView
+              accessory={currentAccessory}
+            /> :
+            <CreateAccessoryForm
+              createAccessoryRequest={this.createAccessoryRequest}
+              cloningDone={this.cloningDone}
+              loading={loading}
+              isCloning={isCloning}
+              accCodeList={accCodeList}
+            />}
         </Modal>
       </>
     )

@@ -145,13 +145,14 @@ export default class BasicLayout extends Component {
                   src='https://upload.wikimedia.org/wikipedia/en/2/2b/DeloitteNewSmall.png'
                 />
               </div>
-              <Menu mode="inline">
+              <Menu mode='vertical-left'>
                 <Menu.Item key="home">
                   <Link to='/'>
                     <Icon type='home' />
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
+                <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} />
                 {currentUser.level > 2 ?
                   <Menu.Item key="eqtype">
                     <Link to="/equipment-types" >
@@ -179,6 +180,8 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
+                <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} />
+
                 {currentUser.level > 3 ?
                   <Menu.Item key="batch">
                     <Link to="/batch" >
@@ -188,6 +191,7 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
+
                 {currentUser.level > 3 ?
                   <Menu.Item key="providers">
                     <Link to="/providers" >
@@ -197,6 +201,7 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
+                {currentUser.level > 3 ? <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} /> : null}
                 {currentUser.level > 3 ?
                   <Menu.Item key="users">
                     <Link to="/users" >
@@ -205,7 +210,8 @@ export default class BasicLayout extends Component {
                         Users
                       </span>
                     </Link>
-                  </Menu.Item> : null}
+                  </Menu.Item>
+                  : null}
               </Menu>
             </Sider>
             <Layout>
@@ -227,8 +233,7 @@ export default class BasicLayout extends Component {
                   <Divider type='vertical' />
                   <Tooltip title='Logout' placement='bottomRight' onClick={this.onLoggedOut}>
                     <Link to='/'>
-                      <Button type='primary' ghost icon='login' style={{ border: 0, boxShadow: 0 }} />
-
+                      <Button type='link' icon='login' />
                     </Link>
                   </Tooltip>
                 </span>
@@ -242,10 +247,9 @@ export default class BasicLayout extends Component {
               </Content>
               <Footer className='bl-footer'>
                 PMS - ISD
-          </Footer>
+              </Footer>
             </Layout>
-          </> : <> </>
-        }
+          </> : <> </>}
         <Modal
           title='Please login to continue'
           visible={loginModal}
@@ -253,7 +257,8 @@ export default class BasicLayout extends Component {
           footer={null}
           centered
           destroyOnClose
-          mask={false}
+          width={700}
+        // mask={false}
         >
           <LoginPage
             onLoggedIn={this.onLoggedIn}
