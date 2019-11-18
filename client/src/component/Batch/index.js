@@ -7,12 +7,16 @@ import {
   Divider,
   Input,
   Icon,
-  notification
+  notification,
+  Typography,
+  Popover
 } from 'antd';
 import BatchItems from './BatchItems'
 import Forbidden from '../../Config/Forbidden';
 import Highlighter from 'react-highlight-words';
 import AddBatchForm from './AddBatchForm'
+
+const { Paragraph } = Typography
 export default class Batch extends React.Component {
   state = {
     currentUser: null,
@@ -90,9 +94,8 @@ export default class Batch extends React.Component {
             visible: false,
             listLoading: true
           })
-          notification.open({
+          notification.success({
             message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}<br />
               You can now use this batch to create equiments and accessories.
             </span>
@@ -121,10 +124,9 @@ export default class Batch extends React.Component {
             visible: false,
             loading: true
           })
-          notification.open({
+          notification.success({
             message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-            {res.data}
+              {res.data}
             </span>
           })
           this.getAllBatch()
@@ -200,7 +202,7 @@ export default class Batch extends React.Component {
       {
         title: 'Batch Code',
         key: 'code',
-        width: 300,
+        width: '16%',
         ...this.getColumnSearchProps('code'),
         render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.getAllRelatedToModal(data)}>{data.code}</Button>
       },
@@ -208,23 +210,33 @@ export default class Batch extends React.Component {
         title: 'Contact Person',
         dataIndex: 'contactPerson',
         key: 'contactPerson',
-        width: 400,
+        width: '16%',
         ...this.getColumnSearchProps('contactPerson'),
       },
       {
         title: 'Provider',
         dataIndex: 'provider',
+        width: '16%',
         key: 'provider',
-        width: 300,
         ...this.getColumnSearchProps('provider'),
       },
       {
         title: 'Note',
         dataIndex: 'note',
         key: 'note',
+        render: note =>
+          <Popover title={null} content={note}>
+            <Paragraph
+              style={{ width: 350 }}
+              ellipsis={{ rows: 1 }}>
+              {note}
+            </Paragraph>
+          </Popover>
+
       },
       {
         title: 'Actions',
+        width: '16%',
         key: 'actions',
         render: data =>
           <>

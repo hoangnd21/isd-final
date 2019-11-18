@@ -207,7 +207,7 @@ export default class Accessories extends Component {
         title: 'Lock status',
         dataIndex: 'lockStatus',
         key: 'lockStatus',
-        width: 170,
+        width: '10%',
         sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
         render: lockStatus =>
           <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
@@ -218,7 +218,7 @@ export default class Accessories extends Component {
         title: 'Accessory status',
         dataIndex: 'accStatus',
         key: 'accStatus',
-        width: 170,
+        width: '10%',
         ...this.getColumnSearchProps('eqStatus'),
       },
       // {
@@ -251,23 +251,25 @@ export default class Accessories extends Component {
       {
         title: 'Warranty starts on',
         dataIndex: 'warrantyStartDate',
+        align: 'center',
         key: 'warrantyStartDate',
-        width: '10%',
+        width: '15%',
         render: warrantyStartDate => `${warrantyStartDate.slice(8, 10)}/${warrantyStartDate.slice(5, 7)}/${warrantyStartDate.slice(0, 4)}`
       },
       {
         title: 'Warranty',
         dataIndex: 'warranty',
         key: 'warranty',
-        align: 'right',
+        align: 'center',
         render: warranty => <span>{warranty} months</span>,
         sorter: (a, b) => a.warranty - b.warranty,
       },
       {
         title: 'Warranty ends on',
         dataIndex: 'warrantyEndDate',
+        align: 'center',
         key: 'warrantyEndDate',
-        width: '10%',
+        width: '15%',
         render: warrantyEndDate => `${warrantyEndDate.slice(8, 10)}/${warrantyEndDate.slice(5, 7)}/${warrantyEndDate.slice(0, 4)}`
       },
     ]

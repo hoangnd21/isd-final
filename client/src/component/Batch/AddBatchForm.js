@@ -83,7 +83,7 @@ class AddBatchForm extends Component {
                   },
                 ],
                 initialValue: currentBatch.code
-              })(<Input />)}
+              })(<Input disabled />)}
             </Form.Item>
 
             <Form.Item label='Provider'
