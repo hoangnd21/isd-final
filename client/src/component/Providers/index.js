@@ -7,7 +7,8 @@ import {
   Input,
   Icon,
   Modal,
-  notification
+  notification,
+  Popover
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import Forbidden from '../../Config/Forbidden';
@@ -78,22 +79,6 @@ export default class Providers extends Component {
           this.getAllProviders()
         }
       })
-  }
-
-  contactPersonInfo = data => {
-    this.setState({
-      visible: true,
-      contactPerson: data.contactPerson,
-      modalType: 'contactPerson'
-    })
-  }
-
-  warrantyPersonInfo = data => {
-    this.setState({
-      visible: true,
-      warrantyPerson: data.warrantyPerson,
-      modalType: 'warrantyPerson',
-    })
   }
 
   closeModal = () => {
@@ -186,13 +171,29 @@ export default class Providers extends Component {
         title: 'Contact Person',
         key: 'contactPerson',
         ...this.getColumnSearchProps('contactPerson'),
-        render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.contactPersonInfo(data)}>{data.contactPerson.CPName}</Button>
+        render: data =>
+          <Popover title='Contact Person Information' trigger='click' content={<PersonInfo personInfo={data.contactPerson} />}>
+            <Button
+              type='link'
+              style={{ color: 'black', padding: 0, fontStyle: 'bold' }}
+            >
+              {data.contactPerson.CPName}
+            </Button>
+          </Popover>
       },
       {
         title: 'Warranty Person',
         key: 'warrantyPerson',
         ...this.getColumnSearchProps('warrantyPerson'),
-        render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.warrantyPersonInfo(data)}>{data.warrantyPerson.WPName}</Button>
+        render: data =>
+          <Popover title='Warranty Person Information' trigger='click' content={<PersonInfo personInfo={data.warrantyPerson} />}>
+            <Button
+              type='link'
+              style={{ color: 'black', padding: 0, fontStyle: 'bold' }}
+            >
+              {data.warrantyPerson.WPName}
+            </Button>
+          </Popover>
       },
       {
         title: 'Note',

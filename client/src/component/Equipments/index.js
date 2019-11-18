@@ -495,7 +495,7 @@ export default class Equipments extends React.PureComponent {
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 20
+            pageSize: 9
           }}
           rowKey={record => record._id}
         />

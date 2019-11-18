@@ -23,7 +23,6 @@ export default class Accessories extends Component {
     loading: true,
     isCloning: false,
     accCodeList: [],
-    modalType: ''
   }
   componentDidMount() {
     axios({
@@ -59,17 +58,8 @@ export default class Accessories extends Component {
       })
   }
 
-  infoModal = accessory => {
-    this.setState({
-      currentAccessory: accessory,
-      visible: true,
-      modalType: 'view'
-    })
-  }
-
   createAccessoryModal = () => {
     this.setState({
-      modalType: 'create',
       visible: true
     })
   }
@@ -190,7 +180,7 @@ export default class Accessories extends Component {
   }
 
   render() {
-    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList, modalType, currentAccessory } = this.state
+    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList, } = this.state
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -202,9 +192,10 @@ export default class Accessories extends Component {
       {
         title: 'Accessory',
         key: 'accName',
+        dataIndex: 'accName',
         ...this.getColumnSearchProps('accName'),
-        render: data =>
-          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.accName}</Button>
+        // render: data =>
+        //   <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.accName}</Button>
       },
       {
         title: 'Code',
@@ -230,40 +221,38 @@ export default class Accessories extends Component {
         width: 170,
         ...this.getColumnSearchProps('eqStatus'),
       },
-      {
-        title: 'Batch',
-        dataIndex: 'batch',
-        key: 'batch',
-        width: 250,
-        ...this.getColumnSearchProps('batch'),
-      },
-      {
-        title: 'Provider',
-        dataIndex: 'provider',
-        key: 'provider',
-        width: 130,
-        ...this.getColumnSearchProps('provider'),
-      },
-      {
-        title: 'Purchased Date',
-        dataIndex: 'purchaseDate',
-        key: 'purchaseDate',
-        width: 120,
-        render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
-      },
-      {
-        title: 'Price',
-        dataIndex: 'price',
-        key: 'price',
-        align: 'right',
-        width: 130,
-        render: price => `$${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-      },
+      // {
+      //   title: 'Batch',
+      //   dataIndex: 'batch',
+      //   key: 'batch',
+      //   width: 250,
+      //   ...this.getColumnSearchProps('batch'),
+      // },
+      // {
+      //   title: 'Provider',
+      //   dataIndex: 'provider',
+      //   key: 'provider',
+      //   width: 130,
+      //   ...this.getColumnSearchProps('provider'),
+      // },
+      // {
+      //   title: 'Purchased Date',
+      //   dataIndex: 'purchaseDate',
+      //   key: 'purchaseDate',
+      //   render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
+      // },
+      // {
+      //   title: 'Price',
+      //   dataIndex: 'price',
+      //   key: 'price',
+      //   align: 'right',
+      //   render: price => `$${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+      // },
       {
         title: 'Warranty starts on',
         dataIndex: 'warrantyStartDate',
         key: 'warrantyStartDate',
-        width: 120,
+        width: '10%',
         render: warrantyStartDate => `${warrantyStartDate.slice(8, 10)}/${warrantyStartDate.slice(5, 7)}/${warrantyStartDate.slice(0, 4)}`
       },
       {
@@ -271,7 +260,6 @@ export default class Accessories extends Component {
         dataIndex: 'warranty',
         key: 'warranty',
         align: 'right',
-        width: 120,
         render: warranty => <span>{warranty} months</span>,
         sorter: (a, b) => a.warranty - b.warranty,
       },
@@ -279,7 +267,7 @@ export default class Accessories extends Component {
         title: 'Warranty ends on',
         dataIndex: 'warrantyEndDate',
         key: 'warrantyEndDate',
-        width: 120,
+        width: '10%',
         render: warrantyEndDate => `${warrantyEndDate.slice(8, 10)}/${warrantyEndDate.slice(5, 7)}/${warrantyEndDate.slice(0, 4)}`
       },
     ]
@@ -312,10 +300,11 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
+          expandedRowRender={record => <AccessoryView accessory={record} />}
           loading={loading}
         />
         <Modal
-          title={modalType === 'view' ? 'Accessory Information' : isCloning ? 'Clone Accessory' : 'Create Accessory'}
+          title={isCloning ? 'Clone Accessory' : 'Create Accessory'}
           centered
           footer={null}
           visible={visible}
@@ -323,17 +312,14 @@ export default class Accessories extends Component {
           width={1000}
           destroyOnClose
         >
-          {modalType === 'view' ?
-            <AccessoryView
-              accessory={currentAccessory}
-            /> :
-            <CreateAccessoryForm
-              createAccessoryRequest={this.createAccessoryRequest}
-              cloningDone={this.cloningDone}
-              loading={loading}
-              isCloning={isCloning}
-              accCodeList={accCodeList}
-            />}
+
+          <CreateAccessoryForm
+            createAccessoryRequest={this.createAccessoryRequest}
+            cloningDone={this.cloningDone}
+            loading={loading}
+            isCloning={isCloning}
+            accCodeList={accCodeList}
+          />
         </Modal>
       </>
     )

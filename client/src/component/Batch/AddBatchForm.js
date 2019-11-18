@@ -10,6 +10,7 @@ import {
   Button,
   DatePicker
 } from 'antd'
+import moment from 'moment'
 
 const { TextArea } = Input
 class AddBatchForm extends Component {
@@ -40,20 +41,34 @@ class AddBatchForm extends Component {
       if (err) {
         return;
       }
-      console.log(newBatch)
       addBatch(newBatch)
       form.resetFields();
     });
   };
 
+  onUpdateBatch = e => {
+    e.preventDefault();
+    const { form, updateBatch, currentBatch } = this.props;
+    form.validateFields((err, updatingBatch) => {
+      if (err) {
+        return;
+      }
+      console.log({ ...currentBatch, ...updatingBatch })
+      updateBatch({ ...currentBatch, ...updatingBatch })
+      form.resetFields();
+    });
+  }
+
   render() {
     const { providers } = this.state
-    const { form } = this.props
+    const { form, modalType, currentBatch } = this.props
     const { getFieldDecorator } = form
+    const now = moment()
+    const dateM = moment(currentBatch.date, "YYYY-MM-DD")
     return (
       <Form
         layout='vertical'
-        onSubmit={this.onAddBatch}
+        onSubmit={modalType === 'create' ? this.onAddBatch : this.onUpdateBatch}
       >
 
         <Row gutter={10}>
@@ -67,6 +82,7 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
+                initialValue: currentBatch.code
               })(<Input />)}
             </Form.Item>
 
@@ -79,6 +95,7 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
+                initialValue: currentBatch.provider
               })(<Cascader options={providers} style={{ width: '100%' }} />)}
             </Form.Item>
           </Col>
@@ -91,8 +108,9 @@ class AddBatchForm extends Component {
                     message: 'date'
                   },
                 ],
+                initialValue: modalType === 'update' ? dateM : now
               })(
-                <DatePicker placeholder="yyyy-mm-dd" format="YYYY-MM-DD" style={{ width: '100%' }} />
+                <DatePicker format="DD/MM/YYYY" style={{ width: '100%' }} />
               )}
             </Form.Item>
             <Form.Item label='Contact Person'
@@ -104,6 +122,7 @@ class AddBatchForm extends Component {
                     required: true
                   },
                 ],
+                initialValue: currentBatch.contactPerson
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -116,16 +135,16 @@ class AddBatchForm extends Component {
                     message: 'note',
                   },
                 ],
+                initialValue: currentBatch.note
               })(<TextArea />)}
             </Form.Item>
           </Col>
         </Row>
-
         <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' icon='save' htmlType='submit'>
-            Create
-            </Button>
+            {modalType === 'create' ? 'Create' : 'Update'}
+          </Button>
         </div>
       </Form>
     )
