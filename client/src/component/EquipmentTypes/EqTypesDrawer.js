@@ -81,7 +81,8 @@ export default class EqTypesDrawer extends Component {
 
   render() {
     const { equipmentTypesByID, visible, loading } = this.state
-    const { generalType } = this.props
+    const { generalType, currentUser } = this.props
+    console.log(currentUser)
     return (
       <>
         <Row gutter={10} style={{ width: 900 }}>
@@ -92,11 +93,11 @@ export default class EqTypesDrawer extends Component {
               enterButton
             /> */}
           </Col>
-          <Col xl={12}>
+          {currentUser.level > 3 ? <Col xl={12}>
             <div style={{ textAlign: 'right' }}>
               <Button type='primary' icon='plus' onClick={this.addEqTypeModal}>Add a new Equipment type into {generalType.label}</Button>
             </div>
-          </Col>
+          </Col> : null}
         </Row>
         <List
           itemLayout='horizontal'

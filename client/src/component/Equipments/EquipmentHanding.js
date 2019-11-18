@@ -86,7 +86,7 @@ class EquipmentHanding extends React.Component {
                     },
                   ],
                 })(
-                  <RangePicker style={{ width: '100%' }} />
+                  <RangePicker format="DD/MM/YYYY" style={{ width: '100%' }} />
                 )}
               </Form.Item>
             </Col>

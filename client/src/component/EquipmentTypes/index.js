@@ -147,7 +147,7 @@ export default class EquipmentTypes extends Component {
               style={{ position: 'absolute', }}
               width='auto'
             >
-              <EqTypesDrawer generalType={generalTypebyID} />
+              <EqTypesDrawer generalType={generalTypebyID} currentUser={currentUser} />
             </Drawer>
           </List>
         </>
