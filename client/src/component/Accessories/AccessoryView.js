@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Button, Divider, Card } from 'antd'
 
 export default class AccessoryView extends Component {
   state = {
@@ -25,13 +26,15 @@ export default class AccessoryView extends Component {
     const { generalType, subType } = this.state
     const { accessory } = this.props
     return (
-      <>
+      <Card bodystyle={{ padding: 0 }}>
+        {/* <p><Button type='danger' onClick={}>Dele this accessory</Button></p> */}
+        {/* <Divider type='horizontal' /> */}
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
         <p>Price: ${accessory.price}</p>
         <p>Provider: {accessory.provider}</p>
         <p>Purchase date: {accessory.purchaseDate.slice(8, 10)}/{accessory.purchaseDate.slice(5, 7)}/{accessory.purchaseDate.slice(0, 4)}</p>
-      </>
+      </Card>
     )
   }
 }

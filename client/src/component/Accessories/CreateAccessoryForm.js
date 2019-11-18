@@ -283,7 +283,7 @@ class CreateAccessoryForm extends Component {
                         message: 'warrantyRange',
                       },
                     ],
-                  })(<RangePicker format="YYYY-MM-DD" style={{ width: '100%' }} onChange={this.monthCal} />)}
+                  })(<RangePicker format="DD/MM/YYYY" style={{ width: '100%' }} onChange={this.monthCal} />)}
                 </Form.Item>
               </Col>
               <Col xl={8} style={{ paddingRight: 0 }}>
