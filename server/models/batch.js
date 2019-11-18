@@ -4,7 +4,7 @@ const schema = mongoose.Schema;
 const batchSchema = new schema({
     code: String,
     date: Date,
-    provider: String,
+    provider: Array,
     contactPerson: String,
     note: String,
     created_at: Date
