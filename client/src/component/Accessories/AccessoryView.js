@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Button, Divider, Card } from 'antd'
+import {
+  Card
+} from 'antd'
 
 export default class AccessoryView extends Component {
   state = {

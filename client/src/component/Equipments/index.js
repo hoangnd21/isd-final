@@ -47,17 +47,18 @@ export default class Equipments extends React.PureComponent {
         this.setState({
           currentUser: res.data
         })
+        axios.get(this.state.currentUser.level > 2 ? `http://localhost:9000/equipments` : `http://localhost:9000/search/equipments?owner=${this.state.currentUser.username}`)
+          .then(res => {
+            this.setState({
+              equipments: res.data,
+              listLoading: false,
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          });
       })
-    axios.get('http://localhost:9000/equipments')
-      .then(res => {
-        this.setState({
-          equipments: res.data,
-          listLoading: false,
-        })
-      })
-      .catch(error => {
-        console.log(error)
-      });
+
   }
 
   getAllEquipments = () => {
@@ -407,15 +408,15 @@ export default class Equipments extends React.PureComponent {
         key: 'batch',
         ...this.getColumnSearchProps('batch'),
       },
-      {
-        title: <span>Price <Tooltip title='The original price of the equipment.'><Icon type='question-circle' /></Tooltip></span>,
-        dataIndex: 'originalPrice',
-        key: 'originalPrice',
-        align: 'right',
-        width: '7%',
-        sorter: (a, b) => a.originalPrice - b.originalPrice,
-        render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-      },
+      // {
+      //   title: <span>Price <Tooltip title='The original price of the equipment.'><Icon type='question-circle' /></Tooltip></span>,
+      //   dataIndex: 'originalPrice',
+      //   key: 'originalPrice',
+      //   align: 'right',
+      //   width: '7%',
+      //   sorter: (a, b) => a.originalPrice - b.originalPrice,
+      //   render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+      // },
       {
         title: 'Warranty',
         dataIndex: 'warrantyMonths',
@@ -430,16 +431,24 @@ export default class Equipments extends React.PureComponent {
         width: '20%',
         render: data =>
           <>
-            <Button
-              type='link'
-              style={{ border: 0, padding: 10 }}
-              icon='edit'
-              onClick={() => this.updateEquipmentModal(data)}
-            >
-              &nbsp;Edit
+            {currentUser.level > 2 ?
+              <Button
+                type='link'
+                style={{ border: 0, padding: 10 }}
+                icon='edit'
+                onClick={() => this.updateEquipmentModal(data)}
+              >
+                &nbsp;Edit
+              </Button> :
+              <Button
+                type='danger'
+                icon='info-circle'
+                onClick={() => this.updateEquipmentModal(data)}
+              >
+                &nbsp;Report a problem about this device
               </Button>
-
-            {data.lockStatus[0] !== 'Locked' ?
+            }
+            {currentUser.level > 2 ? data.lockStatus[0] !== 'Locked' ?
               <>
                 <Button
                   type='link'
@@ -449,7 +458,7 @@ export default class Equipments extends React.PureComponent {
                 >
                   &nbsp;{data.eqStatus[0] !== 'Storage' ? 'Reclaim' : 'Handing'}
                 </Button>
-              </> : null}
+              </> : null : null}
             <Popconfirm
               title='Are you sure to delete this equipment?'
               onConfirm={() => this.deleteEquipment(data)}

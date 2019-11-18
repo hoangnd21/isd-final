@@ -39,13 +39,15 @@ export default class Accessories extends Component {
           currentUser: res.data,
           loading: false
         })
+
+        axios.get(this.state.currentUser.level > 2 ? 'http://localhost:9000/accessories' : `http://localhost:9000/search/equipments?owner=${this.state.currentUser.username}`)
+          .then(res => {
+            this.setState({
+              allAccessories: res.data
+            })
+          })
       })
-    axios.get('http://localhost:9000/accessories')
-      .then(res => {
-        this.setState({
-          allAccessories: res.data
-        })
-      })
+
   }
 
   getAllAccessories = () => {
@@ -275,8 +277,8 @@ export default class Accessories extends Component {
     ]
     return (
       <>
-        <h2>Accessories
-          {currentUser && currentUser.level > 3 ?
+        <h2>{currentUser.level > 2 ? 'Accessories' : 'Your Accessories'}
+          {currentUser && currentUser.level > 2 ?
             <span style={{ float: 'right' }}>
               <Button
                 type='primary'
