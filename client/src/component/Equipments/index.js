@@ -9,7 +9,6 @@ import {
   Divider,
   Popconfirm,
   Input,
-  Tooltip,
   Upload,
   message
 } from 'antd';

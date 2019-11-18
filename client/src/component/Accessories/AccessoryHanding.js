@@ -1,66 +1,67 @@
-import React from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
 import {
-  Button,
   Form,
-  Input,
   Row,
   Col,
-  Divider,
   DatePicker,
   Cascader,
+  Input,
+  Divider,
+  Button,
 } from 'antd'
+import axios from 'axios'
 
-const { TextArea } = Input;
+const { TextArea } = Input
 const { RangePicker } = DatePicker
 
-class EquipmentHanding extends React.Component {
+class AccessoryHanding extends Component {
   state = {
-    users: [],
+    users: []
   }
 
   componentDidMount() {
     axios.get('http://localhost:9000/users')
       .then(res => {
         this.setState({
-          users: res.data,
+          users: res.data.map(u => {
+            return ({
+              value: u.username,
+              label: u.username
+            })
+          })
         })
       })
+  }
+
+  onHandingAccessory = e => {
+    e.preventDefault();
+    const { form, accessory, handingEquipment, updateEquipment } = this.props;
+    form.validateFields((err, handingDetail) => {
+      handingDetail.user = handingDetail.user.toString()
+      if (err) {
+        return;
+      }
+      const handing = { ...handingDetail, eqStatus: 'Use', device: accessory.accCode, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
+      delete handing.range
+      handingEquipment({ ...handing })
+      updateEquipment({ ...accessory, accStatus: 'Use', owner: handingDetail.user })
+      form.resetFields();
+    });
   }
 
   filter = (inputValue, path) => {
     return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
   }
 
-  onHandingEquipment = e => {
-    e.preventDefault();
-    const { form, equipment, handingEquipment, updateEquipment } = this.props;
-    form.validateFields((err, handingDetail) => {
-      handingDetail.user = handingDetail.user.toString()
-      if (err) {
-        return;
-      }
-      const handing = { ...handingDetail, eqStatus: 'Use', device: equipment.code, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
-      delete handing.range
-      handingEquipment({ ...handing })
-      updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
-      form.resetFields();
-    });
-  }
-
   render() {
-    const { form, equipment } = this.props;
-    const { getFieldDecorator } = form;
-    const userOptions = this.state.users.map(user =>
-      ({
-        value: user.username,
-        label: user.username
-      }))
+    const { users } = this.state
+    const { form, accessory } = this.props
+    const { getFieldDecorator } = form
     return (
       <>
         <Form
           layout="vertical"
-          onSubmit={this.onHandingEquipment}
+          onSubmit={this.onHandingAccessory}
         >
           <Row gutter={12}>
             <Col xl={12}>
@@ -73,7 +74,7 @@ class EquipmentHanding extends React.Component {
                     },
                   ],
                 })(
-                  <Cascader options={userOptions} showSearch={this.filter} />
+                  <Cascader options={users} showSearch={this.filter} />
                 )}
               </Form.Item>
 
@@ -100,7 +101,7 @@ class EquipmentHanding extends React.Component {
                       message: 'device',
                     },
                   ],
-                  initialValue: equipment.name
+                  initialValue: accessory.accName
                 })(
                   <Input disabled />
                 )}
@@ -123,17 +124,15 @@ class EquipmentHanding extends React.Component {
               type='primary'
               htmlType='submit'
             >
-              Hand Equipment
+              Hand Accessory
           </Button>
           </div>
         </Form>
       </>
-    );
+    )
   }
 }
 
-
-const HandingForm = Form.create({})(EquipmentHanding);
+const HandingForm = Form.create({})(AccessoryHanding);
 
 export default HandingForm;
-
