@@ -92,6 +92,13 @@ export default class Accessories extends Component {
       });
   }
 
+
+  handingAccessoryModal = () => {
+    this.setState({
+      handingVisible: true,
+    })
+  }
+
   cloningDone = () => {
     notification.success({
       message: 'Cloning Complete. You may now delete the file.',
@@ -304,7 +311,7 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
-          expandedRowRender={record => <AccessoryView accessory={record} />}
+          expandedRowRender={record => <AccessoryView accessory={record} handingAccessoryModa={this.handingAccessoryModal} />}
           loading={loading}
         />
         <Modal

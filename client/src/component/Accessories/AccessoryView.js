@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {
-  Card
+  Card,
+  Popover
 } from 'antd'
+// import AccessoryHanding from './AccessoryHanding'
 
 export default class AccessoryView extends Component {
   state = {
@@ -29,10 +31,21 @@ export default class AccessoryView extends Component {
     const { accessory } = this.props
     return (
       <Card bodystyle={{ padding: 0 }}>
-        {/* <p><Button type='danger' onClick={}>Dele this accessory</Button></p> */}
-        {/* <Divider type='horizontal' /> */}
+        <p>
+          <Popover
+            title='Hand Accessory'
+            trigger='click'
+            placement='topLeft'
+            content={'<AccessoryHanding accessory={accessory} />'}
+          >
+            {/* <Button type='primary'>
+              Hand this accessory
+              </Button> */}
+          </Popover>
+        </p>
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
+        <p>This accessory is being used by: {accessory.owner}</p>
         <p>Price: ${accessory.price}</p>
         <p>Provider: {accessory.provider}</p>
         <p>Purchase date: {accessory.purchaseDate.slice(8, 10)}/{accessory.purchaseDate.slice(5, 7)}/{accessory.purchaseDate.slice(0, 4)}</p>
