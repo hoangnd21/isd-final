@@ -238,6 +238,7 @@ export default class Batch extends React.Component {
             centered
             onCancel={this.closeModal}
             width={1000}
+            bodyStyle={{ paddingRight: 10 }}
           >
             {modalType === 'create' ?
               <AddBatchForm addBatch={this.addBatchRequest} /> :

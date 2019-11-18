@@ -145,6 +145,7 @@ export default class BasicLayout extends Component {
                   src='https://upload.wikimedia.org/wikipedia/en/2/2b/DeloitteNewSmall.png'
                 />
               </div>
+              <Divider type='horizontal' style={{ marginTop: 10 }} />
               <Menu mode='vertical-left'>
                 <Menu.Item key="home">
                   <Link to='/'>
@@ -152,7 +153,6 @@ export default class BasicLayout extends Component {
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
-                <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} />
                 {currentUser.level > 2 ?
                   <Menu.Item key="eqtype">
                     <Link to="/equipment-types" >
@@ -180,7 +180,6 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
-                <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} />
 
                 {currentUser.level > 3 ?
                   <Menu.Item key="batch">
@@ -191,9 +190,8 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
-
                 {currentUser.level > 3 ?
-                  <Menu.Item key="providers">
+                  <Menu.Item key="providers" >
                     <Link to="/providers" >
                       <Icon type="bank" />
                       <span>
@@ -201,7 +199,6 @@ export default class BasicLayout extends Component {
                       </span>
                     </Link>
                   </Menu.Item> : null}
-                {currentUser.level > 3 ? <Divider type='horizontal' style={{ margin: '10px 0 10px 0', color: 'black' }} /> : null}
                 {currentUser.level > 3 ?
                   <Menu.Item key="users">
                     <Link to="/users" >
