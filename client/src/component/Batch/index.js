@@ -49,7 +49,7 @@ export default class Batch extends React.Component {
     this.setState({
       visible: true,
       modalType: 'view',
-      currentBatch: data
+      currentBatch: data,
     })
     // axios.get(`http://localhost:9000/search/equipments?batch=${data.code}`)
     //   .then(res => {
@@ -61,7 +61,7 @@ export default class Batch extends React.Component {
 
   closeModal = () => {
     this.setState({
-      visible: false
+      visible: false,
     })
   }
 
@@ -93,7 +93,8 @@ export default class Batch extends React.Component {
           notification.open({
             message: <span>
               <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
+              {res.data}<br />
+              You can now use this batch to create equiments and accessories.
             </span>
           })
           this.getAllBatch()
@@ -102,9 +103,37 @@ export default class Batch extends React.Component {
       .catch(error => {
         console.log(error)
       });
-
   }
 
+  updateBatchModal = data => {
+    this.setState({
+      modalType: 'update',
+      visible: true,
+      currentBatch: data
+    })
+  }
+
+  updateBatchRequest = data => {
+    axios.put(`http://localhost:9000/batch/updateBatch/${data._id}`, data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+            loading: true
+          })
+          notification.open({
+            message: <span>
+              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
+            {res.data}
+            </span>
+          })
+          this.getAllBatch()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -199,8 +228,13 @@ export default class Batch extends React.Component {
         key: 'actions',
         render: data =>
           <>
-            <Button type='link' icon='edit'>Edit</Button>
-            <Button type='link' icon='delete'>Delete</Button>
+            <Button
+              type='link'
+              icon='edit'
+              onClick={() => this.updateBatchModal(data)}
+            >
+              Edit
+            </Button>
           </>
       },
     ]
@@ -231,7 +265,7 @@ export default class Batch extends React.Component {
             }}
           />
           <Modal
-            title={modalType === 'create' ? 'Create a new Batch' : `Batch: ${currentBatch.code}`}
+            title={modalType === 'create' ? 'Create a new Batch' : modalType === 'update' ? 'Edit batch' : `Batch: ${currentBatch.code}`}
             visible={visible}
             destroyOnClose
             footer={null}
@@ -240,8 +274,13 @@ export default class Batch extends React.Component {
             width={1000}
             bodyStyle={{ paddingRight: 10 }}
           >
-            {modalType === 'create' ?
-              <AddBatchForm addBatch={this.addBatchRequest} /> :
+            {modalType === 'create' || modalType === 'update' ?
+              <AddBatchForm
+                addBatch={this.addBatchRequest}
+                updateBatch={this.updateBatchRequest}
+                currentBatch={currentBatch}
+                modalType={modalType}
+              /> :
               <BatchItems allItems={relatedDataByCode} currentBatch={currentBatch} />
             }
           </Modal>

@@ -235,12 +235,12 @@ export default class Accessories extends Component {
       //   width: 130,
       //   ...this.getColumnSearchProps('provider'),
       // },
-      {
-        title: 'Purchased Date',
-        dataIndex: 'purchaseDate',
-        key: 'purchaseDate',
-        render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
-      },
+      // {
+      //   title: 'Purchased Date',
+      //   dataIndex: 'purchaseDate',
+      //   key: 'purchaseDate',
+      //   render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
+      // },
       // {
       //   title: 'Price',
       //   dataIndex: 'price',

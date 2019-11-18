@@ -5,15 +5,12 @@ import {
   Modal,
   notification,
   Icon,
-  Input,
   Row,
   Col,
-  Divider
 } from 'antd'
 import axios from 'axios'
 import EquipmentTypeForm from './EquipmentTypeForm'
 
-const { Search } = Input
 export default class EqTypesDrawer extends Component {
   state = {
     equipmentTypesByID: [],
@@ -89,11 +86,11 @@ export default class EqTypesDrawer extends Component {
       <>
         <Row gutter={10} style={{ width: 900 }}>
           <Col xl={12}>
-            <Search
+            {/* <Search
               placeholder={`Search ${equipmentTypesByID.length} ${equipmentTypesByID.length > 1 ? 'entries' : 'entry'}....`}
               onSearch={value => console.log(value)}
               enterButton
-            />
+            /> */}
           </Col>
           <Col xl={12}>
             <div style={{ textAlign: 'right' }}>
@@ -101,7 +98,6 @@ export default class EqTypesDrawer extends Component {
             </div>
           </Col>
         </Row>
-        <Divider type='horizontal' />
         <List
           itemLayout='horizontal'
           dataSource={equipmentTypesByID}
