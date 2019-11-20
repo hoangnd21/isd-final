@@ -146,7 +146,7 @@ export default class BasicLayout extends Component {
                 />
               </div>
               <Divider type='horizontal' style={{ marginTop: 10 }} />
-              <Menu mode='vertical-left'>
+              <Menu mode='vertical'>
                 <Menu.Item key="home">
                   <Link to='/'>
                     <Icon type='home' />

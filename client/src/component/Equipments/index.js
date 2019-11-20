@@ -10,13 +10,16 @@ import {
   Popconfirm,
   Input,
   Upload,
-  message
+  message,
+  Typography
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
 import Highlighter from 'react-highlight-words';
+
+const { Paragraph } = Typography
 
 export default class Equipments extends React.PureComponent {
 
@@ -362,7 +365,13 @@ export default class Equipments extends React.PureComponent {
         key: 'name',
         ...this.getColumnSearchProps('name'),
         render: data =>
-          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.name}</Button>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
+            <Paragraph
+              style={{ width: 200 }}
+              ellipsis={{ rows: 1 }}>
+              {data.name}
+            </Paragraph>
+          </Button>
       },
       {
         title: 'Code',

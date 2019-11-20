@@ -8,14 +8,15 @@ import {
   Modal,
   notification,
   Upload,
-  message
+  message,
+  Typography
 } from 'antd'
 import axios from 'axios';
 import Highlighter from 'react-highlight-words';
 import CreateAccessoryForm from './CreateAccessoryForm';
 import AccessoryView from './AccessoryView'
 
-
+const { Paragraph } = Typography
 export default class Accessories extends Component {
   state = {
     currentUser: {},
@@ -23,6 +24,7 @@ export default class Accessories extends Component {
     loading: true,
     isCloning: false,
     accCodeList: [],
+    currentAccessory: {}
   }
   componentDidMount() {
     axios({
@@ -62,6 +64,7 @@ export default class Accessories extends Component {
 
   createAccessoryModal = () => {
     this.setState({
+      modalType: 'create',
       visible: true
     })
   }
@@ -92,11 +95,13 @@ export default class Accessories extends Component {
       });
   }
 
-
-  handingAccessoryModal = () => {
+  updateAccessoryModal = record => {
     this.setState({
-      handingVisible: true,
+      modalType: 'update',
+      visible: true,
+      currentAccessory: record
     })
+    console.log(this.state.currentAccessory)
   }
 
   cloningDone = () => {
@@ -108,7 +113,8 @@ export default class Accessories extends Component {
 
   hideModal = () => {
     this.setState({
-      visible: false
+      visible: false,
+      currentAccessory: {}
     })
   }
 
@@ -189,7 +195,7 @@ export default class Accessories extends Component {
   }
 
   render() {
-    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList, } = this.state
+    const { currentUser, allAccessories, loading, visible, isCloning, accCodeList, modalType, currentAccessory } = this.state
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -201,10 +207,15 @@ export default class Accessories extends Component {
       {
         title: 'Accessory',
         key: 'accName',
-        dataIndex: 'accName',
         ...this.getColumnSearchProps('accName'),
-        // render: data =>
-        //   <Button style={{ color: 'black', padding: 0, fontStyle: 'bold' }} type='link' onClick={() => this.infoModal(data)}>{data.accName}</Button>
+        render: data =>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
+            <Paragraph
+              style={{ width: 100 }}
+              ellipsis={{ rows: 1 }}>
+              {data.accName}
+            </Paragraph>
+          </Button>
       },
       {
         title: 'Code',
@@ -230,33 +241,6 @@ export default class Accessories extends Component {
         width: '10%',
         ...this.getColumnSearchProps('eqStatus'),
       },
-      // {
-      //   title: 'Batch',
-      //   dataIndex: 'batch',
-      //   key: 'batch',
-      //   width: 250,
-      //   ...this.getColumnSearchProps('batch'),
-      // },
-      // {
-      //   title: 'Provider',
-      //   dataIndex: 'provider',
-      //   key: 'provider',
-      //   width: 130,
-      //   ...this.getColumnSearchProps('provider'),
-      // },
-      // {
-      //   title: 'Purchased Date',
-      //   dataIndex: 'purchaseDate',
-      //   key: 'purchaseDate',
-      //   render: purchaseDate => `${purchaseDate.slice(8, 10)}/${purchaseDate.slice(5, 7)}/${purchaseDate.slice(0, 4)}`
-      // },
-      // {
-      //   title: 'Price',
-      //   dataIndex: 'price',
-      //   key: 'price',
-      //   align: 'right',
-      //   render: price => `$${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-      // },
       {
         title: 'Warranty starts on',
         dataIndex: 'warrantyStartDate',
@@ -311,11 +295,11 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
-          expandedRowRender={record => <AccessoryView accessory={record} handingAccessoryModa={this.handingAccessoryModal} />}
+          expandedRowRender={record => <AccessoryView accessory={record} updateAccessoryModal={() => this.updateAccessoryModal(record)} />}
           loading={loading}
         />
         <Modal
-          title={isCloning ? 'Clone Accessory' : 'Create Accessory'}
+          title={modalType === 'create' ? isCloning ? 'Clone Accessory' : 'Create Accessory' : 'Edit Accessory'}
           centered
           footer={null}
           visible={visible}
@@ -325,6 +309,8 @@ export default class Accessories extends Component {
         >
 
           <CreateAccessoryForm
+            accessory={currentAccessory}
+            modalType={modalType}
             createAccessoryRequest={this.createAccessoryRequest}
             cloningDone={this.cloningDone}
             loading={loading}
