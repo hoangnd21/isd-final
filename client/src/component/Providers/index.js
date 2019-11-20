@@ -8,12 +8,15 @@ import {
   Icon,
   Modal,
   notification,
-  Popover
+  Popover,
+  Typography
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import Forbidden from '../../Config/Forbidden';
 import PersonInfo from './PersonInfo';
 import ProviderCreateForm from './ProviderCreateForm'
+
+const { Paragraph } = Typography
 
 export default class Providers extends Component {
   state = {
@@ -198,7 +201,15 @@ export default class Providers extends Component {
       {
         title: 'Note',
         dataIndex: 'note',
+        width: 300,
         key: 'note',
+        render: note => <Popover title={null} content={note}>
+          <Paragraph
+            style={{ width: 230 }}
+            ellipsis={{ rows: 1 }}>
+            {note}
+          </Paragraph>
+        </Popover>
       },
     ]
     return (
