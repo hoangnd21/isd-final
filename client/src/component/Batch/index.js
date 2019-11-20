@@ -232,7 +232,6 @@ export default class Batch extends React.Component {
               {note}
             </Paragraph>
           </Popover>
-
       },
       {
         title: 'Actions',
