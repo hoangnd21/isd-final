@@ -126,7 +126,6 @@ class CreateAccessoryForm extends Component {
   render() {
     const { generalTypes, batches, equipmentTypes, providers, warrantyMonths, accCode, updateCaseSubtype } = this.state
     const { form, loading, isCloning, accessory, modalType } = this.props
-    console.log('updateCaseSubtype', updateCaseSubtype)
     const { getFieldDecorator } = form
     return (
       <Form layout='vertical' onSubmit={this.onCreateAccessory}>
