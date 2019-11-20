@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import {
   Card,
-  Popover
+  Button,
+  Divider
 } from 'antd'
 // import AccessoryHanding from './AccessoryHanding'
 
@@ -28,21 +29,19 @@ export default class AccessoryView extends Component {
   }
   render() {
     const { generalType, subType } = this.state
-    const { accessory } = this.props
+    const { accessory, updateAccessoryModal } = this.props
     return (
       <Card bodystyle={{ padding: 0 }}>
         <p>
-          <Popover
-            title='Hand Accessory'
-            trigger='click'
-            placement='topLeft'
-            content={'<AccessoryHanding accessory={accessory} />'}
+          <Button
+            type='primary'
+            icon='edit'
+            onClick={updateAccessoryModal}
           >
-            {/* <Button type='primary'>
-              Hand this accessory
-              </Button> */}
-          </Popover>
+            Edit this accessory
+              </Button>
         </p>
+        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
         <p>This accessory is being used by: {accessory.owner}</p>

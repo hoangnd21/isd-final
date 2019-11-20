@@ -14,6 +14,7 @@ import {
 } from 'antd'
 import axios from 'axios'
 import { lockStatusOptions, eqStatusOptions } from '../../Config/options'
+import moment from 'moment'
 
 const { RangePicker } = DatePicker
 
@@ -23,10 +24,11 @@ class CreateAccessoryForm extends Component {
     batches: [],
     equipmentTypes: [],
     warrantyMonths: 0,
-
+    updateCaseSubtype: []
   }
 
   componentDidMount() {
+    const { accessory, modalType } = this.props
     axios.get(`http://localhost:9000/generalTypes`)
       .then(res => {
         this.setState({
@@ -58,6 +60,13 @@ class CreateAccessoryForm extends Component {
     this.setState({
       accCode: ['VN'].concat(this.codegen(12)).join('')
     })
+    if (modalType === 'update') {
+      this.choseGenType(accessory.genTypeAttached)
+      this.setState({
+        updateCaseSubtype: accessory.subTypeAttached,
+        warrantyMonths: accessory.warranty
+      })
+    }
   }
 
   onCreateAccessory = e => {
@@ -94,7 +103,6 @@ class CreateAccessoryForm extends Component {
       .then(res => {
         this.setState({
           equipmentTypes: res.data,
-          genTypeId: genTypeID
         })
       })
   }
@@ -116,9 +124,9 @@ class CreateAccessoryForm extends Component {
   }
 
   render() {
-    const { generalTypes, batches, equipmentTypes, providers, warrantyMonths, accCode } = this.state
-    const { form, loading, isCloning } = this.props
-
+    const { generalTypes, batches, equipmentTypes, providers, warrantyMonths, accCode, updateCaseSubtype } = this.state
+    const { form, loading, isCloning, accessory, modalType } = this.props
+    console.log('updateCaseSubtype', updateCaseSubtype)
     const { getFieldDecorator } = form
     return (
       <Form layout='vertical' onSubmit={this.onCreateAccessory}>
@@ -138,7 +146,7 @@ class CreateAccessoryForm extends Component {
                       message: 'accCode',
                     },
                   ],
-                  initialValue: isCloning ? '' : accCode,
+                  initialValue: modalType === 'create' ? isCloning ? '' : accCode : accessory.accCode,
                 })(<Input disabled />)}
               </Form.Item>
             </Col>
@@ -152,6 +160,7 @@ class CreateAccessoryForm extends Component {
                       message: 'batch',
                     },
                   ],
+                  initialValue: modalType === 'create' ? null : accessory.batch
                 })(<Cascader options={batches && batches} />)}
               </Form.Item>
             </Col>
@@ -166,6 +175,7 @@ class CreateAccessoryForm extends Component {
                         message: 'accName',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : accessory.accName
                   })(<Input placeholder="accName" />)}
                 </Form.Item>
               </Col>
@@ -179,6 +189,7 @@ class CreateAccessoryForm extends Component {
                         message: 'provider',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : accessory.provider
                   })(<Cascader options={providers} />)}
                 </Form.Item>
               </Col>
@@ -194,6 +205,8 @@ class CreateAccessoryForm extends Component {
                         message: 'purchaseDate',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : moment(accessory.purchaseDate, "YYYY-MM-DD")
+
                   })(<DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
@@ -207,7 +220,7 @@ class CreateAccessoryForm extends Component {
                         message: 'price',
                       },
                     ],
-                    initialValue: 0
+                    initialValue: modalType === 'create' ? null : accessory.price
                   })(
                     <InputNumber
                       formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -232,6 +245,7 @@ class CreateAccessoryForm extends Component {
                         message: 'genTypeAttached',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : accessory.genTypeAttached
                   })(<Cascader options={generalTypes && generalTypes} onChange={this.choseGenType} />)}
                 </Form.Item>
               </Col>
@@ -245,6 +259,7 @@ class CreateAccessoryForm extends Component {
                         message: 'subTypeAttached',
                       },
                     ],
+                    initialValue: updateCaseSubtype
                   })(<Cascader options={equipmentTypes && equipmentTypes} placeholder='subTypeAttached' />)}
                 </Form.Item>
               </Col>
@@ -257,6 +272,7 @@ class CreateAccessoryForm extends Component {
                         message: 'status',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : accessory.lockStatus
                   })(<Cascader options={lockStatusOptions} />)}
                 </Form.Item>
               </Col>
@@ -269,6 +285,7 @@ class CreateAccessoryForm extends Component {
                         message: 'accStatus',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : accessory.accStatus
                   })(<Cascader options={eqStatusOptions} />)}
                 </Form.Item>
 
@@ -283,6 +300,7 @@ class CreateAccessoryForm extends Component {
                         message: 'warrantyRange',
                       },
                     ],
+                    initialValue: modalType === 'create' ? null : [moment(accessory.warrantyStartDate, "YYYY-MM-DD"), moment(accessory.warrantyEndDate, "YYYY-MM-DD")]
                   })(<RangePicker format="DD/MM/YYYY" style={{ width: '100%' }} onChange={this.monthCal} />)}
                 </Form.Item>
               </Col>
