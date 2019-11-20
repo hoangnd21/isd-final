@@ -27,6 +27,9 @@ class EquipmentForm extends React.PureComponent {
     eqNamebyType: '',
     genTypeId: '',
     updateCaseSubtype: [],
+    startValue: null,
+    endValue: null,
+    endOpen: false,
   }
 
   componentDidMount() {
@@ -82,6 +85,46 @@ class EquipmentForm extends React.PureComponent {
         })
       })
   }
+
+  disabledStartDate = startValue => {
+    const { endValue } = this.state;
+    if (!startValue || !endValue) {
+      return false;
+    }
+    return startValue.valueOf() > endValue.valueOf();
+  };
+
+  disabledEndDate = endValue => {
+    const { startValue } = this.state;
+    if (!endValue || !startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= startValue.valueOf();
+  };
+
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value,
+    });
+  };
+
+  onStartChange = value => {
+    this.onChange('startValue', value);
+  };
+
+  onEndChange = value => {
+    this.onChange('endValue', value);
+  };
+
+  handleStartOpenChange = open => {
+    if (!open) {
+      this.setState({ endOpen: true });
+    }
+  };
+
+  handleEndOpenChange = open => {
+    this.setState({ endOpen: open });
+  };
 
   //codegen logic
   codegen = length => {
@@ -141,7 +184,7 @@ class EquipmentForm extends React.PureComponent {
   }
 
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users, endOpen } = this.state;
     const { form, modalType, loading, equipment, isCloning } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -272,7 +315,14 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     initialValue: purchaseMoment,
                   })(
-                    <DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />
+                    <DatePicker
+                      format='MM/DD/YYYY'
+                      style={{ width: '100%' }}
+                      disabledDate={this.disabledStartDate}
+                      // value={startValue}
+                      onChange={this.onStartChange}
+                      onOpenChange={this.handleStartOpenChange}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -295,7 +345,15 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     initialValue: startMoment,
                   })(
-                    <DatePicker format="MM/DD/YYYY" style={{ width: '100%' }} />
+                    <DatePicker
+                      disabledDate={this.disabledEndDate}
+                      format="MM/DD/YYYY"
+                      style={{ width: '100%' }}
+                      // value={endValue}
+                      onChange={this.onEndChange}
+                      open={endOpen}
+                      onOpenChange={this.handleEndOpenChange}
+                    />
                   )}
                 </Form.Item>
 

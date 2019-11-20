@@ -83,7 +83,7 @@ class AddBatchForm extends Component {
                   },
                 ],
                 initialValue: currentBatch.code
-              })(<Input disabled />)}
+              })(<Input disabled={modalType === 'create' ? false : true} />)}
             </Form.Item>
 
             <Form.Item label='Provider'
