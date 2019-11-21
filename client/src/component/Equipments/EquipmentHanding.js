@@ -59,11 +59,7 @@ class EquipmentHanding extends React.Component {
 
   changeOwnerAccessory = (accIDs, user) => {
     accIDs.map(accID =>
-      axios.get(`http://localhost:9000/accessories/${accID}`)
-        .then(res => {
-          console.log('owner', { ...res.data, owner: user })
-          axios.put(`http://localhost:9000/accessories/updateAccessory/${accID}`, { ...res.data, owner: user })
-        })
+      axios.put(`http://localhost:9000/accessories/updateAccessories/${accID}`, { owner: user })
     )
   }
 
@@ -71,7 +67,7 @@ class EquipmentHanding extends React.Component {
   accessoryToggle = e => {
     const { equipment } = this.props
     e.target.checked === true ?
-      axios.get(`http://localhost:9000/search/accessories?subTypeAttached=${equipment.subtype}`)
+      axios.get(`http://localhost:9000/search/accessories?subTypeAttached=${equipment.subtype}&owner=None`)
         .then(res => {
           this.setState({
             allAccessories: res.data,
