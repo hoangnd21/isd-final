@@ -42,7 +42,7 @@ export default class Accessories extends Component {
           loading: false
         })
 
-        axios.get(this.state.currentUser.level > 2 ? 'http://localhost:9000/accessories' : `http://localhost:9000/search/equipments?owner=${this.state.currentUser.username}`)
+        axios.get(this.state.currentUser.level > 2 ? 'http://localhost:9000/accessories' : `http://localhost:9000/search/accessories?owner=${this.state.currentUser.username}`)
           .then(res => {
             this.setState({
               allAccessories: res.data
@@ -82,7 +82,6 @@ export default class Accessories extends Component {
           })
           isCloning ? console.log('clone') : notification.success({
             message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
               {res.data}
             </span>,
             placement: 'bottomRight'
