@@ -9,6 +9,8 @@ import {
   Divider,
   DatePicker,
   Cascader,
+  Checkbox,
+  Table
 } from 'antd'
 
 const { TextArea } = Input;
@@ -17,6 +19,8 @@ const { RangePicker } = DatePicker
 class EquipmentHanding extends React.Component {
   state = {
     users: [],
+    allAccessories: null,
+    handingAccessories: null,
   }
 
   componentDidMount() {
@@ -34,6 +38,7 @@ class EquipmentHanding extends React.Component {
 
   onHandingEquipment = e => {
     e.preventDefault();
+    const { handingAccessories } = this.state
     const { form, equipment, handingEquipment, updateEquipment } = this.props;
     form.validateFields((err, handingDetail) => {
       handingDetail.user = handingDetail.user.toString()
@@ -42,13 +47,50 @@ class EquipmentHanding extends React.Component {
       }
       const handing = { ...handingDetail, eqStatus: 'Use', device: equipment.code, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
       delete handing.range
-      handingEquipment({ ...handing })
+      handingEquipment({ ...handing, accessories: handingAccessories })
       updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
+
+      handingAccessories ?
+        this.changeOwnerAccessory(handingAccessories, handingDetail.user) : console.log('no handing accessories')
+
       form.resetFields();
     });
   }
 
+  changeOwnerAccessory = (accIDs, user) => {
+    accIDs.map(accID =>
+      axios.get(`http://localhost:9000/accessories/${accID}`)
+        .then(res => {
+          console.log('owner', { ...res.data, owner: user })
+          axios.put(`http://localhost:9000/accessories/updateAccessory/${accID}`, { ...res.data, owner: user })
+        })
+    )
+  }
+
+
+  accessoryToggle = e => {
+    const { equipment } = this.props
+    e.target.checked === true ?
+      axios.get(`http://localhost:9000/search/accessories?subTypeAttached=${equipment.subtype}`)
+        .then(res => {
+          this.setState({
+            allAccessories: res.data,
+          })
+        }) :
+      this.setState({
+        allAccessories: null,
+        handingAccessories: null
+      })
+  }
+
+  handAccessories = selectedRowKeys => {
+    this.setState({
+      handingAccessories: selectedRowKeys
+    })
+  }
+
   render() {
+    const { allAccessories } = this.state
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
     const userOptions = this.state.users.map(user =>
@@ -114,17 +156,43 @@ class EquipmentHanding extends React.Component {
                   ],
                 })(<TextArea />)}
               </Form.Item>
-
             </Col>
           </Row>
-          <Divider type='vertical' />
+          <Divider type='horizontal' style={{ margin: '0 0 10px 0' }} />
+          <Form.Item label='Accessories?'>
+            <Checkbox onChange={this.accessoryToggle}>Hand accessories as well</Checkbox>
+          </Form.Item>
+          {allAccessories ?
+            <Table
+              dataSource={allAccessories}
+              columns={[
+                {
+                  title: 'Accessory Name',
+                  dataIndex: 'accName',
+                  key: '1'
+                },
+                {
+                  title: 'Accessory Code',
+                  dataIndex: 'accCode',
+                  key: '2'
+                },
+              ]}
+              rowKey={record => record._id}
+              size='small'
+              rowSelection={{
+                onChange: selectedRowKeys => {
+                  this.handAccessories(selectedRowKeys)
+                }
+              }}
+            /> : null}
+          <Divider type='horizontal' />
           <div style={{ textAlign: "right" }}>
             <Button
               type='primary'
               htmlType='submit'
             >
-              Hand Equipment
-          </Button>
+              {allAccessories ? 'Hand equipment and accessories' : 'Hand Equipment'}
+            </Button>
           </div>
         </Form>
       </>
