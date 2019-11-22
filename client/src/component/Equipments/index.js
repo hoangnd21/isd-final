@@ -85,7 +85,6 @@ export default class Equipments extends React.PureComponent {
   }
 
   createEquipment = equipment => {
-    console.log('equipment', equipment)
     axios.post('http://localhost:9000/equipments/addEquipment', equipment)
       .then(res => {
         if (res.status === 200) {
@@ -95,10 +94,7 @@ export default class Equipments extends React.PureComponent {
           })
           this.state.isCloning ? console.log('clone') :
             notification.success({
-              message: <span>
-                <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-              </span>
+              message: res.data
             })
           this.getAllEquipments()
         }
@@ -140,9 +136,7 @@ export default class Equipments extends React.PureComponent {
             console.log('handing')
             :
             notification.success({
-              message: <span>
-                {res.data}
-              </span>,
+              message: res.data,
               placement: 'bottomRight'
             })
 
@@ -168,9 +162,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         if (res.status === 200) {
           notification.success({
-            message: <span>
-              {res.data}
-            </span>,
+            message: res.data,
             placement: 'bottomRight'
           });
           this.getAllEquipments()
@@ -192,6 +184,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   handingEquipment = data => {
+    console.log(data)
     axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
       .then(res => {
         if (res.status === 200) {
@@ -200,9 +193,7 @@ export default class Equipments extends React.PureComponent {
             listLoading: true
           })
           notification.success({
-            message: <span>
-              {res.data}
-            </span>,
+            message: res.data,
             placement: 'bottomRight'
 
           })
@@ -212,7 +203,6 @@ export default class Equipments extends React.PureComponent {
         console.log(error)
       });
   }
-  // //reclaim
 
   reclaimModal = data => {
     this.setState({
@@ -231,9 +221,7 @@ export default class Equipments extends React.PureComponent {
               listLoading: true
             })
             notification.success({
-              message: <span>
-                {res.data}
-              </span>,
+              message: res.data,
               placement: 'bottomRight'
             })
           }
@@ -244,20 +232,6 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
-  // // delete many
-  // deleteManyEquipment = data => {
-  //   axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
-  //     .then()
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
-  // }
-  // batchDeleteEquipment = data => { // data là obj hoặc array bao gồm các id của equipment cần xóa
-  //   const deleted = data.map(id => { this.deleteManyEquipment(id) })
-  //   if (deleted === null) {
-  //     this.getAllEquipments()
-  //   }
-  // }
   cloningDone = () => {
     notification.success({
       message: 'Cloning Complete. You may now delete the file.',
@@ -281,14 +255,6 @@ export default class Equipments extends React.PureComponent {
         message.error(`Upload failed.`);
       }
     }
-    // if (info.file.status !== 'uploading') {
-    //   console.log('info', info);
-    //   if (info.file.status === 'done') {
-
-    //     message.success(`${info.file.name} file uploaded successfully`);
-    //   } else if (info.file.status === 'error') {
-    //   }
-    // }
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -394,6 +360,10 @@ export default class Equipments extends React.PureComponent {
         dataIndex: 'eqStatus',
         key: 'eqStatus',
         width: '7%',
+        render: eqStatus =>
+          <div style={eqStatus === "Use" ? { color: 'green' } : { color: 'gold' }}>
+            {eqStatus}
+          </div>,
         ...this.getColumnSearchProps('eqStatus'),
       },
       {

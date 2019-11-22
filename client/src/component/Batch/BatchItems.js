@@ -15,7 +15,6 @@ export default class BatchItems extends Component {
   }
   componentDidMount() {
     const { currentBatch } = this.props
-    console.log(currentBatch)
     axios.get(`http://localhost:9000/search/equipments?batch=${currentBatch.code}`)
       .then(res => {
         this.setState({

@@ -125,9 +125,7 @@ export default class Batch extends React.Component {
             loading: true
           })
           notification.success({
-            message: <span>
-              {res.data}
-            </span>
+            message: res.data
           })
           this.getAllBatch()
         }

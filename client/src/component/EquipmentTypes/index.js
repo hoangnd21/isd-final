@@ -7,7 +7,6 @@ import {
   Dropdown,
   Menu,
   notification,
-  Icon,
   Divider
 } from 'antd';
 import EqTypesDrawer from './EqTypesDrawer'
@@ -74,11 +73,8 @@ export default class EquipmentTypes extends Component {
     axios.post('http://localhost:9000/generalTypes/addGeneralType', genType)
       .then(res => {
         if (res.status === 200) {
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
+          notification.success({
+            message: res.data
           })
           this.getAllGenTypes()
         }
