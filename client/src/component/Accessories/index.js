@@ -81,9 +81,7 @@ export default class Accessories extends Component {
             visible: false,
           })
           isCloning ? console.log('clone') : notification.success({
-            message: <span>
-              {res.data}
-            </span>,
+            message: res.data,
             placement: 'bottomRight'
           })
           this.getAllAccessories()
@@ -110,9 +108,7 @@ export default class Accessories extends Component {
             visible: false,
           })
           notification.success({
-            message: <span>
-              {res.data}
-            </span>,
+            message: res.data,
             placement: 'bottomRight'
           })
           this.getAllAccessories()
@@ -124,7 +120,7 @@ export default class Accessories extends Component {
   }
 
   cloningDone = () => {
-    notification.success({
+    notification.info({
       message: 'Cloning Complete. You may now delete the file.',
       placement: 'bottomRight'
     })
@@ -199,7 +195,7 @@ export default class Accessories extends Component {
   upload = info => {
     if (info.file.status !== 'uploading') {
       if (info.file.status === 'done') {
-        message.success(`Code file uploaded successfully.`);
+        message.info(`Code file uploaded successfully.`);
         this.setState({
           accCodeList: info.file.response.map(code => {
             return code.code
@@ -258,7 +254,10 @@ export default class Accessories extends Component {
         dataIndex: 'accStatus',
         key: 'accStatus',
         width: '10%',
-        ...this.getColumnSearchProps('eqStatus'),
+        render: accStatus =>
+          <div style={accStatus[0] === "Storage" ? { color: 'green' } : { color: 'gold' }}>
+            {accStatus}
+          </div>
       },
       {
         title: 'Warranty starts on',

@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   notification,
-  Icon,
   Row,
   Col,
 } from 'antd'
@@ -57,16 +56,11 @@ export default class EqTypesDrawer extends Component {
   }
 
   addEquipmentType = equipmentType => {
-    console.log('equipmentType', equipmentType)
     axios.post('http://localhost:9000/subTypes/addSubType', { ...equipmentType })
       .then(res => {
-        console.log(res)
         if (res.status === 200) {
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
+          notification.success({
+            message: res.data
           })
           this.setState({
             visible: false
@@ -82,7 +76,6 @@ export default class EqTypesDrawer extends Component {
   render() {
     const { equipmentTypesByID, visible, loading } = this.state
     const { generalType, currentUser } = this.props
-    console.log(currentUser)
     return (
       <>
         <Row gutter={10} style={{ width: 900 }}>

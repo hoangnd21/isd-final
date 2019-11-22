@@ -73,11 +73,8 @@ export default class Providers extends Component {
             visible: false,
             listLoading: true
           })
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
+          notification.success({
+            message: res.data
           })
           this.getAllProviders()
         }

@@ -9,7 +9,6 @@ import {
   Button,
   Tooltip,
   notification,
-  Icon
 } from 'antd'
 import CreateUserForm from './CreateUserForm'
 import UserInfo from './UserInfo'
@@ -80,8 +79,6 @@ export default class Users extends Component {
     })
   }
 
-  //nem vào đây cho a vs cơ a càn cái gì ms đc
-  // add user chứ cái gì :v
   createUserRequest = data => {
     axios.post('http://localhost:9000/users/addUser', data)
       .then(res => {
@@ -90,11 +87,8 @@ export default class Users extends Component {
             visible: false,
             loading: true
           })
-          notification.open({
-            message: <span>
-              <Icon type='check-circle' style={{ color: 'green' }} />&nbsp;
-              {res.data}
-            </span>
+          notification.success({
+            message: res.data
           })
           this.getAllProviders()
         }
