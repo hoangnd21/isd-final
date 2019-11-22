@@ -59,7 +59,7 @@ class EquipmentHanding extends React.Component {
 
   changeOwnerAccessory = (accIDs, user) => {
     accIDs.map(accID =>
-      axios.put(`http://localhost:9000/accessories/updateAccessories/${accID}`, { owner: user })
+      axios.patch(`http://localhost:9000/accessories/updateAccessories/${accID}`, { owner: user })
     )
   }
 

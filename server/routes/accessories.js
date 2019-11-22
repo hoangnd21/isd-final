@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     accessoriesController.getAllAccessories(req, res);
 });
 
-router.put('/updateAccessories/:id', (req, res) => {
+router.patch('/updateAccessories/:id', (req, res) => {
     accessoriesController.updateOneAccessories(req, res);
 });
 
