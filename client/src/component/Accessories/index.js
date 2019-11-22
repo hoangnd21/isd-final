@@ -100,7 +100,27 @@ export default class Accessories extends Component {
       visible: true,
       currentAccessory: record
     })
-    console.log(this.state.currentAccessory)
+  }
+
+  updateAccessoryRequest = data => {
+    axios.patch(`http://localhost:9000/accessories/updateAccessories/${data._id}`, data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            visible: false,
+          })
+          notification.success({
+            message: <span>
+              {res.data}
+            </span>,
+            placement: 'bottomRight'
+          })
+          this.getAllAccessories()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   cloningDone = () => {
@@ -208,7 +228,7 @@ export default class Accessories extends Component {
         key: 'accName',
         ...this.getColumnSearchProps('accName'),
         render: data =>
-          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link'>
             <Paragraph
               style={{ width: 100 }}
               ellipsis={{ rows: 1 }}>
@@ -311,6 +331,7 @@ export default class Accessories extends Component {
             accessory={currentAccessory}
             modalType={modalType}
             createAccessoryRequest={this.createAccessoryRequest}
+            updateAccessoryRequest={this.updateAccessoryRequest}
             cloningDone={this.cloningDone}
             loading={loading}
             isCloning={isCloning}

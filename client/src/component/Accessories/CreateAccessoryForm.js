@@ -98,6 +98,28 @@ class CreateAccessoryForm extends Component {
     });
   };
 
+  onUpDateAccessory = e => {
+    e.preventDefault();
+    const { form, updateAccessoryRequest, accessory
+      //  accCodeList, isCloning, cloningDone 
+    } = this.props;
+    form.validateFields((err, updatingAccessory) => {
+      if (err) {
+        return;
+
+      }
+      const updatingAcc =
+      {
+        ...updatingAccessory,
+        warrantyStartDate: updatingAccessory.warrantyRange[0],
+        warrantyEndDate: updatingAccessory.warrantyRange[1],
+      }
+      delete updatingAcc.warrantyRange
+      // console.log('updatingAcc', { ...accessory, ...updatingAcc })
+      updateAccessoryRequest({ ...accessory, ...updatingAcc })
+    });
+  }
+
   choseGenType = genTypeID => {
     axios.get(`http://localhost:9000/subTypes/${genTypeID}`)
       .then(res => {
@@ -128,7 +150,7 @@ class CreateAccessoryForm extends Component {
     const { form, loading, isCloning, accessory, modalType } = this.props
     const { getFieldDecorator } = form
     return (
-      <Form layout='vertical' onSubmit={this.onCreateAccessory}>
+      <Form layout='vertical' onSubmit={modalType === 'create' ? this.onCreateAccessory : this.onUpDateAccessory}>
         <Row gutter={10}>
           <Col xl={12}>
             <Col xl={12} style={{ padding: '0 5px 0 0' }}>
@@ -330,7 +352,7 @@ class CreateAccessoryForm extends Component {
         <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' htmlType='submit' icon='save' loading={loading}>
-            {isCloning ? 'Create and clone' : 'Create Accessory'}
+            {modalType === 'create' ? isCloning ? 'Create and clone' : 'Create Accessory' : 'Save'}
           </Button>
         </div>
       </Form>
