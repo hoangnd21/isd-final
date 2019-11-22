@@ -5,6 +5,7 @@ const equipmentDistributionSchema = new schema({
     handingDate: Date,
     reclaimDate: Date,
     device: String,
+    accessory: String,
     user: [],
     status: String,
     note: String,

@@ -208,7 +208,7 @@ export default class Accessories extends Component {
         key: 'accName',
         ...this.getColumnSearchProps('accName'),
         render: data =>
-          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
+          <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link'>
             <Paragraph
               style={{ width: 100 }}
               ellipsis={{ rows: 1 }}>
