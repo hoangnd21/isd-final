@@ -11,13 +11,12 @@ router.get('/', (req, res) => {
 });
 
 router.patch('/updateAccessories/:id', (req, res) => {
-    accessoriesController.updateOneAccessories(req, res);
+    accessoriesController.updateAccessories(req, res);
 });
 
 router.post('/deleteAccessories/:id', (req, res) => {
     accessoriesController.deleteOneAccessories(req, res);
 });
-
 router.get('/:id', (req, res) => {
     accessoriesController.getOneAccessories(req, res);
 });
