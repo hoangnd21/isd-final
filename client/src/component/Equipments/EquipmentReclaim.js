@@ -40,8 +40,8 @@ class EquipmentReclaim extends React.Component {
       if (err) {
         return;
       }
-      reclaimEquipment({ ...reclaimDetail, status: 'Ready', device: equipment.code })
-      updateEquipment({ ...equipment, status: 'Ready' })
+      reclaimEquipment({ ...reclaimDetail, status: 'reclaim', device: equipment.code })
+      updateEquipment({ ...equipment, eqStatus: 'Storage', owner: 'None' })
       form.resetFields();
     });
   }

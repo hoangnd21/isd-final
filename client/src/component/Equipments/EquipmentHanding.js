@@ -49,7 +49,7 @@ class EquipmentHanding extends React.Component {
       delete handing.range
       // console.log('handingEquipment', { ...handing, accessories: handingAccessories })
       // console.log('updateEquipment', { ...equipment, eqStatus: 'Use', owner: handingDetail.user })
-      handingEquipment({ ...handing, accessories: handingAccessories })
+      handingEquipment({ ...handing, accessories: handingAccessories, status: 'handing' })
       updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
 
       handingAccessories ?

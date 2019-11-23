@@ -9,7 +9,8 @@ const equipmentDistributionSchema = new schema({
     user: [],
     status: String,
     note: String,
-    created_at: Date
+    created_at: Date,
+    reason: Array
 })
 
 const equipmentDistribution = mongoose.model('equipmentDistribution', equipmentDistributionSchema);
