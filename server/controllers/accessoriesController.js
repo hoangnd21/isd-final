@@ -57,8 +57,6 @@ const updateAccessories = (req, res) => {
                 const newValue = { $set: req.body };
                 accessories.updateOne(updateAccessories, newValue, (err, res) => {
                     if (err) throw err;
-                    else
-                        console.log("1 document updated");
 
                 })
                 res.send("Accessory is successfully updated");

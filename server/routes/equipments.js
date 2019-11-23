@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     equipmentController.getAllEquipment(req, res);
 });
 
-router.put('/updateEquipment/:id', (req, res) => {
+router.patch('/updateEquipment/:id', (req, res) => {
     equipmentController.updateOneEquipment(req, res);
 });
 

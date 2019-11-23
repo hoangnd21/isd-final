@@ -124,7 +124,7 @@ export default class Equipments extends React.PureComponent {
 
 
   updateEquipment = data => {
-    axios.put(`http://localhost:9000/equipments/updateEquipment/${data._id}`, data)
+    axios.patch(`http://localhost:9000/equipments/updateEquipment/${data._id}`, data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -213,17 +213,19 @@ export default class Equipments extends React.PureComponent {
   }
   reclaimEquipment = data => {
     axios.get(`http://localhost:9000/reclaim/${data.device}`).then(res => {
-      axios.put(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
+      axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
         .then(res => {
           if (res.status === 200) {
+            notification.success({
+              message: res.data,
+              placement: 'bottomRight'
+
+            })
             this.setState({
               equipmentModal: false,
               listLoading: true
             })
-            notification.success({
-              message: res.data,
-              placement: 'bottomRight'
-            })
+
           }
         })
     })

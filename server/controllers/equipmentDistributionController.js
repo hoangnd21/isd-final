@@ -9,7 +9,9 @@ const addEquipmentDistribution = (req, res) => {
         user: req.body.user,
         status: req.body.status,
         note: req.body.note,
-        created_at: now
+        created_at: now,
+        reason: req.body.reason,
+        accessory: req.body.accessory
     });
     res.send("Handing entry successfully added");
 };
@@ -48,9 +50,6 @@ const updateEquipmentDistribution = (req, res) => {
                 const newValue = { $set: req.body };
                 equipmentDistribution.updateOne(updateEquipmentDistribution, newValue, (err, res) => {
                     if (err) throw err;
-                    else
-                        console.log("1 document updated");
-
                 })
                 res.send("Handing entry successfully updated");
             }
