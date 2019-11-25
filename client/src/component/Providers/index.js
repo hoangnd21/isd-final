@@ -229,6 +229,7 @@ export default class Providers extends Component {
             columns={columns}
             dataSource={allProviders}
             rowKey={record => record._id}
+            pagination={{ pageSize: 9 }}
           />
           <Modal
             title='Create a new Provider'
