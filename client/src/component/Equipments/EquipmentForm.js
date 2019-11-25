@@ -209,7 +209,7 @@ class EquipmentForm extends React.PureComponent {
                   </>}
                 >
 
-                  <Input placeholder='You do not need to input code.' disabled />
+                  <Input disabled />
                 </Form.Item> :
                 <Form.Item label={
                   <>
@@ -229,9 +229,7 @@ class EquipmentForm extends React.PureComponent {
                     ],
                     initialValue: modalType === 'update' ? equipment.code : eqCodeF,
                   })(
-                    <Input
-                      disabled
-                    />)}
+                    <Input disabled />)}
                 </Form.Item>}
             </Col>
             <Col xl={12} style={{ padding: '0 0 0 2px' }}>
@@ -240,7 +238,7 @@ class EquipmentForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: 'status',
+                      message: 'Please choose one lock status.',
                     },
                   ],
                   initialValue: equipment.lockStatus,
@@ -254,7 +252,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: 'generalType',
+                        message: 'General type is required.',
                       },
                     ],
                     initialValue: modalType === 'update' ? equipment.generalType : null,
@@ -270,7 +268,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: 'subtype',
+                        message: 'Equipment type is required.',
                       },
                     ],
                     initialValue: updateCaseSubtype
@@ -311,6 +309,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
+                        message: 'Please specify.'
                       },
                     ],
                     initialValue: purchaseMoment,
@@ -319,7 +318,6 @@ class EquipmentForm extends React.PureComponent {
                       format='MM/DD/YYYY'
                       style={{ width: '100%' }}
                       disabledDate={this.disabledStartDate}
-                      // value={startValue}
                       onChange={this.onStartChange}
                       onOpenChange={this.handleStartOpenChange}
                     />
@@ -341,6 +339,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
+                        message: 'Please specify.'
                       },
                     ],
                     initialValue: startMoment,
@@ -349,7 +348,6 @@ class EquipmentForm extends React.PureComponent {
                       disabledDate={this.disabledEndDate}
                       format="MM/DD/YYYY"
                       style={{ width: '100%' }}
-                      // value={endValue}
                       onChange={this.onEndChange}
                       open={endOpen}
                       onOpenChange={this.handleEndOpenChange}
@@ -368,7 +366,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: 'eqStatus',
+                        message: 'Please choose one equipment status.',
                       },
                     ],
                     initialValue: equipment.eqStatus,
@@ -382,7 +380,7 @@ class EquipmentForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: 'batch'
+                        message: 'Please provide batch code.'
                       },
                     ],
                     initialValue: equipment.batch,
@@ -397,7 +395,7 @@ class EquipmentForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: 'owner',
+                      message: 'Owner must be specified.',
                     },
                   ],
                   initialValue: equipment.owner,
@@ -410,7 +408,7 @@ class EquipmentForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: 'originalPrice',
+                      message: 'Price is required.',
                     },
                   ],
                   initialValue: modalType === 'update' ? equipment.originalPrice : 0,
@@ -428,7 +426,7 @@ class EquipmentForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: 'warrantyMonths',
+                      message: 'Please specify.',
                     },
                   ],
                   initialValue: equipment.warrantyMonths,
@@ -453,14 +451,7 @@ class EquipmentForm extends React.PureComponent {
           </Col>
           <Col xl={24}>
             <Form.Item label='Note'>
-              {getFieldDecorator('note', {
-                rules: [
-                  {
-                    message: 'note',
-                  },
-                ],
-                initialValue: equipment.note,
-              })(<TextArea />)}
+              {getFieldDecorator('note', { initialValue: equipment.note })(<TextArea />)}
             </Form.Item>
           </Col>
         </Row>

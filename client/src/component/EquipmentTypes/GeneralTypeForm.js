@@ -33,20 +33,20 @@ class GeneralTypeForm extends Component {
               rules: [
                 {
                   required: true,
-                  message: 'General type is required.',
+                  message: 'General type name is required.',
                 },
               ],
-            })(<Input placeholder="ALLCAPS" />)}
+            })(<Input placeholder="PROVIDE THE NAME IN ALL CAPS." />)}
           </Form.Item>
           <Form.Item label='General Type Code'>
             {getFieldDecorator('value', {
               rules: [
                 {
                   required: true,
-                  message: 'General Code is required.',
+                  message: 'General type code is required.',
                 },
               ],
-            })(<Input placeholder="ALLCAPS" />)}
+            })(<Input placeholder="eg. 03X" />)}
           </Form.Item>
           <Button type='primary' htmlType='submit' icon='save' style={{ marginTop: 4 }}>Add</Button>
         </Form>

@@ -32,20 +32,20 @@ class EquipmentTypeForm extends Component {
             rules: [
               {
                 required: true,
-                message: 'Equipment type label is required.',
+                message: 'Equipment type name is required.',
               },
             ],
-          })(<Input placeholder="HP ELITEBOOK 840" />)}
+          })(<Input placeholder="eg. HP ELITEBOOK 840" />)}
         </Form.Item>
         <Form.Item label='Equipment Type Code'>
           {getFieldDecorator('value', {
             rules: [
               {
                 required: true,
-                message: 'Equipment Type Code is required.',
+                message: 'Equipment type code is required.',
               },
             ],
-          })(<Input placeholder="eg. 0UX" />)}
+          })(<Input placeholder="eg. 001" />)}
         </Form.Item>
         <div style={{ textAlign: 'right' }}><Button type='primary' htmlType='submit' icon='save'>Add</Button></div>
       </Form>

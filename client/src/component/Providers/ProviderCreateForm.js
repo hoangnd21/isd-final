@@ -6,7 +6,6 @@ import {
   Col,
   Divider,
   Button,
-  InputNumber,
 } from 'antd'
 
 
@@ -54,129 +53,103 @@ class ProviderCreateForm extends Component {
       >
         <Row gutter={10}>
           <Col xl={12}>
-            <Form.Item label='Name'
-            >
+            <Form.Item label='Name'>
               {getFieldDecorator('name', {
                 rules: [
                   {
-                    message: 'name',
+                    message: 'Provider name is required.',
                     required: true
                   },
                 ],
-                // initialValue: ,
-              })(<Input />)}
+              })(<Input placeholder='Provider name.' />)}
             </Form.Item>
-
-
-            <Form.Item label='Contact Person name'
-            >
+            <Form.Item label='Contact person name'>
               {getFieldDecorator('CPName', {
                 rules: [
                   {
-                    message: 'CPName',
+                    message: 'Contact person name is missing.',
                     required: true
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Contact person name.' />)}
             </Form.Item>
 
-            <Form.Item label='Contact Person email'
-            >
+            <Form.Item label='Contact Person email'>
               {getFieldDecorator('emailCP', {
                 rules: [
                   {
-                    message: 'emailCP',
+                    message: 'Contact person Email is missing.',
                     required: true
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Contact person email.' />)}
             </Form.Item>
-
-            <Form.Item label='Contact Person Phone'
-            >
+            <Form.Item label='Contact Person Phone'>
               {getFieldDecorator('phoneCP', {
                 rules: [
                   {
-                    message: 'phoneCP',
+                    message: 'Contact person phone number is missing.',
                     required: true
                   },
                 ],
-              })(<InputNumber style={{ width: '100%' }} />)}
+              })(<Input placeholder='Contact person number.' />)}
             </Form.Item>
-
-
-            <Form.Item label='Hotline'
-            >
+            <Form.Item label='Hotline'>
               {getFieldDecorator('hotline', {
                 rules: [
                   {
-                    message: 'hotline',
+                    message: 'Please specify the hotline number.',
                     required: true
                   },
                 ],
-              })(<InputNumber style={{ width: '100%' }} />)}
+              })(<Input placeholder='Hotline.' />)}
             </Form.Item>
           </Col>
           <Col xl={12}>
-            <Form.Item label='Address'
-            >
+            <Form.Item label='Address'>
               {getFieldDecorator('address', {
                 rules: [
                   {
-                    message: 'address',
+                    message: 'Address is required.',
                     required: true
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Address.' />)}
             </Form.Item>
-
-
-            <Form.Item label='Warranty Person Name'
-            >
+            <Form.Item label='Warranty Person Name'>
               {getFieldDecorator('WPName', {
                 rules: [
                   {
-                    message: 'WPName',
+                    message: 'Warranty person name is missing.',
                     required: true
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Warranty person name.' />)}
             </Form.Item>
 
-            <Form.Item label='Warranty Person email'
-            >
+            <Form.Item label='Warranty Person email'>
               {getFieldDecorator('emailWP', {
                 rules: [
                   {
-                    message: 'emailWP',
+                    message: 'Warranty person Email is missing.',
                     required: true
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Warranty person email.' />)}
             </Form.Item>
 
-            <Form.Item label='Warranty Person Phone'
-            >
+            <Form.Item label='Warranty Person Phone'>
               {getFieldDecorator('phoneWP', {
                 rules: [
                   {
-                    message: 'phoneWP',
+                    message: 'Warranty person phone number is missing.',
                     required: true
                   },
                 ],
-              })(<InputNumber style={{ width: '100%' }} />)}
+              })(<Input placeholder='Warranty person phone.' />)}
             </Form.Item>
-
-
-            <Form.Item label='Note'
-            >
-              {getFieldDecorator('note', {
-                rules: [
-                  {
-                    message: 'note',
-                  },
-                ],
-              })(<TextArea />)}
+            <Form.Item label='Note'>
+              {getFieldDecorator('note')(<TextArea />)}
             </Form.Item>
           </Col>
         </Row>

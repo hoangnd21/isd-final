@@ -164,7 +164,6 @@ class CreateAccessoryForm extends Component {
                   rules: [
                     {
                       required: isCloning ? false : true,
-                      message: 'accCode',
                     },
                   ],
                   initialValue: modalType === 'create' ? isCloning ? '' : accCode : accessory.accCode,
@@ -178,7 +177,7 @@ class CreateAccessoryForm extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'batch',
+                      message: 'Please provide batch code.',
                     },
                   ],
                   initialValue: modalType === 'create' ? null : accessory.batch
@@ -193,7 +192,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'accName',
+                        message: 'Accessory Name is required.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.accName
@@ -207,7 +206,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'provider',
+                        message: 'Please choose provider.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.provider
@@ -223,7 +222,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'purchaseDate',
+                        message: 'Purchased date is required.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : moment(accessory.purchaseDate, "YYYY-MM-DD")
@@ -238,7 +237,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'price',
+                        message: 'Price is required.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.price
@@ -263,7 +262,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'genTypeAttached',
+                        message: 'General type is required.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.genTypeAttached
@@ -277,7 +276,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'subTypeAttached',
+                        message: 'Equipment type is required.',
                       },
                     ],
                     initialValue: updateCaseSubtype
@@ -290,7 +289,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'status',
+                        message: 'Please choose one lock status.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.lockStatus
@@ -303,7 +302,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'accStatus',
+                        message: 'Please choose one accessory status.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : accessory.accStatus
@@ -318,7 +317,7 @@ class CreateAccessoryForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'warrantyRange',
+                        message: 'Please specify.',
                       },
                     ],
                     initialValue: modalType === 'create' ? null : [moment(accessory.warrantyStartDate, "YYYY-MM-DD"), moment(accessory.warrantyEndDate, "YYYY-MM-DD")]
@@ -326,24 +325,16 @@ class CreateAccessoryForm extends Component {
                 </Form.Item>
               </Col>
               <Col xl={8} style={{ paddingRight: 0 }}>
-                <Form.Item label={<>Warranty duration <Tooltip title='Auto calculate'><Icon type='question-circle' /></Tooltip></>}
+                <Form.Item label={<> Warranty duration <Tooltip title='Auto calculate'><Icon type='question-circle' /></Tooltip></>}
                 >
                   {getFieldDecorator('warranty', {
                     rules: [
                       {
                         required: true,
-                        message: 'warranty',
                       },
                     ],
                     initialValue: warrantyMonths
-                  })(
-                    <InputNumber
-                      formatter={value => `${value} months`}
-                      parser={value => value.replace('months', '')}
-                      style={{ width: '100%' }}
-                      placeholde='warranty'
-                      disabled
-                    />)}
+                  })(<span style={{ fontSize: 16, marginLeft: 10 }}>{warrantyMonths} {warrantyMonths === 1 ? 'month' : 'months'}</span>)}
                 </Form.Item>
               </Col>
             </Col>
