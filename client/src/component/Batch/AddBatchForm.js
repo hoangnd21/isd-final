@@ -78,12 +78,12 @@ class AddBatchForm extends Component {
               {getFieldDecorator('code', {
                 rules: [
                   {
-                    message: 'code',
+                    message: 'Batch code is required.',
                     required: true
                   },
                 ],
                 initialValue: currentBatch.code
-              })(<Input disabled={modalType === 'create' ? false : true} />)}
+              })(<Input disabled={modalType === 'create' ? false : true} placeholder='eg. BATCH_SONY_0000' />)}
             </Form.Item>
 
             <Form.Item label='Provider'
@@ -91,7 +91,7 @@ class AddBatchForm extends Component {
               {getFieldDecorator('provider', {
                 rules: [
                   {
-                    message: 'provider',
+                    message: 'Please specify a provider.',
                     required: true
                   },
                 ],
@@ -105,7 +105,7 @@ class AddBatchForm extends Component {
                 rules: [
                   {
                     required: true,
-                    message: 'date'
+                    message: 'Date is required.'
                   },
                 ],
                 initialValue: modalType === 'update' ? dateM : now
@@ -118,7 +118,7 @@ class AddBatchForm extends Component {
               {getFieldDecorator('contactPerson', {
                 rules: [
                   {
-                    message: 'contactPerson',
+                    message: 'Please specify.',
                     required: true
                   },
                 ],

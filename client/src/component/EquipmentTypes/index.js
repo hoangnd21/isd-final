@@ -88,7 +88,7 @@ export default class EquipmentTypes extends Component {
   render() {
     const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading } = this.state;
     return (
-      currentUser && currentUser.level < 2 ?
+      currentUser && currentUser.level < 3 ?
         <Forbidden />
         : <>
           <h2>General types
@@ -119,9 +119,7 @@ export default class EquipmentTypes extends Component {
             dataSource={generalTypes}
             size='large'
             loading={loading}
-            pagination={{
-              pageSize: 7
-            }}
+            pagination={{ pageSize: 7 }}
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta

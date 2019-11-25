@@ -49,7 +49,7 @@ export default class Batch extends React.Component {
       })
   }
 
-  getAllRelatedToModal = data => {
+  allItemsModal = data => {
     this.setState({
       visible: true,
       modalType: 'view',
@@ -66,6 +66,7 @@ export default class Batch extends React.Component {
   closeModal = () => {
     this.setState({
       visible: false,
+      currentBatch: {}
     })
   }
 
@@ -202,7 +203,7 @@ export default class Batch extends React.Component {
         key: 'code',
         width: '16%',
         ...this.getColumnSearchProps('code'),
-        render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.getAllRelatedToModal(data)}>{data.code}</Button>
+        render: data => <Button type='link' style={{ color: 'black', padding: 0, fontStyle: 'bold' }} onClick={() => this.allItemsModal(data)}>{data.code}</Button>
       },
       {
         title: 'Contact Person',
@@ -248,7 +249,7 @@ export default class Batch extends React.Component {
       },
     ]
     return (
-      currentUser && currentUser.level < 2 ? <Forbidden /> :
+      currentUser && currentUser.level < 3 ? <Forbidden /> :
         <>
           <h2>Batch
             {currentUser && currentUser.level > 3 ?
@@ -274,13 +275,13 @@ export default class Batch extends React.Component {
             }}
           />
           <Modal
-            title={modalType === 'create' ? 'Create a new Batch' : modalType === 'update' ? 'Edit batch' : `Batch: ${currentBatch.code}`}
+            title={modalType === 'create' ? 'Create a new Batch' : modalType === 'update' ? 'Edit batch' : currentBatch.code}
             visible={visible}
             destroyOnClose
             footer={null}
             centered
             onCancel={this.closeModal}
-            width={1000}
+            width='50%'
             bodyStyle={{ paddingRight: 10 }}
           >
             {modalType === 'create' || modalType === 'update' ?

@@ -20,7 +20,7 @@ class CreateUserForm extends Component {
       if (err) {
         return;
       }
-      createUser(newUser)
+      createUser({ ...newUser, user: 1111 })
       form.resetFields();
     });
   };
@@ -40,20 +40,20 @@ class CreateUserForm extends Component {
                 rules: [
                   {
                     required: true,
-                    message: 'username',
+                    message: 'Username is required.',
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Username.' />)}
             </Form.Item>
-            <Form.Item label='Full Name'>
+            <Form.Item label='Fullname'>
               {getFieldDecorator('fullname', {
                 rules: [
                   {
                     required: true,
-                    message: 'fullname',
+                    message: 'Fullname is required.',
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder='Fullname.' />)}
             </Form.Item>
 
             <Col xl={12} style={{ padding: '0 5px 0 0' }}>
@@ -62,20 +62,20 @@ class CreateUserForm extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'nationality',
+                      message: 'Nationality is required.',
                     },
                   ],
-                })(<Input />)}
+                })(<Input placeholder='Nationality.' />)}
               </Form.Item>
               <Form.Item label='Code'>
                 {getFieldDecorator('code', {
                   rules: [
                     {
                       required: true,
-                      message: 'code',
+                      message: 'User code is required.',
                     },
                   ],
-                })(<Input />)}
+                })(<Input placeholder='Code.' />)}
               </Form.Item>
             </Col>
             <Col xl={12} style={{ paddingRight: 0 }}>
@@ -84,78 +84,34 @@ class CreateUserForm extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'gender',
+                      message: 'Gender is required.',
                     },
                   ],
-                })(<Cascader options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} />)}
+                })(<Cascader placeholder='Gender.' options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} />)}
               </Form.Item>
               <Form.Item label='Function'>
                 {getFieldDecorator('function', {
                   rules: [
                     {
                       required: true,
-                      message: 'function',
+                      message: 'Function is required.',
                     },
                   ],
-                })(<Input />)}
+                })(<Input placeholder='Function.' />)}
               </Form.Item>
-            </Col>
-            <Col xl={12} style={{ paddingRight: 0 }}>
-
-
-            </Col>
-            <Col xl={24} style={{ padding: 0 }}>
-
-              <Col xl={12} style={{ padding: '0 5px 0 0' }}>
-                <Form.Item label='Mobile Phone'>
-                  {getFieldDecorator('mobilePhone', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'mobilePhone',
-                      },
-                    ],
-                  })(<Input />)}
-                </Form.Item>
-              </Col>
-              <Col xl={12} style={{ paddingRight: 0 }}>
-                <Form.Item label='Office Phone'>
-                  {getFieldDecorator('officePhone', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'officePhone',
-                      },
-                    ],
-                  })(<Input />)}
-                </Form.Item>
-              </Col>
-              <Col xl={24} style={{ padding: 0 }}>
-
-              </Col>
             </Col>
           </Col>
           <Col xl={12}>
-            <Form.Item label='Password'>
-              {getFieldDecorator('password', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'password',
-                  },
-                ],
-              })(<Input type='password' />)}
-            </Form.Item>
             <Col xl={8} style={{ padding: '0 5px 0 0' }}>
               <Form.Item label='ID Card'>
                 {getFieldDecorator('idCard', {
                   rules: [
                     {
                       required: true,
-                      message: 'idCard',
+                      message: 'Please specify.',
                     },
                   ],
-                })(<Input />)}
+                })(<Input placeholder='ID Card.' />)}
               </Form.Item>
             </Col>
             <Col xl={8} style={{ padding: '0 5px 0 0' }}>
@@ -164,7 +120,7 @@ class CreateUserForm extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'issuedDate',
+                      message: 'Please specify.',
                     },
                   ],
                 })(<DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />)}
@@ -176,10 +132,10 @@ class CreateUserForm extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'issuedPlace',
+                      message: 'Please specify.',
                     },
                   ],
-                })(<Input />)}
+                })(<Input placeholder='ID Card Location.' />)}
               </Form.Item>
             </Col>
             <Col xl={24} style={{ padding: 0 }}>
@@ -189,7 +145,7 @@ class CreateUserForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'DOB',
+                        message: 'Please specify.',
                       },
                     ],
                   })(<DatePicker format='MM/DD/YYYY' style={{ width: '100%' }} />)}
@@ -200,20 +156,30 @@ class CreateUserForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'level',
+                        message: 'Please specify.',
                       },
                     ],
-                  })(<InputNumber min={1} max={4} style={{ width: '100%' }} />)}
+                  })(<InputNumber min={1} max={4} placeholder='Level number.' style={{ width: '100%' }} />)}
                 </Form.Item>
                 <Form.Item label='Personal Email'>
                   {getFieldDecorator('personalEmail', {
                     rules: [
                       {
                         required: true,
-                        message: 'personalEmail',
+                        message: 'Personal Email is required.',
                       },
                     ],
-                  })(<Input />)}
+                  })(<Input placeholder='Personal Email.' />)}
+                </Form.Item>
+                <Form.Item label='Personal Mobile Phone'>
+                  {getFieldDecorator('mobilePhone', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Mobile phone number is required.',
+                      },
+                    ],
+                  })(<Input placeholder='Personal Phone No.' />)}
                 </Form.Item>
               </Col>
               <Col xl={12} style={{ paddingRight: 0 }}>
@@ -222,48 +188,45 @@ class CreateUserForm extends Component {
                     rules: [
                       {
                         required: true,
-                        message: 'maritalStatus',
+                        message: 'Marital status is required.',
                       },
                     ],
-                  })(<Input />)}
+                  })(<Input placeholder='Marital status.' />)}
                 </Form.Item>
                 <Form.Item label='Rank'>
                   {getFieldDecorator('rank', {
                     rules: [
                       {
                         required: true,
-                        message: 'rank',
+                        message: 'Rank is required.',
                       },
                     ],
-                  })(<Input />)}
+                  })(<Input placeholder='Rank.' />)}
                 </Form.Item>
                 <Form.Item label='Office Email'>
                   {getFieldDecorator('officeEmail', {
                     rules: [
                       {
                         required: true,
-                        message: 'officeEmail',
+                        message: 'Office Email is required.',
                       },
                     ],
-                  })(<Input />)}
+                  })(<Input placeholder='Office Email.' />)}
+                </Form.Item>
+                <Form.Item label='Office Phone'>
+                  {getFieldDecorator('officePhone', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Office phone number is required.',
+                      },
+                    ],
+                  })(<Input placeholder='Office Phone No.' />)}
                 </Form.Item>
               </Col>
             </Col>
           </Col>
-          <Col xl={12} style={{ padding: '0 5px 0 0' }}>
-            <Col xl={24} style={{ padding: 0 }}>
-              <Col xl={12} style={{ paddingRight: 0 }}>
-
-
-
-
-              </Col>
-              <Col xl={24} style={{ padding: 0 }}>
-
-              </Col>
-            </Col>
-          </Col>
-        </Row >
+        </Row>
         <Divider type='horizontal' />
         <div style={{ textAlign: 'right' }}>
           <Button type='primary' icon='save' htmlType='submit'>Create</Button>
