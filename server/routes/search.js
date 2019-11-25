@@ -9,4 +9,8 @@ router.get('/equipments', (req, res) => {
 router.get('/accessories', (req, res) => {
     search.searchAccessories(req, res);
 });
+
+router.get('/users', (req, res) => {
+    search.searchUser(req, res);
+});
 module.exports = router;
