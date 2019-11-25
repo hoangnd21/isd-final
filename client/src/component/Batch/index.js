@@ -270,9 +270,7 @@ export default class Batch extends React.Component {
             dataSource={allBatch}
             columns={columns}
             rowKey={record => record._id}
-            pagination={{
-              pageSize: 8
-            }}
+            pagination={{ pageSize: 9 }}
           />
           <Modal
             title={modalType === 'create' ? 'Create a new Batch' : modalType === 'update' ? 'Edit batch' : currentBatch.code}

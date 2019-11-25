@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import {
   Button,
@@ -17,19 +16,7 @@ const { TextArea } = Input;
 class EquipmentReclaim extends React.Component {
   state = {
     users: [],
-  }
-
-  componentDidMount() {
-    axios.get('http://localhost:9000/users')
-      .then(res => {
-        this.setState({
-          users: res.data,
-        })
-      })
-  }
-
-  filter = (inputValue, path) => {
-    return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+    defaultOwner: []
   }
 
   onReclaimEquipment = e => {
@@ -49,11 +36,6 @@ class EquipmentReclaim extends React.Component {
   render() {
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
-    const userOptions = this.state.users.map(user =>
-      ({
-        value: user._id,
-        label: user.username
-      }))
     const reclaimReasonsOptions = [
       {
         value: 'Staff Leave',
@@ -85,10 +67,10 @@ class EquipmentReclaim extends React.Component {
                       message: 'user',
                     },
                   ],
+                  initialValue: equipment.owner
                 })(
-                  <Cascader
-                    options={userOptions}
-                    showSearch={this.filter}
+                  <Input
+                    disabled
                   />
                 )}
               </Form.Item>
@@ -102,13 +84,11 @@ class EquipmentReclaim extends React.Component {
                     },
                   ],
                 })(
-                  <Cascader options={reclaimReasonsOptions} showSearch={this.filter} />
+                  <Cascader options={reclaimReasonsOptions} />
                 )}
               </Form.Item>
-
             </Col>
             <Col xl={12}>
-
               <Form.Item label='Device in reclamation'>
                 {getFieldDecorator('device', {
                   rules: [
@@ -136,8 +116,6 @@ class EquipmentReclaim extends React.Component {
                   <DatePicker style={{ width: '100%' }} />
                 )}
               </Form.Item>
-
-
               <Form.Item label='Note'>
                 {getFieldDecorator('note', {
                   rules: [
@@ -150,6 +128,30 @@ class EquipmentReclaim extends React.Component {
 
             </Col>
           </Row>
+          <Divider type='vertical' />
+          {/* waiting for handing to have accessory data */}
+          {/* <Table
+            dataSource={allAccessories}
+            columns={[
+              {
+                title: 'Accessory Name',
+                dataIndex: 'accName',
+                key: '1'
+              },
+              {
+                title: 'Accessory Code',
+                dataIndex: 'accCode',
+                key: '2'
+              },
+            ]}
+            rowKey={record => record._id}
+            size='small'
+            rowSelection={{
+              onChange: selectedRowKeys => {
+                this.reclaimAccessories(selectedRowKeys)
+              }
+            }}
+          /> */}
           <Divider type='vertical' />
           <div style={{ textAlign: "right" }}>
             <Button

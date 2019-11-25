@@ -34,11 +34,21 @@ export default class BatchItems extends Component {
     const { equipments, accessories, loading } = this.state
     const { currentBatch } = this.props
     return (
-      <Card loading={loading} style={{ overflowX: 'hidden', overflowY: 'auto', height: 400, paddingRight: 10, border: 0 }} bodyStyle={{ padding: 0 }}>
+      <Card loading={loading} style={{ overflowX: 'hidden', overflowY: 'auto', maxHeight: 400, height: 'auto', paddingRight: 10, border: 0 }} bodyStyle={{ padding: 0 }}>
         <Row guttter={{ xs: 8, sm: 16, md: 24 }}>
           <Col xl={12} style={{ paddingRight: 3 }}>
             {!equipments.length ?
-              <h3>Batch {currentBatch.code} does not involve any equipment </h3> :
+              <>
+                <h3>{currentBatch.code} does not involve any equipment. </h3>
+                <List
+                  size="small"
+                  header={null}
+                  footer={null}
+                  bordered
+                  renderItem={item => <List.Item><List.Item.Meta title={item.name} description={item.code} /></List.Item>}
+                />
+              </>
+              :
               <>
                 <h3>Equipments</h3>
                 <List
@@ -53,7 +63,17 @@ export default class BatchItems extends Component {
           </Col>
           <Col xl={12} style={{ paddingLeft: 3 }}>
             {!accessories.length ?
-              <h3>Batch {currentBatch.code} does not involve any accessory</h3> :
+              <>
+                <h3>{currentBatch.code} does not involve any accessory.</h3>
+                <List
+                  size="small"
+                  header={null}
+                  footer={null}
+                  bordered
+                  renderItem={item => <List.Item><List.Item.Meta title={item.accName} description={item.accCode} /></List.Item>}
+                />
+              </>
+              :
               <>
                 <h3>Accessories</h3>
                 <List
