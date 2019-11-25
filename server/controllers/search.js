@@ -1,5 +1,6 @@
 const equipment = require('../models/equipments');
 const accessories = require("../models/accessories")
+const user = require('../models/user')
 
 const searchEquipments = (req, res) => {
     equipment.find(req.query).sort({ created_at: -1 }).lean().exec()
@@ -18,3 +19,12 @@ const searchAccessories = (req, res) => {
         )
 }
 module.exports.searchAccessories = searchAccessories;
+
+const searchUser = (req, res) => {
+    user.find(req.query).sort({ created_at: -1 }).lean().exec()
+        .then(data => {
+            res.send(data);
+        }
+        )
+}
+module.exports.searchUser = searchUser;
