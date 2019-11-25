@@ -260,6 +260,13 @@ export default class Accessories extends Component {
           </div>
       },
       {
+        title: 'Owner',
+        dataIndex: 'owner',
+        key: 'owner',
+        width: '10%',
+        ...this.getColumnSearchProps('owner'),
+      },
+      {
         title: 'Warranty starts on',
         dataIndex: 'warrantyStartDate',
         align: 'center',

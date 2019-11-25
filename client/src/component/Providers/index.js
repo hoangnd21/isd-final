@@ -61,7 +61,6 @@ export default class Providers extends Component {
   createProviderModal = () => {
     this.setState({
       visible: true,
-      modalType: 'create',
     })
   }
 
@@ -147,7 +146,7 @@ export default class Providers extends Component {
   };
 
   render() {
-    const { allProviders, currentUser, visible, modalType, contactPerson, warrantyPerson, loading } = this.state;
+    const { allProviders, currentUser, visible, loading } = this.state;
     const columns = [
       {
         title: 'Provider',
@@ -232,7 +231,7 @@ export default class Providers extends Component {
             rowKey={record => record._id}
           />
           <Modal
-            title={modalType !== 'warrantyPerson' ? 'Contact Person' : 'Warranty Person'}
+            title='Create a new Provider'
             visible={visible}
             onCancel={this.closeModal}
             destroyOnClose
@@ -240,10 +239,7 @@ export default class Providers extends Component {
             footer={null}
             width={1000}
           >
-            {modalType === 'create' ?
-              <ProviderCreateForm createProvider={this.createProviderRequest} />
-              :
-              <PersonInfo personInfo={modalType === 'warrantyPerson' ? warrantyPerson : contactPerson} />}
+            <ProviderCreateForm createProvider={this.createProviderRequest} />
           </Modal>
         </>
     )

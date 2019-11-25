@@ -1,49 +1,17 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {
   Form,
   Input,
-  Cascader,
   Row,
   Col,
   Divider,
   Button,
+  InputNumber,
 } from 'antd'
 
 
 const { TextArea } = Input
 class ProviderCreateForm extends Component {
-  state = {
-    usersCP: [],
-    usersWP: []
-  }
-  componentDidMount() {
-    axios.get(`http://localhost:9000/users`)
-      .then(res => {
-        this.setState({
-          usersCP: res.data.map(data => {
-            return ({
-              label: data.fullname,
-              value: {
-                CPName: data.fullname,
-                emailCP: data.personalEmail,
-                phoneCP: data.mobilePhone
-              }
-            })
-          }),
-          usersWP: res.data.map(data => {
-            return ({
-              label: data.fullname,
-              value: {
-                WPName: data.fullname,
-                emailWP: data.personalEmail,
-                phoneWP: data.mobilePhone
-              }
-            })
-          })
-        })
-      })
-  }
 
   onCreateProvider = e => {
     e.preventDefault();
@@ -52,13 +20,31 @@ class ProviderCreateForm extends Component {
       if (err) {
         return;
       }
-      createProvider({ ...newProvider, contactPerson: newProvider.contactPerson[0], warrantyPerson: newProvider.warrantyPerson[0] })
+      const newP = {
+        ...newProvider,
+        contactPerson: {
+          CPName: newProvider.CPName,
+          emailCP: newProvider.emailCP,
+          phoneCP: newProvider.phoneCP
+        },
+        warrantyPerson: {
+          WPName: newProvider.WPName,
+          emailWP: newProvider.emailWP,
+          phoneWP: newProvider.phoneWP
+        },
+      }
+      delete newP.CPName
+      delete newP.emailCP
+      delete newP.phoneCP
+      delete newP.WPName
+      delete newP.emailWP
+      delete newP.phoneWP
+      createProvider(newP)
       form.resetFields();
     });
   };
 
   render() {
-    const { usersCP, usersWP } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -80,18 +66,45 @@ class ProviderCreateForm extends Component {
                 // initialValue: ,
               })(<Input />)}
             </Form.Item>
-            <Form.Item label='Contact Person'
+
+
+            <Form.Item label='Contact Person name'
             >
-              {getFieldDecorator('contactPerson', {
+              {getFieldDecorator('CPName', {
                 rules: [
                   {
-                    message: 'contactPerson',
+                    message: 'CPName',
                     required: true
                   },
                 ],
-                // initialValue:,
-              })(<Cascader options={usersCP} style={{ width: '100%' }} />)}
+              })(<Input />)}
             </Form.Item>
+
+            <Form.Item label='Contact Person email'
+            >
+              {getFieldDecorator('emailCP', {
+                rules: [
+                  {
+                    message: 'emailCP',
+                    required: true
+                  },
+                ],
+              })(<Input />)}
+            </Form.Item>
+
+            <Form.Item label='Contact Person Phone'
+            >
+              {getFieldDecorator('phoneCP', {
+                rules: [
+                  {
+                    message: 'phoneCP',
+                    required: true
+                  },
+                ],
+              })(<InputNumber style={{ width: '100%' }} />)}
+            </Form.Item>
+
+
             <Form.Item label='Hotline'
             >
               {getFieldDecorator('hotline', {
@@ -101,8 +114,7 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue:,
-              })(<Input />)}
+              })(<InputNumber style={{ width: '100%' }} />)}
             </Form.Item>
           </Col>
           <Col xl={12}>
@@ -115,21 +127,47 @@ class ProviderCreateForm extends Component {
                     required: true
                   },
                 ],
-                // initialValue:,
               })(<Input />)}
             </Form.Item>
-            <Form.Item label='Warranty Person'
+
+
+            <Form.Item label='Warranty Person Name'
             >
-              {getFieldDecorator('warrantyPerson', {
+              {getFieldDecorator('WPName', {
                 rules: [
                   {
-                    message: 'warrantyPerson',
+                    message: 'WPName',
                     required: true
                   },
                 ],
-                // initialValue:,
-              })(<Cascader options={usersWP} style={{ width: '100%' }} />)}
+              })(<Input />)}
             </Form.Item>
+
+            <Form.Item label='Warranty Person email'
+            >
+              {getFieldDecorator('emailWP', {
+                rules: [
+                  {
+                    message: 'emailWP',
+                    required: true
+                  },
+                ],
+              })(<Input />)}
+            </Form.Item>
+
+            <Form.Item label='Warranty Person Phone'
+            >
+              {getFieldDecorator('phoneWP', {
+                rules: [
+                  {
+                    message: 'phoneWP',
+                    required: true
+                  },
+                ],
+              })(<InputNumber style={{ width: '100%' }} />)}
+            </Form.Item>
+
+
             <Form.Item label='Note'
             >
               {getFieldDecorator('note', {
@@ -138,7 +176,6 @@ class ProviderCreateForm extends Component {
                     message: 'note',
                   },
                 ],
-                // initialValue:,
               })(<TextArea />)}
             </Form.Item>
           </Col>
