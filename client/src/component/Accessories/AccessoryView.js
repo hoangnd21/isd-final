@@ -32,22 +32,20 @@ export default class AccessoryView extends Component {
     const { accessory, updateAccessoryModal } = this.props
     return (
       <Card bodystyle={{ padding: 0 }}>
-        <p>
-          <Button
-            type='primary'
-            icon='edit'
-            onClick={updateAccessoryModal}
-          >
-            Edit this accessory
-              </Button>
-        </p>
-        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
         <p>This accessory is being used by: {accessory.owner}</p>
         <p>Price: ${accessory.price}</p>
         <p>Provider: {accessory.provider}</p>
         <p>Purchase date: {accessory.purchaseDate.slice(8, 10)}/{accessory.purchaseDate.slice(5, 7)}/{accessory.purchaseDate.slice(0, 4)}</p>
+        <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
+        <Button
+          type='primary'
+          icon='edit'
+          onClick={updateAccessoryModal}
+        >
+          Edit this accessory
+        </Button>
       </Card>
     )
   }
