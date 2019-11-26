@@ -66,6 +66,7 @@ export default class EquipmentInfo extends React.Component {
             <div>
               Batch: {equipment.batch} <br />
               Price: ${equipment.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}<br />
+              Owner: {equipment.owner} <br />
             </div>
           </Col>
 
