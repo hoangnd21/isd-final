@@ -229,7 +229,10 @@ export default class Providers extends Component {
             columns={columns}
             dataSource={allProviders}
             rowKey={record => record._id}
-            pagination={{ pageSize: 9 }}
+            pagination={{
+              pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+            }}
+            scroll={{ y: 630 }}
           />
           <Modal
             title='Create a new Provider'

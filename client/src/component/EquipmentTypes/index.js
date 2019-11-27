@@ -117,9 +117,11 @@ export default class EquipmentTypes extends Component {
           <List
             itemLayout='horizontal'
             dataSource={generalTypes}
-            size='large'
+            // size='small'
             loading={loading}
-            pagination={{ pageSize: 7 }}
+            pagination={{
+              pageSize: 15, size: "small", showSizeChanger: true, showQuickJumper: true
+            }}
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta

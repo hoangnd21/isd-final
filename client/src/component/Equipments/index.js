@@ -25,7 +25,7 @@ export default class Equipments extends React.PureComponent {
 
   state = {
     equipments: [],
-    listLoading: true,
+    loading: true,
     equipmentModal: false,
     modalType: '',
     equipmentDetail: {},
@@ -53,7 +53,7 @@ export default class Equipments extends React.PureComponent {
           .then(res => {
             this.setState({
               equipments: res.data,
-              listLoading: false,
+              loading: false,
             })
           })
           .catch(error => {
@@ -68,7 +68,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         this.setState({
           equipments: res.data,
-          listLoading: false,
+          loading: false,
         })
       })
       .catch(error => {
@@ -90,7 +90,7 @@ export default class Equipments extends React.PureComponent {
         if (res.status === 200) {
           this.setState({
             equipmentModal: false,
-            listLoading: true
+            loading: true
           })
           this.state.isCloning ? console.log('clone') :
             notification.success({
@@ -129,7 +129,7 @@ export default class Equipments extends React.PureComponent {
         if (res.status === 200) {
           this.setState({
             equipmentModal: false,
-            listLoading: true
+            loading: true
           })
 
           this.state.modalType === 'handing' || this.state.modalType === 'reclaim' ?
@@ -190,7 +190,7 @@ export default class Equipments extends React.PureComponent {
         if (res.status === 200) {
           this.setState({
             equipmentModal: false,
-            listLoading: true
+            loading: true
           })
           notification.success({
             message: res.data,
@@ -212,23 +212,22 @@ export default class Equipments extends React.PureComponent {
     })
   }
   reclaimEquipment = data => {
-    axios.get(`http://localhost:9000/reclaim/${data.device}`).then(res => {
-      axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
-        .then(res => {
-          if (res.status === 200) {
-            notification.success({
-              message: res.data,
-              placement: 'bottomRight'
-
-            })
-            this.setState({
-              equipmentModal: false,
-              listLoading: true
-            })
-
-          }
-        })
-    })
+    axios.get(`http://localhost:9000/reclaim/${data.device}`)
+      .then(res => {
+        axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
+          .then(res => {
+            if (res.status === 200) {
+              notification.success({
+                message: res.data,
+                placement: 'bottomRight'
+              })
+              this.setState({
+                equipmentModal: false,
+                loading: true
+              })
+            }
+          })
+      })
       .catch(error => {
         console.log(error)
       });
@@ -319,7 +318,7 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, listLoading, currentUser, isCloning, codeList } = this.state;
+    const { equipments, equipmentModal, modalType, equipmentDetail, loading, currentUser, isCloning, codeList } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -480,13 +479,14 @@ export default class Equipments extends React.PureComponent {
         </h2>
         <Table
           dataSource={equipments}
-          loading={listLoading}
+          loading={loading}
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 9
+            pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
           rowKey={record => record._id}
+          scroll={{ y: 610 }}
         />
         <Modal
           title={

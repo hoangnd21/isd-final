@@ -322,7 +322,10 @@ export default class Accessories extends Component {
           rowKey={record => record._id}
           expandedRowRender={record => <AccessoryView accessory={record} updateAccessoryModal={() => this.updateAccessoryModal(record)} />}
           loading={loading}
-          pagination={{ pageSize: 9 }}
+          pagination={{
+            pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+          }}
+          scroll={{ y: 630 }}
         />
         <Modal
           title={modalType === 'create' ? isCloning ? 'Clone Accessory' : 'Create Accessory' : 'Edit Accessory'}
