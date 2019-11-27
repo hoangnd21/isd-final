@@ -26,15 +26,19 @@ class EquipmentReclaim extends React.Component {
     const { equipment } = this.props
     axios.get(`http://localhost:9000/reclaim/${equipment.code}`)
       .then(res => {
-        // eslint-disable-next-line
-        res.data.accessories.map(a => {
-          axios.get(`http://localhost:9000/accessories/${a}`)
-            .then(res => {
-              this.setState({
-                accessories: this.state.accessories.concat(res.data)
+        res.data === 'fail' || res.data.accessories.length === 0 ?
+          this.setState({
+            accessories: 'No accessories were handing with this equipment.'
+          }) :
+          // eslint-disable-next-line
+          res.data.accessories.map(a => {
+            axios.get(`http://localhost:9000/accessories/${a}`)
+              .then(res => {
+                this.setState({
+                  accessories: this.state.accessories.concat(res.data)
+                })
               })
-            })
-        })
+          })
       })
   }
 
@@ -53,7 +57,6 @@ class EquipmentReclaim extends React.Component {
 
   render() {
     const { accessories } = this.state
-    console.log('accessories', accessories)
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
     const reclaimReasonsOptions = [
@@ -145,30 +148,30 @@ class EquipmentReclaim extends React.Component {
               </Form.Item>
             </Col>
           </Row>
-          <Divider type='horizontal' />
-          <Table
-            showHeader
-            dataSource={accessories}
-            columns={[
-              {
-                title: 'Name',
-                dataIndex: 'accName',
-                key: '1'
-              },
-              {
-                title: 'Code',
-                dataIndex: 'accCode',
-                key: '2'
-              },
-            ]}
-            rowKey={record => record._id}
-            size='small'
-            rowSelection={{
-              onChange: selectedRowKeys => {
-                console.log(selectedRowKeys)
-              }
-            }}
-          />
+          {accessories !== 'No accessories were handing with this equipment.' ?
+            <Table
+              showHeader
+              dataSource={accessories}
+              columns={[
+                {
+                  title: 'Name',
+                  dataIndex: 'accName',
+                  key: '1'
+                },
+                {
+                  title: 'Code',
+                  dataIndex: 'accCode',
+                  key: '2'
+                },
+              ]}
+              rowKey={record => record._id}
+              size='small'
+              rowSelection={{
+                onChange: selectedRowKeys => {
+                  console.log(selectedRowKeys)
+                }
+              }}
+            /> : accessories}
           <Divider type='horizontal' />
           <div style={{ textAlign: "right" }}>
             <Button
