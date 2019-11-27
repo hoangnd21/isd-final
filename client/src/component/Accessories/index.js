@@ -325,7 +325,7 @@ export default class Accessories extends Component {
           pagination={{
             pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
-          scroll={{ y: 630 }}
+        // scroll={{ y: 630 }}
         />
         <Modal
           title={modalType === 'create' ? isCloning ? 'Clone Accessory' : 'Create Accessory' : 'Edit Accessory'}

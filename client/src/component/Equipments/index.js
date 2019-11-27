@@ -407,7 +407,7 @@ export default class Equipments extends React.PureComponent {
 
       {
         title: 'Actions',
-        width: '20%',
+        width: '15%',
         render: data =>
           <>
             {currentUser.level > 2 ?
@@ -478,6 +478,7 @@ export default class Equipments extends React.PureComponent {
           <Divider type='horizontal' />
         </h2>
         <Table
+          bordered
           dataSource={equipments}
           loading={loading}
           columns={columns}
@@ -486,7 +487,7 @@ export default class Equipments extends React.PureComponent {
             pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
           rowKey={record => record._id}
-          scroll={{ y: 610 }}
+        // scroll={{ y: 610 }}
         />
         <Modal
           title={

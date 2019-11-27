@@ -232,7 +232,6 @@ export default class Providers extends Component {
             pagination={{
               pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
             }}
-            scroll={{ y: 630 }}
           />
           <Modal
             title='Create a new Provider'
