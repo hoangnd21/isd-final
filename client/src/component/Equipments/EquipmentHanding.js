@@ -47,13 +47,9 @@ class EquipmentHanding extends React.Component {
       }
       const handing = { ...handingDetail, eqStatus: 'Use', device: equipment.code, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
       delete handing.range
-      console.log('handingEquipment', { ...handing, accessories: handingAccessories })
+      handingAccessories ? this.changeOwnerAccessory(handingAccessories, handingDetail.user) : console.log('no handing accessories')
       handingEquipment({ ...handing, accessories: handingAccessories, status: 'handing' })
       updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
-
-      handingAccessories ?
-        this.changeOwnerAccessory(handingAccessories, handingDetail.user) : console.log('no handing accessories')
-
       form.resetFields();
     });
   }
