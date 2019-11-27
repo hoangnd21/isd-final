@@ -19,7 +19,8 @@ class EquipmentReclaim extends React.Component {
   state = {
     users: [],
     defaultOwner: [],
-    accessories: []
+    accessories: [],
+    accessoriesToReclaim: null
   }
 
   componentDidMount() {
@@ -42,17 +43,32 @@ class EquipmentReclaim extends React.Component {
       })
   }
 
+  choseAccessoriesReclaim = accs => {
+    this.setState({
+      accessoriesToReclaim: accs
+    })
+  }
+
   onReclaimEquipment = e => {
     e.preventDefault();
+    const { accessoriesToReclaim } = this.state
     const { form, equipment, reclaimEquipment, updateEquipment } = this.props;
     form.validateFields((err, reclaimDetail) => {
       if (err) {
         return;
       }
+      accessoriesToReclaim ? this.reclaimAccessories(accessoriesToReclaim) : console.log(null)
       reclaimEquipment({ ...reclaimDetail, status: 'reclaim', device: equipment.code })
       updateEquipment({ ...equipment, eqStatus: 'Storage', owner: 'None' })
       form.resetFields();
     });
+  }
+
+  reclaimAccessories = accessoriesToReclaim => {
+    // eslint-disable-next-line
+    accessoriesToReclaim.map(a => {
+      axios.patch(`http://localhost:9000/accessories/updateAccessories/${a}`, { owner: ['None'], accStatus: ["Storage"] })
+    })
   }
 
   render() {
@@ -75,114 +91,113 @@ class EquipmentReclaim extends React.Component {
     ]
     const reclaimDate = moment();
     return (
-      <>
-        <Form
-          layout="vertical"
-          onSubmit={this.onReclaimEquipment}
-        >
-          <Row gutter={12}>
-            <Col xl={12}>
-              <Form.Item label="Owner's Equipment">
-                {getFieldDecorator('user', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'user',
-                    },
-                  ],
-                  initialValue: equipment.owner
-                })(
-                  <Input
-                    disabled
-                  />
-                )}
-              </Form.Item>
-              <Form.Item label='Reclaim Reason(s)'>
-                {getFieldDecorator('reason', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'reason',
-                    },
-                  ],
-                })(
-                  <Cascader options={reclaimReasonsOptions} />
-                )}
-              </Form.Item>
-            </Col>
-            <Col xl={12}>
-              <Form.Item label='Device in reclamation'>
-                {getFieldDecorator('device', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'device',
-                    },
-                  ],
-                  initialValue: equipment.name
-                })(
-                  <Input disabled />
-                )}
-              </Form.Item>
-              <Form.Item label='Reclaim Date'>
-                {getFieldDecorator('reclaimDate', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'reclaimDate',
-                    },
-                  ],
-                  initialValue: reclaimDate
-                })(
-                  <DatePicker style={{ width: '100%' }} />
-                )}
-              </Form.Item>
-              <Form.Item label='Note'>
-                {getFieldDecorator('note', {
-                  rules: [
-                    {
-                      message: 'note',
-                    },
-                  ],
-                })(<TextArea />)}
-              </Form.Item>
-            </Col>
-          </Row>
-          {accessories !== 'No accessories were handing with this equipment.' ?
-            <Table
-              showHeader
-              dataSource={accessories}
-              columns={[
-                {
-                  title: 'Name',
-                  dataIndex: 'accName',
-                  key: '1'
-                },
-                {
-                  title: 'Code',
-                  dataIndex: 'accCode',
-                  key: '2'
-                },
-              ]}
-              rowKey={record => record._id}
-              size='small'
-              rowSelection={{
-                onChange: selectedRowKeys => {
-                  console.log(selectedRowKeys)
-                }
-              }}
-            /> : accessories}
-          <Divider type='horizontal' />
-          <div style={{ textAlign: "right" }}>
-            <Button
-              type='primary'
-              htmlType='submit'
-            >
-              Reclaim Equipment
+      <Form
+        layout="vertical"
+        onSubmit={this.onReclaimEquipment}
+        style={{ maxHeight: 600 }}
+      >
+        <Row gutter={12}>
+          <Col xl={12}>
+            <Form.Item label="Owner's Equipment">
+              {getFieldDecorator('user', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'user',
+                  },
+                ],
+                initialValue: equipment.owner
+              })(
+                <Input
+                  disabled
+                />
+              )}
+            </Form.Item>
+            <Form.Item label='Reclaim Reason(s)'>
+              {getFieldDecorator('reason', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'reason',
+                  },
+                ],
+              })(
+                <Cascader options={reclaimReasonsOptions} />
+              )}
+            </Form.Item>
+          </Col>
+          <Col xl={12}>
+            <Form.Item label='Device in reclamation'>
+              {getFieldDecorator('device', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'device',
+                  },
+                ],
+                initialValue: equipment.name
+              })(
+                <Input disabled />
+              )}
+            </Form.Item>
+            <Form.Item label='Reclaim Date'>
+              {getFieldDecorator('reclaimDate', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'reclaimDate',
+                  },
+                ],
+                initialValue: reclaimDate
+              })(
+                <DatePicker style={{ width: '100%' }} />
+              )}
+            </Form.Item>
+            <Form.Item label='Note'>
+              {getFieldDecorator('note', {
+                rules: [
+                  {
+                    message: 'note',
+                  },
+                ],
+              })(<TextArea />)}
+            </Form.Item>
+          </Col>
+        </Row>
+        {accessories !== 'No accessories were handing with this equipment.' ?
+          <Table
+            showHeader
+            dataSource={accessories}
+            columns={[
+              {
+                title: 'Name',
+                dataIndex: 'accName',
+                key: '1'
+              },
+              {
+                title: 'Code',
+                dataIndex: 'accCode',
+                key: '2'
+              },
+            ]}
+            rowKey={record => record._id}
+            size='small'
+            rowSelection={{
+              onChange: selectedRowKeys => {
+                this.choseAccessoriesReclaim(selectedRowKeys)
+              }
+            }}
+          /> : accessories}
+        <Divider type='horizontal' />
+        <div style={{ textAlign: "right" }}>
+          <Button
+            type='primary'
+            htmlType='submit'
+          >
+            Reclaim Equipment
           </Button>
-          </div>
-        </Form>
-      </>
+        </div>
+      </Form>
     );
   }
 }
