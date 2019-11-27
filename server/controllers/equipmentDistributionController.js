@@ -11,7 +11,7 @@ const addEquipmentDistribution = (req, res) => {
         note: req.body.note,
         created_at: now,
         reason: req.body.reason,
-        accessory: req.body.accessory
+        accessories: req.body.accessories
     });
     res.send("Handing entry successfully added");
 };
