@@ -9,21 +9,39 @@ import {
   Divider,
   DatePicker,
   Cascader,
+  Table
 } from 'antd'
+import axios from 'axios';
 
 const { TextArea } = Input;
 
 class EquipmentReclaim extends React.Component {
   state = {
     users: [],
-    defaultOwner: []
+    defaultOwner: [],
+    accessories: []
+  }
+
+  componentDidMount() {
+    const { equipment } = this.props
+    axios.get(`http://localhost:9000/reclaim/${equipment.code}`)
+      .then(res => {
+        // eslint-disable-next-line
+        res.data.accessories.map(a => {
+          axios.get(`http://localhost:9000/accessories/${a}`)
+            .then(res => {
+              this.setState({
+                accessories: this.state.accessories.concat(res.data)
+              })
+            })
+        })
+      })
   }
 
   onReclaimEquipment = e => {
     e.preventDefault();
     const { form, equipment, reclaimEquipment, updateEquipment } = this.props;
     form.validateFields((err, reclaimDetail) => {
-      reclaimDetail.user = reclaimDetail.user.toString()
       if (err) {
         return;
       }
@@ -34,6 +52,8 @@ class EquipmentReclaim extends React.Component {
   }
 
   render() {
+    const { accessories } = this.state
+    console.log('accessories', accessories)
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
     const reclaimReasonsOptions = [
@@ -74,7 +94,6 @@ class EquipmentReclaim extends React.Component {
                   />
                 )}
               </Form.Item>
-
               <Form.Item label='Reclaim Reason(s)'>
                 {getFieldDecorator('reason', {
                   rules: [
@@ -102,7 +121,6 @@ class EquipmentReclaim extends React.Component {
                   <Input disabled />
                 )}
               </Form.Item>
-
               <Form.Item label='Reclaim Date'>
                 {getFieldDecorator('reclaimDate', {
                   rules: [
@@ -125,21 +143,20 @@ class EquipmentReclaim extends React.Component {
                   ],
                 })(<TextArea />)}
               </Form.Item>
-
             </Col>
           </Row>
-          <Divider type='vertical' />
-          {/* waiting for handing to have accessory data */}
-          {/* <Table
-            dataSource={allAccessories}
+          <Divider type='horizontal' />
+          <Table
+            showHeader
+            dataSource={accessories}
             columns={[
               {
-                title: 'Accessory Name',
+                title: 'Name',
                 dataIndex: 'accName',
                 key: '1'
               },
               {
-                title: 'Accessory Code',
+                title: 'Code',
                 dataIndex: 'accCode',
                 key: '2'
               },
@@ -148,11 +165,11 @@ class EquipmentReclaim extends React.Component {
             size='small'
             rowSelection={{
               onChange: selectedRowKeys => {
-                this.reclaimAccessories(selectedRowKeys)
+                console.log(selectedRowKeys)
               }
             }}
-          /> */}
-          <Divider type='vertical' />
+          />
+          <Divider type='horizontal' />
           <div style={{ textAlign: "right" }}>
             <Button
               type='primary'
