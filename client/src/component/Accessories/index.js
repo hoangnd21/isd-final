@@ -15,6 +15,8 @@ import axios from 'axios';
 import Highlighter from 'react-highlight-words';
 import CreateAccessoryForm from './CreateAccessoryForm';
 import AccessoryView from './AccessoryView'
+import AccessoryHanding from './AccessoryHanding'
+import AccessorryReclaim from './AccessoryReclaim'
 
 const { Paragraph } = Typography
 export default class Accessories extends Component {
@@ -49,7 +51,6 @@ export default class Accessories extends Component {
             })
           })
       })
-
   }
 
   getAllAccessories = () => {
@@ -95,6 +96,24 @@ export default class Accessories extends Component {
   updateAccessoryModal = record => {
     this.setState({
       modalType: 'update',
+      visible: true,
+      currentAccessory: record
+    })
+  }
+
+  handAccessoryModal = record => {
+    console.log('handing')
+    this.setState({
+      modalType: 'handing',
+      visible: true,
+      currentAccessory: record
+    })
+  }
+
+  reclaimAccessoryModal = record => {
+    console.log('reclaim')
+    this.setState({
+      modalType: 'reclaim',
       visible: true,
       currentAccessory: record
     })
@@ -222,6 +241,7 @@ export default class Accessories extends Component {
       {
         title: 'Accessory',
         key: 'accName',
+        width: 130,
         ...this.getColumnSearchProps('accName'),
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link'>
@@ -236,6 +256,7 @@ export default class Accessories extends Component {
         title: 'Code',
         dataIndex: 'accCode',
         key: 'accCode',
+        width: 200,
         ...this.getColumnSearchProps('accCode'),
       },
       {
@@ -320,15 +341,22 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
-          expandedRowRender={record => <AccessoryView accessory={record} updateAccessoryModal={() => this.updateAccessoryModal(record)} />}
+          expandedRowRender={record =>
+            <AccessoryView
+              accessory={record}
+              updateAccessoryModal={() => this.updateAccessoryModal(record)}
+              handAccessoryModal={() => this.handAccessoryModal(record)}
+              reclaimAccessoryModal={() => this.reclaimAccessoryModal(record)}
+            />
+          }
           loading={loading}
           pagination={{
-            pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 30, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
-        // scroll={{ y: 630 }}
+          scroll={{ y: 630 }}
         />
         <Modal
-          title={modalType === 'create' ? isCloning ? 'Clone Accessory' : 'Create Accessory' : 'Edit Accessory'}
+          title={modalType === 'create' ? 'Create Accessory' : modalType === 'update' ? 'Edit Accessory' : modalType === 'handing' ? 'Hand Accessory' : 'Reclaim Accessory'}
           centered
           footer={null}
           visible={visible}
@@ -337,16 +365,18 @@ export default class Accessories extends Component {
           destroyOnClose
         >
 
-          <CreateAccessoryForm
-            accessory={currentAccessory}
-            modalType={modalType}
-            createAccessoryRequest={this.createAccessoryRequest}
-            updateAccessoryRequest={this.updateAccessoryRequest}
-            cloningDone={this.cloningDone}
-            loading={loading}
-            isCloning={isCloning}
-            accCodeList={accCodeList}
-          />
+          {modalType === 'create' || modalType === 'update' ?
+            <CreateAccessoryForm
+              accessory={currentAccessory}
+              modalType={modalType}
+              createAccessoryRequest={this.createAccessoryRequest}
+              updateAccessoryRequest={this.updateAccessoryRequest}
+              cloningDone={this.cloningDone}
+              loading={loading}
+              isCloning={isCloning}
+              accCodeList={accCodeList}
+            /> : modalType === 'handing' ?
+              <AccessoryHanding accessory={currentAccessory} /> : <AccessorryReclaim accessory={currentAccessory} />}
         </Modal>
       </>
     )

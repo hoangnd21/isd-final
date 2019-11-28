@@ -39,15 +39,15 @@ export default class EquipmentInfo extends React.Component {
     const { equipment } = this.props;
     return (
       <>
-        <Row gutter={16}>
+        <Row gutter={16} style={{ fontSize: '1.1em' }}>
           <Col xl={12}>
-            <h3>{generalType.label}:&nbsp;{equipment.name}</h3>
+            <h3>{generalType.label}:&nbsp;{equipment.name}<br />
+              Equipment Code: {equipment.code}<br />
+            </h3>
             <div style={{ lineHeight: '2em' }}>
               Equipment Type: {subType.label}<br />
-              Equipment Code: {equipment.code}<br />
               Purchased date: {equipment.datePurchase.slice(8, 10)}-{equipment.datePurchase.slice(5, 7)}-{equipment.datePurchase.slice(0, 4)}<br />
               Batch: {equipment.batch}<br />
-              Manufacturer: {equipment.manufacturer}<br />
             </div>
           </Col>
           <Col xl={12}>
@@ -60,13 +60,16 @@ export default class EquipmentInfo extends React.Component {
                     equipment.lockStatus[0] === "Locked" ?
                       { color: 'red' } :
                       { color: '#f0cb65' }}>
-                {equipment.lockStatus} {equipment.eqStatus === 'Use' ? `Equipment is being used by ${equipment.owner}` : null}
+                {equipment.lockStatus}
+              </span><br />
+              <span>
+                {equipment.eqStatus[0] === 'Use' ? `Owner: ${equipment.owner}` : 'Equipment is in storage.'}
               </span>
             </h3>
-            <div>
+            <div style={{ lineHeight: '2em' }}>
               Batch: {equipment.batch} <br />
               Price: ${equipment.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}<br />
-              Owner: {equipment.owner} <br />
+              Manufacturer: {equipment.manufacturer}<br />
             </div>
           </Col>
 
