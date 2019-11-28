@@ -21,7 +21,8 @@ const { Paragraph } = Typography
 export default class Providers extends Component {
   state = {
     currentUser: {},
-    loading: true
+    loading: true,
+    allProviders: []
   }
 
   componentDidMount() {
@@ -152,22 +153,26 @@ export default class Providers extends Component {
         title: 'Provider',
         dataIndex: 'name',
         key: 'name',
+        width: 230,
         sorter: (a, b) => a.name.length - b.name.length,
       },
       {
         title: 'Address',
         key: 'address',
+        width: 230,
         dataIndex: 'address',
         ...this.getColumnSearchProps('address'),
       },
       {
         title: 'Hotline',
         key: 'hotline',
+        width: 230,
         dataIndex: 'hotline',
         ...this.getColumnSearchProps('hotline'),
       },
       {
         title: 'Contact Person',
+        width: 230,
         key: 'contactPerson',
         ...this.getColumnSearchProps('contactPerson'),
         render: data =>
@@ -183,6 +188,7 @@ export default class Providers extends Component {
       {
         title: 'Warranty Person',
         key: 'warrantyPerson',
+        width: 230,
         ...this.getColumnSearchProps('warrantyPerson'),
         render: data =>
           <Popover title='Warranty Person Information' trigger='click' content={<PersonInfo personInfo={data.warrantyPerson} />}>
@@ -230,8 +236,12 @@ export default class Providers extends Component {
             dataSource={allProviders}
             rowKey={record => record._id}
             pagination={{
-              pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
+              pageSize: 20,
+              size: "small",
+              total: allProviders.length,
+              showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
             }}
+            scroll={{ y: 630 }}
           />
           <Modal
             title='Create a new Provider'

@@ -353,7 +353,10 @@ export default class Accessories extends Component {
           }
           loading={loading}
           pagination={{
-            pageSize: 30, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 30,
+            size: "small",
+            total: allAccessories.length,
+            showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           scroll={{ y: 630 }}
         />

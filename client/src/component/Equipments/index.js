@@ -11,7 +11,7 @@ import {
   Input,
   Upload,
   message,
-  Typography
+  Typography,
 } from 'antd';
 import EquipmentForm from './EquipmentForm'
 import EquipmentInfo from './EquipmentInfo'
@@ -60,7 +60,6 @@ export default class Equipments extends React.PureComponent {
             console.log(error)
           });
       })
-
   }
 
   getAllEquipments = () => {
@@ -76,7 +75,6 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
-  // create an equipment
   createEquipmentModal = () => {
     this.setState({
       equipmentModal: true,
@@ -104,7 +102,6 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
-  // view
   infoModal = data => {
     this.setState({
       equipmentModal: true,
@@ -113,7 +110,6 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  // update
   updateEquipmentModal = data => {
     this.setState({
       equipmentDetail: data,
@@ -121,7 +117,6 @@ export default class Equipments extends React.PureComponent {
       equipmentModal: true
     })
   }
-
 
   updateEquipment = data => {
     axios.patch(`http://localhost:9000/equipments/updateEquipment/${data._id}`, data)
@@ -139,7 +134,6 @@ export default class Equipments extends React.PureComponent {
               message: res.data,
               placement: 'bottomRight'
             })
-
           this.getAllEquipments()
         }
       })
@@ -174,7 +168,6 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
-  //handing
   handingModal = data => {
     this.setState({
       equipmentDetail: data,
@@ -195,7 +188,6 @@ export default class Equipments extends React.PureComponent {
           notification.success({
             message: res.data,
             placement: 'bottomRight'
-
           })
         }
       })
@@ -211,6 +203,7 @@ export default class Equipments extends React.PureComponent {
       equipmentModal: true
     })
   }
+
   reclaimEquipment = data => {
     axios.get(`http://localhost:9000/reclaim/${data.device}`)
       .then(res => {
@@ -451,7 +444,6 @@ export default class Equipments extends React.PureComponent {
             </Popconfirm>
           </>
       }
-
     ]
     return (
       <>
@@ -486,11 +478,15 @@ export default class Equipments extends React.PureComponent {
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 30, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 30,
+            size: "small",
+            total: equipments.length,
+            showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           rowKey={record => record._id}
-          scroll={{ y: 610 }}
+          scroll={{ y: 630 }}
         />
+
         <Modal
           title={
             modalType === 'update' ? 'Update Equipment' :
@@ -546,8 +542,7 @@ export default class Equipments extends React.PureComponent {
                       reclaimEquipment={this.reclaimEquipment}
                       updateEquipment={this.updateEquipment}
                     /> :
-                    null
-          }
+                    null}
         </Modal>
       </>
     )

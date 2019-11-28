@@ -271,8 +271,12 @@ export default class Batch extends React.Component {
             columns={columns}
             rowKey={record => record._id}
             pagination={{
-              pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
+              pageSize: 10,
+              size: "small",
+              total: allBatch.length,
+              showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
             }}
+            scroll={{ y: 630 }}
           />
           <Modal
             title={modalType === 'create' ? 'Create a new Batch' : modalType === 'update' ? 'Edit batch' : currentBatch.code}
