@@ -7,7 +7,10 @@ import {
   Dropdown,
   Menu,
   notification,
-  Divider
+  Divider,
+  Row,
+  Col,
+  Card
 } from 'antd';
 import EqTypesDrawer from './EqTypesDrawer'
 import Forbidden from '../../Config/Forbidden';
@@ -95,6 +98,7 @@ export default class EquipmentTypes extends Component {
             {currentUser && currentUser.level > 3 ?
               <span style={{ float: 'right' }}>
                 <Dropdown
+                  destroyOnClose
                   overlay={
                     <Menu style={{ padding: 5 }}>
                       <GeneralTypeForm addGenTypeRequest={this.addGenType} />
@@ -112,40 +116,49 @@ export default class EquipmentTypes extends Component {
                 </Dropdown>
               </span>
               : null}
-            <Divider type='horizontal' />
+            <Divider type='horizontal' style={{ marginBottom: 0 }} />
           </h2>
-          <List
-            itemLayout='horizontal'
-            dataSource={generalTypes}
-            // size='small'
-            loading={loading}
-            pagination={{
-              pageSize: 15, size: "small", showSizeChanger: true, showQuickJumper: true
-            }}
-            renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  title={
-                    <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
-                  }
-                  description={`ID: ${item.value}`}
-                />
-              </List.Item>
-            )}
-          >
-            <Drawer
-              title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
-              placement="right"
-              closable={false}
-              onClose={this.closeDrawer}
-              visible={drawerVisible}
-              destroyOnClose
-              style={{ position: 'absolute', }}
-              width='auto'
+          <Row gutter={10} style={{ margin: 0 }}>
+            <List
+              itemLayout='horizontal'
+              dataSource={generalTypes}
+              size='small'
+              loading={loading}
+              pagination={{
+                pageSize: 14,
+                size: "small",
+                total: generalTypes.length,
+                showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
+              }}
+              renderItem={item => (
+                <Col xl={12} style={{ padding: '0 5px 5px 5px' }}>
+                  <Card bodyStyle={{ borderRadius: 10, padding: 10 }}>
+                    <List.Item>
+                      <List.Item.Meta
+                        title={
+                          <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
+                        }
+                        description={`ID: ${item.value}`}
+                      />
+                    </List.Item>
+                  </Card>
+                </Col>
+              )}
             >
-              <EqTypesDrawer generalType={generalTypebyID} currentUser={currentUser} />
-            </Drawer>
-          </List>
+              <Drawer
+                title={<h3 style={{ margin: 0 }}>{generalTypebyID.label}</h3>}
+                placement="right"
+                closable={false}
+                onClose={this.closeDrawer}
+                visible={drawerVisible}
+                destroyOnClose
+                style={{ position: 'absolute', }}
+                width='auto'
+              >
+                <EqTypesDrawer generalType={generalTypebyID} currentUser={currentUser} />
+              </Drawer>
+            </List>
+          </Row>
         </>
     )
   }

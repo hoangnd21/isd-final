@@ -28,22 +28,22 @@ class GeneralTypeForm extends Component {
           layout='inline'
           onSubmit={this.addGenType}
         >
-          <Form.Item label='General Type Label'>
+          <Form.Item label='Name'>
             {getFieldDecorator('label', {
               rules: [
                 {
                   required: true,
-                  message: 'General type name is required.',
+                  message: 'Name is required.',
                 },
               ],
-            })(<Input placeholder="PROVIDE THE NAME IN ALL CAPS." />)}
+            })(<Input placeholder="ALL CAPS." />)}
           </Form.Item>
-          <Form.Item label='General Type Code'>
+          <Form.Item label='Code'>
             {getFieldDecorator('value', {
               rules: [
                 {
                   required: true,
-                  message: 'General type code is required.',
+                  message: 'Node is required.',
                 },
               ],
             })(<Input placeholder="eg. 03X" />)}

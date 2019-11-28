@@ -241,7 +241,7 @@ export default class Accessories extends Component {
       {
         title: 'Accessory',
         key: 'accName',
-        width: 130,
+        width: 135,
         ...this.getColumnSearchProps('accName'),
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link'>
@@ -292,13 +292,14 @@ export default class Accessories extends Component {
         dataIndex: 'warrantyStartDate',
         align: 'center',
         key: 'warrantyStartDate',
-        width: '15%',
+        width: 200,
         render: warrantyStartDate => `${warrantyStartDate.slice(8, 10)}/${warrantyStartDate.slice(5, 7)}/${warrantyStartDate.slice(0, 4)}`
       },
       {
         title: 'Warranty',
         dataIndex: 'warranty',
         key: 'warranty',
+        width: 200,
         align: 'center',
         render: warranty => <span>{warranty} months</span>,
         sorter: (a, b) => a.warranty - b.warranty,
@@ -308,7 +309,7 @@ export default class Accessories extends Component {
         dataIndex: 'warrantyEndDate',
         align: 'center',
         key: 'warrantyEndDate',
-        width: '15%',
+        width: 200,
         render: warrantyEndDate => `${warrantyEndDate.slice(8, 10)}/${warrantyEndDate.slice(5, 7)}/${warrantyEndDate.slice(0, 4)}`
       },
     ]
@@ -338,6 +339,7 @@ export default class Accessories extends Component {
           <Divider type='horizontal' />
         </h2>
         <Table
+          bordered
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
@@ -351,7 +353,10 @@ export default class Accessories extends Component {
           }
           loading={loading}
           pagination={{
-            pageSize: 30, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 30,
+            size: "small",
+            total: allAccessories.length,
+            showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           scroll={{ y: 630 }}
         />
