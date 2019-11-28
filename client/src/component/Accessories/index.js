@@ -323,7 +323,7 @@ export default class Accessories extends Component {
           expandedRowRender={record => <AccessoryView accessory={record} updateAccessoryModal={() => this.updateAccessoryModal(record)} />}
           loading={loading}
           pagination={{
-            pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
         // scroll={{ y: 630 }}
         />

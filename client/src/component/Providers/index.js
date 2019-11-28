@@ -230,7 +230,7 @@ export default class Providers extends Component {
             dataSource={allProviders}
             rowKey={record => record._id}
             pagination={{
-              pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+              pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
             }}
           />
           <Modal
