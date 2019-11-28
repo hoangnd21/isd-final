@@ -74,11 +74,20 @@ export default class EquipmentTypes extends Component {
     })
   }
 
+  toggleAddGenType = () => {
+    this.setState({
+      dropDownVisible: this.state.dropDownVisible ? false : true
+    })
+  }
+
   addGenType = genType => {
     console.log('index', genType)
     axios.post('http://localhost:9000/generalTypes/addGeneralType', genType)
       .then(res => {
         if (res.status === 200) {
+          this.setState({
+            dropDownVisible: false
+          })
           notification.success({
             message: res.data
           })
@@ -92,7 +101,7 @@ export default class EquipmentTypes extends Component {
 
 
   render() {
-    const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading } = this.state;
+    const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading, dropDownVisible } = this.state;
     return (
       currentUser && currentUser.level < 3 ?
         <Forbidden />
@@ -101,7 +110,7 @@ export default class EquipmentTypes extends Component {
             {currentUser && currentUser.level > 3 ?
               <span style={{ float: 'right' }}>
                 <Dropdown
-                  destroyOnClose
+                  visible={dropDownVisible}
                   overlay={
                     <Menu style={{ padding: 5 }}>
                       <GeneralTypeForm addGenTypeRequest={this.addGenType} />
@@ -113,6 +122,7 @@ export default class EquipmentTypes extends Component {
                   <Button
                     type='primary'
                     icon='down'
+                    onClick={this.toggleAddGenType}
                   >
                     Add a new General Type
                 </Button>
