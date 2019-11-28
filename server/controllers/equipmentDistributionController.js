@@ -51,7 +51,7 @@ const updateEquipmentDistribution = (req, res) => {
                 equipmentDistribution.updateOne(updateEquipmentDistribution, newValue, (err, res) => {
                     if (err) throw err;
                 })
-                res.send("Handing entry successfully updated");
+                res.send("Reclamation entry successfully added");
             }
         })
 };

@@ -30,6 +30,7 @@ var reclaimRoute = require('./routes/reclaim')
 var searchRoute = require('./routes/search')
 var uploadRoute = require('./routes/upload')
 var upload = require('express-fileupload')
+var accDistributionRoute = require('./routes/accessoriesDistribution')
 // var bodyParser = require('body-parser');
 var app = express();
 
@@ -41,7 +42,7 @@ app.use(cookieSession({
   keys: ['omega'],
 
   // Cookie Options
-  maxAge: 1 * 60 * 60 * 1000 // 24 hours
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -87,6 +88,7 @@ app.use('/involvedDocuments', InvolvedDocumentsRoute);
 app.use('/warranty', warrantyRoute);
 app.use('/adjustment', adjustmentRoute);
 app.use('/equipmentDistribution', equipmentDistributionRoute);
+app.use('/accDistribution', accDistributionRoute);
 app.use('/errorReport', errorReportRoute);
 app.use('/manaEquipOnUse', manaEquipOnUseRoute);
 app.use('/status', statusRoute);
