@@ -373,23 +373,23 @@ export default class Equipments extends React.PureComponent {
       {
         title: 'Owner',
         dataIndex: 'owner',
-        width: '7%',
+        width: 150,
         key: 'owner',
         ...this.getColumnSearchProps('owner'),
       },
-      {
-        title: 'Purchased Date',
-        dataIndex: 'datePurchase',
-        key: 'datePurchase',
-        width: '10%',
-        render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
-      },
-      {
-        title: 'Batch',
-        dataIndex: 'batch',
-        key: 'batch',
-        ...this.getColumnSearchProps('batch'),
-      },
+      // {
+      //   title: 'Purchased Date',
+      //   dataIndex: 'datePurchase',
+      //   key: 'datePurchase',
+      //   width: '10%',
+      //   render: datePurchase => `${datePurchase.slice(8, 10)}/${datePurchase.slice(5, 7)}/${datePurchase.slice(0, 4)}`
+      // },
+      // {
+      //   title: 'Batch',
+      //   dataIndex: 'batch',
+      //   key: 'batch',
+      //   ...this.getColumnSearchProps('batch'),
+      // },
       // {
       //   title: <span>Price <Tooltip title='The original price of the equipment.'><Icon type='question-circle' /></Tooltip></span>,
       //   dataIndex: 'originalPrice',
@@ -399,15 +399,14 @@ export default class Equipments extends React.PureComponent {
       //   sorter: (a, b) => a.originalPrice - b.originalPrice,
       //   render: originalPrice => `$${originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
       // },
-      {
-        title: 'Warranty',
-        dataIndex: 'warrantyMonths',
-        key: 'warranty',
-        align: 'right',
-        width: '7%',
-        sorter: (a, b) => a.warrantyMonths - b.warrantyMonths,
-      },
-
+      // {
+      //   title: 'Warranty',
+      //   dataIndex: 'warrantyMonths',
+      //   key: 'warranty',
+      //   align: 'right',
+      //   width: '7%',
+      //   sorter: (a, b) => a.warrantyMonths - b.warrantyMonths,
+      // },
       {
         title: 'Actions',
         width: '15%',
@@ -481,12 +480,13 @@ export default class Equipments extends React.PureComponent {
           <Divider type='horizontal' />
         </h2>
         <Table
+          bordered
           dataSource={equipments}
           loading={loading}
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 30, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
           rowKey={record => record._id}
           scroll={{ y: 610 }}
