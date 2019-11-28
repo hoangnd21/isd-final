@@ -331,6 +331,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment Name',
         key: 'name',
         ...this.getColumnSearchProps('name'),
+        width: 250,
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
             <Paragraph
@@ -344,12 +345,14 @@ export default class Equipments extends React.PureComponent {
         title: 'Code',
         dataIndex: 'code',
         key: 'code',
+        width: 170,
         ...this.getColumnSearchProps('code'),
       },
       {
         title: 'Lock status',
         dataIndex: 'lockStatus',
         key: 'lockStatus',
+        width: 150,
         sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
         render: lockStatus =>
           <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
@@ -360,7 +363,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment status',
         dataIndex: 'eqStatus',
         key: 'eqStatus',
-        width: '7%',
+        width: 150,
         render: eqStatus =>
           <div style={eqStatus === "Use" ? { color: 'green' } : { color: 'gold' }}>
             {eqStatus}
@@ -486,7 +489,7 @@ export default class Equipments extends React.PureComponent {
             pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
           rowKey={record => record._id}
-        // scroll={{ y: 610 }}
+          scroll={{ y: 610 }}
         />
         <Modal
           title={

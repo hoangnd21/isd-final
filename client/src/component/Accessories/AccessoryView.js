@@ -29,15 +29,15 @@ export default class AccessoryView extends Component {
   }
   render() {
     const { generalType, subType } = this.state
-    const { accessory, updateAccessoryModal } = this.props
+    const { accessory, updateAccessoryModal, handAccessoryModal, reclaimAccessoryModal } = this.props
     return (
-      <Card bodystyle={{ padding: 0 }}>
+      <Card>
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
-        <p>This accessory is being used by: {accessory.owner}</p>
+        <p>Owner: {accessory.owner}</p>
         <p>Price: ${accessory.price}</p>
         <p>Provider: {accessory.provider}</p>
-        <p>Purchase date: {accessory.purchaseDate.slice(8, 10)}/{accessory.purchaseDate.slice(5, 7)}/{accessory.purchaseDate.slice(0, 4)}</p>
+        <p>Purchase date: {accessory.purchaseDate.slice(8, 10)}-{accessory.purchaseDate.slice(5, 7)}-{accessory.purchaseDate.slice(0, 4)}</p>
         <Divider type='horizontal' style={{ margin: '10px 0 10px 0' }} />
         <Button
           type='primary'
@@ -45,6 +45,13 @@ export default class AccessoryView extends Component {
           onClick={updateAccessoryModal}
         >
           Edit this accessory
+        </Button>
+        <Button
+          icon='edit'
+          onClick={accessory.owner[0] === 'None' ? handAccessoryModal : reclaimAccessoryModal}
+          style={{ marginLeft: 5 }}
+        >
+          {accessory.owner[0] === 'None' ? 'Hand this accessory' : 'Reclaim this accessory'}
         </Button>
       </Card>
     )
