@@ -27,6 +27,7 @@ class EquipmentReclaim extends React.Component {
     const { equipment } = this.props
     axios.get(`http://localhost:9000/reclaim/${equipment.code}`)
       .then(res => {
+        console.log('equipment.code', res)
         res.data === 'fail' || res.data.accessories.length === 0 ?
           this.setState({
             accessories: 'No accessories were handing with this equipment.'
@@ -35,6 +36,7 @@ class EquipmentReclaim extends React.Component {
           res.data.accessories.map(a => {
             axios.get(`http://localhost:9000/accessories/${a}`)
               .then(res => {
+                console.log(res)
                 this.setState({
                   accessories: this.state.accessories.concat(res.data)
                 })
@@ -94,7 +96,6 @@ class EquipmentReclaim extends React.Component {
       <Form
         layout="vertical"
         onSubmit={this.onReclaimEquipment}
-        style={{ maxHeight: 600 }}
       >
         <Row gutter={12}>
           <Col xl={12}>
@@ -153,6 +154,8 @@ class EquipmentReclaim extends React.Component {
                 <DatePicker style={{ width: '100%' }} />
               )}
             </Form.Item>
+          </Col>
+          <Col xl={24}>
             <Form.Item label='Note'>
               {getFieldDecorator('note', {
                 rules: [
@@ -166,18 +169,25 @@ class EquipmentReclaim extends React.Component {
         </Row>
         {accessories !== 'No accessories were handing with this equipment.' ?
           <Table
-            showHeader
             dataSource={accessories}
             columns={[
               {
+                title: 'No.',
+                key: '0',
+                width: 40,
+                render: data => accessories.indexOf(data) + 1
+              },
+              {
                 title: 'Name',
                 dataIndex: 'accName',
-                key: '1'
+                key: '1',
+                width: 200,
               },
               {
                 title: 'Code',
                 dataIndex: 'accCode',
-                key: '2'
+                key: '2',
+                width: 300,
               },
             ]}
             rowKey={record => record._id}
@@ -187,6 +197,8 @@ class EquipmentReclaim extends React.Component {
                 this.choseAccessoriesReclaim(selectedRowKeys)
               }
             }}
+            pagination={false}
+            scroll={{ y: 350 }}
           /> : accessories}
         <Divider type='horizontal' />
         <div style={{ textAlign: "right" }}>
