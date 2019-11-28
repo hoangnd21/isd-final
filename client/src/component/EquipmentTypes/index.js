@@ -95,6 +95,7 @@ export default class EquipmentTypes extends Component {
             {currentUser && currentUser.level > 3 ?
               <span style={{ float: 'right' }}>
                 <Dropdown
+                  destroyOnClose
                   overlay={
                     <Menu style={{ padding: 5 }}>
                       <GeneralTypeForm addGenTypeRequest={this.addGenType} />

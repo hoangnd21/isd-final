@@ -146,16 +146,16 @@ export default class BasicLayout extends Component {
                 />
               </div>
               <Divider type='horizontal' style={{ marginTop: 10 }} />
-              <Menu mode='vertical'>
+              <Menu mode='inline'>
                 <Menu.Item key="home">
-                  <Link to='/'>
+                  <Link to='/' style={{ fontSize: 18 }}>
                     <Icon type='home' />
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
                 {currentUser.level > 2 ?
                   <Menu.Item key="eqtype">
-                    <Link to="/equipment-types" >
+                    <Link to="/equipment-types" style={{ fontSize: 18 }}>
                       <Icon type="ordered-list" />
                       <span>
                         Types
@@ -164,7 +164,7 @@ export default class BasicLayout extends Component {
                   </Menu.Item>
                   : null}
                 <Menu.Item key="equipments">
-                  <Link to="/equipments" >
+                  <Link to="/equipments" style={{ fontSize: 18 }}>
                     <Icon type="sliders" />
                     <span>
                       Equipments
@@ -172,7 +172,7 @@ export default class BasicLayout extends Component {
                   </Link>
                 </Menu.Item>
                 {currentUser.level > 1 ?
-                  <Menu.Item key="accessories">
+                  <Menu.Item key="accessories" style={{ fontSize: 18 }}>
                     <Link to="/accessories" >
                       <Icon type="chrome" />
                       <span>
@@ -183,7 +183,7 @@ export default class BasicLayout extends Component {
 
                 {currentUser.level > 3 ?
                   <Menu.Item key="batch">
-                    <Link to="/batch" >
+                    <Link to="/batch" style={{ fontSize: 18 }}>
                       <Icon type="shopping-cart" />
                       <span>
                         Batch
@@ -192,7 +192,7 @@ export default class BasicLayout extends Component {
                   </Menu.Item> : null}
                 {currentUser.level > 3 ?
                   <Menu.Item key="providers" >
-                    <Link to="/providers" >
+                    <Link to="/providers" style={{ fontSize: 18 }}>
                       <Icon type="bank" />
                       <span>
                         Providers
@@ -201,7 +201,7 @@ export default class BasicLayout extends Component {
                   </Menu.Item> : null}
                 {currentUser.level > 3 ?
                   <Menu.Item key="users">
-                    <Link to="/users" >
+                    <Link to="/users" style={{ fontSize: 18 }}>
                       <Icon type="team" />
                       <span>
                         Users

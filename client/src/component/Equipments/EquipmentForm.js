@@ -165,9 +165,11 @@ class EquipmentForm extends React.PureComponent {
     const { genTypeId } = this.state
     axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${genTypeId}&value=${eqType}`)
       .then(res => {
-        this.setState({
-          eqNamebyType: res.data.label
-        })
+        if (this.props.modalType === 'create') {
+          this.setState({
+            eqNamebyType: res.data.label
+          })
+        }
       })
   }
 
