@@ -55,18 +55,6 @@ class EquipmentForm extends React.PureComponent {
           })
         })
       })
-    axios.get(`http://localhost:9000/users`)
-      .then(res => {
-        this.setState({
-          users: res.data.map(data => {
-            return ({
-              label: data.username,
-              value: data.username
-            })
-          })
-        })
-      })
-
     if (modalType === 'update') {
       this.choseGenType(equipment.generalType)
       this.setState({
@@ -184,7 +172,7 @@ class EquipmentForm extends React.PureComponent {
   }
 
   render() {
-    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, users, endOpen } = this.state;
+    const { generalTypes, equipmentTypes, eqNamebyType, updateCaseSubtype, batches, eqCodeF, endOpen } = this.state;
     const { form, modalType, loading, equipment, isCloning } = this.props;
     const startMoment = modalType === 'create' ? null : moment(equipment.startDate, "YYYY-MM-DD")
     const purchaseMoment = modalType === 'create' ? null : moment(equipment.datePurchase, "YYYY-MM-DD")
@@ -389,21 +377,7 @@ class EquipmentForm extends React.PureComponent {
               </Col>
             </Row>
             <Col xl={24}>
-              {modalType === 'create' ? null : <Form.Item label={<span>Owner <Tooltip title='Change this at Handing/Reclaim'><Icon type='question-circle' /></Tooltip></span>}
-              >
-                {getFieldDecorator('owner', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Owner must be specified.',
-                    },
-                  ],
-                  initialValue: equipment.owner,
-                })(
-                  <Cascader options={users} disabled />)}
-              </Form.Item>}
-              <Form.Item label='Equipment Price ($)'
-              >
+              <Form.Item label='Equipment Price ($)'>
                 {getFieldDecorator('originalPrice', {
                   rules: [
                     {

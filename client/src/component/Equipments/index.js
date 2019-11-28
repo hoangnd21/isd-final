@@ -478,13 +478,12 @@ export default class Equipments extends React.PureComponent {
           <Divider type='horizontal' />
         </h2>
         <Table
-          bordered
           dataSource={equipments}
           loading={loading}
           columns={columns}
           footer={null}
           pagination={{
-            pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+            pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
           }}
           rowKey={record => record._id}
         // scroll={{ y: 610 }}
@@ -507,6 +506,7 @@ export default class Equipments extends React.PureComponent {
           modalType={this.modalType}
           width={1000}
           centered
+          style={{ maxHeight: '100%', overflowX: 'auto', overflowY: 'hidden' }}
           bodyStyle={{ padding: 20 }}
           equipment={equipmentDetail}
         >

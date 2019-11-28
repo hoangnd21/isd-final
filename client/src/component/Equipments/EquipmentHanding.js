@@ -160,14 +160,22 @@ class EquipmentHanding extends React.Component {
               dataSource={allAccessories}
               columns={[
                 {
+                  title: 'No.',
+                  key: '0',
+                  width: 20,
+                  render: data => allAccessories.indexOf(data) + 1
+                },
+                {
                   title: 'Accessory Name',
                   dataIndex: 'accName',
-                  key: '1'
+                  key: '1',
+                  width: 300
                 },
                 {
                   title: 'Accessory Code',
                   dataIndex: 'accCode',
-                  key: '2'
+                  key: '2',
+                  width: 300
                 },
               ]}
               rowKey={record => record._id}
@@ -177,6 +185,10 @@ class EquipmentHanding extends React.Component {
                   this.handAccessories(selectedRowKeys)
                 }
               }}
+              pagination={{
+                pageSize: 50, size: 'small'
+              }}
+              scroll={{ y: 350 }}
             /> : null}
           <Divider type='horizontal' />
           <div style={{ textAlign: "right" }}>

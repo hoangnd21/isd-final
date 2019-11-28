@@ -271,7 +271,7 @@ export default class Batch extends React.Component {
             columns={columns}
             rowKey={record => record._id}
             pagination={{
-              pageSize: 20, size: "small", showSizeChanger: true, showQuickJumper: true
+              pageSize: 10, size: "small", showSizeChanger: true, showQuickJumper: true
             }}
           />
           <Modal
