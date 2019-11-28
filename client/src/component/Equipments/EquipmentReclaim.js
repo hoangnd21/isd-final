@@ -154,6 +154,8 @@ class EquipmentReclaim extends React.Component {
                 <DatePicker style={{ width: '100%' }} />
               )}
             </Form.Item>
+          </Col>
+          <Col xl={24}>
             <Form.Item label='Note'>
               {getFieldDecorator('note', {
                 rules: [
@@ -167,7 +169,6 @@ class EquipmentReclaim extends React.Component {
         </Row>
         {accessories !== 'No accessories were handing with this equipment.' ?
           <Table
-            showHeader
             dataSource={accessories}
             columns={[
               {
@@ -179,12 +180,14 @@ class EquipmentReclaim extends React.Component {
               {
                 title: 'Name',
                 dataIndex: 'accName',
-                key: '1'
+                key: '1',
+                width: 200,
               },
               {
                 title: 'Code',
                 dataIndex: 'accCode',
-                key: '2'
+                key: '2',
+                width: 300,
               },
             ]}
             rowKey={record => record._id}
