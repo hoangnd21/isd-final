@@ -21,6 +21,7 @@ class EquipmentHanding extends React.Component {
     users: [],
     allAccessories: null,
     handingAccessories: null,
+    loading: true
   }
 
   componentDidMount() {
@@ -68,6 +69,7 @@ class EquipmentHanding extends React.Component {
         .then(res => {
           this.setState({
             allAccessories: res.data,
+            loading: false
           })
         }) :
       this.setState({
@@ -83,7 +85,7 @@ class EquipmentHanding extends React.Component {
   }
 
   render() {
-    const { allAccessories } = this.state
+    const { allAccessories, loading } = this.state
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
     const userOptions = this.state.users.map(user =>
@@ -157,6 +159,7 @@ class EquipmentHanding extends React.Component {
           </Form.Item>
           {allAccessories ?
             <Table
+              loading={loading}
               dataSource={allAccessories}
               columns={[
                 {

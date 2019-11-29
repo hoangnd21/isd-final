@@ -8,7 +8,9 @@ import {
   Cascader,
   Divider,
   Button,
-  DatePicker
+  DatePicker,
+  Tooltip,
+  Icon
 } from 'antd'
 import moment from 'moment'
 
@@ -73,7 +75,7 @@ class AddBatchForm extends Component {
 
         <Row gutter={10}>
           <Col xl={12}>
-            <Form.Item label='Batch Code'
+            <Form.Item label={<span>Batch code <Tooltip title='Batch Code cannot be changed.'><Icon type='question-circle' /></Tooltip></span>}
             >
               {getFieldDecorator('code', {
                 rules: [

@@ -219,6 +219,14 @@ export default class BasicLayout extends Component {
                   style={collapsed ? { fontSize: 18 } : { color: '#87BC26', fontSize: 18 }}
                   onClick={this.toggleCollapse}
                 />
+                <span
+                  style={{
+                    fontSize: 20,
+                    marginLeft: 20,
+                  }}
+                >
+                  Deloitte - Make an impact.
+                </span>
                 <span style={{ float: 'right', marginRight: 12 }}>
                   <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
                     {loginModal ? '' :

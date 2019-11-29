@@ -75,7 +75,7 @@ export default class BatchItems extends Component {
               </>
               :
               <>
-                <h3>{currentBatch.code} involves {accessories.length} equipments.</h3>
+                <h3>{currentBatch.code} involves {accessories.length} accessories.</h3>
                 <List
                   size="small"
                   header={null}

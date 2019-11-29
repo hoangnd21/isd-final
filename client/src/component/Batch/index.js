@@ -51,20 +51,16 @@ export default class Batch extends React.Component {
   }
 
   allItemsModal = data => {
+    document.title = `Batch - ${data.code}`
     this.setState({
       visible: true,
       modalType: 'view',
       currentBatch: data,
     })
-    // axios.get(`http://localhost:9000/search/equipments?batch=${data.code}`)
-    //   .then(res => {
-    //     this.setState({
-    //       relatedDataByCode: res.data,
-    //     })
-    //   })
   }
 
   closeModal = () => {
+    document.title = 'Batch'
     this.setState({
       visible: false,
       currentBatch: {}

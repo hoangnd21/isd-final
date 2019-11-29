@@ -104,6 +104,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   infoModal = data => {
+    document.title = `Equipments - ${data.name}`
     this.setState({
       equipmentModal: true,
       modalType: 'view',
@@ -144,6 +145,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   hideEquipmentModal = () => {
+    document.title = 'Equipments'
     this.setState({
       equipmentModal: false,
       modalType: '',
