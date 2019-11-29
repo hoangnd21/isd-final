@@ -26,6 +26,7 @@ export default class Providers extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Providers'
     axios({
       baseURL: '/login',
       method: 'get',

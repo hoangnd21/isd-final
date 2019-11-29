@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Divider } from 'antd';
 
-export default class Home extends React.Component {
-  state = {
-    currentUser: null
-  }
-  componentDidMount() {
+export default function Home() {
+  const [currentUser, setCurrentUser] = useState({})
+  useEffect(() => {
+    document.title = 'Home'
     axios({
       baseURL: '/login',
       method: 'get',
@@ -17,16 +15,14 @@ export default class Home extends React.Component {
       },
     })
       .then(res => {
-        this.setState({
-          currentUser: res.data
-        })
+        setCurrentUser(res.data)
       })
-  }
-  render() {
-    return (
-      <h2>Home
-        <Divider type='horizontal' />
+  }, [])
+  return (
+    <>
+      <h2>
+        Welcome {currentUser.fullname}
       </h2>
-    )
-  }
+    </>
+  )
 }

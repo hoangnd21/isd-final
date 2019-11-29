@@ -29,6 +29,7 @@ export default class Accessories extends Component {
     currentAccessory: {}
   }
   componentDidMount() {
+    document.title = 'Accessories'
     axios({
       baseURL: '/login',
       method: 'get',

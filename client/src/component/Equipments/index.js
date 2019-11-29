@@ -36,6 +36,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   componentDidMount() {
+    document.title = 'Equipments'
     axios({
       baseURL: '/login',
       method: 'get',

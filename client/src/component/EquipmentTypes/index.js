@@ -27,6 +27,7 @@ export default class EquipmentTypes extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Equipment Types'
     axios({
       baseURL: '/login',
       method: 'get',
@@ -125,14 +126,14 @@ export default class EquipmentTypes extends Component {
               size='small'
               loading={loading}
               pagination={{
-                pageSize: 14,
+                pageSize: 12,
                 size: "small",
                 total: generalTypes.length,
                 showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
               }}
               renderItem={item => (
-                <Col xl={12} style={{ padding: '0 5px 5px 5px' }}>
-                  <Card bodyStyle={{ borderRadius: 10, padding: 10 }}>
+                <Col xl={12} style={{ marginBottom: 10 }}>
+                  <Card bodyStyle={{ padding: 10, borderRadius: 10 }}>
                     <List.Item>
                       <List.Item.Meta
                         title={

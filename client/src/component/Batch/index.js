@@ -26,6 +26,7 @@ export default class Batch extends React.Component {
     loading: true,
   }
   componentDidMount() {
+    document.title = 'Batch'
     axios({
       baseURL: '/login',
       method: 'get',
