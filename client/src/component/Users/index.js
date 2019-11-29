@@ -25,6 +25,7 @@ export default class Users extends Component {
     currentUser: {}
   }
   componentDidMount() {
+    document.title = 'Users'
     axios({
       baseURL: '/login',
       method: 'get',
