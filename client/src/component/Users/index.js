@@ -16,6 +16,9 @@ import Forbidden from '../../Config/Forbidden'
 
 const { Meta } = Card
 
+const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d_dOmhj6TiA=w1920-h583-iv1'
+const DEFAULT_WOMEN_AVARTAR = 'https ://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
+
 export default class Users extends Component {
   state = {
     allUsers: [],
@@ -60,6 +63,7 @@ export default class Users extends Component {
   }
 
   userInfoModal = user => {
+    document.title = `Users - ${user.username}`
     this.setState({
       visible: true,
       userDetail: user,
@@ -68,6 +72,7 @@ export default class Users extends Component {
   }
 
   hideModal = () => {
+    document.title = `Users`
     this.setState({
       visible: false
     })
@@ -119,8 +124,12 @@ export default class Users extends Component {
                       <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}>
                         <img
                           style={{ width: '100%' }}
-                          alt={u.image}
-                          src={u.image}// user image
+                          alt='#'
+                          src={u.image ?
+                            u.image :
+                            u.gender[0] === 'male' ?
+                              DEFAULT_MEN_AVATAR :
+                              DEFAULT_WOMEN_AVARTAR}
                         />
                       </div>}
                   >

@@ -1,14 +1,16 @@
 import React from 'react';
 import {
   Row,
-  Col
+  Col,
+  Card
 } from 'antd';
 import axios from 'axios'
 
 export default class EquipmentInfo extends React.Component {
   state = {
     generalType: [],
-    subType: []
+    subType: [],
+    loading: true
   }
   componentDidMount() {
     const { equipment } = this.props
@@ -22,11 +24,11 @@ export default class EquipmentInfo extends React.Component {
         console.log(error)
       });
 
-    // axios
     axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${equipment.generalType}&value=${equipment.subtype[0]}`)
       .then(res => {
         this.setState({
           subType: res.data,
+          loading: false
         })
       })
       .catch(error => {
@@ -35,10 +37,10 @@ export default class EquipmentInfo extends React.Component {
 
   }
   render() {
-    const { generalType, subType } = this.state
+    const { generalType, subType, loading } = this.state
     const { equipment } = this.props;
     return (
-      <>
+      <Card loading={loading} bodyStyle={{ margin: 0, padding: 0 }} style={{ border: 0 }}>
         <Row gutter={16} style={{ fontSize: '1.1em' }}>
           <Col xl={12}>
             <h3>{generalType.label}:&nbsp;{equipment.name}<br />
@@ -72,10 +74,8 @@ export default class EquipmentInfo extends React.Component {
               Manufacturer: {equipment.manufacturer}<br />
             </div>
           </Col>
-
         </Row>
-
-      </>
+      </Card>
     )
   }
 }

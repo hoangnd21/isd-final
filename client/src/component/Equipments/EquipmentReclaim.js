@@ -20,7 +20,8 @@ class EquipmentReclaim extends React.Component {
     users: [],
     defaultOwner: [],
     accessories: [],
-    accessoriesToReclaim: null
+    accessoriesToReclaim: null,
+    loading: true
   }
 
   componentDidMount() {
@@ -38,7 +39,8 @@ class EquipmentReclaim extends React.Component {
               .then(res => {
                 console.log(res)
                 this.setState({
-                  accessories: this.state.accessories.concat(res.data)
+                  accessories: this.state.accessories.concat(res.data),
+                  loading: false
                 })
               })
           })
@@ -74,7 +76,7 @@ class EquipmentReclaim extends React.Component {
   }
 
   render() {
-    const { accessories } = this.state
+    const { accessories, loading } = this.state
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
     const reclaimReasonsOptions = [
@@ -169,6 +171,7 @@ class EquipmentReclaim extends React.Component {
         </Row>
         {accessories !== 'No accessories were handing with this equipment.' ?
           <Table
+            loading={loading}
             dataSource={accessories}
             columns={[
               {

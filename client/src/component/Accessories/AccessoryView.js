@@ -10,7 +10,8 @@ import {
 export default class AccessoryView extends Component {
   state = {
     generalType: {},
-    subType: {}
+    subType: {},
+    loading: true
   }
   componentDidMount() {
     const { accessory } = this.props
@@ -23,15 +24,16 @@ export default class AccessoryView extends Component {
     axios.get(`http://localhost:9000/subTypes/subType?genTypeId=${accessory.genTypeAttached}&value=${accessory.subTypeAttached}`)
       .then(res => {
         this.setState({
-          subType: res.data
+          subType: res.data,
+          loading: false
         })
       })
   }
   render() {
-    const { generalType, subType } = this.state
+    const { generalType, subType, loading } = this.state
     const { accessory, updateAccessoryModal, handAccessoryModal, reclaimAccessoryModal } = this.props
     return (
-      <Card>
+      <Card loading={loading}>
         <p>Batch: {accessory.batch}</p>
         <p>This accessory is attached to {generalType.label} and {subType.label}</p>
         <p>Owner: {accessory.owner}</p>

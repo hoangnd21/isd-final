@@ -61,12 +61,14 @@ export default class EquipmentTypes extends Component {
   }
 
   eqTypesDrawer = item => {
+    document.title = `Equipment Types - ${item.value}`
     this.setState({
       drawerVisible: true,
       generalTypebyID: item
     })
   }
   closeDrawer = () => {
+    document.title = `Equipment Types`
     this.setState({
       drawerVisible: false
     })

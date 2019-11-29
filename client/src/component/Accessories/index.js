@@ -147,6 +147,7 @@ export default class Accessories extends Component {
   }
 
   hideModal = () => {
+    document.title = 'Accessories'
     this.setState({
       visible: false,
       currentAccessory: {}
@@ -344,13 +345,15 @@ export default class Accessories extends Component {
           dataSource={allAccessories}
           columns={columns}
           rowKey={record => record._id}
-          expandedRowRender={record =>
-            <AccessoryView
+          expandedRowRender={record => {
+            document.title = document.title === 'Accessories' ? `Accessories - ${record.accName}` : 'Accessories'
+            return (<AccessoryView
               accessory={record}
               updateAccessoryModal={() => this.updateAccessoryModal(record)}
               handAccessoryModal={() => this.handAccessoryModal(record)}
               reclaimAccessoryModal={() => this.reclaimAccessoryModal(record)}
-            />
+            />)
+          }
           }
           loading={loading}
           pagination={{
