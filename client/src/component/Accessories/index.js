@@ -139,6 +139,25 @@ export default class Accessories extends Component {
       });
   }
 
+  handingAccessory = data => {
+    axios.post('http://localhost:9000/accDistribution/addAccDistribution', data)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            equipmentModal: false,
+            loading: true
+          })
+          notification.success({
+            message: res.data,
+            placement: 'bottomRight'
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
   cloningDone = () => {
     notification.info({
       message: 'Cloning Complete. You may now delete the file.',
