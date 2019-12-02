@@ -56,6 +56,7 @@ export default class EquipmentTypes extends Component {
       .then(res => {
         this.setState({
           generalTypes: res.data,
+          loading: false
         })
       })
   }
@@ -81,12 +82,11 @@ export default class EquipmentTypes extends Component {
   }
 
   addGenType = genType => {
-    console.log('index', genType)
-    axios.post('http://localhost:9000/generalTypes/addGeneralType', genType)
+    axios.post('http://localhost:9000/generalTypes/addGeneralType', { value: genType.value.toUpperCase(), label: genType.label.toUpperCase() })
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            dropDownVisible: false
+            dropDownVisible: false,
           })
           notification.success({
             message: res.data
@@ -98,7 +98,6 @@ export default class EquipmentTypes extends Component {
         console.log(error)
       });
   }
-
 
   render() {
     const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading, dropDownVisible } = this.state;
