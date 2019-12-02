@@ -208,7 +208,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   reclaimEquipment = data => {
-    axios.get(`http://localhost:9000/reclaim/${data.device}`)
+    axios.get(`http://localhost:9000/reclaim/equipment/${data.device}`)
       .then(res => {
         axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
           .then(res => {

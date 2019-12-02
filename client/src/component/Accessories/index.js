@@ -158,6 +158,28 @@ export default class Accessories extends Component {
       });
   }
 
+  reclaimAccessory = data => {
+    axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
+      .then(res => {
+        axios.patch(`http://localhost:9000/accDistribution/updateAccDistribution/${res.data._id}`, data)
+          .then(res => {
+            if (res.status === 200) {
+              notification.success({
+                message: res.data,
+                placement: 'bottomRight'
+              })
+              this.setState({
+                equipmentModal: false,
+                loading: true
+              })
+            }
+          })
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
   cloningDone = () => {
     notification.info({
       message: 'Cloning Complete. You may now delete the file.',
