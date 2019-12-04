@@ -78,6 +78,7 @@ const getOneAccessoriesDistributionByEquipId = (req, res) => {
                 res.send(getOneAccessoriesDistributionByEquipId);
             }
             else {
+
                 res.send('fail');
             }
         })
