@@ -487,7 +487,7 @@ export default class Equipments extends React.PureComponent {
             showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           rowKey={record => record._id}
-          scroll={{ y: 610 }}
+          scroll={{ y: 630 }}
         />
 
         <Modal

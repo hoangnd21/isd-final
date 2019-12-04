@@ -44,11 +44,10 @@ export default class EqTypesDrawer extends Component {
 
   getAllEquipmentTypes = () => {
     const { generalType } = this.props
-    axios.get(`http://localhost:9000/subTypes/${generalType.value}`)
+    axios.get(`http://localhost:9000/subTypes/genTypeId/${generalType.value}`)
       .then(res => {
         this.setState({
           equipmentTypesByID: res.data,
-          loading: false
         })
       })
       .catch(error => {
@@ -61,12 +60,10 @@ export default class EqTypesDrawer extends Component {
       .then(res => {
         if (res.status === 200) {
           notification.success({
-            message: res.data,
-            placement: 'bottomRight'
+            message: res.data
           })
           this.setState({
-            visible: false,
-            loading: true
+            visible: false
           })
           this.getAllEquipmentTypes()
         }
