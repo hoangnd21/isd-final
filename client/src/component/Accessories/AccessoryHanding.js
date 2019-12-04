@@ -55,6 +55,7 @@ const AccessoryHanding = props => {
   const { form, accessory } = props;
   const { getFieldDecorator } = form
   return (
+
     <Form
       layout="vertical"
       onSubmit={onHandingAccessory}>
