@@ -79,7 +79,7 @@ const getOneAccessoriesDistributionByEquipId = (req, res) => {
             }
             else {
 
-                res.send('fail');
+                res.send('fail vcl');
             }
         })
 };
