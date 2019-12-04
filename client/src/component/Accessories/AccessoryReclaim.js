@@ -7,7 +7,6 @@ const AccessoryReclaim = (props) => {
   return (
     <div>
 
-
     </div>
   )
 }
