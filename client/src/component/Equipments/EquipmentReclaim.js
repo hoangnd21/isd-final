@@ -26,7 +26,7 @@ class EquipmentReclaim extends React.Component {
 
   componentDidMount() {
     const { equipment } = this.props
-    axios.get(`http://localhost:9000/reclaim/${equipment.code}`)
+    axios.get(`http://localhost:9000/reclaim/equipment/${equipment.code}`)
       .then(res => {
         console.log('equipment.code', res)
         res.data === 'fail' || res.data.accessories.length === 0 ?
