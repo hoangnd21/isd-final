@@ -181,7 +181,7 @@ class EquipmentHanding extends React.Component {
                   width: 300
                 },
               ]}
-              rowKey={record => record.accCode}
+              rowKey={record => record._id}
               size='small'
               rowSelection={{
                 onChange: selectedRowKeys => {

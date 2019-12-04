@@ -55,7 +55,6 @@ const AccessoryHanding = props => {
   const { form, accessory } = props;
   const { getFieldDecorator } = form
   return (
-
     <Form
       layout="vertical"
       onSubmit={onHandingAccessory}>
@@ -108,4 +107,4 @@ const AccessoryHanding = props => {
 }
 const AHForm = Form.create({})(AccessoryHanding);
 
-export default AHForm;
+export default AHForm; 
