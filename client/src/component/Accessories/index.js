@@ -139,7 +139,7 @@ export default class Accessories extends Component {
       });
   }
 
-  handingAccessory = data => {
+  handingAccessoryRequest = data => {
     axios.post('http://localhost:9000/accDistribution/addAccDistribution', data)
       .then(res => {
         if (res.status === 200) {
@@ -158,7 +158,7 @@ export default class Accessories extends Component {
       });
   }
 
-  reclaimAccessory = data => {
+  reclaimAccessoryRequest = data => {
     axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
       .then(res => {
         axios.patch(`http://localhost:9000/accDistribution/updateAccDistribution/${res.data._id}`, data)
@@ -426,7 +426,16 @@ export default class Accessories extends Component {
               isCloning={isCloning}
               accCodeList={accCodeList}
             /> : modalType === 'handing' ?
-              <AccessoryHanding accessory={currentAccessory} /> : <AccessorryReclaim accessory={currentAccessory} />}
+              <AccessoryHanding
+                accessory={currentAccessory}
+                handingAccessoryRequest={this.handingAccessoryRequest}
+                updateAccessoryRequest={this.updateAccessoryRequest}
+              /> :
+              <AccessorryReclaim
+                accessory={currentAccessory}
+                reclaimAccessoryRequest={this.reclaimAccessoryRequest}
+                updateAccessoryRequest={this.updateAccessoryRequest}
+              />}
         </Modal>
       </>
     )
