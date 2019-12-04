@@ -14,7 +14,13 @@ class EquipmentTypeForm extends Component {
       if (err) {
         return;
       }
-      addEquipmentTypeRequest({ ...newEquipmentType, genTypeId: generalTypeID })
+      addEquipmentTypeRequest(
+        {
+          ...newEquipmentType,
+          genTypeId: generalTypeID,
+          label: newEquipmentType.label.toUpperCase(),
+          value: newEquipmentType.value.toUpperCase()
+        })
       form.resetFields();
     });
   };

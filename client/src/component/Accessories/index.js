@@ -403,7 +403,7 @@ export default class Accessories extends Component {
             total: allAccessories.length,
             showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
-          scroll={{ y: 630 }}
+          scroll={{ y: 550 }}
         />
         <Modal
           title={modalType === 'create' ? 'Create Accessory' : modalType === 'update' ? 'Edit Accessory' : modalType === 'handing' ? 'Hand Accessory' : 'Reclaim Accessory'}

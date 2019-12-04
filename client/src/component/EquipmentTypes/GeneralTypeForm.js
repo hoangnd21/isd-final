@@ -14,7 +14,7 @@ class GeneralTypeForm extends Component {
       if (err) {
         return;
       }
-      addGenTypeRequest({ ...newGenType })
+      addGenTypeRequest({ label: newGenType.label.toUpperCase(), value: newGenType.value.toUpperCase() })
       form.resetFields();
     });
   };
