@@ -26,7 +26,7 @@ export default class Equipments extends React.PureComponent {
   state = {
     equipments: [],
     loading: true,
-    equipmentModal: false,
+    visible: false,
     modalType: '',
     equipmentDetail: {},
     currentUser: null,
@@ -78,7 +78,7 @@ export default class Equipments extends React.PureComponent {
 
   createEquipmentModal = () => {
     this.setState({
-      equipmentModal: true,
+      visible: true,
       modalType: 'create'
     })
   }
@@ -88,7 +88,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            equipmentModal: false,
+            visible: false,
             loading: true
           })
           this.state.isCloning ? console.log('clone') :
@@ -106,7 +106,7 @@ export default class Equipments extends React.PureComponent {
   infoModal = data => {
     document.title = `Equipments - ${data.name}`
     this.setState({
-      equipmentModal: true,
+      visible: true,
       modalType: 'view',
       equipmentDetail: data
     })
@@ -116,7 +116,7 @@ export default class Equipments extends React.PureComponent {
     this.setState({
       equipmentDetail: data,
       modalType: 'update',
-      equipmentModal: true
+      visible: true
     })
   }
 
@@ -125,7 +125,7 @@ export default class Equipments extends React.PureComponent {
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            equipmentModal: false,
+            visible: false,
             loading: true
           })
 
@@ -147,7 +147,7 @@ export default class Equipments extends React.PureComponent {
   hideEquipmentModal = () => {
     document.title = 'Equipments'
     this.setState({
-      equipmentModal: false,
+      visible: false,
       modalType: '',
       equipmentDetail: {},
       isCloning: false
@@ -175,18 +175,17 @@ export default class Equipments extends React.PureComponent {
     this.setState({
       equipmentDetail: data,
       modalType: 'handing',
-      equipmentModal: true
+      visible: true
     })
   }
 
   handingEquipment = data => {
-    console.log(data)
     axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            equipmentModal: false,
-            loading: true
+            visible: false,
+
           })
           notification.success({
             message: res.data,
@@ -203,7 +202,7 @@ export default class Equipments extends React.PureComponent {
     this.setState({
       equipmentDetail: data,
       modalType: 'reclaim',
-      equipmentModal: true
+      visible: true
     })
   }
 
@@ -218,7 +217,7 @@ export default class Equipments extends React.PureComponent {
                 placement: 'bottomRight'
               })
               this.setState({
-                equipmentModal: false,
+                visible: false,
                 loading: true
               })
             }
@@ -245,7 +244,7 @@ export default class Equipments extends React.PureComponent {
             return code.code
           }),
           isCloning: true,
-          equipmentModal: true,
+          visible: true,
           modalType: 'create'
         })
       } else if (info.file.status === 'error') {
@@ -314,7 +313,7 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, equipmentModal, modalType, equipmentDetail, loading, currentUser, isCloning, codeList } = this.state;
+    const { equipments, visible, modalType, equipmentDetail, loading, currentUser, isCloning, codeList } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -487,7 +486,7 @@ export default class Equipments extends React.PureComponent {
             showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           rowKey={record => record._id}
-          scroll={{ y: 630 }}
+          scroll={{ y: 550 }}
         />
 
         <Modal
@@ -501,7 +500,7 @@ export default class Equipments extends React.PureComponent {
           }
           maskClosable={isCloning ? false : true}
           destroyOnClose
-          visible={equipmentModal}
+          visible={visible}
           footer={null}
           onCancel={this.hideEquipmentModal}
           lockStatus={this.lockStatus}

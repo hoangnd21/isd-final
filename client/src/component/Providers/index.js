@@ -155,7 +155,7 @@ export default class Providers extends Component {
         dataIndex: 'name',
         key: 'name',
         width: 230,
-        sorter: (a, b) => a.name.length - b.name.length,
+        ...this.getColumnSearchProps('address'),
       },
       {
         title: 'Address',
@@ -242,7 +242,7 @@ export default class Providers extends Component {
               total: allProviders.length,
               showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
             }}
-            scroll={{ y: 630 }}
+            scroll={{ y: 550 }}
           />
           <Modal
             title='Create a new Provider'
