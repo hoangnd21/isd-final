@@ -90,7 +90,8 @@ export default class Batch extends React.Component {
         if (res.status === 200) {
           this.setState({
             visible: false,
-            listLoading: true
+            listLoading: true,
+            currentBatch: {}
           })
           notification.success({
             message: <span>
@@ -120,7 +121,8 @@ export default class Batch extends React.Component {
         if (res.status === 200) {
           this.setState({
             visible: false,
-            loading: true
+            loading: true,
+            currentBatch: {}
           })
           notification.success({
             message: res.data
