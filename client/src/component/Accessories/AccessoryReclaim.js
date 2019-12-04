@@ -1,16 +1,13 @@
-import React from 'react'
-import {
-  Form
-} from 'antd'
-
-const AccessoryReclaim = (props) => {
-  return (
-    <div>
+import React, { Component } from 'react'
 
 
-    </div>
-  )
+export default class AccessoryReclaim extends Component {
+  render() {
+    return (
+      <>
+        AccessoryReclaim
+      </>
+    )
+  }
+
 }
-const ARForm = Form.create({})(AccessoryReclaim);
-
-export default ARForm;

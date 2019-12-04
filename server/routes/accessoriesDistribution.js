@@ -3,7 +3,7 @@ const router = express.Router();
 const accDistributionController = require('../controllers/accessoriesDistribution')
 
 router.post('/addAccDistribution', (req, res) => {
-    accDistributionController.addAccessoriesDistribution(req, res);
+    accDistributionController.addAccessoriesDistributiona(req, res);
 });
 
 router.get('/', (req, res) => {
