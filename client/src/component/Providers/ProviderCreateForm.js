@@ -31,7 +31,6 @@ class ProviderCreateForm extends Component {
           emailWP: newProvider.emailWP,
           phoneWP: newProvider.phoneWP
         },
-        name: newProvider.name.toUpperCase()
       }
       delete newP.CPName
       delete newP.emailCP
