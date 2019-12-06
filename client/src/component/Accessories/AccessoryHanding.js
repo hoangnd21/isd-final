@@ -32,7 +32,7 @@ const AccessoryHanding = props => {
 
   const onHandingAccessory = e => {
     e.preventDefault();
-    const { form, accessory, handingAccessoryRequest, updateAccessoryRequest } = props;
+    const { form, accessory, handingAccessoryRequest } = props;
     form.validateFields((err, handingDetail) => {
       if (err) {
         return;
@@ -47,8 +47,7 @@ const AccessoryHanding = props => {
         status: 'handing'
       }
       delete handing.range
-      handingAccessoryRequest(handing)
-      updateAccessoryRequest({ _id: accessory._id, accStatus: 'Use', owner: handing.user })
+      handingAccessoryRequest(handing, { _id: accessory._id, accStatus: 'Use', owner: handing.user })
       form.resetFields();
     });
   }
@@ -71,8 +70,7 @@ const AccessoryHanding = props => {
               ],
             })(<Cascader options={users} />)}
           </Form.Item>
-          <Form.Item label='Handing Duration'
-          >
+          <Form.Item label='Handing Duration'>
             {getFieldDecorator('range', {
               rules: [
                 {
@@ -84,8 +82,7 @@ const AccessoryHanding = props => {
           </Form.Item>
         </Col>
         <Col xl={12}>
-          <Form.Item label='Accessory'
-          >
+          <Form.Item label='Accessory'>
             <h3>{accessory.accName} - {accessory.accCode}</h3>
           </Form.Item>
           <Form.Item label='Note'>
@@ -96,6 +93,7 @@ const AccessoryHanding = props => {
       <Divider type='horizontal' />
       <div style={{ textAlign: "right" }}>
         <Button
+          icon='appstore'
           type='primary'
           htmlType='submit'
         >

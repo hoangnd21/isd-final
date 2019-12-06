@@ -40,7 +40,7 @@ class EquipmentHanding extends React.Component {
   onHandingEquipment = e => {
     e.preventDefault();
     const { handingAccessories } = this.state
-    const { form, equipment, handingEquipment, updateEquipment } = this.props;
+    const { form, equipment, handingEquipment } = this.props;
     form.validateFields((err, handingDetail) => {
       handingDetail.user = handingDetail.user.toString()
       if (err) {
@@ -49,8 +49,7 @@ class EquipmentHanding extends React.Component {
       const handing = { ...handingDetail, eqStatus: 'Use', device: equipment.code, handingDate: handingDetail.range[0], reclaimDate: handingDetail.range[1] }
       delete handing.range
       handingAccessories ? this.changeOwnerAccessory(handingAccessories, handingDetail.user) : console.log('no handing accessories')
-      handingEquipment({ ...handing, accessories: handingAccessories, status: 'handing' })
-      updateEquipment({ ...equipment, eqStatus: 'Use', owner: handingDetail.user })
+      handingEquipment({ ...handing, accessories: handingAccessories, status: 'handing' }, { ...equipment, eqStatus: 'Use', owner: handingDetail.user })
       form.resetFields();
     });
   }
@@ -196,6 +195,7 @@ class EquipmentHanding extends React.Component {
           <Divider type='horizontal' />
           <div style={{ textAlign: "right" }}>
             <Button
+              icon='appstore'
               type='primary'
               htmlType='submit'
             >
