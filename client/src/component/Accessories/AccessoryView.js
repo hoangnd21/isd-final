@@ -49,7 +49,7 @@ export default class AccessoryView extends Component {
           Edit this accessory
         </Button>
         <Button
-          icon='edit'
+          icon={accessory.owner[0] === 'None' ? 'appstore' : 'share-alt'}
           onClick={accessory.owner[0] === 'None' ? handAccessoryModal : reclaimAccessoryModal}
           style={{ marginLeft: 5 }}
         >

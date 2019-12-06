@@ -242,7 +242,7 @@ export default class Providers extends Component {
               total: allProviders.length,
               showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
             }}
-            scroll={{ y: 550 }}
+            scroll={{ y: 600 }}
           />
           <Modal
             title='Create a new Provider'

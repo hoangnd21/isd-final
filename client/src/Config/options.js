@@ -39,3 +39,17 @@ export const eqStatusOptions = [
         label: 'Storage'
     },
 ]
+export const reclaimReasonsOptions = [
+    {
+        value: 'Staff Leave',
+        label: 'Staff Leave'
+    },
+    {
+        value: 'Staff Pregnancy',
+        label: 'Staff Pregnancy'
+    },
+    {
+        value: 'Return from Borrow',
+        label: 'Return from Borrow'
+    }
+]

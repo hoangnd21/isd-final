@@ -103,7 +103,6 @@ export default class Accessories extends Component {
   }
 
   handAccessoryModal = record => {
-    console.log('handing')
     this.setState({
       modalType: 'handing',
       visible: true,
@@ -112,7 +111,6 @@ export default class Accessories extends Component {
   }
 
   reclaimAccessoryModal = record => {
-    console.log('reclaim')
     this.setState({
       modalType: 'reclaim',
       visible: true,
@@ -127,35 +125,32 @@ export default class Accessories extends Component {
           this.setState({
             visible: false,
           })
-          notification.success({
-            message: res.data,
-            placement: 'bottomRight'
-          })
+          if (data.owner[0] === 'None') {
+            notification.success({
+              message: res.data,
+              placement: 'bottomRight'
+            })
+          }
           this.getAllAccessories()
         }
       })
-      .catch(error => {
-        console.log(error)
-      });
   }
 
-  handingAccessoryRequest = data => {
-    axios.post('http://localhost:9000/accDistribution/addAccDistribution', data)
+  handingAccessoryRequest = (handing, update) => {
+    axios.post('http://localhost:9000/accDistribution/addAccDistribution', handing)
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            equipmentModal: false,
+            visible: false,
             loading: true
           })
           notification.success({
             message: res.data,
             placement: 'bottomRight'
           })
+          this.updateAccessoryRequest(update)
         }
       })
-      .catch(error => {
-        console.log(error)
-      });
   }
 
   reclaimAccessoryRequest = data => {
@@ -169,7 +164,7 @@ export default class Accessories extends Component {
                 placement: 'bottomRight'
               })
               this.setState({
-                equipmentModal: false,
+                visible: false,
                 loading: true
               })
             }
@@ -403,7 +398,7 @@ export default class Accessories extends Component {
             total: allAccessories.length,
             showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
-          scroll={{ y: 550 }}
+          scroll={{ y: 600 }}
         />
         <Modal
           title={modalType === 'create' ? 'Create Accessory' : modalType === 'update' ? 'Edit Accessory' : modalType === 'handing' ? 'Hand Accessory' : 'Reclaim Accessory'}
@@ -429,12 +424,10 @@ export default class Accessories extends Component {
               <AccessoryHanding
                 accessory={currentAccessory}
                 handingAccessoryRequest={this.handingAccessoryRequest}
-                updateAccessoryRequest={this.updateAccessoryRequest}
               /> :
               <AccessorryReclaim
                 accessory={currentAccessory}
                 reclaimAccessoryRequest={this.reclaimAccessoryRequest}
-                updateAccessoryRequest={this.updateAccessoryRequest}
               />}
         </Modal>
       </>

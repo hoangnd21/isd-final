@@ -179,18 +179,18 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  handingEquipment = data => {
-    axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', data)
+  handingEquipment = (handing, update) => {
+    axios.post('http://localhost:9000/equipmentDistribution/addEquipmentDistribution', handing)
       .then(res => {
         if (res.status === 200) {
           this.setState({
             visible: false,
-
           })
           notification.success({
             message: res.data,
             placement: 'bottomRight'
           })
+          this.updateEquipment(update)
         }
       })
       .catch(error => {
@@ -486,7 +486,7 @@ export default class Equipments extends React.PureComponent {
             showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`
           }}
           rowKey={record => record._id}
-          scroll={{ y: 550 }}
+          scroll={{ y: 600 }}
         />
 
         <Modal

@@ -12,6 +12,7 @@ import {
   Table
 } from 'antd'
 import axios from 'axios';
+import { reclaimReasonsOptions } from '../../Config/options'
 
 const { TextArea } = Input;
 
@@ -28,7 +29,6 @@ class EquipmentReclaim extends React.Component {
     const { equipment } = this.props
     axios.get(`http://localhost:9000/reclaim/equipment/${equipment.code}`)
       .then(res => {
-        console.log('equipment.code', res)
         res.data === 'fail' || res.data.accessories.length === 0 ?
           this.setState({
             accessories: 'No accessories were handing with this equipment.'
@@ -37,7 +37,6 @@ class EquipmentReclaim extends React.Component {
           res.data.accessories.map(a => {
             axios.get(`http://localhost:9000/accessories/${a}`)
               .then(res => {
-                console.log(res)
                 this.setState({
                   accessories: this.state.accessories.concat(res.data),
                   loading: false
@@ -79,20 +78,6 @@ class EquipmentReclaim extends React.Component {
     const { accessories, loading } = this.state
     const { form, equipment } = this.props;
     const { getFieldDecorator } = form;
-    const reclaimReasonsOptions = [
-      {
-        value: 'Staff Leave',
-        label: 'Staff Leave'
-      },
-      {
-        value: 'Staff Pregnancy',
-        label: 'Staff Pregnancy'
-      },
-      {
-        value: 'Return from Borrow',
-        label: 'Return from Borrow'
-      }
-    ]
     const reclaimDate = moment();
     return (
       <Form
@@ -101,7 +86,7 @@ class EquipmentReclaim extends React.Component {
       >
         <Row gutter={12}>
           <Col xl={12}>
-            <Form.Item label="Owner's Equipment">
+            <Form.Item label="Owner">
               {getFieldDecorator('user', {
                 rules: [
                   {
@@ -206,6 +191,7 @@ class EquipmentReclaim extends React.Component {
         <Divider type='horizontal' />
         <div style={{ textAlign: "right" }}>
           <Button
+            icon='share-alt'
             type='primary'
             htmlType='submit'
           >
