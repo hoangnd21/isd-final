@@ -23,8 +23,12 @@ const AccessoryReclaim = props => {
       if (err) {
         return;
       }
-      console.log({ ...reclaimDetail, status: 'reclaim', device: accessory.accCode })
-      // reclaimAccessoryRequest({ ...reclaimDetail, status: 'reclaim', device: equipment.code })
+      // console.log({ ...reclaimDetail, status: 'reclaim', device: accessory.accCode })
+      // console.log({ _id: accessory._id, accStatus: 'Use', owner: ['None'] })
+      reclaimAccessoryRequest(
+        { ...reclaimDetail, status: 'reclaim', device: accessory.accCode },
+        { _id: accessory._id, accStatus: 'Use', owner: ['None'] }
+      )
       form.resetFields();
     });
   }
@@ -70,7 +74,7 @@ const AccessoryReclaim = props => {
             })(<Input disabled />)}
           </Form.Item>
           <Form.Item label='Reclaim Date'>
-            {getFieldDecorator('range', {
+            {getFieldDecorator('reclaimDate', {
               rules: [
                 {
                   required: true,

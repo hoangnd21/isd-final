@@ -73,11 +73,10 @@ export default class Providers extends Component {
           this.setState({
             visible: false,
             listLoading: true
-          })
+          }, this.getAllProviders())
           notification.success({
             message: res.data
           })
-          this.getAllProviders()
         }
       })
   }

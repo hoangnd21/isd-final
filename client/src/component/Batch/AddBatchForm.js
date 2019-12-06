@@ -55,7 +55,6 @@ class AddBatchForm extends Component {
       if (err) {
         return;
       }
-      console.log({ ...currentBatch, ...updatingBatch })
       updateBatch({ ...currentBatch, ...updatingBatch })
       form.resetFields();
     });

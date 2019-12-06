@@ -45,7 +45,10 @@ export default class Accessories extends Component {
           loading: false
         })
 
-        axios.get(this.state.currentUser.level > 2 ? 'http://localhost:9000/accessories' : `http://localhost:9000/search/accessories?owner=${this.state.currentUser.username}`)
+        axios.get(this.state.currentUser.level > 2 ?
+          'http://localhost:9000/accessories' :
+          `http://localhost:9000/search/accessories?owner=${this.state.currentUser.username}`
+        )
           .then(res => {
             this.setState({
               allAccessories: res.data
@@ -119,19 +122,20 @@ export default class Accessories extends Component {
   }
 
   updateAccessoryRequest = data => {
+    const { modalType } = this.state
     axios.patch(`http://localhost:9000/accessories/updateAccessories/${data._id}`, data)
       .then(res => {
         if (res.status === 200) {
           this.setState({
             visible: false,
-          })
-          if (data.owner[0] === 'None') {
+            loading: true
+          }, this.getAllAccessories())
+          if (modalType === 'handing' || modalType === 'reclaim') { return } else {
             notification.success({
               message: res.data,
               placement: 'bottomRight'
             })
           }
-          this.getAllAccessories()
         }
       })
   }
@@ -143,17 +147,16 @@ export default class Accessories extends Component {
           this.setState({
             visible: false,
             loading: true
-          })
+          }, this.updateAccessoryRequest(update))
           notification.success({
             message: res.data,
             placement: 'bottomRight'
           })
-          this.updateAccessoryRequest(update)
         }
       })
   }
 
-  reclaimAccessoryRequest = data => {
+  reclaimAccessoryRequest = (data, reclaim) => {
     axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
       .then(res => {
         axios.patch(`http://localhost:9000/accDistribution/updateAccDistribution/${res.data._id}`, data)
@@ -165,8 +168,7 @@ export default class Accessories extends Component {
               })
               this.setState({
                 visible: false,
-                loading: true
-              })
+              }, this.updateAccessoryRequest(reclaim))
             }
           })
       })

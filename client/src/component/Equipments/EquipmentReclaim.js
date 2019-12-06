@@ -55,14 +55,13 @@ class EquipmentReclaim extends React.Component {
   onReclaimEquipment = e => {
     e.preventDefault();
     const { accessoriesToReclaim } = this.state
-    const { form, equipment, reclaimEquipment, updateEquipment } = this.props;
+    const { form, equipment, reclaimEquipment } = this.props;
     form.validateFields((err, reclaimDetail) => {
       if (err) {
         return;
       }
       accessoriesToReclaim ? this.reclaimAccessories(accessoriesToReclaim) : console.log(null)
-      reclaimEquipment({ ...reclaimDetail, status: 'reclaim', device: equipment.code })
-      updateEquipment({ ...equipment, eqStatus: 'Storage', owner: 'None' })
+      reclaimEquipment({ ...reclaimDetail, status: 'reclaim', device: equipment.code }, { ...equipment, eqStatus: 'Storage', owner: 'None' })
       form.resetFields();
     });
   }
