@@ -90,7 +90,6 @@ export default class EquipmentTypes extends Component {
       });
   }
 
-
   render() {
     const { generalTypes, drawerVisible, generalTypebyID, currentUser, loading } = this.state;
     return (

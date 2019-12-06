@@ -90,12 +90,11 @@ export default class Equipments extends React.PureComponent {
           this.setState({
             visible: false,
             loading: true
-          })
+          }, this.getAllEquipments())
           this.state.isCloning ? console.log('clone') :
             notification.success({
               message: res.data
             })
-          this.getAllEquipments()
         }
       })
       .catch(error => {
@@ -127,16 +126,13 @@ export default class Equipments extends React.PureComponent {
           this.setState({
             visible: false,
             loading: true
-          })
-
+          }, this.getAllEquipments())
           this.state.modalType === 'handing' || this.state.modalType === 'reclaim' ?
-            console.log('handing')
-            :
+            console.log('handing') :
             notification.success({
               message: res.data,
               placement: 'bottomRight'
             })
-          this.getAllEquipments()
         }
       })
       .catch(error => {
@@ -185,12 +181,11 @@ export default class Equipments extends React.PureComponent {
         if (res.status === 200) {
           this.setState({
             visible: false,
-          })
+          }, this.updateEquipment(update))
           notification.success({
             message: res.data,
             placement: 'bottomRight'
           })
-          this.updateEquipment(update)
         }
       })
       .catch(error => {
@@ -206,10 +201,10 @@ export default class Equipments extends React.PureComponent {
     })
   }
 
-  reclaimEquipment = data => {
-    axios.get(`http://localhost:9000/reclaim/equipment/${data.device}`)
+  reclaimEquipment = (reclaim, update) => {
+    axios.get(`http://localhost:9000/reclaim/equipment/${reclaim.device}`)
       .then(res => {
-        axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, data)
+        axios.patch(`http://localhost:9000/equipmentDistribution/updateEquipmentDistribution/${res.data._id}`, reclaim)
           .then(res => {
             if (res.status === 200) {
               notification.success({
@@ -219,7 +214,7 @@ export default class Equipments extends React.PureComponent {
               this.setState({
                 visible: false,
                 loading: true
-              })
+              }, this.updateEquipment(update))
             }
           })
       })
@@ -530,7 +525,6 @@ export default class Equipments extends React.PureComponent {
                 <EquipmentHanding
                   equipment={equipmentDetail}
                   handingEquipment={this.handingEquipment}
-                  updateEquipment={this.updateEquipment}
                 />
                 :
                 modalType === 'view' ?
@@ -542,7 +536,6 @@ export default class Equipments extends React.PureComponent {
                     <EquipmentReclaim
                       equipment={equipmentDetail}
                       reclaimEquipment={this.reclaimEquipment}
-                      updateEquipment={this.updateEquipment}
                     /> :
                     null}
         </Modal>

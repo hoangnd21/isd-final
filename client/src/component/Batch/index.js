@@ -91,14 +91,13 @@ export default class Batch extends React.Component {
           this.setState({
             visible: false,
             listLoading: true
-          })
+          }, this.getAllBatch())
           notification.success({
             message: <span>
               {res.data}<br />
               You can now use this batch to create equiments and accessories.
             </span>
           })
-          this.getAllBatch()
         }
       })
       .catch(error => {
@@ -121,11 +120,10 @@ export default class Batch extends React.Component {
           this.setState({
             visible: false,
             loading: true
-          })
+          }, this.getAllBatch())
           notification.success({
             message: res.data
           })
-          this.getAllBatch()
         }
       })
       .catch(error => {

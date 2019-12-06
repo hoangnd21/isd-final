@@ -64,8 +64,7 @@ export default class EqTypesDrawer extends Component {
           })
           this.setState({
             visible: false
-          })
-          this.getAllEquipmentTypes()
+          }, this.getAllEquipmentTypes())
         }
       })
       .catch(error => {
