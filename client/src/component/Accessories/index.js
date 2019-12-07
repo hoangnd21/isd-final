@@ -157,7 +157,6 @@ export default class Accessories extends Component {
   }
 
   reclaimAccessoryRequest = (data, reclaim) => {
-
     axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
       .then(res => {
         console.log(res)
@@ -256,7 +255,7 @@ export default class Accessories extends Component {
   upload = info => {
     if (info.file.status !== 'uploading') {
       if (info.file.status === 'done') {
-        message.info(`Code file uploaded successfully.`);
+        message.info(`Code file uploaded successfully. You may now enter further details for accessories.`);
         this.setState({
           accCodeList: info.file.response.map(code => {
             return code.code
@@ -265,7 +264,6 @@ export default class Accessories extends Component {
           visible: true,
           modalType: 'create'
         })
-        console.log(this.state.accCodeList)
       } else if (info.file.status === 'error') {
         message.error(`Upload failed.`);
       }
@@ -370,12 +368,12 @@ export default class Accessories extends Component {
               >
                 Add a new Accessory
                 </Button>
-              <Upload {...props} onChange={this.upload} style={{ width: 'auto' }}>
+              <Upload {...props} onChange={this.upload} style={{ width: 'auto' }} accept='.xlsx, .xls, .csv' showUploadList={false} >
                 <Button
                   type='secondary'
                   icon='upload'
                 >
-                  Upload a code file to clone Equipment
+                  Upload a code file to clone Accessory
                 </Button>
               </Upload>
             </span>
@@ -407,7 +405,10 @@ export default class Accessories extends Component {
           scroll={{ y: 600 }}
         />
         <Modal
-          title={modalType === 'create' ? 'Create Accessory' : modalType === 'update' ? 'Edit Accessory' : modalType === 'handing' ? 'Hand Accessory' : 'Reclaim Accessory'}
+          title={modalType === 'create' ? 'Create Accessory' :
+            modalType === 'update' ? 'Edit Accessory' :
+              modalType === 'handing' ? 'Hand Accessory' :
+                'Reclaim Accessory'}
           centered
           footer={null}
           visible={visible}
