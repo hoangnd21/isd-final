@@ -157,8 +157,10 @@ export default class Accessories extends Component {
   }
 
   reclaimAccessoryRequest = (data, reclaim) => {
-    axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
+
+    axios.get(`http://localhost:9000/reclaim/accessory/${data.device}`)
       .then(res => {
+        console.log(res)
         axios.patch(`http://localhost:9000/accDistribution/updateAccDistribution/${res.data._id}`, data)
           .then(res => {
             if (res.status === 200) {
