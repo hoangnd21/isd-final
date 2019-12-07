@@ -158,7 +158,7 @@ export default class Accessories extends Component {
 
   reclaimAccessoryRequest = (data, reclaim) => {
 
-    axios.get(`http://localhost:9000/reclaim/accessory/${data.device}`)
+    axios.get(`http://localhost:9000/reclaim/accessory/${data.accessory}`)
       .then(res => {
         console.log(res)
         axios.patch(`http://localhost:9000/accDistribution/updateAccDistribution/${res.data._id}`, data)
@@ -262,8 +262,10 @@ export default class Accessories extends Component {
             return code.code
           }),
           isCloning: true,
-          visible: true
+          visible: true,
+          modalType: 'create'
         })
+        console.log(this.state.accCodeList)
       } else if (info.file.status === 'error') {
         message.error(`Upload failed.`);
       }

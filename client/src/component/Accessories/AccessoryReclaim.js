@@ -26,8 +26,8 @@ const AccessoryReclaim = props => {
       // console.log({ ...reclaimDetail, status: 'reclaim', device: accessory.accCode })
       // console.log({ _id: accessory._id, accStatus: 'Use', owner: ['None'] })
       reclaimAccessoryRequest(
-        { ...reclaimDetail, status: 'reclaim', device: accessory.accCode },
-        { _id: accessory._id, accStatus: 'Use', owner: ['None'] }
+        { ...reclaimDetail, status: 'reclaim', accessory: accessory.accCode },
+        { _id: accessory._id, accStatus: 'Storage', owner: ['None'] }
       )
       form.resetFields();
     });
