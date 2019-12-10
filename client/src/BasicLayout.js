@@ -88,7 +88,7 @@ export default class BasicLayout extends Component {
         password: loginInfo.password
       }
     })
-      .then((res) => {
+      .then(res => {
         if (res.data !== 'Invalid login. Please try again!' && res.data !== 'Invalid username. Please try again!') {
           this.setState({
             loginModal: false,
@@ -116,7 +116,7 @@ export default class BasicLayout extends Component {
         "Access-Control-Allow-Credentials": "true",
       }
     })
-      .then((res) => {
+      .then(res => {
         if (res.data) {
           this.setState({
             loginModal: true,
@@ -146,7 +146,7 @@ export default class BasicLayout extends Component {
                 />
               </div>
               <Divider type='horizontal' style={{ marginTop: 10 }} />
-              <Menu mode='inline'>
+              <Menu mode='vertical'>
                 <Menu.Item key="home">
                   <Link to='/' className='menu-item'>
                     <Icon type='home' />
@@ -230,7 +230,7 @@ export default class BasicLayout extends Component {
                 <span style={{ float: 'right', marginRight: 12 }}>
                   <span style={{ color: '#87BC26', marginRight: 5, fontSize: 16 }}>
                     {loginModal ? '' :
-                      <Link to='/about'>
+                      <Link to='/about' style={{ fontSize: 20 }}>
                         {currentUser.fullname}&nbsp;
                         <Avatar alt='' src={currentUser.image} shape='circle' />
                       </Link>}
