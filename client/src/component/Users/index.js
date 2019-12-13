@@ -159,7 +159,7 @@ export default class Users extends Component {
           </>
         }
         <Modal
-          title={modalType === 'create' ? 'Create User' : userDetail.fullname}
+          title={modalType === 'create' ? 'Create User' : 'User Information'}
           centered
           visible={visible}
           footer={null}
@@ -168,7 +168,7 @@ export default class Users extends Component {
         >
           {modalType === 'create' ?
             <CreateUserForm createUser={this.createUserRequest} /> :
-            <UserInfo user={userDetail} />}
+            <UserInfo user={userDetail} location='Users' />}
         </Modal>
       </>
     )

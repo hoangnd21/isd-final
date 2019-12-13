@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import {
-  Divider,
-  Row,
-  Col
-} from 'antd'
+import UserInfo from '../Users/UserInfo'
 
 
 const About = () => {
   const [currentUser, setCurrentUser] = useState({})
-
   useEffect(() => {
     document.title = `About`
     axios({
@@ -28,18 +23,7 @@ const About = () => {
 
   return (
     <>
-      <h2>
-        {currentUser.username}
-        <Divider type='horizontal' />
-      </h2>
-      <Row gutter={20}>
-        <Col xl={12}>
-          Col
-        </Col>
-        <Col xl={12}>
-          Col
-        </Col>
-      </Row>
+      <UserInfo user={currentUser} location='About' />
     </>
   )
 }

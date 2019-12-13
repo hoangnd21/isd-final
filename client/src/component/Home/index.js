@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Divider } from 'antd'
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState({})
@@ -22,6 +23,7 @@ export default function Home() {
     <>
       <h2>
         Welcome {currentUser.fullname}
+        <Divider type='horizontal' />
       </h2>
     </>
   )

@@ -134,12 +134,10 @@ export default class EquipmentTypes extends Component {
               }}
               renderItem={item => (
                 <Col xl={12} style={{ marginBottom: 10 }}>
-                  <Card bodyStyle={{ padding: 10, borderRadius: 10 }}>
+                  <Card bodyStyle={{ padding: 10, borderRadius: 10 }} onClick={() => this.eqTypesDrawer(item)}>
                     <List.Item>
                       <List.Item.Meta
-                        title={
-                          <Button style={{ padding: 0 }} type='link' onClick={() => this.eqTypesDrawer(item)}><h3>{item.label}</h3></Button>
-                        }
+                        title={item.label}
                         description={`ID: ${item.value}`}
                       />
                     </List.Item>
@@ -154,8 +152,8 @@ export default class EquipmentTypes extends Component {
                 onClose={this.closeDrawer}
                 visible={drawerVisible}
                 destroyOnClose
-                style={{ position: 'absolute', }}
-                width='auto'
+                // style={{ position: 'absolute', }}
+                width='30%'
               >
                 <EqTypesDrawer generalType={generalTypebyID} currentUser={currentUser} />
               </Drawer>
