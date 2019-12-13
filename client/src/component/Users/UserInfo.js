@@ -75,13 +75,15 @@ export default function UserInfo(props) {
                   <Col xl={9}>Employee Code:</Col><Col xl={15}>{user.code}</Col>
                   <Col xl={9}>Employee Rank:</Col><Col xl={15}>{user.rank}</Col>
                   <Col xl={9}>Employee Function:</Col><Col xl={15}>{user.function}</Col>
-                  <Col xl={9}>Employee level:</Col><Col xl={15}>{user.level}</Col>
-                  <Col xl={9}>Office phone:</Col><Col xl={15}>{user.officePhone}</Col>
+                  <Col xl={9}>Employee Level:</Col><Col xl={15}>{user.level}</Col>
+                  <Col xl={9}>Office Phone:</Col><Col xl={15}>{user.officePhone}</Col>
                   <Col xl={9}>Office Email:</Col><Col xl={15}>{user.officeMail}</Col>
                 </Paragraph>
               </Col>
             </Col>
-            <Col xl={4} style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <Col xl={4} style={{ padding: '0 0 0 10px', verticalAlign: 'middle' }}>
+              <h3>User avatar:</h3>
+              <Divider style={{ margin: '10px 0' }} type='horizontal' />
               <img
                 style={{ width: '100%' }}
                 alt='#'
