@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserInfo from '../Users/UserInfo'
 
-
 const About = () => {
   const [currentUser, setCurrentUser] = useState({})
   useEffect(() => {
@@ -27,4 +26,21 @@ const About = () => {
     </>
   )
 }
+
+updateProfileRequest = data => {
+  axios.post(`http://localhost:9000/users/updateUser/${data._id}`, data)
+    .then(res => {
+      if (res.status === 200) {
+        this.setState({
+          visible: false,
+          loading: true
+        }),
+          notification.success({
+            message: res.data,
+            placement: 'bottomRight'
+          })
+      }
+    })
+}
+
 export default About
