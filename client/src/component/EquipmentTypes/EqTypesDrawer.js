@@ -6,10 +6,14 @@ import {
   notification,
   Row,
   Col,
+  Input,
+  Tooltip,
+  Divider
 } from 'antd'
 import axios from 'axios'
 import EquipmentTypeForm from './EquipmentTypeForm'
 
+const { Search } = Input
 export default class EqTypesDrawer extends Component {
   state = {
     equipmentTypesByID: [],
@@ -77,20 +81,27 @@ export default class EqTypesDrawer extends Component {
     const { generalType, currentUser } = this.props
     return (
       <>
-        <Row gutter={10} style={{ width: 900 }}>
+        <Row gutter={10}>
           <Col xl={12}>
-            {/* <Search
+            <Search
               placeholder={`Search ${equipmentTypesByID.length} ${equipmentTypesByID.length > 1 ? 'entries' : 'entry'}....`}
               onSearch={value => console.log(value)}
               enterButton
-            /> */}
+            />
           </Col>
-          {currentUser.level > 3 ? <Col xl={12}>
-            <div style={{ textAlign: 'right' }}>
-              <Button type='primary' icon='plus' onClick={this.addEqTypeModal}>Add a new Equipment type into {generalType.label}</Button>
-            </div>
-          </Col> : null}
+          {currentUser.level > 2 ?
+            <Col xl={12}>
+              <div style={{ textAlign: 'right' }}>
+                <Tooltip
+                  placement='bottomRight'
+                  title={`Add a new Equipment type into ${generalType.label}`}
+                >
+                  <Button type='primary' icon='plus' onClick={this.addEqTypeModal} />
+                </Tooltip>
+              </div>
+            </Col> : null}
         </Row>
+        <Divider style={{ margin: '10px 0 0' }} type='horizontal' />
         <List
           itemLayout='horizontal'
           dataSource={equipmentTypesByID}

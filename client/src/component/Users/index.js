@@ -52,7 +52,7 @@ export default class Users extends Component {
       })
   }
 
-  getAllProviders = () => {
+  getAllUsers = () => {
     axios.get('http://localhost:9000/users')
       .then(res => {
         this.setState({
@@ -92,11 +92,10 @@ export default class Users extends Component {
           this.setState({
             visible: false,
             loading: true
-          })
+          }, this.getAllUsers())
           notification.success({
             message: res.data
           })
-          this.getAllProviders()
         }
       })
       .catch(error => {

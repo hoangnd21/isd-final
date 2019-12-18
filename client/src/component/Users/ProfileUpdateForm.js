@@ -80,7 +80,7 @@ function ProfileUpdateForm(props) {
               <Col xl={9}>Gender:</Col>
               <Form.Item>
                 <Col xl={15}>
-                  {getFieldDecorator('DOB', {
+                  {getFieldDecorator('gender', {
                     rules: [
                       {
                         required: true,
@@ -249,7 +249,8 @@ function ProfileUpdateForm(props) {
                       }
                     ],
                     initialValue: user.level
-                  })(<InputNumber min={1} max={4} style={{ width: '100%' }} />)}
+                    // only level 4 can do this
+                  })(<InputNumber disabled={user.level < 4 ? false : true} min={1} max={4} style={{ width: '100%' }} />)}
                 </Col>
               </Form.Item>
               <Col xl={9}>Office Phone:</Col>
