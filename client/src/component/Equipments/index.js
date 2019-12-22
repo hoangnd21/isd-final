@@ -163,7 +163,7 @@ export default class Equipments extends React.PureComponent {
 
   getNotification = () => {
     socket.on('recieve', function (msg) {
-      console.log('from backend: ' + msg);
+      console.log('from backend message: ' + msg);
     });
   }
 
