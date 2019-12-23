@@ -18,7 +18,9 @@ import EquipmentInfo from './EquipmentInfo'
 import EquipmentHanding from './EquipmentHanding';
 import EquipmentReclaim from './EquipmentReclaim';
 import Highlighter from 'react-highlight-words';
+import openSocket from 'socket.io-client';
 
+const socket = openSocket('http://localhost:8000');
 const { Paragraph } = Typography
 
 export default class Equipments extends React.PureComponent {
@@ -37,6 +39,9 @@ export default class Equipments extends React.PureComponent {
 
   componentDidMount() {
     document.title = 'Equipments'
+    socket.on('recieved', function (msg) {
+      console.log('from backend message: ' + msg);
+    });
     axios({
       baseURL: '/login',
       method: 'get',
@@ -148,6 +153,21 @@ export default class Equipments extends React.PureComponent {
       equipmentDetail: {},
       isCloning: false
     })
+  }
+
+  reportProblem = equipment => {
+    socket.emit('react_message', JSON.stringify({
+      type: 'error',
+      sender: this.state.currentUser.username,
+      equipment: equipment._id
+    }));
+    // this.getNotification()
+  }
+
+  getNotification = () => {
+    socket.on('recieved', function (msg) {
+      console.log('from backend message: ' + msg);
+    });
   }
 
   deleteEquipment = data => {
@@ -414,7 +434,7 @@ export default class Equipments extends React.PureComponent {
               <Button
                 type='danger'
                 icon='info-circle'
-                onClick={() => this.updateEquipmentModal(data)}
+                onClick={() => this.reportProblem(data)}
               >
                 &nbsp;Report a problem about this device
               </Button>

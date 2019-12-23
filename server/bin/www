@@ -21,7 +21,20 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+// Socket.io
+const io = require('socket.io')(server);
+io.on('connection', function (socket) {
+  console.log('connected');
+  socket.on('disconnect', function () {
+    console.log('disconnected');
+  });
+  socket.on('react_message', function (msg) {
+    console.log('from frontend: ' + msg);
+    socket.broadcast.emit('recieved', msg);
+  });
 
+});
+io.listen(8000);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -94,6 +107,8 @@ mongoose.connect('mongodb+srv://admin:isd2019@isd-rkwje.mongodb.net/isd?retryWri
   .then(() => {
     console.log('Mongo is connected at: mongodb+srv://admin:isd2019@isd-rkwje.mongodb.net/isd?retryWrites=true&w=majority')
   })
-  .catch(err => {
+  .catch(() => {
     console.error('Mongo connection error')
   });
+
+
