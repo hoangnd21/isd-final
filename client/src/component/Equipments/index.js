@@ -156,17 +156,10 @@ export default class Equipments extends React.PureComponent {
   }
 
   reportProblem = equipment => {
-    socket.emit('react_message', JSON.stringify({
+    socket.emit('react_message', {
       type: 'error',
       sender: this.state.currentUser.username,
       equipment: equipment._id
-    }));
-    // this.getNotification()
-  }
-
-  getNotification = () => {
-    socket.on('recieved', function (msg) {
-      console.log('from backend message: ' + msg);
     });
   }
 

@@ -14,6 +14,9 @@ import {
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
+import openSocket from 'socket.io-client';
+
+const socket = openSocket('http://localhost:8000');
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -31,6 +34,7 @@ export default class BasicLayout extends Component {
 
 
   componentDidMount = () => {
+    this.getNotification()
     axios({
       baseURL: '/login',
       method: 'get',
@@ -57,6 +61,13 @@ export default class BasicLayout extends Component {
           })
         }
       })
+    this.getNotification()
+  }
+
+  getNotification = () => {
+    socket.on('recieved', function (msg) {
+      console.log('from backend message: ' + msg);
+    });
   }
 
   onCollapse = collapsed => {
