@@ -39,6 +39,9 @@ export default class Equipments extends React.PureComponent {
 
   componentDidMount() {
     document.title = 'Equipments'
+    socket.on('recieved', function (msg) {
+      console.log('from backend message: ' + msg);
+    });
     axios({
       baseURL: '/login',
       method: 'get',
@@ -158,11 +161,11 @@ export default class Equipments extends React.PureComponent {
       sender: this.state.currentUser.username,
       equipment: equipment._id
     }));
-    this.getNotification()
+    // this.getNotification()
   }
 
   getNotification = () => {
-    socket.on('recieve', function (msg) {
+    socket.on('recieved', function (msg) {
       console.log('from backend message: ' + msg);
     });
   }
