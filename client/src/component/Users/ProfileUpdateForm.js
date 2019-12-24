@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Form,
   Row,
@@ -17,7 +17,6 @@ const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d
 const DEFAULT_WOMEN_AVARTAR = 'https://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
 
 function ProfileUpdateForm(props) {
-  const [isFormChanged, setFormChange] = useState(false)
   const updateProfile = e => {
     const { user } = props
     e.preventDefault()
@@ -27,7 +26,6 @@ function ProfileUpdateForm(props) {
         return;
       }
       if (updatingProfileInfo !== user) {
-        setFormChange(true)
       }
       console.log(updatingProfileInfo)
       form.resetFields();
