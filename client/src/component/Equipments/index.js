@@ -35,6 +35,8 @@ export default class Equipments extends React.PureComponent {
     searchText: '',
     isCloning: false,
     codeList: [],
+    isRequesting: false,
+    availableEquipments: []
   }
 
   componentDidMount() {
@@ -79,6 +81,16 @@ export default class Equipments extends React.PureComponent {
       .catch(error => {
         console.log(error)
       });
+  }
+
+  requestNewEquipment = () => {
+    axios.get(`http://localhost:9000/search/equipments?eqStatus=Storage`)
+      .then(res => {
+        this.setState({
+          isRequesting: !this.state.isRequesting,
+          availableEquipments: res.data
+        })
+      })
   }
 
   createEquipmentModal = () => {
@@ -167,6 +179,10 @@ export default class Equipments extends React.PureComponent {
       .then(() => {
         socket.emit('react_message', `report_${equipment._id}`);
       })
+  }
+
+  requestHanding = equipment => {
+    console.log(equipment)
   }
 
   deleteEquipment = data => {
@@ -327,7 +343,7 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, visible, modalType, equipmentDetail, loading, currentUser, isCloning, codeList } = this.state;
+    const { equipments, visible, modalType, equipmentDetail, loading, currentUser, isCloning, codeList, isRequesting, availableEquipments } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -431,12 +447,12 @@ export default class Equipments extends React.PureComponent {
                 &nbsp;Edit
               </Button> :
               <Popconfirm
-                title='Are you sure to REPORT this device?'
-                onConfirm={() => this.reportProblem(data)}
+                title={isRequesting ? 'Are you sure to REQUEST HANDING this device?' : 'Are you sure to REPORT this device?'}
+                onConfirm={isRequesting ? () => this.requestHanding(data) : () => this.reportProblem(data)}
                 okText='Report'
               >
                 <Button
-                  type='danger'
+                  type={isRequesting ? 'primary' : 'danger'}
                   icon='info-circle'
                 >
                   &nbsp;Report a problem about this device
@@ -489,12 +505,22 @@ export default class Equipments extends React.PureComponent {
               </Upload>
             </span>
           </>
-          : 'Your Equipments'}
+          : <>
+            Your Equipments
+          <Button
+              type={isRequesting ? 'default' : 'primary'}
+              icon='plus'
+              onClick={() => this.requestNewEquipment()}
+              style={{ marginLeft: 5 }}
+            >
+              {isRequesting ? 'Cancel' : 'Request new equipments'}
+            </Button>
+          </>}
           <Divider type='horizontal' />
         </h2>
         <Table
           bordered
-          dataSource={equipments}
+          dataSource={!isRequesting ? equipments : availableEquipments}
           loading={loading}
           columns={columns}
           footer={null}
