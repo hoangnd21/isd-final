@@ -196,7 +196,17 @@ export default class Equipments extends React.PureComponent {
   }
 
   requestReclaim = equipment => {
-    console.log(equipment)
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'reclaim',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `reclaim_${equipment._id}`,
+        unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `reclaim_${equipment._id}`)
+      })
   }
 
   deleteEquipment = data => {
