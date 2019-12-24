@@ -31,24 +31,27 @@ export default function Home() {
         Welcome {currentUser.fullname}
         <Divider type='horizontal' />
       </h2>
-      <h3>
-        You have {newNotifications.length} notifications.
+      {currentUser.level > 3 ? <>
+        <h3>
+          You have {newNotifications.length} notifications.
       </h3>
-      <Divider type='horizontal' />
-      <List
-        itemLayout='vertical'
-        dataSource={newNotifications}
-        renderItem={item =>
-          <List.Item
-            key={item._id}
-          >
-            <List.Item.Meta
-              title={item.sender}
-              description={`reported about device: ${item.equipment}`}
-            />
-          </List.Item>
-        }
-      />
+        <Divider type='horizontal' />
+        <List
+          itemLayout='vertical'
+          dataSource={newNotifications}
+          renderItem={item =>
+            <List.Item
+              key={item._id}
+            >
+              <List.Item.Meta
+                title={item.sender}
+                description={`reported about device: ${item.equipment}`}
+              />
+            </List.Item>
+          }
+        />
+      </>
+        : null}
     </>
   )
 }

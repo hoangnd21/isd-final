@@ -80,13 +80,14 @@ export default class BasicLayout extends Component {
               .then(res => {
                 let equipmentInNotification = res.data
                 if (notificationContent.sender !== loginInfo.username) {
-                  notification.info({
+                  return <Link to='/'>{notification.info({
                     message:
                       <>
                         {notificationContent.sender} reported a problem with device: {equipmentInNotification.name}.
                       </>,
-                    // onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, { unread: false })
-                  })
+                    // onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, {unread: false })
+                  })}
+                  </Link>
                 } else {
                   notification.success({
                     message: 'Complete!',
@@ -187,9 +188,10 @@ export default class BasicLayout extends Component {
               <Menu mode='vertical'>
                 <Menu.Item key="home">
                   <Link to='/' className='menu-item'>
-                    <Badge dot={notifications ? true : false} offset={[-8, 0]} title={`You have ${notifications} notifications.`}>
-                      <Icon type='home' />
-                    </Badge>
+                    {currentUser.level > 3 ?
+                      <Badge dot={notifications ? true : false} offset={[-8, 0]} title={`You have ${notifications} notifications.`}>
+                        <Icon type='home' />
+                      </Badge> : <Icon type='home' />}
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
