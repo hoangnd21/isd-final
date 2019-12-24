@@ -191,7 +191,7 @@ export default class Equipments extends React.PureComponent {
         unread: true
       })
       .then(() => {
-        socket.emit('react_message', `handing_${equipment._id}`);
+        socket.emit('react_message', `handing_${equipment._id}`)
       })
   }
 
@@ -519,7 +519,7 @@ export default class Equipments extends React.PureComponent {
             Your Equipments
           <Button
               type={isRequesting ? 'default' : 'primary'}
-              icon='plus'
+              icon={isRequesting ? 'close' : 'plus'}
               onClick={() => this.requestNewEquipment()}
               style={{ marginLeft: 5 }}
             >

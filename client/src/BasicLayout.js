@@ -80,14 +80,13 @@ export default class BasicLayout extends Component {
               .then(res => {
                 let equipmentInNotification = res.data
                 if (notificationContent.sender !== loginInfo.username) {
-                  return <Link to='/'>{notification.info({
-                    message:
-                      <>
-                        {notificationContent.sender} reported a problem with device: {equipmentInNotification.name}.
-                      </>,
+                  notification.info({
+                    message: notificationContent.type === 'error' ?
+                      `${notificationContent.sender} reported a problem with device: ${equipmentInNotification.name}.` :
+                      notificationContent.type === 'handing' ?
+                        `${notificationContent.sender} requested handing this device: ${equipmentInNotification.name}.` : null
                     // onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, {unread: false })
-                  })}
-                  </Link>
+                  })
                 } else {
                   notification.success({
                     message: 'Complete!',
