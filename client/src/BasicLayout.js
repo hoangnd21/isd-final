@@ -11,6 +11,7 @@ import {
   Tooltip,
   Divider,
   Avatar,
+  notification
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
@@ -32,9 +33,7 @@ export default class BasicLayout extends Component {
     };
   }
 
-
   componentDidMount = () => {
-    // this.getNotification()
     axios({
       baseURL: '/login',
       method: 'get',
@@ -51,7 +50,7 @@ export default class BasicLayout extends Component {
             currentUser: res.data,
             loginError: '',
             loading: false
-          })
+          }, this.getNotification(res.data))
         } else {
           this.setState({
             loginModal: true,
@@ -61,25 +60,32 @@ export default class BasicLayout extends Component {
           })
         }
       })
-    this.getNotification()
   }
 
-  getNotification = () => {
+  getNotification = data => {
     socket.on('recieved', function (msg) {
-      console.log('from backend message: ' + msg);
       axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}&unread=true`)
         .then(res => {
-          console.log('from db', res.data)
+          if (res.status === 200) {
+            let notificationContent = res.data[0]
+            axios.get(`http://localhost:9000/equipments/${notificationContent.equipment}`)
+              .then(res => {
+                let equipmentInNotification = res.data
+                if (notificationContent.sender !== data.username) {
+                  notification.info({
+                    message: <>{notificationContent.sender} reported a problem with device: {equipmentInNotification.name} </>,
+                    onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, { unread: false })
+                  })
+                } else {
+                  notification.success({
+                    message: 'Complete!',
+                  })
+                }
+              })
+          }
         })
     });
   }
-
-//   readNoti = data => {
-// axios.patch(`http://localhost:9000/noti/updatenotification/${data._id}`, {unread: false})
-// .then(res => {
-//   console.log(res.data)
-// })
-//   }
 
   onCollapse = collapsed => {
     this.setState({ collapsed });
@@ -90,7 +96,6 @@ export default class BasicLayout extends Component {
       collapsed: !this.state.collapsed,
     });
   }
-
 
   onLoggedIn = loginInfo => {
     this.setState({
