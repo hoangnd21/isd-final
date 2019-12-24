@@ -156,7 +156,6 @@ export default class Equipments extends React.PureComponent {
   }
 
   reportProblem = equipment => {
-    socket.emit('react_message', `report_${equipment._id}`);
     axios.post('http://localhost:9000/noti/addnotification',
       {
         type: 'error',
@@ -164,6 +163,9 @@ export default class Equipments extends React.PureComponent {
         equipment: equipment._id,
         msg: `report_${equipment._id}`,
         unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `report_${equipment._id}`);
       })
   }
 
