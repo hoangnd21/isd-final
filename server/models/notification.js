@@ -5,6 +5,7 @@ const notificationSchema = new schema({
     sender: String,
     equipment: String,
     msg: String,
+    unread: Boolean,
     created_at: Date
 });
 

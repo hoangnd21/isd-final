@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     notificationController.getAllNotification(req, res);
 });
 
-router.put('/updatenotification/:id', (req, res) => {
+router.patch('/updatenotification/:id', (req, res) => {
     notificationController.updateNotification(req, res);
 });
 
