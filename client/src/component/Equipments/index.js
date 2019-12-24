@@ -156,11 +156,13 @@ export default class Equipments extends React.PureComponent {
   }
 
   reportProblem = equipment => {
-    socket.emit('react_message', {
+    socket.emit('react_message', "random");
+    axios.post('http://localhost:9000/noti/addnotification', {
       type: 'error',
       sender: this.state.currentUser.username,
-      equipment: equipment._id
-    });
+      equipment: equipment._id,
+      msg: "random"
+    })
   }
 
   deleteEquipment = data => {
