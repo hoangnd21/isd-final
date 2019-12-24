@@ -452,11 +452,11 @@ export default class Equipments extends React.PureComponent {
                 okText='Report'
               >
                 <Button
-                  type={isRequesting ? 'primary' : 'danger'}
-                  icon='info-circle'
+                  type={isRequesting ? 'default' : 'danger'}
+                  icon={isRequesting ? 'plus' : 'info-circle'}
                 >
-                  &nbsp;Report a problem about this device
-              </Button>
+                  {isRequesting ? 'Request this device' : 'Report a problem about this device'}
+                </Button>
               </Popconfirm>
             }
             {currentUser.level > 2 ? data.lockStatus[0] !== 'Locked' ?
