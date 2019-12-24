@@ -45,7 +45,7 @@ export default function Home() {
             >
               <List.Item.Meta
                 title={item.sender}
-                description={`reported about device: ${item.equipment}`}
+                description={item.type === 'error' ? `reported about device: ${item.equipment}` : item.type === 'handing' ? `requested handing this device: ${item.equipment}` : null}
               />
             </List.Item>
           }
