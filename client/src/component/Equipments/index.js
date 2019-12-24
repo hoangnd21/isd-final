@@ -182,7 +182,17 @@ export default class Equipments extends React.PureComponent {
   }
 
   requestHanding = equipment => {
-    console.log(equipment)
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'handing',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `handing_${equipment._id}`,
+        unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `handing_${equipment._id}`);
+      })
   }
 
   deleteEquipment = data => {
