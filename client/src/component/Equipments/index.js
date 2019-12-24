@@ -195,6 +195,10 @@ export default class Equipments extends React.PureComponent {
       })
   }
 
+  requestReclaim = equipment => {
+    console.log(equipment)
+  }
+
   deleteEquipment = data => {
     axios.post(`http://localhost:9000/equipments/deleteEquipment/${data._id}`)
       .then(res => {
@@ -444,7 +448,6 @@ export default class Equipments extends React.PureComponent {
       // },
       {
         title: 'Actions',
-        width: '25%',
         render: data =>
           <>
             {currentUser.level > 2 ?
@@ -456,18 +459,34 @@ export default class Equipments extends React.PureComponent {
               >
                 &nbsp;Edit
               </Button> :
-              <Popconfirm
-                title={isRequesting ? 'Are you sure to REQUEST HANDING this device?' : 'Are you sure to REPORT this device?'}
-                onConfirm={isRequesting ? () => this.requestHanding(data) : () => this.reportProblem(data)}
-                okText='Report'
-              >
-                <Button
-                  type={isRequesting ? 'default' : 'danger'}
-                  icon={isRequesting ? 'plus' : 'info-circle'}
+              <>
+                <Popconfirm
+                  title={isRequesting ? 'Are you sure to REQUEST HANDING this device?' : 'Are you sure to REPORT this device?'}
+                  onConfirm={isRequesting ? () => this.requestHanding(data) : () => this.reportProblem(data)}
+                  okText={isRequesting ? 'Request' : 'Report'}
                 >
-                  {isRequesting ? 'Request this device' : 'Report a problem about this device'}
-                </Button>
-              </Popconfirm>
+                  <Button
+                    type={isRequesting ? 'default' : 'danger'}
+                    icon={isRequesting ? 'plus' : 'info-circle'}
+                  >
+                    {isRequesting ? 'Request this device' : 'Report'}
+                  </Button>
+                </Popconfirm>
+                {!isRequesting ?
+                  <Popconfirm
+                    title='Are you sure to REQUEST RECLAIM this device?'
+                    onConfirm={() => this.requestReclaim(data)}
+                    okText='Request'
+                  >
+                    <Button
+                      type='default'
+                      icon='info-circle'
+                      style={{ marginLeft: 5 }}
+                    >
+                      Request reclaim
+                  </Button>
+                  </Popconfirm> : null}
+              </>
             }
             {currentUser.level > 2 ? data.lockStatus[0] !== 'Locked' ?
               <>
