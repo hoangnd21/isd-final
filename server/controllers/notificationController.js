@@ -7,6 +7,7 @@ const addNotification = (req, res) => {
         sender: req.body.sender,
         equipment: req.body.equipment,
         msg: req.body.msg,
+        unread:true,
         created_at: date
     });
     res.send("Notification is successfully created");

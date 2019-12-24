@@ -67,12 +67,19 @@ export default class BasicLayout extends Component {
   getNotification = () => {
     socket.on('recieved', function (msg) {
       console.log('from backend message: ' + msg);
-      axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}`)
+      axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}&unread=true`)
         .then(res => {
           console.log('from db', res.data)
         })
     });
   }
+
+//   readNoti = data => {
+// axios.patch(`http://localhost:9000/noti/updatenotification/${data._id}`, {unread: false})
+// .then(res => {
+//   console.log(res.data)
+// })
+//   }
 
   onCollapse = collapsed => {
     this.setState({ collapsed });
