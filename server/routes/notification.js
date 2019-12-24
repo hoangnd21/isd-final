@@ -18,7 +18,7 @@ router.post('/deletenotification/:id', (req, res) => {
     notificationController.deleteNotification(req, res);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/getMsg/msg', (req, res) => {
     notificationController.getOneNotification(req, res);
 });
 

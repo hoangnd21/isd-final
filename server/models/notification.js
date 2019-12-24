@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const notificationSchema = new schema({
-    reqUser: String,
-    request: String,
-    read: Boolean,
+    type: String,
+    sender: String,
+    equipment: String,
+    msg: String,
     created_at: Date
 });
 

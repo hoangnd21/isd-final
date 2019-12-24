@@ -67,6 +67,10 @@ export default class BasicLayout extends Component {
   getNotification = () => {
     socket.on('recieved', function (msg) {
       console.log('from backend message: ' + msg);
+      axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}`)
+        .then(res => {
+          console.log(res.data)
+        })
     });
   }
 
