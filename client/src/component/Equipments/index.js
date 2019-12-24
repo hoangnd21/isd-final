@@ -340,7 +340,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment Name',
         key: 'name',
         ...this.getColumnSearchProps('name'),
-        width: 250,
+        width: '20%',
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
             <Paragraph
@@ -354,14 +354,14 @@ export default class Equipments extends React.PureComponent {
         title: 'Code',
         dataIndex: 'code',
         key: 'code',
-        width: 170,
+        width: '15%',
         ...this.getColumnSearchProps('code'),
       },
       {
         title: 'Lock status',
         dataIndex: 'lockStatus',
         key: 'lockStatus',
-        width: 150,
+        width: '15%',
         sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
         render: lockStatus =>
           <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
@@ -372,7 +372,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment status',
         dataIndex: 'eqStatus',
         key: 'eqStatus',
-        width: 150,
+        width: '15%',
         render: eqStatus =>
           <div style={eqStatus === "Use" ? { color: 'green' } : { color: 'gold' }}>
             {eqStatus}
@@ -382,7 +382,7 @@ export default class Equipments extends React.PureComponent {
       {
         title: 'Owner',
         dataIndex: 'owner',
-        width: 150,
+        width: '15%',
         key: 'owner',
         ...this.getColumnSearchProps('owner'),
       },
@@ -418,7 +418,7 @@ export default class Equipments extends React.PureComponent {
       // },
       {
         title: 'Actions',
-        width: '15%',
+        width: '25%',
         render: data =>
           <>
             {currentUser.level > 2 ?

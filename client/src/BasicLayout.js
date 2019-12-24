@@ -11,7 +11,8 @@ import {
   Tooltip,
   Divider,
   Avatar,
-  notification
+  notification,
+  Badge
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
@@ -30,6 +31,7 @@ export default class BasicLayout extends Component {
       currentUser: null,
       loginError: '',
       loading: false,
+      notifications: 0
     };
   }
 
@@ -60,9 +62,15 @@ export default class BasicLayout extends Component {
           })
         }
       })
+    axios.get(`http://localhost:9000/noti/getMsg/msg?unread=true`)
+      .then(res => {
+        this.setState({
+          notifications: res.data.length
+        })
+      })
   }
 
-  getNotification = data => {
+  getNotification = loginInfo => {
     socket.on('recieved', function (msg) {
       axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}&unread=true`)
         .then(res => {
@@ -71,10 +79,13 @@ export default class BasicLayout extends Component {
             axios.get(`http://localhost:9000/equipments/${notificationContent.equipment}`)
               .then(res => {
                 let equipmentInNotification = res.data
-                if (notificationContent.sender !== data.username) {
+                if (notificationContent.sender !== loginInfo.username) {
                   notification.info({
-                    message: <>{notificationContent.sender} reported a problem with device: {equipmentInNotification.name} </>,
-                    onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, { unread: false })
+                    message:
+                      <>
+                        {notificationContent.sender} reported a problem with device: {equipmentInNotification.name}.
+                      </>,
+                    // onClick: () => axios.patch(`http://localhost:9000/noti/updatenotification/${notificationContent._id}`, { unread: false })
                   })
                 } else {
                   notification.success({
@@ -154,7 +165,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, currentUser, loginError, loading } = this.state;
+    const { collapsed, loginModal, currentUser, loginError, loading, notifications } = this.state;
     return (
       <Layout className='basic-layout'>
         {currentUser !== null ?
@@ -176,7 +187,9 @@ export default class BasicLayout extends Component {
               <Menu mode='vertical'>
                 <Menu.Item key="home">
                   <Link to='/' className='menu-item'>
-                    <Icon type='home' />
+                    <Badge dot={notifications ? true : false} offset={[-8, 0]} title={`You have ${notifications} notifications.`}>
+                      <Icon type='home' />
+                    </Badge>
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
