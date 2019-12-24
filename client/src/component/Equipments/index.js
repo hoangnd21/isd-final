@@ -156,13 +156,15 @@ export default class Equipments extends React.PureComponent {
   }
 
   reportProblem = equipment => {
-    socket.emit('react_message', "random");
-    axios.post('http://localhost:9000/noti/addnotification', {
-      type: 'error',
-      sender: this.state.currentUser.username,
-      equipment: equipment._id,
-      msg: "random"
-    })
+    socket.emit('react_message', `report_${equipment._id}`);
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'error',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `report_${equipment._id}`,
+        unread: true
+      })
   }
 
   deleteEquipment = data => {
@@ -426,13 +428,18 @@ export default class Equipments extends React.PureComponent {
               >
                 &nbsp;Edit
               </Button> :
-              <Button
-                type='danger'
-                icon='info-circle'
-                onClick={() => this.reportProblem(data)}
+              <Popconfirm
+                title='Are you sure to REPORT this device?'
+                onConfirm={() => this.reportProblem(data)}
+                okText='Report'
               >
-                &nbsp;Report a problem about this device
+                <Button
+                  type='danger'
+                  icon='info-circle'
+                >
+                  &nbsp;Report a problem about this device
               </Button>
+              </Popconfirm>
             }
             {currentUser.level > 2 ? data.lockStatus[0] !== 'Locked' ?
               <>

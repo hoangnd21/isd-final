@@ -34,7 +34,7 @@ export default class BasicLayout extends Component {
 
 
   componentDidMount = () => {
-    this.getNotification()
+    // this.getNotification()
     axios({
       baseURL: '/login',
       method: 'get',
@@ -69,7 +69,7 @@ export default class BasicLayout extends Component {
       console.log('from backend message: ' + msg);
       axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}`)
         .then(res => {
-          console.log(res.data)
+          console.log('from db', res.data)
         })
     });
   }
