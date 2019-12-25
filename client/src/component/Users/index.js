@@ -75,6 +75,10 @@ export default class Users extends Component {
   changeLevelRequest = (level, user) => {
     console.log(level)
     console.log(user)
+    axios.patch(`http://localhost:9000/users/updateUser/${user._id}`, { level: level })
+      .then(res => {
+        console.log(res.data)
+      })
   }
 
   userInfoModal = user => {
@@ -133,7 +137,7 @@ export default class Users extends Component {
                   <Card
                     actions={[
                       <Tooltip title='Change the level of this user'>
-                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value, u) => this.changeLevelRequest(value, u)} />}>
+                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value) => this.changeLevelRequest(value, u)} />}>
                           <Icon type="setting" key="setting" onClick={() => this.changeLevel(u)} />
                         </Dropdown>
                       </Tooltip>,
