@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Divider, List, Dropdown, } from 'antd'
+import { Divider, List, Modal, } from 'antd'
 import NotificationView from './NotificationView'
 
 export default function Home() {
@@ -8,6 +8,8 @@ export default function Home() {
   const [notifications, setNotifications] = useState([])
   const [newNotifications, setNewNotifications] = useState([])
   const [background, setbackground] = useState('teal')
+  const [modalVisible, setModalVisible] = useState(false)
+  const [currentNoti, setCurrentNoti] = useState({})
 
   useEffect(() => {
     document.title = 'Home'
@@ -33,12 +35,17 @@ export default function Home() {
       })
   }, [])
 
-  const readNotification = item => {
-    axios.patch(`http://localhost:9000/noti/updatenotification/${item._id}`, { unread: false })
-      .then(() => {
-        setbackground('white')
-      })
+  const openModal = item => {
+    setModalVisible(true)
+    setCurrentNoti(item)
   }
+
+  // const readNotification = item => {
+  //   axios.patch(`http://localhost:9000/noti/updatenotification/${item._id}`, { unread: false })
+  //     .then(() => {
+  //       setbackground('white')
+  //     })
+  // }
 
   return (
     <>
@@ -58,26 +65,32 @@ export default function Home() {
           renderItem={item => {
             item.unread ? setbackground('teal') : setbackground('white')
             return (
-              <Dropdown
-                overlay={<NotificationView />}
+              <List.Item
+                key={item._id}
+                style={{ background: background }}
+                onClick={() => openModal(item)}
               >
-                <List.Item
-                  key={item._id}
-                  style={{ background: background }}
-                >
-                  <List.Item.Meta
-                    title={item.sender}
-                    description={item.type === 'error' ?
-                      `reported` :
-                      item.type === 'handing' ?
-                        `requested handing` :
-                        `requested reclaim`
-                    }
-                  />
-                </List.Item>
-              </Dropdown>)
+                <List.Item.Meta
+                  title={item.type === 'error' ?
+                    `${item.sender} reported` :
+                    item.type === 'handing' ?
+                      `${item.sender} requested handing` :
+                      `${item.sender} requested reclaim`
+                  }
+                />
+              </List.Item>
+            )
           }}
         />
+        <Modal
+          visible={modalVisible}
+          footer={null}
+          onCancel={() => setModalVisible(false)}
+          centered
+          destroyOnClose
+        >
+          <NotificationView noti={currentNoti} />
+        </Modal>
       </>
         : null}
     </>
