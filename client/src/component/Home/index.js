@@ -7,6 +7,7 @@ export default function Home() {
   const [notifications, setNotifications] = useState([])
   const [newNotifications, setNewNotifications] = useState([])
   const [background, setbackground] = useState('teal')
+
   useEffect(() => {
     document.title = 'Home'
     axios({
@@ -53,8 +54,16 @@ export default function Home() {
           dataSource={notifications}
           bordered
           scroll={{ y: 600 }}
-          renderItem={item =>
-            <List.Item
+          renderItem={item => {
+            item.unread ? setbackground('teal') : setbackground('white')
+
+            let eq
+            axios.get(`http://localhost:9000/equipments/${item.equipment}`)
+              .then(res => {
+                return eq = res.data.name
+              })
+
+            return <List.Item
               key={item._id}
               style={{ background: background }}
               onClick={item.unread ? () => readNotification(item) : setbackground('white')}
@@ -62,14 +71,14 @@ export default function Home() {
               <List.Item.Meta
                 title={item.sender}
                 description={item.type === 'error' ?
-                  `reported about device: ${item.equipment}` :
+                  `reported about device: ${eq}` :
                   item.type === 'handing' ?
-                    `requested handing this device: ${item.equipment}` :
-                    `requested reclaim this device: ${item.equipment}`
+                    `requested handing this device: ${eq}` :
+                    `requested reclaim this device: ${eq}`
                 }
               />
             </List.Item>
-          }
+          }}
         />
       </>
         : null}

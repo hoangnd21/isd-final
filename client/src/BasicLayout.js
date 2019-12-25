@@ -208,20 +208,18 @@ export default class BasicLayout extends Component {
                   <Link to="/equipments" className='menu-item'>
                     <Icon type="sliders" />
                     <span>
-                      Equipments
+                      Equipment
                     </span>
                   </Link>
                 </Menu.Item>
-                {currentUser.level > 1 ?
-                  <Menu.Item key="accessories" >
-                    <Link to="/accessories" className='menu-item'>
-                      <Icon type="chrome" />
-                      <span>
-                        Accessories
+                <Menu.Item key="accessories" >
+                  <Link to="/accessories" className='menu-item'>
+                    <Icon type="chrome" />
+                    <span>
+                      Accessories
                       </span>
-                    </Link>
-                  </Menu.Item> : null}
-
+                  </Link>
+                </Menu.Item>
                 {currentUser.level > 3 ?
                   <Menu.Item key="batch">
                     <Link to="/batch" className='menu-item'>

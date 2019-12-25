@@ -9,6 +9,9 @@ import {
   Button,
   Tooltip,
   notification,
+  Icon,
+  Dropdown,
+  InputNumber
 } from 'antd'
 import CreateUserForm from './CreateUserForm'
 import UserInfo from './UserInfo'
@@ -25,7 +28,8 @@ export default class Users extends Component {
     loading: true,
     visible: false,
     userDetail: {},
-    currentUser: {}
+    currentUser: {},
+    dropdownVisible: false
   }
   componentDidMount() {
     document.title = 'Users'
@@ -60,6 +64,16 @@ export default class Users extends Component {
           loading: false
         })
       })
+  }
+
+  changeLevel = user => {
+    this.setState({
+      dropdownVisible: !this.state.dropdownVisible,
+    })
+  }
+
+  changeLevelRequest = level => {
+    console.log(level)
   }
 
   userInfoModal = user => {
@@ -116,11 +130,20 @@ export default class Users extends Component {
               {allUsers && allUsers.map(u =>
                 <Col xl={4} style={{ marginBottom: 10, borderRadius: 5 }} key={u.username}>
                   <Card
-                    onClick={() => this.userInfoModal(u)}
+                    actions={[
+                      <Tooltip title='Change the level of this user'>
+                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value) => this.changeLevelRequest(value)} />}>
+                          <Icon type="setting" key="setting" onClick={() => this.changeLevel(u)} />
+                        </Dropdown>
+                      </Tooltip>,
+                    ]}
                     loading={loading}
                     hoverable
                     cover={
-                      <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}>
+                      <div
+                        style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}
+                        onClick={() => this.userInfoModal(u)}
+                      >
                         <img
                           style={{ width: '100%' }}
                           alt='#'
