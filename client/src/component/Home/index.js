@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Divider, List, } from 'antd'
+import { Divider, List, Dropdown, } from 'antd'
+import NotificationView from './NotificationView'
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState({})
@@ -56,28 +57,25 @@ export default function Home() {
           scroll={{ y: 600 }}
           renderItem={item => {
             item.unread ? setbackground('teal') : setbackground('white')
-
-            let eq
-            axios.get(`http://localhost:9000/equipments/${item.equipment}`)
-              .then(res => {
-                return eq = res.data.name
-              })
-
-            return <List.Item
-              key={item._id}
-              style={{ background: background }}
-              onClick={item.unread ? () => readNotification(item) : setbackground('white')}
-            >
-              <List.Item.Meta
-                title={item.sender}
-                description={item.type === 'error' ?
-                  `reported about device: ${eq}` :
-                  item.type === 'handing' ?
-                    `requested handing this device: ${eq}` :
-                    `requested reclaim this device: ${eq}`
-                }
-              />
-            </List.Item>
+            return (
+              <Dropdown
+                overlay={<NotificationView />}
+              >
+                <List.Item
+                  key={item._id}
+                  style={{ background: background }}
+                >
+                  <List.Item.Meta
+                    title={item.sender}
+                    description={item.type === 'error' ?
+                      `reported` :
+                      item.type === 'handing' ?
+                        `requested handing` :
+                        `requested reclaim`
+                    }
+                  />
+                </List.Item>
+              </Dropdown>)
           }}
         />
       </>
