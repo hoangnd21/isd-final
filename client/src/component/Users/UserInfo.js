@@ -21,7 +21,9 @@ export default function UserInfo(props) {
   const [changePasswordModal, setChangePasswordModal] = useState(false)
   const { user, location } = props
 
-  const changePasswordRequest = (login) => {
+  const changePasswordRequest = (login, newPassword) => {
+    console.log(login)
+    console.log(newPassword)
     // check login, param là {username: props.username, password: login.password}, cái login là từ form ra nhé.
 
     // nếu ok thì .patch(updateUser, {password: login.newPassword})
@@ -115,9 +117,11 @@ export default function UserInfo(props) {
         footer={null}
         onCancel={() => setChangePasswordModal(false)}
         centered
+        title='Change Password'
       >
         <ChangePasswordForm
           changePasswordRequest={changePasswordRequest}
+          user={user}
         />
       </Modal>
     </>
