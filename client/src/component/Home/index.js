@@ -4,7 +4,9 @@ import { Divider, List, } from 'antd'
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState({})
+  const [notifications, setNotifications] = useState([])
   const [newNotifications, setNewNotifications] = useState([])
+  const [background, setbackground] = useState('teal')
   useEffect(() => {
     document.title = 'Home'
     axios({
@@ -19,11 +21,22 @@ export default function Home() {
       .then(res => {
         setCurrentUser(res.data)
       })
+    axios.get(`http://localhost:9000/noti`)
+      .then(res => {
+        setNotifications(res.data)
+      })
     axios.get(`http://localhost:9000/noti/getMsg/msg?unread=true`)
       .then(res => {
-        setNewNotifications(res.data)
+        setNewNotifications(res.data.length)
       })
   }, [])
+
+  const readNotification = item => {
+    axios.patch(`http://localhost:9000/noti/updatenotification/${item._id}`, { unread: false })
+      .then(() => {
+        setbackground('white')
+      })
+  }
 
   return (
     <>
@@ -33,19 +46,27 @@ export default function Home() {
       </h2>
       {currentUser.level > 3 ? <>
         <h3>
-          You have {newNotifications.length} notifications.
+          You have {newNotifications} new notifications.
       </h3>
-        <Divider type='horizontal' />
         <List
           itemLayout='vertical'
-          dataSource={newNotifications}
+          dataSource={notifications}
+          bordered
+          scroll={{ y: 600 }}
           renderItem={item =>
             <List.Item
               key={item._id}
+              style={{ background: background }}
+              onClick={item.unread ? () => readNotification(item) : setbackground('white')}
             >
               <List.Item.Meta
                 title={item.sender}
-                description={item.type === 'error' ? `reported about device: ${item.equipment}` : item.type === 'handing' ? `requested handing this device: ${item.equipment}` : null}
+                description={item.type === 'error' ?
+                  `reported about device: ${item.equipment}` :
+                  item.type === 'handing' ?
+                    `requested handing this device: ${item.equipment}` :
+                    `requested reclaim this device: ${item.equipment}`
+                }
               />
             </List.Item>
           }
