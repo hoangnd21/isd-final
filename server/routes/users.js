@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.patch('/updateUser/:id', (req, res) => {
-  userController.updateOneUser(req, res);
+  userController.updateUser(req, res);
 });
 
 router.patch('/changePass/:id', (req, res) => {
