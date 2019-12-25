@@ -23,9 +23,6 @@ export default function UserInfo(props) {
   const { user, location } = props
 
   const changePasswordRequest = (login, newPassword) => {
-    // console.log(login)
-    console.log(newPassword)
-    // check login, param là {username: props.username, password: login.password}, cái login là từ form ra nhé.
     axios({
       url: '/users/getUser/checkPass',
       method: 'post',
@@ -51,8 +48,6 @@ export default function UserInfo(props) {
           console.log(res.data)
         }
       })
-    // nếu ok thì .patch(updateUser, {password: login.newPassword})
-    // nếu nhập pass sai thì trả ra "invalid password, try again"
   }
 
   return (

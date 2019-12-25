@@ -72,8 +72,9 @@ export default class Users extends Component {
     })
   }
 
-  changeLevelRequest = level => {
+  changeLevelRequest = (level, user) => {
     console.log(level)
+    console.log(user)
   }
 
   userInfoModal = user => {
@@ -132,7 +133,7 @@ export default class Users extends Component {
                   <Card
                     actions={[
                       <Tooltip title='Change the level of this user'>
-                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value) => this.changeLevelRequest(value)} />}>
+                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value, u) => this.changeLevelRequest(value, u)} />}>
                           <Icon type="setting" key="setting" onClick={() => this.changeLevel(u)} />
                         </Dropdown>
                       </Tooltip>,
