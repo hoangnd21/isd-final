@@ -68,7 +68,7 @@ const AccessoryHanding = props => {
                   message: 'Please specify.',
                 },
               ],
-            })(<Cascader options={users} />)}
+            })(<Cascader options={users} showSearch />)}
           </Form.Item>
           <Form.Item label='Handing Duration'>
             {getFieldDecorator('range', {

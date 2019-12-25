@@ -40,7 +40,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   componentDidMount() {
-    document.title = 'Equipments'
+    document.title = 'Equipment'
     socket.on('recieved', function (msg) {
       console.log('from backend message: ' + msg);
     });
@@ -120,7 +120,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   infoModal = data => {
-    document.title = `Equipments - ${data.name}`
+    document.title = `Equipment - ${data.name}`
     this.setState({
       visible: true,
       modalType: 'view',
@@ -158,7 +158,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   hideEquipmentModal = () => {
-    document.title = 'Equipments'
+    document.title = 'Equipment'
     this.setState({
       visible: false,
       modalType: '',
