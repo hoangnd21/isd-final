@@ -10,6 +10,7 @@ import {
 } from 'antd'
 import ProfileUpdateForm from './ProfileUpdateForm'
 import ChangePasswordForm from './ChangePasswordForm'
+import axios from 'axios'
 const { Paragraph } = Typography
 
 const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d_dOmhj6TiA=w1920-h583-iv1'
@@ -22,10 +23,34 @@ export default function UserInfo(props) {
   const { user, location } = props
 
   const changePasswordRequest = (login, newPassword) => {
-    console.log(login)
+    // console.log(login)
     console.log(newPassword)
     // check login, param là {username: props.username, password: login.password}, cái login là từ form ra nhé.
-
+    axios({
+      url: '/users/getUser/checkPass',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      data: {
+        username: props.user.username,
+        password: login.password
+      }
+    })
+      .then(res => {
+        if (res.data === "found") {
+          axios.patch(`http://localhost:9000/users/changePass/${props.user._id}`, newPassword)
+            .then(res => {
+              console.log(res.data)
+            })
+        }
+        else {
+          console.log(res.data)
+        }
+      })
     // nếu ok thì .patch(updateUser, {password: login.newPassword})
     // nếu nhập pass sai thì trả ra "invalid password, try again"
   }
