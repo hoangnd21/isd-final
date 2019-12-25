@@ -10,8 +10,12 @@ router.get('/', (req, res) => {
   userController.getAllUser(req, res);
 });
 
-router.put('/updateUser/:id', (req, res) => {
-  userController.updateOneUser(req, res);
+router.patch('/updateUser/:id', (req, res) => {
+  userController.updateUser(req, res);
+});
+
+router.patch('/changePass/:id', (req, res) => {
+  userController.changePass(req, res);
 });
 
 router.post('/deleteUser/:id', (req, res) => {
@@ -20,6 +24,10 @@ router.post('/deleteUser/:id', (req, res) => {
 
 router.get('/:id', (req, res) => {
   userController.getOneUser(req, res);
+});
+
+router.post('/getUser/checkPass', (req, res) => {
+  userController.checkPass(req, res);
 });
 
 module.exports = router;

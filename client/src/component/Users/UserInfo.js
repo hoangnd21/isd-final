@@ -5,17 +5,51 @@ import {
   Divider,
   Button,
   Card,
-  Typography
+  Typography,
+  Modal
 } from 'antd'
 import ProfileUpdateForm from './ProfileUpdateForm'
+import ChangePasswordForm from './ChangePasswordForm'
+import axios from 'axios'
 const { Paragraph } = Typography
 
 const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d_dOmhj6TiA=w1920-h583-iv1'
 const DEFAULT_WOMEN_AVARTAR = 'https://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
 
 export default function UserInfo(props) {
+
   const [editing, setEditing] = useState(false)
+  const [changePasswordModal, setChangePasswordModal] = useState(false)
   const { user, location } = props
+
+  const changePasswordRequest = (login, newPassword) => {
+    axios({
+      url: '/users/getUser/checkPass',
+      method: 'post',
+      headers: {
+        "charset": "UTF-8",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      data: {
+        username: props.user.username,
+        password: login.password
+      }
+    })
+      .then(res => {
+        if (res.data === "found") {
+          axios.patch(`http://localhost:9000/users/changePass/${props.user._id}`, newPassword)
+            .then(res => {
+              console.log(res.data)
+            })
+        }
+        else {
+          console.log(res.data)
+        }
+      })
+  }
+
   return (
     <>
       {location === 'Users' ?
@@ -27,6 +61,7 @@ export default function UserInfo(props) {
               <Button style={{ margin: '0 5px', width: 95 }} type='danger' onClick={() => setEditing(false)} icon='close'>Cancel</Button>
             </> :
             <Button style={{ margin: '0 5px', width: 95 }} type='primary' icon='edit' onClick={() => setEditing(true)}>Edit</Button>}
+          <Button type='defauly' onClick={() => setChangePasswordModal(true)}>Change Password</Button>
           <Divider style={{ margin: '10px 0' }} type='horizontal' />
         </h2>}
       <Row gutter={10}>
@@ -97,6 +132,18 @@ export default function UserInfo(props) {
 
           </Card>}
       </Row>
+      <Modal
+        visible={changePasswordModal}
+        footer={null}
+        onCancel={() => setChangePasswordModal(false)}
+        centered
+        title='Change Password'
+      >
+        <ChangePasswordForm
+          changePasswordRequest={changePasswordRequest}
+          user={user}
+        />
+      </Modal>
     </>
   )
 }

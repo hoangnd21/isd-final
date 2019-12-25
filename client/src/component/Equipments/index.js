@@ -35,10 +35,12 @@ export default class Equipments extends React.PureComponent {
     searchText: '',
     isCloning: false,
     codeList: [],
+    isRequesting: false,
+    availableEquipments: []
   }
 
   componentDidMount() {
-    document.title = 'Equipments'
+    document.title = 'Equipment'
     socket.on('recieved', function (msg) {
       console.log('from backend message: ' + msg);
     });
@@ -81,6 +83,16 @@ export default class Equipments extends React.PureComponent {
       });
   }
 
+  requestNewEquipment = () => {
+    axios.get(`http://localhost:9000/search/equipments?eqStatus=Storage`)
+      .then(res => {
+        this.setState({
+          isRequesting: !this.state.isRequesting,
+          availableEquipments: res.data
+        })
+      })
+  }
+
   createEquipmentModal = () => {
     this.setState({
       visible: true,
@@ -108,7 +120,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   infoModal = data => {
-    document.title = `Equipments - ${data.name}`
+    document.title = `Equipment - ${data.name}`
     this.setState({
       visible: true,
       modalType: 'view',
@@ -146,7 +158,7 @@ export default class Equipments extends React.PureComponent {
   }
 
   hideEquipmentModal = () => {
-    document.title = 'Equipments'
+    document.title = 'Equipment'
     this.setState({
       visible: false,
       modalType: '',
@@ -156,18 +168,45 @@ export default class Equipments extends React.PureComponent {
   }
 
   reportProblem = equipment => {
-    socket.emit('react_message', JSON.stringify({
-      type: 'error',
-      sender: this.state.currentUser.username,
-      equipment: equipment._id
-    }));
-    // this.getNotification()
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'error',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `report_${equipment._id}`,
+        unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `report_${equipment._id}`);
+      })
   }
 
-  getNotification = () => {
-    socket.on('recieved', function (msg) {
-      console.log('from backend message: ' + msg);
-    });
+  requestHanding = equipment => {
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'handing',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `handing_${equipment._id}`,
+        unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `handing_${equipment._id}`)
+      })
+  }
+
+  requestReclaim = equipment => {
+    axios.post('http://localhost:9000/noti/addnotification',
+      {
+        type: 'reclaim',
+        sender: this.state.currentUser.username,
+        equipment: equipment._id,
+        msg: `reclaim_${equipment._id}`,
+        unread: true
+      })
+      .then(() => {
+        socket.emit('react_message', `reclaim_${equipment._id}`)
+      })
   }
 
   deleteEquipment = data => {
@@ -328,7 +367,7 @@ export default class Equipments extends React.PureComponent {
   };
 
   render() {
-    const { equipments, visible, modalType, equipmentDetail, loading, currentUser, isCloning, codeList } = this.state;
+    const { equipments, visible, modalType, equipmentDetail, loading, currentUser, isCloning, codeList, isRequesting, availableEquipments } = this.state;
     const props = {
       name: 'file',
       action: 'http://localhost:9000/upload/importExcel',
@@ -341,7 +380,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment Name',
         key: 'name',
         ...this.getColumnSearchProps('name'),
-        width: 250,
+        width: '20%',
         render: data =>
           <Button style={{ color: 'black', padding: 0, fontStyle: 'bold', textAlign: 'left' }} type='link' onClick={() => this.infoModal(data)}>
             <Paragraph
@@ -355,14 +394,14 @@ export default class Equipments extends React.PureComponent {
         title: 'Code',
         dataIndex: 'code',
         key: 'code',
-        width: 170,
+        width: '15%',
         ...this.getColumnSearchProps('code'),
       },
       {
         title: 'Lock status',
         dataIndex: 'lockStatus',
         key: 'lockStatus',
-        width: 150,
+        width: '15%',
         sorter: (a, b) => a.lockStatus[0].length - b.lockStatus[0].length,
         render: lockStatus =>
           <div style={lockStatus[0] === "Ready" ? { color: 'green' } : { color: 'red' }}>
@@ -373,7 +412,7 @@ export default class Equipments extends React.PureComponent {
         title: 'Equipment status',
         dataIndex: 'eqStatus',
         key: 'eqStatus',
-        width: 150,
+        width: '15%',
         render: eqStatus =>
           <div style={eqStatus === "Use" ? { color: 'green' } : { color: 'gold' }}>
             {eqStatus}
@@ -383,7 +422,7 @@ export default class Equipments extends React.PureComponent {
       {
         title: 'Owner',
         dataIndex: 'owner',
-        width: 150,
+        width: '15%',
         key: 'owner',
         ...this.getColumnSearchProps('owner'),
       },
@@ -419,7 +458,6 @@ export default class Equipments extends React.PureComponent {
       // },
       {
         title: 'Actions',
-        width: '15%',
         render: data =>
           <>
             {currentUser.level > 2 ?
@@ -431,13 +469,34 @@ export default class Equipments extends React.PureComponent {
               >
                 &nbsp;Edit
               </Button> :
-              <Button
-                type='danger'
-                icon='info-circle'
-                onClick={() => this.reportProblem(data)}
-              >
-                &nbsp;Report a problem about this device
-              </Button>
+              <>
+                <Popconfirm
+                  title={isRequesting ? 'Are you sure to REQUEST HANDING this device?' : 'Are you sure to REPORT this device?'}
+                  onConfirm={isRequesting ? () => this.requestHanding(data) : () => this.reportProblem(data)}
+                  okText={isRequesting ? 'Request' : 'Report'}
+                >
+                  <Button
+                    type={isRequesting ? 'default' : 'danger'}
+                    icon={isRequesting ? 'plus' : 'info-circle'}
+                  >
+                    {isRequesting ? 'Request this device' : 'Report'}
+                  </Button>
+                </Popconfirm>
+                {!isRequesting ?
+                  <Popconfirm
+                    title='Are you sure to REQUEST RECLAIM this device?'
+                    onConfirm={() => this.requestReclaim(data)}
+                    okText='Request'
+                  >
+                    <Button
+                      type='default'
+                      icon='info-circle'
+                      style={{ marginLeft: 5 }}
+                    >
+                      Request reclaim
+                  </Button>
+                  </Popconfirm> : null}
+              </>
             }
             {currentUser.level > 2 ? data.lockStatus[0] !== 'Locked' ?
               <>
@@ -485,12 +544,22 @@ export default class Equipments extends React.PureComponent {
               </Upload>
             </span>
           </>
-          : 'Your Equipments'}
+          : <>
+            Your Equipments
+          <Button
+              type={isRequesting ? 'default' : 'primary'}
+              icon={isRequesting ? 'close' : 'plus'}
+              onClick={() => this.requestNewEquipment()}
+              style={{ marginLeft: 5 }}
+            >
+              {isRequesting ? 'Cancel' : 'Request new equipments'}
+            </Button>
+          </>}
           <Divider type='horizontal' />
         </h2>
         <Table
           bordered
-          dataSource={equipments}
+          dataSource={!isRequesting ? equipments : availableEquipments}
           loading={loading}
           columns={columns}
           footer={null}

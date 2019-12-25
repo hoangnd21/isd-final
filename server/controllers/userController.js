@@ -59,31 +59,27 @@ const getOneUser = (req, res) => {
                 res.send(getOneUser);
             }
             else {
-                res.send('fail');
+                res.send("Invalid login. Please try again!")
             }
         })
 };
 module.exports.getOneUser = getOneUser;
 
 const updateUser = (req, res) => {
-    if (req.body.password === req.body.passwordConf) {
-        const updateUser = user.findById(req.params.id).exec()
-            .then((updateUser) => {
-                if (updateUser) {
-                    const newValue = { $set: req.body };
-                    user.updateOne(updateUser, newValue, (err, res) => {
-                        if (err) throw err;
-                        else
-                            console.log("1 document updated");
+    const updateUser = user.findById(req.params.id).exec()
+        .then((updateUser) => {
+            if (updateUser) {
+                const newValue = { $set: req.body };
+                user.updateOne(updateUser, newValue, (err, res) => {
+                    if (err) throw err;
+                    else
+                        console.log("1 document updated");
 
-                    })
-                    res.send("User is successfully updated");
-                }
-            })
-    }
-    else {
-        res.send("Invalid password");
-    }
+                })
+                res.send("User is successfully updated");
+            }
+        })
+
 
 };
 module.exports.updateUser = updateUser;
@@ -101,4 +97,46 @@ const deleteUser = (req, res) => {
             }
         })
 };
-module.exports.deleteUser = deleteUser; 
+module.exports.deleteUser = deleteUser;
+
+const changePass = (req, res) => {
+    const changePass = user.findById(req.params.id).exec()
+        .then((changePass) => {
+            if (changePass) {
+                bcrypt.hash(req.body.password, 10, function (err, hash) {
+                    if (err) {
+                        return (err);
+                    }
+                    req.body.password = hash;
+                    const newValue = { $set: { password: hash } };
+                    user.updateOne(changePass, newValue, (err, res) => {
+                        if (err) throw err;
+                        else
+                            console.log("1 document updated");
+
+                    })
+                })
+                res.send("User is successfully updated");
+            }
+        })
+
+};
+module.exports.changePass = changePass;
+
+const checkPass = (req, res) => {
+    const users = req.body.username;
+    const pass = req.body.password;
+    const checkPass = user.findOne({ username: users }).exec()
+        .then((checkPass) => {
+            bcrypt.compare(pass, checkPass.password, function (err, result) {
+                if (result === true) {
+                    res.send("found");
+                }
+                else {
+                    res.send("Invalid login. Please try again!")
+                }
+            })
+        });
+
+};
+module.exports.checkPass = checkPass;

@@ -9,6 +9,9 @@ import {
   Button,
   Tooltip,
   notification,
+  Icon,
+  Dropdown,
+  InputNumber
 } from 'antd'
 import CreateUserForm from './CreateUserForm'
 import UserInfo from './UserInfo'
@@ -25,7 +28,8 @@ export default class Users extends Component {
     loading: true,
     visible: false,
     userDetail: {},
-    currentUser: {}
+    currentUser: {},
+    dropdownVisible: false
   }
   componentDidMount() {
     document.title = 'Users'
@@ -59,6 +63,21 @@ export default class Users extends Component {
           allUsers: res.data,
           loading: false
         })
+      })
+  }
+
+  changeLevel = user => {
+    this.setState({
+      dropdownVisible: !this.state.dropdownVisible,
+    })
+  }
+
+  changeLevelRequest = (level, user) => {
+    console.log(level)
+    console.log(user)
+    axios.patch(`http://localhost:9000/users/updateUser/${user._id}`, { level: level })
+      .then(res => {
+        console.log(res.data)
       })
   }
 
@@ -116,11 +135,20 @@ export default class Users extends Component {
               {allUsers && allUsers.map(u =>
                 <Col xl={4} style={{ marginBottom: 10, borderRadius: 5 }} key={u.username}>
                   <Card
-                    onClick={() => this.userInfoModal(u)}
+                    actions={[
+                      <Tooltip title='Change the level of this user'>
+                        <Dropdown trigger={['click']} overlay={<InputNumber min={1} max={4} defaultValue={u.level} onChange={(value) => this.changeLevelRequest(value, u)} />}>
+                          <Icon type="setting" key="setting" onClick={() => this.changeLevel(u)} />
+                        </Dropdown>
+                      </Tooltip>,
+                    ]}
                     loading={loading}
                     hoverable
                     cover={
-                      <div style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}>
+                      <div
+                        style={{ textAlign: 'center', verticalAlign: 'middle', position: 'relative', overflow: 'hidden', height: 261, width: 261 }}
+                        onClick={() => this.userInfoModal(u)}
+                      >
                         <img
                           style={{ width: '100%' }}
                           alt='#'

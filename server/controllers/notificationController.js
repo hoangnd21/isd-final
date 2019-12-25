@@ -3,9 +3,11 @@ const notification = require('../models/notification');
 const addNotification = (req, res) => {
     const date = Date.now()
     notification.create({
-        reqUser: req.body.reqUser,
-        request: req.body.request,
-        read: req.body.read,
+        type: req.body.type,
+        sender: req.body.sender,
+        equipment: req.body.equipment,
+        msg: req.body.msg,
+        unread:true,
         created_at: date
     });
     res.send("Notification is successfully created");
@@ -26,7 +28,7 @@ const getAllNotification = (req, res) => {
 module.exports.getAllNotification = getAllNotification;
 
 const getOneNotification = (req, res) => {
-    const getOneNotification = notification.findById(req.params.id).exec()
+    const getOneNotification = notification.find(req.query).exec()
         .then((getOneNotification) => {
             if (getOneNotification) {
                 res.send(getOneNotification);

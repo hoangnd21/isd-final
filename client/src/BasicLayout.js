@@ -11,9 +11,14 @@ import {
   Tooltip,
   Divider,
   Avatar,
+  notification,
+  Badge
 } from 'antd';
 import './BasicLayout.less';
 import LoginPage from './Config/login'
+import openSocket from 'socket.io-client';
+
+const socket = openSocket('http://localhost:8000');
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -26,9 +31,9 @@ export default class BasicLayout extends Component {
       currentUser: null,
       loginError: '',
       loading: false,
+      notifications: 0
     };
   }
-
 
   componentDidMount = () => {
     axios({
@@ -47,7 +52,7 @@ export default class BasicLayout extends Component {
             currentUser: res.data,
             loginError: '',
             loading: false
-          })
+          }, this.getNotification(res.data))
         } else {
           this.setState({
             loginModal: true,
@@ -57,6 +62,40 @@ export default class BasicLayout extends Component {
           })
         }
       })
+    axios.get(`http://localhost:9000/noti/getMsg/msg?unread=true`)
+      .then(res => {
+        this.setState({
+          notifications: res.data.length
+        })
+      })
+  }
+
+  getNotification = loginInfo => {
+    socket.on('recieved', function (msg) {
+      axios.get(`http://localhost:9000/noti/getMsg/msg?msg=${msg}&unread=true`)
+        .then(res => {
+          if (res.status === 200) {
+            let notificationContent = res.data[0]
+            axios.get(`http://localhost:9000/equipments/${notificationContent.equipment}`)
+              .then(res => {
+                let equipmentInNotification = res.data
+                if (notificationContent.sender !== loginInfo.username) {
+                  notification.info({
+                    message: notificationContent.type === 'error' ?
+                      `${notificationContent.sender} reported a problem with device: ${equipmentInNotification.name}.` :
+                      notificationContent.type === 'handing' ?
+                        `${notificationContent.sender} requested handing this device: ${equipmentInNotification.name}.` :
+                        `${notificationContent.sender} requested reclaim this device: ${equipmentInNotification.name}.`
+                  })
+                } else {
+                  notification.success({
+                    message: 'Complete!',
+                  })
+                }
+              })
+          }
+        })
+    });
   }
 
   onCollapse = collapsed => {
@@ -68,7 +107,6 @@ export default class BasicLayout extends Component {
       collapsed: !this.state.collapsed,
     });
   }
-
 
   onLoggedIn = loginInfo => {
     this.setState({
@@ -127,7 +165,7 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-    const { collapsed, loginModal, currentUser, loginError, loading } = this.state;
+    const { collapsed, loginModal, currentUser, loginError, loading, notifications } = this.state;
     return (
       <Layout className='basic-layout'>
         {currentUser !== null ?
@@ -149,7 +187,10 @@ export default class BasicLayout extends Component {
               <Menu mode='vertical'>
                 <Menu.Item key="home">
                   <Link to='/' className='menu-item'>
-                    <Icon type='home' />
+                    {currentUser.level > 3 ?
+                      <Badge dot={notifications ? true : false} offset={[-8, 0]} title={`You have ${notifications} notifications.`}>
+                        <Icon type='home' />
+                      </Badge> : <Icon type='home' />}
                     <span>Home</span>
                   </Link>
                 </Menu.Item>
@@ -167,20 +208,18 @@ export default class BasicLayout extends Component {
                   <Link to="/equipments" className='menu-item'>
                     <Icon type="sliders" />
                     <span>
-                      Equipments
+                      Equipment
                     </span>
                   </Link>
                 </Menu.Item>
-                {currentUser.level > 1 ?
-                  <Menu.Item key="accessories" >
-                    <Link to="/accessories" className='menu-item'>
-                      <Icon type="chrome" />
-                      <span>
-                        Accessories
+                <Menu.Item key="accessories" >
+                  <Link to="/accessories" className='menu-item'>
+                    <Icon type="chrome" />
+                    <span>
+                      Accessories
                       </span>
-                    </Link>
-                  </Menu.Item> : null}
-
+                  </Link>
+                </Menu.Item>
                 {currentUser.level > 3 ?
                   <Menu.Item key="batch">
                     <Link to="/batch" className='menu-item'>
