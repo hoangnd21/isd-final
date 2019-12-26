@@ -52,13 +52,14 @@ export default function Home() {
       </h3>
         <div className='notification-area'>
           {notifications.map(noti => {
-            return (
-              noti.type === 'report' ?
-                <p className='notification'>{noti.sender} reported. {axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })}</p> :
-                noti.type === 'handing' ?
-                  <p className='notification'>{noti.sender} requested HANDING. {axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })}</p> :
-                  <p className='notification'>{noti.sender} requested RECLAIM.{axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })} </p>
-            )
+            console.log(noti)
+            // return (
+            //   noti.type === 'report' ?
+            //     <p className='notification'>{noti.sender} reported. {axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })}</p> :
+            //     noti.type === 'handing' ?
+            //       <p className='notification'>{noti.sender} requested HANDING. {axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })}</p> :
+            //       <p className='notification'>{noti.sender} requested RECLAIM.{axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })} </p>
+            // )
           })}
         </div>
         <Modal

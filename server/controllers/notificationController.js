@@ -5,9 +5,12 @@ const addNotification = (req, res) => {
     notification.create({
         type: req.body.type,
         sender: req.body.sender,
-        equipment: req.body.equipment,
+        equipment: {
+            eqId: req.body.equipment.eqId,
+            eqName: req.body.equipment.eqName
+        },
         msg: req.body.msg,
-        unread:true,
+        unread: true,
         created_at: date
     });
     res.send("Notification is successfully created");

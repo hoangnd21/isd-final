@@ -172,7 +172,10 @@ export default class Equipments extends React.PureComponent {
       {
         type: 'error',
         sender: this.state.currentUser.username,
-        equipment: equipment._id,
+        equipment: {
+          eqId: equipment._id,
+          eqName: equipment.name
+        },
         msg: `report_${equipment._id}`,
         unread: true
       })
@@ -186,7 +189,10 @@ export default class Equipments extends React.PureComponent {
       {
         type: 'handing',
         sender: this.state.currentUser.username,
-        equipment: equipment._id,
+        equipment: {
+          eqId: equipment._id,
+          eqName: equipment.name
+        },
         msg: `handing_${equipment._id}`,
         unread: true
       })
@@ -200,7 +206,10 @@ export default class Equipments extends React.PureComponent {
       {
         type: 'reclaim',
         sender: this.state.currentUser.username,
-        equipment: equipment._id,
+        equipment: {
+          eqId: equipment._id,
+          eqName: equipment.name
+        },
         msg: `reclaim_${equipment._id}`,
         unread: true
       })
