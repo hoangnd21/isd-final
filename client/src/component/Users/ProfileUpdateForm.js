@@ -9,9 +9,10 @@ import {
   Card,
   Button,
   Cascader,
-  InputNumber
+  InputNumber,
 } from 'antd'
 import moment from 'moment'
+import './styles.less'
 
 const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d_dOmhj6TiA=w1920-h583-iv1'
 const DEFAULT_WOMEN_AVARTAR = 'https://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
@@ -27,7 +28,6 @@ function ProfileUpdateForm(props) {
       }
       if (updatingProfileInfo !== user) {
       }
-      console.log(updatingProfileInfo)
       form.resetFields();
     });
   }
@@ -38,13 +38,13 @@ function ProfileUpdateForm(props) {
       layout='vertical'
       onSubmit={updateProfile}
     >
-      <Button htmlType='submit' icon='plus' size='large' className='float' shape='circle' type='primary' />
       <Card
         bordered
         style={{ fontSize: 18, lineHeight: '2em' }}
         bodyStyle={{ padding: 16 }}
       >
         <Row gutter={10}>
+          <Button htmlType='submit' className='float' shape='circle' type='primary' icon='save' />
           <Col xl={20} style={{ padding: 0 }}>
             <Col xl={12} style={{ padding: '0 10px 0 0', borderRight: '1.5px solid whitesmoke' }} >
               <h3>Personal information</h3>
@@ -133,11 +133,6 @@ function ProfileUpdateForm(props) {
               <Form.Item>
                 <Col xl={15}>
                   {getFieldDecorator('personalEmail', {
-                    rules: [
-                      {
-                        required: true,
-                      }
-                    ],
                     initialValue: user.personalEmail
                   })(<Input />)}
                 </Col>
