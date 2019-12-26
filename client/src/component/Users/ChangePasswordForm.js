@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { Form, Button, Input, Row, Col } from 'antd'
 
 function ChangePasswordForm(props) {
+  const [loading, setloading] = useState(false)
   const [error, setError] = useState('')
   const { getFieldDecorator } = props.form
 
   const changePassword = e => {
+    setloading(true)
     e.preventDefault();
     const { form, changePasswordRequest } = props;
     form.validateFields((err, formData) => {
@@ -14,10 +16,10 @@ function ChangePasswordForm(props) {
       } else if (formData.newPassword !== formData.confirmPassword) {
         setError('Password confirmation does not match!')
       } else {
-        console.log(formData)
-        form.resetFields();
         changePasswordRequest({ username: props.user.username, password: formData.password }, { password: formData.newPassword })
       }
+      setloading(false)
+      form.resetFields();
     });
   };
   return (
@@ -32,7 +34,7 @@ function ChangePasswordForm(props) {
               message: 'Please type in your current password!',
             },
           ],
-        })(<Input placeholder='Please type in your current password.' type='password' />)}
+        })(<Input disabled={loading} placeholder='Please type in your current password.' type='password' />)}
       </Form.Item>
       <Form.Item label='New password'>
         {getFieldDecorator('newPassword', {
@@ -42,7 +44,7 @@ function ChangePasswordForm(props) {
               min: 6,
             },
           ],
-        })(<Input placeholder='Please type in your new password' type='password' />)}
+        })(<Input disabled={loading} placeholder='Please type in your new password' type='password' />)}
       </Form.Item>
       <Form.Item label='Confirm new password'>
         {getFieldDecorator('confirmPassword', {
@@ -52,14 +54,14 @@ function ChangePasswordForm(props) {
               message: 'Please type in your new password again!',
             },
           ],
-        })(<Input placeholder='Password confirmation' type='password' />)}
+        })(<Input disabled={loading} placeholder='Password confirmation' type='password' />)}
       </Form.Item>
       <Row>
         <Col xl={16} style={{ color: 'red' }}>
           {error}
         </Col>
         <Col xl={8} style={{ textAlign: 'right' }}>
-          <Button type='primary' htmlType='submit'>Update Password</Button>
+          <Button type='primary' htmlType='submit' loading={loading}>Update Password</Button>
         </Col>
       </Row>
     </Form>
