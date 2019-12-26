@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Divider, Modal, } from 'antd'
-import NotificationView from './NotificationView'
+import { Divider } from 'antd'
 import './styles.less'
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState({})
   const [notifications, setNotifications] = useState([])
   const [newNotifications, setNewNotifications] = useState([])
-  const [modalVisible, setModalVisible] = useState(false)
-  const [currentNoti, setCurrentNoti] = useState({})
 
   useEffect(() => {
     document.title = 'Home'
@@ -35,11 +32,6 @@ export default function Home() {
       })
   }, [])
 
-  const openModal = item => {
-    setModalVisible(true)
-    setCurrentNoti(item)
-  }
-
   return (
     <>
       <h2>
@@ -52,25 +44,15 @@ export default function Home() {
       </h3>
         <div className='notification-area'>
           {notifications.map(noti => {
-            console.log(noti)
-            // return (
-            //   noti.type === 'report' ?
-            //     <p className='notification'>{noti.sender} reported. {axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })}</p> :
-            //     noti.type === 'handing' ?
-            //       <p className='notification'>{noti.sender} requested HANDING. {axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })}</p> :
-            //       <p className='notification'>{noti.sender} requested RECLAIM.{axios.get(`http://localhost:9000/equipments/${noti.equipment.eqName}`).then(res => { return res.data.name })} </p>
-            // )
+            return (
+              noti.type === 'report' ?
+                <p key={noti._id} className='notification'><span>{noti.sender}</span> reported, device: <span>{noti.equipment.eqName}</span></p> :
+                noti.type === 'handing' ?
+                  <p key={noti._id} className='notification'><span>{noti.sender}</span> requested HANDING device: <span>{noti.equipment.eqName}</span></p> :
+                  <p key={noti._id} className='notification'><span>{noti.sender}</span> requested RECLAIM device: <span>{noti.equipment.eqName}</span></p>
+            )
           })}
         </div>
-        <Modal
-          visible={modalVisible}
-          footer={null}
-          onCancel={() => setModalVisible(false)}
-          centered
-          destroyOnClose
-        >
-          <NotificationView noti={currentNoti} />
-        </Modal>
       </>
         : null}
     </>
