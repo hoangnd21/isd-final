@@ -6,7 +6,8 @@ import {
   Button,
   Card,
   Typography,
-  Modal
+  Modal,
+  notification
 } from 'antd'
 import ProfileUpdateForm from './ProfileUpdateForm'
 import ChangePasswordForm from './ChangePasswordForm'
@@ -21,6 +22,19 @@ export default function UserInfo(props) {
   const [editing, setEditing] = useState(false)
   const [changePasswordModal, setChangePasswordModal] = useState(false)
   const { user, location } = props
+
+  const updateProfileRequest = data => {
+    axios.patch(`http://localhost:9000/users/updateUser/${data._id}`, data)
+      .then(res => {
+        if (res.status === 200) {
+          notification.success({
+            message: res.data,
+            placement: 'bottomRight'
+          })
+          setEditing(false)
+        }
+      })
+  }
 
   const changePasswordRequest = (login, newPassword) => {
     axios({
@@ -41,11 +55,11 @@ export default function UserInfo(props) {
         if (res.data === "found") {
           axios.patch(`http://localhost:9000/users/changePass/${props.user._id}`, newPassword)
             .then(res => {
-              console.log(res.data)
+              notification.success({
+                message: res.data
+              })
+              setChangePasswordModal(false)
             })
-        }
-        else {
-          console.log(res.data)
         }
       })
   }
@@ -65,7 +79,7 @@ export default function UserInfo(props) {
           <Divider style={{ margin: '10px 0' }} type='horizontal' />
         </h2>}
       <Row gutter={10}>
-        {editing ? <ProfileUpdateForm user={user} /> :
+        {editing ? <ProfileUpdateForm user={user} updateProfileRequest={updateProfileRequest} /> :
           <Card
             bordered
             style={location === 'Users' ? {} :

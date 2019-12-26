@@ -18,16 +18,17 @@ const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d
 const DEFAULT_WOMEN_AVARTAR = 'https://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
 
 function ProfileUpdateForm(props) {
+
   const updateProfile = e => {
     const { user } = props
     e.preventDefault()
-    const { form } = props;
-    form.validateFields((err, updatingProfileInfo) => {
+    const { form, updateProfileRequest } = props;
+    form.validateFields((err, updatingProfile) => {
       if (err) {
         return;
       }
-      if (updatingProfileInfo !== user) {
-      }
+      // console.log({ ...updatingProfile, _id: user._id })
+      updateProfileRequest({ ...updatingProfile, _id: user._id })
       form.resetFields();
     });
   }
@@ -287,6 +288,7 @@ function ProfileUpdateForm(props) {
                   DEFAULT_WOMEN_AVARTAR}
             />
           </Col>
+          <Button htmlType='submit' className='float' shape='circle' type='primary' icon='save' />
         </Row>
       </Card>
     </Form>
