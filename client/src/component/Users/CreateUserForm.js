@@ -20,7 +20,7 @@ class CreateUserForm extends Component {
       if (err) {
         return;
       }
-      createUser({ ...newUser, password: 1111, isActivated: true })
+      createUser({ ...newUser, password: "1111", isActivated: true })
       form.resetFields();
     });
   };
