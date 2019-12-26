@@ -45,6 +45,7 @@ function ProfileUpdateForm(props) {
         bodyStyle={{ padding: 16 }}
       >
         <Row gutter={10}>
+          <Button htmlType='submit' className='float' shape='circle' type='primary' icon='save' />
           <Col xl={20} style={{ padding: 0 }}>
             <Col xl={12} style={{ padding: '0 10px 0 0', borderRight: '1.5px solid whitesmoke' }} >
               <h3>Personal information</h3>
