@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Divider, List, Modal, } from 'antd'
+import { Divider, Modal, } from 'antd'
 import NotificationView from './NotificationView'
+import './styles.less'
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState({})
   const [notifications, setNotifications] = useState([])
   const [newNotifications, setNewNotifications] = useState([])
-  const [background, setbackground] = useState('teal')
   const [modalVisible, setModalVisible] = useState(false)
   const [currentNoti, setCurrentNoti] = useState({})
 
@@ -40,13 +40,6 @@ export default function Home() {
     setCurrentNoti(item)
   }
 
-  // const readNotification = item => {
-  //   axios.patch(`http://localhost:9000/noti/updatenotification/${item._id}`, { unread: false })
-  //     .then(() => {
-  //       setbackground('white')
-  //     })
-  // }
-
   return (
     <>
       <h2>
@@ -57,31 +50,17 @@ export default function Home() {
         <h3>
           You have {newNotifications} new notifications.
       </h3>
-        <List
-          itemLayout='vertical'
-          dataSource={notifications}
-          bordered
-          scroll={{ y: 600 }}
-          renderItem={item => {
-            item.unread ? setbackground('teal') : setbackground('white')
+        <div className='notification-area'>
+          {notifications.map(noti => {
             return (
-              <List.Item
-                key={item._id}
-                style={{ background: background }}
-                onClick={() => openModal(item)}
-              >
-                <List.Item.Meta
-                  title={item.type === 'error' ?
-                    `${item.sender} reported` :
-                    item.type === 'handing' ?
-                      `${item.sender} requested handing` :
-                      `${item.sender} requested reclaim`
-                  }
-                />
-              </List.Item>
+              noti.type === 'report' ?
+                <p className='notification'>{noti.sender} reported. {axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })}</p> :
+                noti.type === 'handing' ?
+                  <p className='notification'>{noti.sender} requested HANDING. {axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })}</p> :
+                  <p className='notification'>{noti.sender} requested RECLAIM.{axios.get(`http://localhost:9000/equipments/${noti.equipment}`).then(res => { return res.data.name })} </p>
             )
-          }}
-        />
+          })}
+        </div>
         <Modal
           visible={modalVisible}
           footer={null}

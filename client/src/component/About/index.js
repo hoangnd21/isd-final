@@ -6,6 +6,10 @@ const About = () => {
   const [currentUser, setCurrentUser] = useState({})
   useEffect(() => {
     document.title = `About`
+    getCurrentUser()
+  }, [])
+
+  const getCurrentUser = () => {
     axios({
       baseURL: '/login',
       method: 'get',
@@ -18,11 +22,11 @@ const About = () => {
       .then(res => {
         setCurrentUser(res.data)
       })
-  }, [])
+  }
 
   return (
     <>
-      <UserInfo user={currentUser} location='About' />
+      <UserInfo user={currentUser} location='About' getCurrentUser={getCurrentUser} />
     </>
   )
 }

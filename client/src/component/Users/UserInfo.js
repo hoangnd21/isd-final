@@ -32,6 +32,7 @@ export default function UserInfo(props) {
             placement: 'bottomRight'
           })
           setEditing(false)
+          props.getCurrentUser()
         }
       })
   }

@@ -20,7 +20,7 @@ import Forbidden from '../../Config/Forbidden'
 const { Meta } = Card
 
 const DEFAULT_MEN_AVATAR = 'https://lh3.google.com/u/3/d/1AzqNSkJevyJMgSpilja43d_dOmhj6TiA=w1920-h583-iv1'
-const DEFAULT_WOMEN_AVARTAR = 'https ://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
+const DEFAULT_WOMEN_AVARTAR = 'https://lh3.google.com/u/3/d/1ICyotW2GHiRHi1dxXW1P_C9RDHJ8gTNK=w1920-h583-iv1'
 
 export default class Users extends Component {
   state = {
