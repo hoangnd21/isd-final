@@ -41,7 +41,7 @@ function ChangePasswordForm(props) {
           rules: [
             {
               required: true,
-              min: 6,
+              min: 10,
             },
           ],
         })(<Input disabled={loading} placeholder='Please type in your new password' type='password' />)}
