@@ -29,7 +29,7 @@ class EquipmentReclaim extends React.Component {
     const { equipment } = this.props
     axios.get(`http://localhost:9000/reclaim/equipment/${equipment.code}`)
       .then(res => {
-        res.data === 'fail' || res.data.accessories.length === 0 ?
+        res.data === 'fail' || res.data.accessories === null || res.data.accessories.length === 0 ?
           this.setState({
             accessories: 'No accessories were handing with this equipment.'
           }) :
