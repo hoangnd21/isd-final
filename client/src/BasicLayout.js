@@ -76,23 +76,19 @@ export default class BasicLayout extends Component {
         .then(res => {
           if (res.status === 200) {
             let notificationContent = res.data[0]
-            axios.get(`http://localhost:9000/equipments/${notificationContent.equipment}`)
-              .then(res => {
-                let equipmentInNotification = res.data
-                if (notificationContent.sender !== loginInfo.username) {
-                  notification.info({
-                    message: notificationContent.type === 'error' ?
-                      `${notificationContent.sender} reported a problem with device: ${equipmentInNotification.name}.` :
-                      notificationContent.type === 'handing' ?
-                        `${notificationContent.sender} requested handing this device: ${equipmentInNotification.name}.` :
-                        `${notificationContent.sender} requested reclaim this device: ${equipmentInNotification.name}.`
-                  })
-                } else {
-                  notification.success({
-                    message: 'Complete!',
-                  })
-                }
+            if (notificationContent.sender !== loginInfo.username) {
+              notification.info({
+                message: notificationContent.type === 'error' ?
+                  `${notificationContent.sender} reported a problem with device: ${notificationContent.equipment.eqName}.` :
+                  notificationContent.type === 'handing' ?
+                    `${notificationContent.sender} requested handing this device: ${notificationContent.equipment.eqName}.` :
+                    `${notificationContent.sender} requested reclaim this device: ${notificationContent.equipment.eqName}.`
               })
+            } else {
+              notification.success({
+                message: 'Complete!',
+              })
+            }
           }
         })
     });

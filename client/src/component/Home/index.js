@@ -43,15 +43,23 @@ export default function Home() {
           You have {newNotifications} new notifications.
       </h3>
         <div className='notification-area'>
-          {notifications.map(noti => {
+          {notifications && notifications.map(noti => {
             return (
-              noti.type === 'report' ?
-                <p key={noti._id} className='notification'><span>{noti.sender}</span> reported, device: <span>{noti.equipment.eqName}</span></p> :
-                noti.type === 'handing' ?
-                  <p key={noti._id} className='notification'><span>{noti.sender}</span> requested HANDING device: <span>{noti.equipment.eqName}</span></p> :
-                  <p key={noti._id} className='notification'><span>{noti.sender}</span> requested RECLAIM device: <span>{noti.equipment.eqName}</span></p>
-            )
-          })}
+              <p
+                key={noti._id}
+                className="notification"
+              >{noti.sender}&nbsp;
+              {noti.type === 'error' ?
+                  'reported about device:' :
+                  noti.type === 'handing' ?
+                    'requested HANDING device:' :
+                    noti.type === 'reclaim' ?
+                      'requested RECLAIM device:' :
+                      null}&nbsp;
+                      {noti.equipment.eqName}
+              </p>)
+          })
+          }
         </div>
       </>
         : null}
